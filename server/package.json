@@ -1,14 +1,61 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.18.2"
-  }
+    "name": "magic-post-server",
+    "version": "1.0.0",
+    "description": "Server for MagicPost",
+    "main": "server.js",
+    "scripts": {
+        "dev": "nodemon --exec babel-node src/server.js",
+        "serve": "node src/server.js",
+        "start": "node src/server.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/cli": "^7.23.0",
+        "@babel/core": "^7.23.2",
+        "@babel/node": "^7.22.19",
+        "@babel/preset-env": "^7.23.2",
+        "nodemon": "^3.0.1"
+    },
+    "dependencies": {
+        "@sendgrid/mail": "^7.7.0",
+        "bard-ai": "^1.5.4",
+        "basic-ftp": "^5.0.3",
+        "bcrypt": "^5.1.1",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.20.2",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.3",
+        "express": "^4.18.2",
+        "express-validator": "^7.0.1",
+        "fix-esm": "^1.0.1",
+        "fs": "^0.0.1-security",
+        "jade": "^1.11.0",
+        "jsonwebtoken": "^9.0.0",
+        "module-alias": "^2.2.3",
+        "mongoose": "^5.1.2",
+        "mysql": "^2.18.1",
+        "mysql2": "^3.0.0",
+        "node-crypt": "^2.0.0",
+        "passport": "^0.6.0",
+        "passport-jwt": "^4.0.1",
+        "path": "^0.12.7",
+        "request": "^2.88.2",
+        "sequelize": "^6.33.0",
+        "sequelize-cli": "^6.6.1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/antoo05-11/MagicPost.git"
+    },
+    "bugs": {
+        "url": "https://github.com/antoo05-11/MagicPost/issues"
+    },
+    "homepage": "https://github.com/antoo05-11/MagicPost#readme",
+    "_moduleAliases": {
+        "@lib": "app/lib",
+        "@secret": ""
+    }
 }

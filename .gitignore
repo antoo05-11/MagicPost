@@ -1,4 +1,5 @@
 client/node_modules
 server/node_modules
-.env
-server/initDB.sql
+server/.env
+server/init.sql
+server/src/api/config
