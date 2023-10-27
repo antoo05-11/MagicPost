@@ -4,12 +4,12 @@ import {
 
 import authRoute from "./auth";
 import userRoute from "./user";
-import provinceRoute from "./province";
+import administrativeRouter from "./administrative";
 
 const router = Router();
 
 router.use("/auth", authRoute);
 router.use("/user", userRoute);
-router.use("/province", provinceRoute);
+router.use("/administrative", administrativeRouter);
 
 export default router;

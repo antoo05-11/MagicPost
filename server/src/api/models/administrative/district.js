@@ -1,10 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
 
-    const Province = sequelize.define("provinces", {
+    const District = sequelize.define("district", {
         name: {
             type: DataTypes.STRING
         },
-        provinceID: {
+        districtID: {
             type: DataTypes.INTEGER,
             primaryKey: true
         }
@@ -15,5 +15,5 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: false,
     })
 
-    return Province
+    return District;
 }

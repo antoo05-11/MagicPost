@@ -3,8 +3,8 @@ import {
 } from "express";
 
 
-import catchAsync from "../exceptions/catch-async";
-import { getAllProvinces } from "../controllers/province";
+import catchAsync from "../../exceptions/catch-async";
+import { getAllProvinces } from "../../controllers/province";
 
 const provinceRoute = Router();
 
