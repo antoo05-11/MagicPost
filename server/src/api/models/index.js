@@ -27,6 +27,7 @@ db.sequelize = sequelize;
 db.provinces = require('./administrative/province.js')(sequelize, DataTypes);
 db.districts = require('./administrative/district.js')(sequelize, DataTypes);
 db.communes = require('./administrative/commune.js')(sequelize, DataTypes);
+db.addresses = require('./address.js')(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false })
     .then(() => {

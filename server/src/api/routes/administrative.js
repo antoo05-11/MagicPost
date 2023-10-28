@@ -6,10 +6,10 @@ import provinceRoute from "./administrativeRoute/province";
 import districtRoute from "./administrativeRoute/district";
 import communeRoute from "./administrativeRoute/commune";
 
-const administrativeRouter = Router();
+const administrativeRoute = Router();
 
-administrativeRouter.use("/province", provinceRoute);
-administrativeRouter.use("/district", districtRoute);
-administrativeRouter.use("/commune", communeRoute);
+administrativeRoute.use("/province", provinceRoute);
+administrativeRoute.use("/district", districtRoute);
+administrativeRoute.use("/commune", communeRoute);
 
-export default administrativeRouter;
+export default administrativeRoute;

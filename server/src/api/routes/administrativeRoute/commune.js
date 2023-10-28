@@ -4,7 +4,7 @@ import {
 
 
 import catchAsync from "../../exceptions/catch-async";
-import { getAllCommunes } from "../../controllers/commune";
+import { getAllCommunes } from "../../controllers/administrative/commune";
 
 const communeRoute = Router();
 

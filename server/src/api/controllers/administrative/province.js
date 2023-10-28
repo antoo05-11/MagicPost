@@ -1,4 +1,4 @@
-const db = require('../models')
+const db = require('../../models')
 export const Province = db.provinces;
 
 export const getAllProvinces = async (req, res) => {

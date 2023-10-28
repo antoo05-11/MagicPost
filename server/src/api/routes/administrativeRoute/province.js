@@ -4,7 +4,7 @@ import {
 
 
 import catchAsync from "../../exceptions/catch-async";
-import { getAllProvinces } from "../../controllers/province";
+import { getAllProvinces } from "../../controllers/administrative/province";
 
 const provinceRoute = Router();
 

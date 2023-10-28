@@ -4,7 +4,7 @@ import {
 
 
 import catchAsync from "../../exceptions/catch-async";
-import { getAllDistricts } from "../../controllers/district";
+import { getAllDistricts } from "../../controllers/administrative/district";
 
 const districtRoute = Router();
 
