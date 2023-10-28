@@ -39,12 +39,14 @@
         "mysql": "^2.18.1",
         "mysql2": "^3.0.0",
         "node-crypt": "^2.0.0",
+        "opencage-api-client": "^1.0.2",
         "passport": "^0.6.0",
         "passport-jwt": "^4.0.1",
         "path": "^0.12.7",
         "request": "^2.88.2",
         "sequelize": "^6.33.0",
-        "sequelize-cli": "^6.6.1"
+        "sequelize-cli": "^6.6.1",
+        "xml2js": "^0.6.2"
     },
     "repository": {
         "type": "git",
