@@ -89,7 +89,6 @@ export const findDistance = (originJSON, destinationJSON) => {
     });
 }
 
-
 export const addNewAddress = async (address) => {
     const newAddress = await Address.create(address);
     const tmp = await Address.findOne({
