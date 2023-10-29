@@ -6,13 +6,25 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         communeID: {
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'Commune',
+                key: 'communeID'
+            }
         },
         districtID: {
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'District',
+                key: 'districtID'
+            }
         },
         provinceID: {
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'Province',
+                key: 'provinceID'
+            }
         },
         detail: {
             type: DataTypes.STRING

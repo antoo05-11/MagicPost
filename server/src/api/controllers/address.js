@@ -16,13 +16,6 @@ const request = require('request');
 const parseString = require('xml2js').parseString;
 
 export const getAddressByID = async (req, res) => {
-    // addNewAddress({
-    //     detail: 'Số 125 Đường Xuân Thủy',
-    //     communeID: 57,
-    //     districtID: 5,
-    //     provinceID: 1,
-    //     type: 'goodsPoint'
-    // });
     Address.findOne({
         where: { addressID: req.params.id },
         include: [
@@ -99,7 +92,6 @@ export const findDistance = (originJSON, destinationJSON) => {
 
 export const addNewAddress = async (address) => {
     const newAddress = await Address.create(address);
-    console.log("new address: ", newAddress);
     const tmp = await Address.findOne({
         where: { addressID: newAddress.null },
         include: [
@@ -163,7 +155,6 @@ export const addNewAddress = async (address) => {
                     distanceValue: dis == null ? 0 : dis,
                 });
                 distances.push(newDistance);
-                console.log('Distance created:', newDistance);
             } catch (error) {
                 console.error('Error creating distance:', error);
             }

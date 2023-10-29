@@ -7,6 +7,13 @@ module.exports = (sequelize, DataTypes) => {
         districtID: {
             type: DataTypes.INTEGER,
             primaryKey: true
+        },
+        provinceID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'Province',
+                key: 'provinceID'
+            }
         }
     }, {
         id: false,

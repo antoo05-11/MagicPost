@@ -1,11 +1,13 @@
 import { DataTypes, Sequelize } from "sequelize";
-const dbconfig = require('../config/dbconfig.js');
+const dbconfig = require('../config/dbconfig.js').localhost;
+
 export const sequelize = new Sequelize(
     dbconfig.DATABASE,
     dbconfig.USER,
     dbconfig.PASSWORD,
     {
         host: dbconfig.HOST,
+        port: dbconfig.PORT,
         dialect: dbconfig.dialeg,
         operatorsAliases: false,
         pool: {
