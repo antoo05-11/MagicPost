@@ -17,8 +17,9 @@ module.exports = (sequelize, DataTypes) => {
         detail: {
             type: DataTypes.STRING
         },
-        exactPosition: {
-            type: DataTypes.STRING
+        type: {
+            type: DataTypes.ENUM,
+            values: ['goodsPoint', 'transactionPoint', 'customerAddress']
         }
     }, {
         id: false,

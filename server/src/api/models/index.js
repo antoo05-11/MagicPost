@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
 const dbconfig = require('../config/dbconfig.js');
-const sequelize = new Sequelize(
+export const sequelize = new Sequelize(
     dbconfig.DATABASE,
     dbconfig.USER,
     dbconfig.PASSWORD,
@@ -28,6 +28,7 @@ db.provinces = require('./administrative/province.js')(sequelize, DataTypes);
 db.districts = require('./administrative/district.js')(sequelize, DataTypes);
 db.communes = require('./administrative/commune.js')(sequelize, DataTypes);
 db.addresses = require('./address.js')(sequelize, DataTypes);
+db.distances = require('./distance.js')(sequelize, DataTypes);
 
 db.sequelize.sync({ force: false })
     .then(() => {
