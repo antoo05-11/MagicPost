@@ -3,8 +3,8 @@ import {
 } from "express";
 
 
-import catchAsync from "../exceptions/catch-async";
-import { getAddressByID } from "../controllers/address";
+import catchAsync from "../../exceptions/catch-async";
+import { getAddressByID } from "../../controllers/routing_point/address";
 
 const addressRoute = Router();
 

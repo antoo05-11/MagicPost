@@ -1,4 +1,4 @@
-const db = require('../models')
+const db = require('../../models');
 export const Address = db.addresses;
 export const Commune = db.communes;
 export const District = db.districts;
