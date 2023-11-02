@@ -3,7 +3,7 @@ export const Address = db.addresses;
 export const Commune = db.communes;
 export const District = db.districts;
 export const Province = db.provinces;
-export const Distance = db.distances;
+export const Route = db.routes;
 
 import { Op } from 'sequelize';
 
@@ -148,7 +148,7 @@ export const addNewAddress = async (address) => {
             console.log(dis);
 
             try {
-                const newDistance = await Distance.create({
+                const newDistance = await Route.create({
                     originID: newAddress.null,
                     destinationID: destination.addressID,
                     distanceValue: dis == null ? 0 : dis,

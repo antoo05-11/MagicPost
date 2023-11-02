@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
 
-    const Distance = sequelize.define("distance", {
+    const Route = sequelize.define("route", {
         originID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -27,5 +27,5 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: false,
     })
 
-    return Distance;
+    return Route;
 }

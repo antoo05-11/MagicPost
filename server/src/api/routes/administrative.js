@@ -2,9 +2,9 @@ import {
     Router
 } from "express";
 
-import provinceRoute from "./administrativeRoute/province";
-import districtRoute from "./administrativeRoute/district";
-import communeRoute from "./administrativeRoute/commune";
+import provinceRoute from "./administrative/province";
+import districtRoute from "./administrative/district";
+import communeRoute from "./administrative/commune";
 
 const administrativeRoute = Router();
 
