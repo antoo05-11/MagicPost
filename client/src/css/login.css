@@ -1,0 +1,22 @@
+.login-container {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  /* border: 1px black; */
+}
+.title {
+  text-align: center;
+  font-size: 20px;
+}
+.login-container button {
+  width: 75%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  /* border: none; */
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.active {
+  background-color: red;
+}
