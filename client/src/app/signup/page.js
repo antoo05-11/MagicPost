@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import Link from "next/link";
 
 function SignUp() {
   return (
@@ -13,7 +14,9 @@ function SignUp() {
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" placeholder="Password" />
       </Form.Group>
-      <Button>Dang nhap</Button>
+      <Link href="/signup/admin">
+        <Button variant="primary">Đăng nhập</Button>
+      </Link>
     </Form>
   );
 }

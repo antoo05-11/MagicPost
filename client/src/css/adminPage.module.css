@@ -1,0 +1,21 @@
+.container {
+    height: 100vh;
+    background-color: #f4f4f5;
+}
+
+.rightNav {
+    background-color: #478afb;
+    border-radius: 30px;
+    margin: 16px;
+}
+
+.navbarBrand {
+    color: white;
+}
+
+.statistic {
+    background-color: white;
+    border-radius: 20px;
+    height: 100px;
+    margin: 10px;
+}
