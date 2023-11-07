@@ -21,10 +21,10 @@ function AppHeader() {
           </Nav>
           <Button
             onClick={() => {
-              route.push("/signup");
+              route.push("/login");
             }}
           >
-            Sign Up
+            Login
           </Button>
         </Container>
       </Navbar>
