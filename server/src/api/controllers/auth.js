@@ -1,44 +1,53 @@
 import bcrypt from "bcryptjs";
-import User from "../models/user";
 import HttpException from "../exceptions/http-exception";
 import jwt from "jsonwebtoken";
+const Crypto = require('node-crypt');
+
+const db = require('../models');
+const Employee = db.employees;
 
 const genToken = (user, expiresIn = "7d") => {
     return jwt.sign({
-            id: user._id,
-            username: user.username,
-        },
+        id: user._id,
+        username: user.username,
+    },
         process.env.JWT_ACCESS_KEY, {
-            expiresIn: expiresIn
-        }
+        expiresIn: expiresIn
+    }
     );
 };
 
 const genRefreshToken = (user, expiresIn = "365d") => {
     return jwt.sign({
-            id: user._id,
-            username: user.username,
-        },
+        id: user._id,
+        username: user.username,
+    },
         process.env.JWT_REFRESH_KEY, {
-            expiresIn: expiresIn
-        }
+        expiresIn: expiresIn
+    }
     );
 };
 
 const refreshTokens = [];
 
-export const login = async (req, res, next) => {
-    const {
-        username,
-        password
-    } = req.body;
+const crypto = new Crypto({
+    key: 'b95d8cb128734ff8821ea634dc34334535afe438524a782152d11a5248e71b01',
+    hmacKey: 'dcf8cd2a90b1856c74a9f914abbb5f467c38252b611b138d8eedbe2abb4434fc'
+});
 
-    const user = await User.findOne({
-        username
+export const login = async (req, res, next) => {
+
+    const user = await Employee.findOne({
+        where: { employeeID: req.body.employeeID }
     });
     if (!user) throw new HttpException(404, "User not found");
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    //const encrypted = await crypto.encrypt("password");
+    //console.log(encrypted);
+
+    const passwordInput = await crypto.decrypt(req.body.password).toString();
+
+    const isMatch = await bcrypt.compare(passwordInput, user.password);
     if (!isMatch) throw new HttpException(400, "Incorrect password");
 
     const accessToken = genToken(user);
@@ -51,6 +60,7 @@ export const login = async (req, res, next) => {
         secure: false,
         path: "/",
     });
+
     res.status(200).json({
         accessToken
     });
@@ -60,20 +70,22 @@ export const requestRefreshToken = async (req, res) => {
     const {
         refreshToken
     } = req.cookies;
-    
+
     if (!refreshToken) throw new HttpException(400, "No refresh token");
-    
+
     if (!refreshTokens.includes(refreshToken)) throw new HttpException(403, "Refresh token is invalid");
 
     try {
         const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY);
-        
-        const user = await User.findOne(decoded.id);
-        
+
+        const user = await Employee.findOne(
+            { where: { employeeID: decoded.id } }
+        );
+
         if (!user) throw new HttpException(404, "User not found");
-        
+
         const accessToken = genToken(user);
-        
+
         res.status(200).json({
             accessToken
         });

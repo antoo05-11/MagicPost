@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from "sequelize";
-const dbconfig = require('../config/dbconfig.js').localhost;
+const dbconfig = require('../config/dbconfig.js').remote;
 
 export const sequelize = new Sequelize(
     dbconfig.DATABASE,

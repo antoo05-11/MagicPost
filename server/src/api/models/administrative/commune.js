@@ -1,5 +1,4 @@
 module.exports = (sequelize, DataTypes) => {
-
     const Commune = sequelize.define("commune", {
         name: {
             type: DataTypes.STRING
@@ -21,6 +20,5 @@ module.exports = (sequelize, DataTypes) => {
         createdAt: false,
         updatedAt: false,
     })
-
     return Commune;
 }
