@@ -1,0 +1,12 @@
+.searchForm {
+  text-align: center;
+  /* width: 70%; */
+}
+#inp {
+  width: 70%;
+}
+#bton {
+  /* position: absolute; */
+  /* right: inherit; */
+  margin-left: 10px;
+}

@@ -5,9 +5,6 @@ import { Inter } from "next/font/google";
 import { Container, Navbar } from "react-bootstrap";
 // import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-library.add(fas);
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata = {
@@ -17,12 +14,9 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        {/* <AppHeader></AppHeader> */}
-        {/* <Container>{children}</Container> */}
-        {children}
-      </body>
-    </html>
+    <section>
+      <AppHeader></AppHeader>
+      <Container>{children}</Container>
+    </section>
   );
 }
