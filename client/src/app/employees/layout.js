@@ -3,9 +3,7 @@
 import { Inter } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 const inter = Inter({ subsets: ["latin"] });
-import SideBar from "@/components/SideBar/SideBar";
-import { Container } from "react-bootstrap";
-import NavBar from "@/components/NavBar/NavBar";
+import style from "@/css/adminPage.module.css";
 
 // export const metadata = {
 //   title: 'Create Next App',
