@@ -5,6 +5,9 @@ import { Inter } from "next/font/google";
 import { Container, Navbar } from "react-bootstrap";
 // import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
+library.add(fas);
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata = {

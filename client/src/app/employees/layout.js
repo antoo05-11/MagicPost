@@ -1,11 +1,10 @@
 "use client";
 
-import AppHeader from "@/components/header";
 import { Inter } from "next/font/google";
-import { Container, Navbar } from "react-bootstrap";
-// import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import LeftBar from "@/components/left-bar";
 const inter = Inter({ subsets: ["latin"] });
+import style from "@/css/adminPage.module.css";
 
 // export const metadata = {
 //   title: 'Create Next App',
@@ -14,9 +13,9 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
   return (
-    <section>
-      <AppHeader></AppHeader>
-      <Container>{children}</Container>
-    </section>
+    <div className={style.admin}>
+      <LeftBar></LeftBar>
+      {children}
+    </div>
   );
 }

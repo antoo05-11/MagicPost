@@ -1,0 +1,16 @@
+.left-bar {
+  position: sticky;
+  background-color: gray;
+  width: 200px;
+  max-width: 20%;
+  top: 0;
+  height: 100vh;
+}
+
+.nav-item {
+  background-color: aqua;
+}
+
+.nav-item:active {
+  background-color: aquamarine;
+}

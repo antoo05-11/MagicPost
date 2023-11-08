@@ -36,7 +36,14 @@ function Login() {
           />
         </Form.Group>
       </Form>
-      <button className={account && password ? "active" : ""}>Dang nhap</button>
+      <button
+        className={account && password ? "active" : ""}
+        onClick={() => {
+          router.push("/employees");
+        }}
+      >
+        Dang nhap
+      </button>
       <button
         onClick={() => {
           router.push("/");
