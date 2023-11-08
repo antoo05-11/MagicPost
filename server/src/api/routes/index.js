@@ -3,7 +3,6 @@ import {
 } from "express";
 
 import authRoute from "./auth";
-import userRoute from "./user";
 import administrativeRoute from "./administrative";
 import addressRoute from "./routing_point/address";
 import goodsPointRoute from "./routing_point/goods_point";
@@ -13,7 +12,6 @@ import employeeRoute from "./human/employee";
 const router = Router();
 
 router.use("/auth", authRoute);
-router.use("/user", userRoute);
 router.use("/administrative", administrativeRoute);
 router.use("/address", addressRoute);
 router.use("/goodsPoint", goodsPointRoute);

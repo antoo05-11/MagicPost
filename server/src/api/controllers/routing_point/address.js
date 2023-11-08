@@ -15,9 +15,9 @@ District.belongsTo(Province, { foreignKey: 'provinceID' });
 const request = require('request');
 const parseString = require('xml2js').parseString;
 
-export const getAddressByID = async (req, res) => {
-    Address.findOne({
-        where: { addressID: req.params.id },
+export const getAddressByID = async (addressID) => {
+    let address = await Address.findOne({
+        where: { addressID: addressID },
         include: [
             {
                 model: Commune,
@@ -32,24 +32,20 @@ export const getAddressByID = async (req, res) => {
                 },
             },
         ],
-    })
-        .then((result) => {
-            if (result) {
-                const response = {
-                    province: result.district.province.name,
-                    district: result.district.name,
-                    commune: result.commune.name,
-                    detail: result.dataValues.detail,
-                    exactPostion: result.dataValues.exactPosition
-                }
-                res.json(response);
-            } else {
-                res.status(404);
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+    });
+    if (address) {
+        const response = {
+            province: address.district.province.name,
+            district: address.district.name,
+            commune: address.commune.name,
+            detail: address.dataValues.detail,
+            exactPostion: address.dataValues.exactPosition
+        }
+        return response;
+    }
+    else {
+        return null;
+    }
 }
 
 export const findDistance = (originJSON, destinationJSON) => {

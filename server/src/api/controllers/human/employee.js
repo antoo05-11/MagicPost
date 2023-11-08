@@ -1,43 +1,61 @@
 const db = require('../../models');
 const Employee = db.employees;
+const Address = db.addresses;
 
 import bcrypt from "bcryptjs";
+import { getAddressByID } from "../routing_point/address";
+import { generateRandomPassword, normalizeName } from "../../../utils";
+import HttpException from "../../exceptions/http-exception";
 
 export const getAllEmployees = async (req, res) => {
     const employees = await Employee.findAll();
-    res.status(200).json(employees);
+    let processedResult = [];
+    for (const employee of employees) {
+        const cloneEmployee = { ...employee.get() };
+        delete cloneEmployee.password;
+        const address = await getAddressByID(cloneEmployee.addressID);
+        cloneEmployee.address = address;
+        delete cloneEmployee.addressID;
+        processedResult.push(cloneEmployee);
+    }
+    return res.status(200).json(processedResult);
 }
 
 export const addNewEmployee = async (req, res) => {
-    Employee.findAll({ where: { identifier: req.body.identifier } })
-        .then((employee) => {
-            if (employee) return res.status(400).json({ Error: 'Duplicated identifier!' });
-        })
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    let employee = await Employee.findOne({ where: { identifier: req.body.identifier } });
+    if (employee) {
+        throw new HttpException(400, 'Duplicated identifier!');
+    }
+    const password = generateRandomPassword();
+    const hashedPassword = await bcrypt.hash(password, 10);
+    let newAddress = {
+        detail: req.body.address.detail,
+        communeID: req.body.address.communeID,
+        districtID: req.body.address.districtID,
+        provinceID: req.body.address.provinceID
+    }
+    newAddress = await Address.create(newAddress);
+    if (!newAddress) {
+        throw new HttpException(400, "Invalid Address!");
+    }
     let newUser = {
         identifier: req.body.identifier,
         phoneNumber: req.body.phoneNumber,
-        fullName: req.body.fullName,
-        addressID: req.body.addressID,
+        fullName: normalizeName(req.body.fullName),
+        addressID: newAddress.null,
+        email: req.body.email,
+        transactionPointID: req.body.transactionPointID,
+        goodsPointID: req.body.goodsPointID,
         password: hashedPassword
     }
     newUser = await Employee.create(newUser);
-    return res.status(200).json(newUser);
-}
-
-export const authLogin = async (req, res) => {
-    Employee.findOne({
-        where: {
-            employeeID: req.params.employeeID,
-        }
-    }).then((employeeFound) => {
-        if (employeeFound.password == req.params.password) {
-            return res.json(employeeFound);
-        }
-        else {
-            return res.status(404);
-        }
-    })
+    if (!newUser) {
+        throw new HttpException(400, "Cannot add new employee!")
+    }
+    const cloneNewUser = { ...newUser.get() };
+    cloneNewUser.address = await getAddressByID(cloneNewUser.addressID);
+    cloneNewUser.password = password;
+    return res.status(200).json(cloneNewUser);
 }
 
 export const editEmployeeInfo = async (req, res) => {

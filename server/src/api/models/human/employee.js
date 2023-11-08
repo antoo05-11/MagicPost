@@ -35,6 +35,23 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING(50),
             allowNull: false
+        },
+        email: {
+            type: DataTypes.STRING(50)
+        },
+        goodsPointID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'goods_points',
+                key: 'goodsPointID'
+            }
+        },
+        transactionPointID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'transaction_points',
+                key: 'transactionPointID'
+            }
         }
     }, {
         id: false,
