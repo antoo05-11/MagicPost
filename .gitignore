@@ -3,3 +3,4 @@ server/node_modules
 server/.env
 server/init.sql
 server/src/api/config
+server/dbconfig.js
