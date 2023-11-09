@@ -44,7 +44,7 @@ app.use("/api", router);
 
 const https = require('https');
 function makeRequest() {
-    https.get('https://activate-server.onrender.com', (res) => {
+    https.get(process.env.ACTIVATE_SERVER_URL, (res) => {
         let data = '';
         res.on('data', (chunk) => {
             data += chunk;
