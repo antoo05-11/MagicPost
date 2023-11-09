@@ -46,7 +46,8 @@ export const addNewEmployee = async (req, res) => {
         email: req.body.email,
         transactionPointID: req.body.transactionPointID,
         goodsPointID: req.body.goodsPointID,
-        password: hashedPassword
+        password: hashedPassword,
+        role: req.body.role
     }
     newUser = await Employee.create(newUser);
     if (!newUser) {

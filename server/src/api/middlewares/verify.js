@@ -1,6 +1,8 @@
 import HttpException from "../exceptions/http-exception";
-import User from "../models/user";
 import jwt from "jsonwebtoken";
+
+const db = require('../models');
+const Employee = db.employees;
 
 export const verifyToken = async (req, res, next) => {
     try {
@@ -16,8 +18,8 @@ export const verifyToken = async (req, res, next) => {
 
         // Verify Token
         const decoded = jwt.verify(token, secretKey);
-        const user = await User.findById(decoded.id);
- 
+        const user = await Employee.findOne({ where: { employeeID: decoded.employeeID } });
+
         if (!user) {
             throw new HttpException(401, "Authentication failed!");
         }
@@ -29,3 +31,4 @@ export const verifyToken = async (req, res, next) => {
         next(e);
     }
 };
+

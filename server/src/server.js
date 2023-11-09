@@ -41,3 +41,27 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", router);
+
+const https = require('https');
+function makeRequest() {
+    https.get('https://activate-server.onrender.com', (res) => {
+        let data = '';
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            try {
+                const jsonData = JSON.parse(data);
+                console.log(jsonData); 
+            } catch (error) {
+                console.error("Error parsing JSON:", error);
+            }
+        });
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+    });
+}
+
+makeRequest();
+setInterval(makeRequest, 600000);

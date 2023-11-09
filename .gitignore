@@ -1,6 +1,7 @@
 client/node_modules
 server/node_modules
 server/.env
-server/init.sql
+server/init_structure.sql
+server/init_with_data.sql
 server/src/api/config
 server/dbconfig.js

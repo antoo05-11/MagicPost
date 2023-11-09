@@ -8,8 +8,7 @@ const Employee = db.employees;
 
 const genToken = (user, expiresIn = "7d") => {
     return jwt.sign({
-        id: user._id,
-        username: user.username,
+        employeeID: user.employeeID
     },
         process.env.JWT_ACCESS_KEY, {
         expiresIn: expiresIn
@@ -19,8 +18,7 @@ const genToken = (user, expiresIn = "7d") => {
 
 const genRefreshToken = (user, expiresIn = "365d") => {
     return jwt.sign({
-        id: user._id,
-        username: user.username,
+        employeeID: user.employeeID
     },
         process.env.JWT_REFRESH_KEY, {
         expiresIn: expiresIn
@@ -45,9 +43,9 @@ export const login = async (req, res, next) => {
     //const encrypted = await crypto.encrypt("password");
     //console.log(encrypted);
 
-    const passwordInput = "";
+    let passwordInput = "";
     try {
-        passwordInput = await crypto.decrypt(req.body.password).then();
+        passwordInput = await crypto.decrypt(req.body.password);
     } catch (err) {
         throw new HttpException(400, "Incorrect password");
     }
@@ -84,7 +82,7 @@ export const requestRefreshToken = async (req, res) => {
         const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY);
 
         const user = await Employee.findOne(
-            { where: { employeeID: decoded.id } }
+            { where: { employeeID: decoded.employeeID } }
         );
 
         if (!user) throw new HttpException(404, "User not found");
