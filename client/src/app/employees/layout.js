@@ -2,9 +2,10 @@
 
 import { Inter } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LeftBar from "@/components/left-bar";
 const inter = Inter({ subsets: ["latin"] });
-import style from "@/css/adminPage.module.css";
+import SideBar from "@/components/SideBar/SideBar";
+import { Container } from "react-bootstrap";
+import NavBar from "@/components/NavBar/NavBar";
 
 // export const metadata = {
 //   title: 'Create Next App',
@@ -13,9 +14,12 @@ import style from "@/css/adminPage.module.css";
 
 export default function RootLayout({ children }) {
   return (
-    <div className={style.admin}>
-      <LeftBar></LeftBar>
-      {children}
+    <div className="d-flex vh-100 bg-light">
+      <SideBar />
+      <Container>
+        <NavBar />
+        {children}
+      </Container>
     </div>
   );
 }

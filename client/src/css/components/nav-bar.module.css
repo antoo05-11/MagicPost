@@ -1,0 +1,13 @@
+.container {
+    background-color: white;
+    padding: 10px 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    margin-top: 2vh;
+    border-radius: 30px;
+}
+
+.container h3 {
+    margin: 0;
+}
