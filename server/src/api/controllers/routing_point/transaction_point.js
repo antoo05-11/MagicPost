@@ -33,10 +33,17 @@ export const getAllTransactionPoints = async (req, res) => {
     for (const transactionPoint of transactionPoints) {
         response.push({
             transactionPoint: transactionPoint.transactionPointID,
-            address: transactionPoint.address.detail + ', ' + transactionPoint.address.commune.name +
-                ', ' + transactionPoint.address.district.name + ', ' + transactionPoint.address.province.name
+            zipcode: transactionPoint.zipcode,
+            name: transactionPoint.name,
+            goodsPointID: transactionPoint.goodsPointID,
+            address: {
+                detail: transactionPoint.address.detail,
+                commune: transactionPoint.address.commune.name,
+                district: transactionPoint.address.district.name,
+                province: transactionPoint.address.province.name
+            }
         });
     }
 
-    res.json(response);
+    res.status(200).json(response);
 };

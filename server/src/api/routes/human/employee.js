@@ -7,7 +7,7 @@ const { default: catchAsync } = require("../../exceptions/catch-async");
 const employeeRoute = new Router;
 
 employeeRoute.get("/get", verifyToken, catchAsync(getAllEmployees));
-employeeRoute.get("/:id", catchAsync(getEmployeeInfo));
+employeeRoute.get("/:id",catchAsync(getEmployeeInfo));
 employeeRoute.post("/add", catchAsync(addNewEmployee));
 employeeRoute.put("/:id/edit", catchAsync(editEmployeeInfo));
 

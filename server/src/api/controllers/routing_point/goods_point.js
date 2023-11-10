@@ -32,9 +32,13 @@ export const getAllGoodsPoint = async (req, res) => {
     let response = [];
     for (const goodsPoint of goodsPoints) {
         response.push({
-            goodsPoint: goodsPoint.goodsPointID,
-            address: goodsPoint.address.detail + ', ' + goodsPoint.address.commune.name +
-                ', ' + goodsPoint.address.district.name + ', ' + goodsPoint.address.province.name
+            goodsPointID: goodsPoint.goodsPointID,
+            address: {
+                detail: goodsPoint.address.detail,
+                commune: goodsPoint.address.commune.name,
+                district: goodsPoint.address.district.name,
+                province: goodsPoint.address.province.name
+            }
         });
     }
 

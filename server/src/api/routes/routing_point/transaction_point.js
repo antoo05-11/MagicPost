@@ -5,6 +5,6 @@ const { default: catchAsync } = require("../../exceptions/catch-async");
 
 const transactionPointRoute = new Router;
 
-transactionPointRoute.get("/get", catchAsync(getAllTransactionPoints));
+transactionPointRoute.get("/getAll", catchAsync(getAllTransactionPoints));
 
 export default transactionPointRoute;

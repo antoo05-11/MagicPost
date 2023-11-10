@@ -36,7 +36,7 @@ server.listen(PORT, () => {
 app.get("/", (req, res) => {
     res.status(200).json({
         success: true,
-        message: "Welcome to MagicPost Server!!!"
+        message: "Welcome to MagicPost server!!!"
     });
 });
 

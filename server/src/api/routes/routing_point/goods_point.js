@@ -4,6 +4,6 @@ const { getAllGoodsPoint } = require("../../controllers/routing_point/goods_poin
 
 const goodsPointRoute = new Router;
 
-goodsPointRoute.get("/get", catchAsync(getAllGoodsPoint));
+goodsPointRoute.get("/getAll", catchAsync(getAllGoodsPoint));
 
 export default goodsPointRoute;
