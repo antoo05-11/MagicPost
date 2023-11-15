@@ -1,22 +1,57 @@
 .login-container {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: auto;
+  /* margin: auto; */
+  border-radius: 10px;
+  border: 1px solid black;
+  /* border-width: 1px; */
+  padding: 10px;
+  background-color: aqua;
+  margin-top: 15vh;
+  height: 50vh;
   /* border: 1px black; */
 }
 .title {
   text-align: center;
   font-size: 20px;
+  /* background-color: aqua; */
+  /* color: aqua; */
 }
 .login-container button {
   width: 75%;
   margin: 0 auto;
   margin-bottom: 10px;
-  border-radius: 10px;
+  /* border-radius: 10px; */
   /* border: none; */
   padding-top: 6px;
   padding-bottom: 6px;
+  /* background-color: aqua; */
+  /* color: aqua; */
 }
-.active {
-  background-color: red;
+
+/* .pass {
+  background-color: aqua;
+} */
+.taikhoan {
+  border-radius: 0;
+  background-color: aqua;
+  border: none;
+  border-bottom: 1px solid;
+  box-sizing: border-box;
+  outline: none;
+}
+.taikhoan:focus {
+  border-radius: 0;
+  background-color: aqua;
+  border: none;
+  border-bottom: 1px solid;
+  /* outline: none; */
+}
+
+.matkhau {
+  border-radius: 0;
+  background-color: aqua;
+  border: none;
+  border-bottom: 1px solid;
 }

@@ -1,8 +1,8 @@
 "use client";
-import SearchForm from "@/components/searchform";
-import Tables from "@/components/tables";
+import SearchForm from "/home/doduy/Web/MagicPost/client/src/components/searchform.js";
+import Tables from "/home/doduy/Web/MagicPost/client/src/components/tables";
 import { Button } from "react-bootstrap";
-import "@/css/page.css";
+import "/home/doduy/Web/MagicPost/client/src/css/page.css";
 // import Table from "@/components/tables";
 export default function () {
   return (

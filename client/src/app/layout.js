@@ -1,6 +1,6 @@
 "use client";
 
-import AppHeader from "@/components/header";
+// import AppHeader from "@/components/header";
 import { Inter } from "next/font/google";
 import { Container, Navbar } from "react-bootstrap";
 // import "./globals.css";
