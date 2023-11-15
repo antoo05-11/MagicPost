@@ -43,14 +43,16 @@ export const login = async (req, res, next) => {
     //const encrypted = await crypto.encrypt("password");
     //console.log(encrypted);
 
-    let passwordInput = "";
-    try {
-        passwordInput = await crypto.decrypt(req.body.password);
-    } catch (err) {
-        throw new HttpException(400, "Incorrect password");
-    }
+    // let passwordInput = "";
+    // try {
+    //     passwordInput = await crypto.decrypt(req.body.password);
+    // } catch (err) {
+    //     throw new HttpException(400, "Incorrect password");
+    // }
 
-    const isMatch = await bcrypt.compare(passwordInput, user.password);
+    // **Not decrypt input password.
+    console.log(req.body.password);
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) throw new HttpException(400, "Incorrect password");
 
     const accessToken = genToken(user);
