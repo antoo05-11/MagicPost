@@ -1,14 +1,18 @@
 "use client";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import "@/css/login.css";
+import "/home/doduy/Web/MagicPost/client/src/css/login.css";
+// import "@/css/login.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+// import { revalidatePath } from "next/cache";
 function Login() {
   // let account, password;
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
+  // const data = as fetch()
   const router = useRouter();
+
   return (
     <div className="login-container col-4">
       <div className="title">Login</div>
@@ -22,6 +26,7 @@ function Login() {
             onChange={(event) => {
               setAccount(event.target.value);
             }}
+            className="taikhoan"
           />
         </Form.Group>
         <Form.Group className="mb-3 pass" controlId="formGroupPassword">
@@ -33,6 +38,7 @@ function Login() {
             onChange={(event) => {
               setPassword(event.target.value);
             }}
+            className="matkhau"
           />
         </Form.Group>
       </Form>

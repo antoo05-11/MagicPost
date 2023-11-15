@@ -1,25 +1,28 @@
 module.exports = (sequelize, DataTypes) => {
     const Processes = sequelize.define("processes", {
-        orderID: {
+        processID: {
             type: DataTypes.INTEGER,
             allowNull: false,
             primaryKey: true
         },
-        addressID: {
+        orderID: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        currentRoutingPoint: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'addresses',
-                key: 'addressID'
+                model: 'routing_points',
+                key: 'routingPointID'
             },
-            primaryKey: true
         },
-        previousAddressID: {
+        nextRoutingPoint: {
             type: DataTypes.INTEGER,
             allowNull: true,
             references: {
-                model: 'addresses',
-                key: 'addressID'
+                model: 'routing_points',
+                key: 'routingPointID'
             }
         },
         arrivedTime: {
@@ -27,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
         status: {
-            type: DataTypes.ENUM('arrived', 'onway'),
+            type: DataTypes.ENUM('arrived', 'on_way', 'return'),
             allowNull: false
         }
     }, {

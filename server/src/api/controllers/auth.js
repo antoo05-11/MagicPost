@@ -43,14 +43,16 @@ export const login = async (req, res, next) => {
     //const encrypted = await crypto.encrypt("password");
     //console.log(encrypted);
 
-    let passwordInput = "";
-    try {
-        passwordInput = await crypto.decrypt(req.body.password);
-    } catch (err) {
-        throw new HttpException(400, "Incorrect password");
-    }
+    // let passwordInput = "";
+    // try {
+    //     passwordInput = await crypto.decrypt(req.body.password);
+    // } catch (err) {
+    //     throw new HttpException(400, "Incorrect password");
+    // }
 
-    const isMatch = await bcrypt.compare(passwordInput, user.password);
+    // **Not decrypt input password.
+
+    const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) throw new HttpException(400, "Incorrect password");
 
     const accessToken = genToken(user);
@@ -64,8 +66,12 @@ export const login = async (req, res, next) => {
         path: "/",
     });
 
-    res.status(200).json({
-        accessToken
+    let clone = { ...user.get() };
+    delete clone.password;
+
+    return res.status(200).json({
+        user: clone,
+        accessToken: accessToken
     });
 };
 

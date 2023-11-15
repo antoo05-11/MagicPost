@@ -1,6 +1,6 @@
 "use client";
 
-import "@/css/searchform.css";
+import "/home/doduy/Web/MagicPost/client/src/css/searchform.css";
 
 function SearchForm({ tracuu }) {
   return (

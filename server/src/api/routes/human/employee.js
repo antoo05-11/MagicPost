@@ -9,8 +9,6 @@ const { default: catchAsync } = require("../../exceptions/catch-async");
 
 const employeeRoute = new Router;
 
-console.log(role);
-
 employeeRoute.get("/get", verifyToken,
     (req, res, next) => authorize(req, res, next, [role.MANAGER, role.TRANSACTION_POINT_EMPLOYEE]),
     catchAsync(getAllEmployees));

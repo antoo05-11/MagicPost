@@ -1,24 +1,6 @@
 import { DataTypes, Sequelize } from "sequelize";
-require('module-alias/register');
-const dbconfig = require('@secret/dbconfig.js').remote;
+const dbconfig = require("../config/dbconfig.js").localhost;
 
-export const sequelize = new Sequelize(
-  dbconfig.DATABASE,
-  dbconfig.USER,
-  dbconfig.PASSWORD,
-  {
-    host: dbconfig.HOST,
-    port: dbconfig.PORT,
-    dialect: dbconfig.dialeg,
-    operatorsAliases: false,
-    pool: {
-      max: dbconfig.pool.max,
-      min: dbconfig.pool.min,
-      acquire: dbconfig.pool.acquire,
-      idle: dbconfig.pool.idle,
-    },
-  }
-);
 sequelize
   .authenticate()
   .then(() => {
@@ -51,6 +33,10 @@ db.orders = require("./order/order.js")(sequelize, DataTypes);
 db.processes = require("./order/process.js")(sequelize, DataTypes);
 db.goods = require("./order/goods.js")(sequelize, DataTypes);
 db.employee_roles = require("./human/employeeRole.js")(sequelize, DataTypes);
+db.routing_points = require("./routing_point/routing_point.js")(
+  sequelize,
+  DataTypes
+);
 
 db.sequelize.sync({ force: false }).then(() => {
   console.log("Re-sync are done!");

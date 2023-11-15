@@ -87,75 +87,75 @@ export const findDistance = (originJSON, destinationJSON) => {
 
 export const addNewAddress = async (address) => {
     const newAddress = await Address.create(address);
-    const tmp = await Address.findOne({
-        where: { addressID: newAddress.null },
-        include: [
-            {
-                model: Commune,
-                attributes: ['name'],
-            },
-            {
-                model: District,
-                attributes: ['name'],
-                include: {
-                    model: Province,
-                    attributes: ['name'],
-                },
-            },
-        ],
-    })
-    const newAddressJSON = {
-        commune: tmp.commune.name,
-        district: tmp.district.name,
-        province: tmp.district.province.name
-    }
-    let distances = [];
-    if (newAddress) {
-        const addresses = await Address.findAll({
-            attributes: ['addressID', 'detail'],
-            include: [
-                {
-                    model: Commune,
-                    attributes: ['name'],
-                },
-                {
-                    model: District,
-                    attributes: ['name'],
-                },
-                {
-                    model: Province,
-                    attributes: ['name'],
-                },
-            ],
-            where: {
-                type: 'goodsPoint',
-                addressID: {
-                    [Op.not]: newAddress.null
-                }
-            },
-        });
-        for (const destination of addresses) {
-            let destinationJSON = {
-                commune: destination.commune.name,
-                district: destination.district.name,
-                province: destination.province.name
-            }
-            let dis = await findDistance(newAddressJSON, destinationJSON);
-            console.log(dis);
+    // const tmp = await Address.findOne({
+    //     where: { addressID: newAddress.null },
+    //     include: [
+    //         {
+    //             model: Commune,
+    //             attributes: ['name'],
+    //         },
+    //         {
+    //             model: District,
+    //             attributes: ['name'],
+    //             include: {
+    //                 model: Province,
+    //                 attributes: ['name'],
+    //             },
+    //         },
+    //     ],
+    // })
+    // const newAddressJSON = {
+    //     commune: tmp.commune.name,
+    //     district: tmp.district.name,
+    //     province: tmp.district.province.name
+    // }
+    // let distances = [];
+    // if (newAddress) {
+    //     const addresses = await Address.findAll({
+    //         attributes: ['addressID', 'detail'],
+    //         include: [
+    //             {
+    //                 model: Commune,
+    //                 attributes: ['name'],
+    //             },
+    //             {
+    //                 model: District,
+    //                 attributes: ['name'],
+    //             },
+    //             {
+    //                 model: Province,
+    //                 attributes: ['name'],
+    //             },
+    //         ],
+    //         where: {
+    //             type: 'goodsPoint',
+    //             addressID: {
+    //                 [Op.not]: newAddress.null
+    //             }
+    //         },
+    //     });
+    //     for (const destination of addresses) {
+    //         let destinationJSON = {
+    //             commune: destination.commune.name,
+    //             district: destination.district.name,
+    //             province: destination.province.name
+    //         }
+    //         let dis = await findDistance(newAddressJSON, destinationJSON);
+    //         console.log(dis);
 
-            try {
-                const newDistance = await Route.create({
-                    originID: newAddress.null,
-                    destinationID: destination.addressID,
-                    distanceValue: dis == null ? 0 : dis,
-                });
-                distances.push(newDistance);
-            } catch (error) {
-                console.error('Error creating distance:', error);
-            }
-        }
-        console.log(distances);
-    } else {
-        console.log("Error when adding new address!");
-    }
+    //         try {
+    //             const newDistance = await Route.create({
+    //                 originID: newAddress.null,
+    //                 destinationID: destination.addressID,
+    //                 distanceValue: dis == null ? 0 : dis,
+    //             });
+    //             distances.push(newDistance);
+    //         } catch (error) {
+    //             console.error('Error creating distance:', error);
+    //         }
+    //     }
+    //     console.log(distances);
+    // } else {
+    //     console.log("Error when adding new address!");
+    // }
 }

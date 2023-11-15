@@ -14,14 +14,16 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
     "@fortawesome/free-solid-svg-icons": "^6.4.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "apexcharts": "^3.44.0",
     "bootstrap": "5.3.0",
+    "axios": "^1.6.2",
+    "apexcharts": "^3.44.0",
     "next": "13.5.6",
+    "node-crypt": "^1.2.0",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
     "react-bootstrap": "2.8.0",
     "react-dom": "^18",
-    "swr": "2.2.4"
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "eslint": "^8",
