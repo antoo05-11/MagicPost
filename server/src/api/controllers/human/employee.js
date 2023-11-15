@@ -44,8 +44,7 @@ export const addNewEmployee = async (req, res) => {
         fullName: normalizeName(req.body.fullName),
         addressID: newAddress.null,
         email: req.body.email,
-        transactionPointID: req.body.transactionPointID,
-        goodsPointID: req.body.goodsPointID,
+        workingPointID: req.body.workingPointID,
         password: hashedPassword,
         role: req.body.role
     }

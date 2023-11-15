@@ -12,6 +12,13 @@ module.exports = (sequelize, DataTypes) => {
         phoneNumber: {
             type: DataTypes.STRING(10),
             allowNull: false
+        },
+        addressID: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'Address',
+                key: 'addressID'
+            }
         }
     }, {
         id: false,

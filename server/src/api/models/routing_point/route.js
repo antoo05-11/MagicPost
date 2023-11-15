@@ -5,16 +5,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             primaryKey: true,
             references: {
-                model: 'Address',
-                key: 'addressID'
+                model: 'RoutingPoint',
+                key: 'routingPointID'
             }
         },
         destinationID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             references: {
-                model: 'Address',
-                key: 'addressID'
+                model: 'RoutingPoint',
+                key: 'routingPointID'
             }
         },
         distanceValue: {
