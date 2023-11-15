@@ -60,9 +60,9 @@ export const addNewEmployee = async (req, res) => {
 }
 
 export const editEmployeeInfo = async (req, res) => {
-    res.status(200).json({});
+    return res.status(200).json({});
 }
 
 export const getEmployeeInfo = async (req, res) => {
-    res.status(200).json({ id: req.params.id });
+    return res.status(200).json({ id: req.params.id });
 }

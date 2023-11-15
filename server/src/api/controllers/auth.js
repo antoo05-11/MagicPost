@@ -51,7 +51,7 @@ export const login = async (req, res, next) => {
     // }
 
     // **Not decrypt input password.
-    console.log(req.body.password);
+
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) throw new HttpException(400, "Incorrect password");
 
@@ -66,8 +66,12 @@ export const login = async (req, res, next) => {
         path: "/",
     });
 
-    res.status(200).json({
-        accessToken
+    let clone = { ...user.get() };
+    delete clone.password;
+
+    return res.status(200).json({
+        user: clone,
+        accessToken: accessToken
     });
 };
 
