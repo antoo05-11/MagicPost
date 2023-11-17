@@ -1,3 +1,5 @@
+// import { z } from "zod";
+
 export async function login(employeeID, password) {
   const data = {
     employeeID: "23000000",
@@ -15,7 +17,6 @@ export async function login(employeeID, password) {
 
   if (res.ok) {
     const responseData = await res.json();
-    // console.log("res", responseData);
     return responseData.accessToken;
   } else {
     console.error(res.status);

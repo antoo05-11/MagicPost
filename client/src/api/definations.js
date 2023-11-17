@@ -1,25 +1,6 @@
-export class Order {
-  constructor(
-    employeeID,
-    identifier,
-    phoneNumber,
-    fullName,
-    address,
-    role,
-    email,
-    goodsPointID,
-    transactionPointID
-  ) {
-    this.employeeID = employeeID;
-    this.identifier = identifier;
-    this.phoneNumber = phoneNumber;
-    this.fullName = fullName;
-    this.address = address;
-    this.role = role;
-    this.email = email;
-    this.goodsPointID = goodsPointID;
-    this.transactionPointID = transactionPointID;
-  }
+// "use server";
+export async function createUser(formData) {
+  // "use server";
+  // console.log(JSON.stringify(formData));
+  console.log(123);
 }
-let i = new Order();
-i.address = 1;

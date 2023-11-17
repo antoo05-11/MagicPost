@@ -9,7 +9,7 @@ import AppHeader from "/home/doduy/Web/MagicPost/client/src/components/header.js
 
 // import Tables from "@/components/tables";
 
-export default async function Home() {
+export default function Home() {
   return (
     <div>
       <AppHeader></AppHeader>

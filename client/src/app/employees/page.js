@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import OrderTable from "@/components/employee/table";
 import useSWR from "swr";
 import { getEmployee } from "@/api/data";
+import Card from "@/components/dashboard/cards";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
 export const orderDetails = [
   "nguoi gui",
   "nguoi nhan",
@@ -13,8 +13,16 @@ export const orderDetails = [
   "Ten don hang",
   "Phi van chuyen",
 ];
-export default async function AdminPage() {
-  const data = await getEmployee();
-  console.log(data);
-  return <div>{<OrderTable typeTable={orderDetails} data={data} />}</div>;
+export default function AdminPage() {
+  return (
+    <div>
+      <h1>Dashboard</h1>
+      <div id="dashboard">
+        <Card title={"Tong don hang"} value={10} />
+        <Card title={"Tong don hang"} value={10} />
+        <Card title={"Tong don hang"} value={10} />
+        <Card title={"Tong don hang"} value={10} />
+      </div>
+    </div>
+  );
 }

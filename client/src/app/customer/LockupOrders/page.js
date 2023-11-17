@@ -1,14 +1,19 @@
 "use client";
-import SearchForm from "/home/doduy/Web/MagicPost/client/src/components/searchform.js";
-import Tables from "/home/doduy/Web/MagicPost/client/src/components/tables";
-import { Button } from "react-bootstrap";
+import { Button, Container } from "react-bootstrap";
+import Script from "next/script";
+
 import "/home/doduy/Web/MagicPost/client/src/css/page.css";
+import Search from "@/components/lookupOrder/search";
 // import Table from "@/components/tables";
-export default function () {
+export default function page({ searchParams: { query, page } }) {
+  const currentQuery = query || "";
+  const currentPage = Number(page);
   return (
-    <div>
-      <SearchForm tracuu={"Tra cuu don hang"} />
-      <Tables i={1}></Tables>
-    </div>
+    <>
+      <Container>
+        <Search />
+      </Container>
+      {/* <Script src="/home/doduy/Web/MagicPost/client/src/app/customer/LockupOrders/script.js" /> */}
+    </>
   );
 }
