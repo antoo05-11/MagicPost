@@ -1,10 +1,11 @@
 "use client";
 
-import AppHeader from "/home/doduy/Web/MagicPost/client/src/components/header";
 import { Inter } from "next/font/google";
 import { Container, Navbar } from "react-bootstrap";
 // import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata = {
@@ -14,9 +15,10 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Layout({ children }) {
   return (
-    <section>
-      <AppHeader></AppHeader>
+    <>
+      <Header />
       <Container>{children}</Container>
-    </section>
+      <Footer />
+    </>
   );
 }

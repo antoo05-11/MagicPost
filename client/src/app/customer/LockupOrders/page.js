@@ -1,19 +1,28 @@
 "use client";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Row, Col } from "react-bootstrap";
 import Script from "next/script";
-
-import "/home/doduy/Web/MagicPost/client/src/css/page.css";
+import Image from 'react-bootstrap/Image';
 import Search from "@/components/lookupOrder/search";
-// import Table from "@/components/tables";
+import { HiOutlineDocumentSearch } from "react-icons/hi";
+import style from "@/css/customer/lookUpOrder.module.css";
+
 export default function page({ searchParams: { query, page } }) {
   const currentQuery = query || "";
   const currentPage = Number(page);
   return (
-    <>
-      <Container>
-        <Search />
+    <div className={style.lookUp}>
+      <Image src="/tracuubuugui.png" fluid />
+      <Container className={style.lookUpContainer}>
+        <Row>
+          <Col className={style.searchTitle}>
+            <HiOutlineDocumentSearch size={'2rem'} />
+            <p>Nhập mã bưu gửi (VD: EB125966888VN)</p>
+          </Col>
+        </Row>
+        <Row className={style.demo}>
+            <Search />
+        </Row>
       </Container>
-      {/* <Script src="/home/doduy/Web/MagicPost/client/src/app/customer/LockupOrders/script.js" /> */}
-    </>
+    </div>
   );
 }

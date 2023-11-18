@@ -1,6 +1,8 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Button } from "react-bootstrap";
 import { useDebouncedCallback } from "use-debounce";
+
 export default function Search() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -15,19 +17,25 @@ export default function Search() {
     }
     replace(`${pathname}?${params.toString()}`);
   });
+
   return (
-    <div className="relative flex flex-1 flex-shrink-0">
-      <label htmlFor="search" className="sr-only">
+    <div className="d-flex justify-content-between">
+      {/* <label htmlFor="search" className="sr-only">
         Search
-      </label>
-      <input
-        className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-        //   placeholder={placeholder}
-        onChange={(e) => {
-          handleSearch(e.target.value);
-        }}
-        defaultValue={searchParams.get("query")?.toString()}
-      />
+      </label> */}
+
+      <form className="w-100 h-100 align-items-center">
+        <input
+          className="w-75 h-100 rounded border"
+          //   placeholder={placeholder}
+          onChange={(e) => {
+            handleSearch(e.target.value);
+          }}
+          defaultValue={searchParams.get("query")?.toString()}
+        />
+        <Button className="w-30 h-100 ms-3">Tra cứu</Button>
+      </form>
+
     </div>
   );
 }

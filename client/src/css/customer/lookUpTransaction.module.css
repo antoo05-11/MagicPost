@@ -1,0 +1,25 @@
+.lookUp {
+    margin-top: 75px;
+}
+
+
+.lookUpContainer {
+    margin-top: 50px;
+    padding: 30px;
+}
+
+.menuContainer {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #f7f7f7;
+}
+
+.selectContainer {
+    margin-top: 10px;
+}
+
+.submitButton {
+    margin-top: 20px;
+    background-color: #FFB830;
+}

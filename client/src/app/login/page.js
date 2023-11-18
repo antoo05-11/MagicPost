@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import "/home/doduy/Web/MagicPost/client/src/css/login.css";
+import "@/css/login.css";
 // import "@/css/login.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

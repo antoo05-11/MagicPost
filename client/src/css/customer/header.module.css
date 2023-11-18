@@ -1,0 +1,14 @@
+.headerContainer {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+.headerContainer span {
+    cursor: pointer;
+    color: #ffb830;
+}
+
+.headerContainer span:hover {
+    color: #ffb830;
+}
+
