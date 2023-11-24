@@ -48,14 +48,13 @@ export default function HomePage() {
               </InputGroup>
             </Form>
           </Col>
-          <Col xs={6} md={2} className={style.lookupItem}>
+          <Col xs={6} md={2} className={`${style.lookupItem} text-center mt-3 mt-md-0`}>
             <Link href={"/customer/LockupOrders"}>
               <LiaMapMarkedAltSolid size={'4em'} />
               <p>Tìm kiếm bưu cục</p>
             </Link>
-
           </Col>
-          <Col xs={6} md={2} className={style.lookupItem}>
+          <Col xs={6} md={2} className={`${style.lookupItem} text-center mt-3 mt-md-0`}>
             <Link href={"/customer/EstimateCost"}>
               <PiMoneyDuotone size={'4em'} />
               <p>Ước tính phí</p>
@@ -124,36 +123,35 @@ export default function HomePage() {
       {/* === Section 4: About us === */}
       <Container className={style.aboutUs} fluid>
         <Row>
-          <Col xs={5} className={style.aboutUsTitle}>
+          {/* aboutUsTitle */}
+          <Col className={style.aboutUsTitle} lg={5} md={12}>
             <h2>Về chúng tôi</h2>
             <p>
-              J&T Express là thương hiệu chuyển phát nhanh dựa trên sự phát
-              triển của công nghệ và Internet. Chúng tôi sở hữu mạng lưới rộng
-              khắp nhằm hỗ trợ các hoạt động giao nhận hàng hóa nhanh chóng
-              không chỉ ở nội thành mà còn ở ngoại thành và các vùng xa của các
-              tỉnh thành trong cả nước Việt Nam.
+              J&T Express là thương hiệu chuyển phát nhanh dựa trên sự phát triển của công nghệ và Internet. Chúng tôi sở hữu mạng lưới rộng khắp nhằm hỗ trợ các hoạt động giao nhận hàng hóa nhanh chóng không chỉ ở nội thành mà còn ở ngoại thành và các vùng xa của các tỉnh thành trong cả nước Việt Nam.
             </p>
           </Col>
-          <Col xs={6} className={style.aboutUsWrapperItem}>
+
+          {/* aboutUsWrapperItem */}
+          <Col className={style.aboutUsWrapperItem}>
             <Row>
-              <Col>
+              <Col lg={5} md={12} className={style.aboutUsItem}>
                 <Image src="/63tinh-thanh.png" />
                 <h5>63 TỈNH THÀNH</h5>
                 <p>Phủ sóng khắp 63 tỉnh thành</p>
               </Col>
-              <Col>
+              <Col lg={5} md={12} className={style.aboutUsItem}>
                 <Image src="/1000xe.png" />
                 <h5>ĐA DẠNG PHƯƠNG TIỆN</h5>
                 <p>Đa dạng phương tiện vận chuyển hàng hóa</p>
               </Col>
             </Row>
             <Row>
-              <Col>
+              <Col lg={5} md={12} className={style.aboutUsItem}>
                 <Image src="/1900bu-cuc.png" />
                 <h5>NHÂN SỰ CHUYÊN NGHIỆP</h5>
                 <p>Nhân sự được đào tạo bài bản & chuyên nghiệp</p>
               </Col>
-              <Col>
+              <Col lg={5} md={12} className={style.aboutUsItem}>
                 <Image src="/25000nhan-vien.png" />
                 <h5>BƯU CỤC RỘNG KHẮP</h5>
                 <p>Mạng lưới bưu cục rộng khắp hoạt động trên toàn quốc</p>
@@ -162,6 +160,7 @@ export default function HomePage() {
           </Col>
         </Row>
       </Container>
+
 
       <Footer />
     </div>

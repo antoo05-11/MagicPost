@@ -1,6 +1,5 @@
 "use client";
 import SearchForm from "@/components/searchform";
-import Tables from "@/components/tables";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import "@/css/page.css";
 import Image from "react-bootstrap/Image";
@@ -47,7 +46,7 @@ export default function () {
           </Col>
 
           <Col>
-          
+
             <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1VCEMjR_Ldo68vk5FiAWGf_7oV5r9PE8&ehbc=2E312F" width="640" height="480"></iframe>
           </Col>
         </Row>

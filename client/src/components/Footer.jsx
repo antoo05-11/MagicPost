@@ -8,13 +8,13 @@ export default function Footer() {
         <footer className={style.footer}>
             <Container className={style.container}>
                 <Row>
-                    <Col xs={6}>
+                    <Col xs={12} lg={5}>
                         <h3>TỔNG CÔNG TY CHUYỂN PHÁT MAGIC POST</h3>
                         <p>Địa chỉ: Số 28 Đỗ Đức Dục - Mễ Trì - Nam Từ Liêm - Hà Nội</p>
                         <p>Hotline: 0858 562 678</p>
                     </Col>
 
-                    <Col>
+                    <Col xs={12} lg={2}>
                         <h3>Về MAGIC POST</h3>
                         <ul className={style.footerMenu}>
                             <li>
@@ -31,7 +31,7 @@ export default function Footer() {
                             </li>
                         </ul>
                     </Col>
-                    <Col>
+                    <Col xs={12} lg={2}>
                         <h3>Tra cứu</h3>
                         <ul className={style.footerMenu}>
                             <li>
@@ -55,7 +55,7 @@ export default function Footer() {
                         </ul>
                     </Col>
 
-                    <Col>
+                    <Col xs={12} lg={2}>
                         <h3>Dịch vụ</h3>
                         <ul className={style.footerMenu}>
                             <li>
