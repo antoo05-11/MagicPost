@@ -1,6 +1,7 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import style from "@/css/customer/footer.module.css";
 import { FaAngleRight } from "react-icons/fa6";
+import Link from 'next/link';
 
 export default function Footer() {
     return (
@@ -17,12 +18,16 @@ export default function Footer() {
                         <h3>Về MAGIC POST</h3>
                         <ul className={style.footerMenu}>
                             <li>
-                                <FaAngleRight />
-                                Lịch sử hình thành
+                                <Link href="/customer/History">
+                                    <FaAngleRight />
+                                    Lịch sử hình thành
+                                </Link>
                             </li>
                             <li>
-                                <FaAngleRight />
-                                Tuyển dụng
+                                <Link href="/customer/Recruit">
+                                    <FaAngleRight />
+                                    Tuyển dụng
+                                </Link>
                             </li>
                         </ul>
                     </Col>
@@ -30,16 +35,22 @@ export default function Footer() {
                         <h3>Tra cứu</h3>
                         <ul className={style.footerMenu}>
                             <li>
-                                <FaAngleRight />
-                                Tra cứu bưu gửi
+                                <Link href="/customer/LockupOrders">
+                                    <FaAngleRight />
+                                    Tra cứu bưu gửi
+                                </Link>
                             </li>
                             <li>
-                                <FaAngleRight />
-                                Tra cứu bưu cục
+                                <Link href="/customer/LockupTransaction">
+                                    <FaAngleRight />
+                                    Tra cứu bưu cục
+                                </Link>
                             </li>
                             <li>
-                                <FaAngleRight />
-                                Ước tính phí
+                                <Link href="/customer/EstimateCost">
+                                    <FaAngleRight />
+                                    Ước tính chi phí
+                                </Link>
                             </li>
                         </ul>
                     </Col>
@@ -48,16 +59,22 @@ export default function Footer() {
                         <h3>Dịch vụ</h3>
                         <ul className={style.footerMenu}>
                             <li>
-                                <FaAngleRight />
-                                Vận chuyển tài liệu
+                                <Link href="/customer/service/doc">
+                                    <FaAngleRight />
+                                    Vận chuyển tài liệu
+                                </Link>
                             </li>
                             <li>
-                                <FaAngleRight />
-                                Vận chuyển hàng hóa
+                                <Link href="/customer/service/goods">
+                                    <FaAngleRight />
+                                    Tra cứu hàng hóa
+                                </Link>
                             </li>
                             <li>
-                                <FaAngleRight />
-                                Vận chuyển đảm bảo
+                                <Link href="/customer/service/care">
+                                    <FaAngleRight />
+                                    Vận chuyển đảm bảo
+                                </Link>
                             </li>
                         </ul>
                     </Col>

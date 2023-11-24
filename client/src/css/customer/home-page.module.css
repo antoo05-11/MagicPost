@@ -36,6 +36,14 @@
     padding-top: 5px;
 }
 
+.lookupItem a {
+    text-decoration: none;
+}
+
+.lookupItem:hover a {
+    text-decoration: underline;
+}
+
 
 /* === Section 3: Service Styles === */
 .service {
@@ -78,8 +86,9 @@
 }
 
 .serviceItem:hover {
-    
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Add box-shadow on hover */
+
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    /* Add box-shadow on hover */
 
 }
 

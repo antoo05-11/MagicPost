@@ -29,7 +29,7 @@ export default function Header() {
               <NavDropdown title="Tra cứu" id="basic-nav-dropdown" >
                 <NavDropdown.Item onClick={() => { route.push("/customer/LockupOrders"); }}>Tra cứu bưu gửi</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => { route.push("/customer/LockupTransaction"); }}>Tra cứu bưu cục</NavDropdown.Item>
-                <NavDropdown.Item onClick={() => { route.push("/customer/LockupTransaction1"); }}>Ước tính chi phí</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => { route.push("/customer/EstimateCost"); }}>Ước tính chi phí</NavDropdown.Item>
               </NavDropdown>
 
               <NavDropdown title="Dịch vụ" id="basic-nav-dropdown">

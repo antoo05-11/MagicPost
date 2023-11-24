@@ -49,12 +49,17 @@ export default function HomePage() {
             </Form>
           </Col>
           <Col xs={6} md={2} className={style.lookupItem}>
-            <LiaMapMarkedAltSolid size={'4em'} />
-            <p>Tìm kiếm bưu cục</p>
+            <Link href={"/customer/LockupOrders"}>
+              <LiaMapMarkedAltSolid size={'4em'} />
+              <p>Tìm kiếm bưu cục</p>
+            </Link>
+
           </Col>
           <Col xs={6} md={2} className={style.lookupItem}>
-            <PiMoneyDuotone size={'4em'} />
-            <p>Ước tính phí</p>
+            <Link href={"/customer/EstimateCost"}>
+              <PiMoneyDuotone size={'4em'} />
+              <p>Ước tính phí</p>
+            </Link>
           </Col>
         </Row>
       </Container>

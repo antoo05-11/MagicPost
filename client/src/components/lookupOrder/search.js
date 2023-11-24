@@ -32,7 +32,7 @@ export default function Search() {
             handleSearch(e.target.value);
           }}
           defaultValue={searchParams.get("query")?.toString()}
-        />
+          required />
         <Button className="w-30 h-100 ms-3">Tra cứu</Button>
       </form>
 

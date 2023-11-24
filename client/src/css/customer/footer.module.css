@@ -6,6 +6,11 @@
     padding-bottom: 50px;
 }
 
+.footer a {
+    color: #fff !important;
+    text-decoration: none;
+}
+
 .container {
     padding-top: 60px;
 }
@@ -15,7 +20,7 @@
     font-size: 20px;
 }
 
-.footerMenu{
+.footerMenu {
     list-style: none;
     padding: 0;
 
