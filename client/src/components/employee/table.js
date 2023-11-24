@@ -23,8 +23,8 @@ export default function OrderTable({ typeTable, data }) {
             <tbody>
               {data?.map((data) => {
                 return (
-                  <tr>
-                    <th>{data?.fullName}</th>
+                  <tr key={data?.employeeID}>
+                    <td>{data?.fullName}</td>
                     <td>{data?.phoneNumber}</td>
                     <td>{data?.address.province}</td>
                     <td>{data?.role}</td>

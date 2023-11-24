@@ -1,4 +1,5 @@
-// const role = {
-//   president: "president",
-// };
-console.log(123);
+"use server";
+
+export async function login(formData) {
+  console.log(formData.get("ten"));
+}

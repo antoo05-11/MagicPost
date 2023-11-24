@@ -2,14 +2,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 // import "@/css/components/sidebar.css";
 import Script from "next/script";
 // import { w3_open } from "../../../../public/static/script";
-export default function SideBar() {
-  const role = {
-    president: {
-      order_management: {
-        path: "employee/",
-      },
-    },
-  };
+export default function SideBar({ role }) {
   return (
     <div>
       {/* <button id="openNav" class="button teal xlarge">
@@ -20,15 +13,13 @@ export default function SideBar() {
           Magic Post
         </a>
         <hr />
-        <a href="/employees/list_employee" className="bar-item button">
-          Danh sach nhan vien
-        </a>
-        <a href="#" class="bar-item button">
-          Hang hoa
-        </a>
-        <a href="#" class="bar-item button">
-          Link 3
-        </a>
+        {role?.map((roro) => {
+          return (
+            <a href={roro?.url} className="bar-item button">
+              {roro?.name}
+            </a>
+          );
+        })}
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import OrderTable from "@/components/employee/table";
 import useSWR from "swr";
 import { getEmployee } from "@/api/data";
 import Card from "@/components/dashboard/cards";
+import DemoChart from "@/components/Chart/Chart";
+import { useParams, usePathname } from "next/navigation";
 
 export const orderDetails = [
   "nguoi gui",
@@ -14,6 +16,8 @@ export const orderDetails = [
   "Phi van chuyen",
 ];
 export default function AdminPage() {
+  const params = usePathname();
+  console.log(params);
   return (
     <div>
       <h1>Dashboard</h1>
@@ -23,6 +27,7 @@ export default function AdminPage() {
         <Card title={"Tong don hang"} value={10} />
         <Card title={"Tong don hang"} value={10} />
       </div>
+      <DemoChart />
     </div>
   );
 }
