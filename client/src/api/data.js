@@ -46,3 +46,5 @@ export async function getEmployee() {
 }
 
 export default async function findOrder(orderID) {}
+
+export const icon = {};
