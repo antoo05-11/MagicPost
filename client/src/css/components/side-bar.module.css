@@ -1,12 +1,12 @@
 .container {
-    position: sticky;
+    position:sticky;
     background-color: #fff;
     width: 250px;
     max-width: 20%;
     height: 96vh;
     margin: 2vh 0 2vh 2vh;
-    border-radius: 40px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
 
 .container ul {

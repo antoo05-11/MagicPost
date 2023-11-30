@@ -1,0 +1,162 @@
+/* === Section 1: Banner Styles === */
+.banner {
+    padding: 0;
+    margin-top: 75px;
+}
+
+/* === Section 2: Lookup Styles === */
+.lookup {
+    background-color: #FFB830;
+    padding: 30px 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: clamp(0.875rem, 0.83rem + 0.17vw, 1rem);
+}
+
+.lookupContainer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.lookupContainer p,
+.lookupContainer label,
+.lookup svg {
+    color: #0072bc;
+}
+
+.lookupItem {
+    text-align: center;
+}
+
+.lookupItem p {
+    margin: 0;
+    padding-top: 5px;
+}
+
+.lookupItem a {
+    text-decoration: none;
+}
+
+.lookupItem:hover a {
+    text-decoration: underline;
+}
+
+@media (min-width: 320px) {
+    .lookupItem {
+        margin-top: 16px;
+    }
+}
+
+@media (min-width: 768px) {
+    .lookupItem {
+        margin-top: 0;
+        padding: 0;
+    }
+}
+
+
+/* === Section 3: Service Styles === */
+.service {
+    margin-top: 50px;
+}
+
+.serviceTitle {
+    text-align: center;
+}
+
+.serviceTitle h2 {
+    font-size: 1.25rem;
+    font-size: clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
+}
+
+.serviceContainer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.serviceContainer h4,
+.serviceContainer svg {
+    color: #FFB830;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: clamp(1rem, 0.9285714285714286rem + 0.35714285714285715vw, 1.25rem);
+}
+
+.service p {
+    color: black;
+    font-size: 0.875rem;
+    font-size: clamp(0.875rem, 0.7321428571428572rem + 0.2976190476190476vw, 1rem);
+}
+
+.serviceItem {
+    background-color: white;
+    padding: 20px;
+    height: 100%;
+    margin-bottom: 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.serviceItem:hover {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 767px) {
+    .serviceItem {
+        height: 95%;
+    }
+
+    .service p {
+        display: none;
+    }
+
+    .service svg {
+        height: 4em;
+        width: 4em;
+    }
+}
+
+
+/* === Section 4: About us Styles === */
+
+.aboutUs {
+    margin-top: 50px;
+}
+
+.aboutUsTitle {
+    background-color: #f5f5f5;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 100px 70px;
+}
+
+
+.aboutUsWrapperItem {
+    margin-left: 70px;
+}
+
+.aboutUsItem h5 {
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+
+@media (max-width: 768px) {
+    .aboutUsTitle {
+        text-align: center;
+    }
+
+    .aboutUsWrapperItem {
+        margin: 30px 0;
+    }
+
+    .aboutUsItem {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}

@@ -1,0 +1,27 @@
+.footer {
+    background-color: #3DB2FF;
+    color: #fff !important;
+    font-weight: 500;
+    margin-top: 50px;
+    padding-bottom: 50px;
+}
+
+.footer a {
+    color: #fff !important;
+    text-decoration: none;
+}
+
+.container {
+    padding-top: 60px;
+}
+
+.container h3 {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.footerMenu {
+    list-style: none;
+    padding: 0;
+
+}

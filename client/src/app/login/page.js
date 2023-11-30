@@ -2,17 +2,28 @@
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "@/css/login.css";
+// import "@/css/login.css";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useContext, Context, createContext } from "react";
+
 function Login() {
-  // let account, password;
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
+  function handleForm() {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("Token", true);
+    }
+  }
   return (
     <div className="login-container col-4">
       <div className="title">Login</div>
-      <Form>
+      <Form
+        action={() => {
+          handleForm();
+        }}
+      >
         <Form.Group className="mb-3 account" controlId="formGroupEmail">
           <Form.Label>Email or User name</Form.Label>
           <Form.Control
@@ -22,6 +33,7 @@ function Login() {
             onChange={(event) => {
               setAccount(event.target.value);
             }}
+            className="taikhoan"
           />
         </Form.Group>
         <Form.Group className="mb-3 pass" controlId="formGroupPassword">
@@ -33,20 +45,14 @@ function Login() {
             onChange={(event) => {
               setPassword(event.target.value);
             }}
+            className="matkhau"
           />
         </Form.Group>
+        <button type="sumbit">Dang nhap</button>
       </Form>
       <button
-        className={account && password ? "active" : ""}
         onClick={() => {
-          router.push("/employees");
-        }}
-      >
-        Dang nhap
-      </button>
-      <button
-        onClick={() => {
-          router.push("/");
+          handleForm();
         }}
       >
         Back

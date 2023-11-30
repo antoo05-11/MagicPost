@@ -7,10 +7,9 @@ export default function NavBar() {
         <Stack direction="horizontal" gap={3} className={style.container}>
             <div className="item">
                 <FontAwesomeIcon icon="fa-solid fa-bars" />
-
             </div>
             <div>
-                <h3>Dashboard</h3>
+                <h2>Dashboard</h2>
             </div>
 
             <div className="item ms-auto">

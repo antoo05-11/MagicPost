@@ -1,0 +1,24 @@
+.estimateCost {
+    margin-top: 75px;
+}
+
+.estimateCostContainer {
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #f7f7f7;
+}
+
+.estimateCostContainer p {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.estimateCostItem {
+    margin-bottom: 10px;
+}
+
+.submitButton {
+    width: 100%;
+    background-color: #FFB830;
+}

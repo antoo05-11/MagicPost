@@ -1,0 +1,12 @@
+#create-search {
+  display: grid;
+  grid-template-columns: 85% 15%;
+}
+
+.box-search {
+  /* height: 50px; */
+}
+.search-input {
+  width: 97%;
+  height: 100%;
+}
