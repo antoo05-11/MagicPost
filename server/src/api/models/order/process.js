@@ -6,7 +6,11 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
         orderID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
+            references: {
+                model: 'orders',
+                key: 'orderID'
+            },
             allowNull: false
         },
         currentRoutingPoint: {

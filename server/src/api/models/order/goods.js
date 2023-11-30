@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true
         },
         orderID: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false,
             references: {
                 model: 'orders',
@@ -18,11 +18,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
         realWeight: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.DOUBLE,
             allowNull: true
         },
         convertedWeight: {
-            type: DataTypes.FLOAT,
+            type: DataTypes.DOUBLE,
             allowNull: true
         }
     }, {

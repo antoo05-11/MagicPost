@@ -1,9 +1,9 @@
 module.exports = (sequelize, DataTypes) => {
-
     const Address = sequelize.define("address", {
         addressID: {
             type: DataTypes.INTEGER,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         communeID: {
             type: DataTypes.INTEGER,
@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
         districtID: {
             type: DataTypes.INTEGER,
             references: {
-                model: 'District',
+                model: 'District', 
                 key: 'districtID'
             }
         },

@@ -5,8 +5,6 @@ export const District = db.districts;
 export const Province = db.provinces;
 export const Route = db.routes;
 
-import { Op } from 'sequelize';
-
 Address.belongsTo(Commune, { foreignKey: 'communeID' });
 Address.belongsTo(District, { foreignKey: 'districtID' });
 Address.belongsTo(Province, { foreignKey: 'provinceID' });

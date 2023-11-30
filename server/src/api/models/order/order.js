@@ -1,9 +1,8 @@
 module.exports = (sequelize, DataTypes) => {
     const Orders = sequelize.define("orders", {
         orderID: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+            type: DataTypes.STRING,
+            primaryKey: true
         },
         senderID: {
             type: DataTypes.INTEGER,
@@ -15,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         sentTime: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         receivedTime: {
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         failChoice: {
             type: DataTypes.ENUM('return', 'destroy'),
@@ -79,14 +78,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         status: {
             type: DataTypes.ENUM('delivering', 'delivered'),
-            allowNull: false
+            allowNull: true,
+            default: 'delivering'
         }
     }, {
-        id: false,
-        timestamps: false,
-        createdAt: false,
-        updatedAt: false,
+        id: false
     });
-
     return Orders;
 }

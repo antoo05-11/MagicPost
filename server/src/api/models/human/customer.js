@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         fullname: {
             type: DataTypes.STRING(50),
-            allowNull: true
+            allowNull: false
         },
         phoneNumber: {
             type: DataTypes.STRING(10),
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             references: {
                 model: 'Address',
                 key: 'addressID'
-            }
+            }, allowNull: false
         }
     }, {
         id: false,
