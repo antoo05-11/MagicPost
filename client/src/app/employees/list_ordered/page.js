@@ -1,24 +1,23 @@
-import { getEmployee } from "@/api/data";
-import { CreateEmployee } from "@/components/employee/button";
+import { getOrder } from "@/api/data";
+import { CreateOrder } from "@/components/employee/button";
 import Pagination from "@/components/employee/pagination";
 import SearchEmployee from "@/components/employee/search";
-import EmployyeeTable from "@/components/employee/employee-table";
-
-const list_employee = ["name", "phone", "address", "role", "email"];
+import OrderTable from "@/components/employee/order-table";
 const item_per_page = 6;
+import "@/css/list_employee.css";
 export default async function page({ searchParams: { query, page } }) {
   const currentQuery = query || "";
   const currentPage = Number(page) || 1;
-  const data = await getEmployee();
+  const data = await getOrder();
   const totalPage = data.length / item_per_page;
   return (
     <>
-      <p id="tittlee">Danh sach nhan vien</p>
+      <h2>Danh sach don hang</h2>
       <div id="create-search">
         <SearchEmployee />
-        <CreateEmployee />
+        <CreateOrder />
       </div>
-      <EmployyeeTable data={data}></EmployyeeTable>
+      <OrderTable data={data}></OrderTable>
       <Pagination totalPage={totalPage} />
     </>
   );

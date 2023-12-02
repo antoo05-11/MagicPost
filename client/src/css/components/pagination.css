@@ -1,0 +1,6 @@
+.page-link {
+  background-color: aqua;
+}
+.page-link.active {
+  background-color: green;
+}

@@ -1,22 +1,10 @@
-import Form from "@/components/employee/create-form";
-
+import EmployeeForm from "@/components/employee/employee-form";
+// import "@/css/list_employee.css";
 export default async function Page() {
-  // const customers = await fetchCustomers();
-
   return (
     <main>
-      {/* <Breadcrumbs
-          breadcrumbs={[
-            { label: "Invoices", href: "/dashboard/invoices" },
-            {
-              label: "Create Invoice",
-              href: "/dashboard/invoices/create",
-              active: true,
-            },
-          ]}
-        /> */}
-      {/* <Form /> */}
-      <Form />
+      <h2>Tao tai khoan nhan vien moi</h2>
+      <EmployeeForm />
     </main>
   );
 }

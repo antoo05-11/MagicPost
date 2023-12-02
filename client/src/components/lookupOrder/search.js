@@ -9,7 +9,7 @@ export default function Search() {
   const { replace } = useRouter();
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
-    console.log(params);
+    // console.log(params);
     if (term) {
       params.set("query", term);
     } else {
@@ -35,7 +35,6 @@ export default function Search() {
           required />
         <Button className="w-30 h-100 ms-3">Tra cứu</Button>
       </form>
-
     </div>
   );
 }

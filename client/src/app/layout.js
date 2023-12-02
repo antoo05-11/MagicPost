@@ -1,22 +1,18 @@
 "use client";
 
-// import AppHeader from "@/components/header";
 import { Inter } from "next/font/google";
-import { Container, Navbar } from "react-bootstrap";
-// import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { useEffect } from "react";
-import { AuthProvider } from "./Providers";
+import { SessionProvider } from "next-auth/react";
 library.add(fas);
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, session }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

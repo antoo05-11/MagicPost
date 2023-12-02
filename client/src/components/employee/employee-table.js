@@ -1,13 +1,8 @@
 "use client";
 import Image from "next/image";
 import { UpdateInvoice } from "./button";
-// import { UpdateInvoice, DeleteInvoice } from "@/app/ui/invoices/buttons";
-// import InvoiceStatus from "@/app/ui/invoices/status";
-// import { formatDateToLocal, formatCurrency } from "@/app/lib/utils";
-// import { fetchFilteredInvoices } from "@/app/lib/data";
 
-export default function OrderTable({ typeTable, data }) {
-  //   const invoices = await fetchFilteredInvoices(query, currentPage);
+export default function EmployyeeTable({ data }) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
@@ -15,9 +10,11 @@ export default function OrderTable({ typeTable, data }) {
           <table className="table">
             <thead>
               <tr>
-                {typeTable.map((order) => {
-                  return <th scope="col">{order}</th>;
-                })}
+                <th scope="col">Ho va ten</th>
+                <th scope="col">So dien thoai</th>
+                <th scope="col">Dia chi</th>
+                <th scope="col">Vi tri</th>
+                <th scope="col">Email</th>
               </tr>
             </thead>
             <tbody>

@@ -20,20 +20,6 @@ export async function getEmployee() {
     const data = await getData(
       "https://magicpost-uet.onrender.com/api/employee/get"
     );
-    // console.log(data);
-    // const fetcher = (url, token) =>
-    //   fetch(url, {
-    //     headers: new Headers({
-    //       "Content-Type": "application/x-www-form-urlencoded",
-    //       Authorization: `Bearer ${token}`,
-    //     }),
-    //   }).then((res) => res.json());
-    // const { data, error } = useSWR(
-    //   ["https://magicpost-uet.onrender.com/api/employee/get", tokendata],
-    //   fetcher
-    // );
-    // if (error) console.log(error);
-    // if (data) console.log(data);
     const dat = [];
     for (var i in data) {
       dat.push(data[i]);
@@ -45,6 +31,22 @@ export async function getEmployee() {
   }
 }
 
-export default async function findOrder(orderID) {}
+export async function getOrder() {
+  try {
+    const data = await getData(
+      "https://magicpost-uet.onrender.com/api/order/getall"
+    );
+    const dat = [];
+    for (var i in data) {
+      dat.push(data[i]);
+    }
+    return dat;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw Error("Failed to fetch the latest invoices.");
+  }
+}
+
+export async function findOrder(orderID) {}
 
 export const icon = {};

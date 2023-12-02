@@ -3,10 +3,23 @@
   grid-template-columns: 85% 15%;
 }
 
-.box-search {
-  /* height: 50px; */
-}
 .search-input {
   width: 97%;
   height: 100%;
+}
+
+#form-employee > div {
+  /* background-color: red; */
+  margin-top: 30px;
+}
+
+#form-employee > div label {
+  font-size: 20px;
+}
+
+.address {
+  font-size: 10px;
+  margin-left: 10px;
+  color: gray;
+  background-color: transparent;
 }

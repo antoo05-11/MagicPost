@@ -14,6 +14,18 @@ export function CreateEmployee() {
     </Button>
   );
 }
+export function CreateOrder() {
+  const route = useRouter();
+  return (
+    <Button
+      onClick={() => {
+        route.push("/employees/list_ordered/create");
+      }}
+    >
+      Create
+    </Button>
+  );
+}
 export function UpdateInvoice({ id }) {
   const route = useRouter();
 
