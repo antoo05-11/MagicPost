@@ -1,5 +1,4 @@
 "use client";
-import style from "@/css/employeePage.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import OrderTable from "@/components/employee/order-table";
 import useSWR from "swr";

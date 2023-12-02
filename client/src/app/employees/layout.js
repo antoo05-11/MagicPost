@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 import { Breadcrumb, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SideBar from "@/components/employee/sidebar/sidebar";
-import "@/css/components/sidebar.css";
+import "@/css/employee/employee-page.css";
 import { useParams, usePathname } from "next/navigation";
 const roleFunc = {
   list_employee: {
