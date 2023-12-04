@@ -14,7 +14,7 @@ export default function Pagination({ totalPage }) {
     return `${pathname}?${params.toString()}`;
   };
   const currentPage = Number(searchParams.get("page")) || 1;
-  const allPages = generatePagination(currentPage, 9);
+  const allPages = generatePagination(currentPage, totalPage + 1);
   console.log(allPages);
   return (
     <ul className="pagination position-absolute top-100 start-50 translate-middle">
