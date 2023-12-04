@@ -4,7 +4,7 @@ import Pagination from "@/components/employee/pagination";
 import SearchEmployee from "@/components/employee/search";
 import OrderTable from "@/components/employee/order-table";
 const item_per_page = 6;
-import "@/css/list_employee.css";
+import "@/css/employee/list_employee.css";
 export default async function page({ searchParams: { query, page } }) {
   const currentQuery = query || "";
   const currentPage = Number(page) || 1;

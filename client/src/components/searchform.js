@@ -1,6 +1,5 @@
 "use client";
 
-import "@/css/searchform.css";
 function SearchForm({ tracuu }) {
   return (
     <>

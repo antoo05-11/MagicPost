@@ -2,7 +2,6 @@
 import SearchForm from "@/components/searchform";
 // import Tables from "@/components/tables";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
-import "@/css/page.css";
 import Image from "react-bootstrap/Image";
 import style from "@/css/customer/lookUpTransaction.module.css";
 // import Table from "@/components/tables";

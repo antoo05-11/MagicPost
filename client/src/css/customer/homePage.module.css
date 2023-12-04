@@ -1,12 +1,30 @@
+.homePageContainer {
+    background-image: url("/bg.png");
+    background-color: #3DB2FF;
+}
+
 /* === Section 1: Banner Styles === */
 .banner {
-    padding: 0;
-    margin-top: 75px;
+    background-image: url("/hero-header-bg.png");
+    background-position: top center;
+    background-size: cover;
+    padding: 100px 0px;
+}
+
+.bannerItemContainer {
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .banner {
+        padding: 100px 0 0 0;
+    }
 }
 
 /* === Section 2: Lookup Styles === */
 .lookup {
     background-color: #FFB830;
+    border-radius: 30px;
     padding: 30px 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-size: clamp(0.875rem, 0.83rem + 0.17vw, 1rem);
@@ -42,9 +60,9 @@
     text-decoration: underline;
 }
 
-@media (min-width: 320px) {
-    .lookupItem {
-        margin-top: 16px;
+@media (max-width: 767px) {
+    .lookup {
+        border-radius: 0px;
     }
 }
 
@@ -68,6 +86,11 @@
 .serviceTitle h2 {
     font-size: 1.25rem;
     font-size: clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
+}
+
+.serviceTitle h5 {
+    color: #FF2442;
+    font-weight: 700;
 }
 
 .serviceContainer {
@@ -101,7 +124,7 @@
 }
 
 .serviceItem:hover {
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 @media (max-width: 767px) {
@@ -127,36 +150,54 @@
 }
 
 .aboutUsTitle {
-    background-color: #f5f5f5;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 100px 70px;
+    text-align: center;
 }
 
+.aboutUsTitle h2 {
+    font-size: 1.25rem;
+    font-size: clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
+}
+
+.aboutUsTitle h5 {
+    color: #FF2442;
+    font-weight: 700;
+}
 
 .aboutUsWrapperItem {
-    margin-left: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 60px 0;
+
+}
+
+.aboutUsItem {
+    align-items: center;
+}
+
+.aboutUsItem p,
+.aboutUsItem h5 {
+    margin: 0;
+    color: white;
 }
 
 .aboutUsItem h5 {
-    font-weight: 600;
-    margin-top: 10px;
+    font-weight: 700;
 }
 
+.aboutUs svg {
+    color: #FFB830;
+}
 
 @media (max-width: 768px) {
-    .aboutUsTitle {
-        text-align: center;
+    .aboutUsWrapperItem{
+        margin: 0;
     }
-
-    .aboutUsWrapperItem {
-        margin: 30px 0;
+    .aboutUsItem svg {
+        width: 3em;
+        height: 3em;
     }
-
-    .aboutUsItem {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+    .aboutUsItem{
+        margin-top: 30px;
     }
 }
