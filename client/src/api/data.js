@@ -15,7 +15,7 @@ async function getData(url) {
   return dataRes;
 }
 
-export async function getEmployee() {
+export async function getEmployee(query) {
   try {
     const data = await getData(
       "https://magicpost-uet.onrender.com/api/employee/get"
@@ -31,7 +31,7 @@ export async function getEmployee() {
   }
 }
 
-export async function getOrder() {
+export async function getOrder(query) {
   try {
     const data = await getData(
       "https://magicpost-uet.onrender.com/api/order/getall"

@@ -1,19 +1,35 @@
 "use client";
-import Image from "next/image";
+import "@/css/employee/table.css";
 import { UpdateInvoice } from "./button";
 export default function OrderTable({ data }) {
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
         <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <table className="table">
+          <table className="table table-bordered">
             <thead>
               <tr>
-                <th scope="col">Ma don hang</th>
-                <th scope="col">Nguoi gui</th>
-                <th scope="col">Nguoi nhan</th>
-                <th scope="col">Dia chi nguoi nhan</th>
-                <th scope="col">Trang thai</th>
+                <th scope="col" className="head-table">
+                  Ma don hang
+                </th>
+                <th scope="col" className="head-table">
+                  Nguoi gui
+                </th>
+                <th scope="col" className="head-table">
+                  Nguoi nhan
+                </th>
+                <th scope="col" className="head-table">
+                  Dia chi nguoi nhan
+                </th>
+                <th scope="col" className="head-table">
+                  Trang thai
+                  <select className="state-order">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                  </select>
+                </th>
               </tr>
             </thead>
             <tbody>

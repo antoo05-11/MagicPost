@@ -13,7 +13,7 @@ export default async function page({ searchParams: { query, page } }) {
   const totalPage = data.length / item_per_page;
   return (
     <>
-      <p id="tittlee">Danh sach nhan vien</p>
+      <h2 id="tittlee">Danh sach nhan vien</h2>
       <div id="create-search">
         <SearchEmployee />
         <CreateEmployee />

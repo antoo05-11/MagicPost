@@ -1,8 +1,10 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Script from "next/script";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import "bootstrap/js/src/dropdown.js";
 export default function SideBar({ role }) {
   const route = useRouter();
   return (
@@ -24,6 +26,7 @@ export default function SideBar({ role }) {
         >
           Close &times;
         </button>
+
         <hr />
         {role?.map((roro) => {
           return (
@@ -39,7 +42,37 @@ export default function SideBar({ role }) {
         })}
 
         <hr />
-        <button onClick={() => signOut()}>Sign Out</button>
+        <div className="position-absolute bottom-0 start-50 translate-middle d-flex">
+          <div class="dropdown">
+            <button
+              class="btn btn-secondary d-flex justify-content-center"
+              id="btn-logout"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <FontAwesomeIcon icon="fa-solid fa-user-tie" size="2xl" />
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="#" onClick={() => signOut()}>
+                  Logout
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="/employees/information">
+                  Information
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  Setting
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div style={{ marginLeft: "10px" }}>Do Minh Duy</div>
+        </div>
       </div>
       {/* <script src="/static/script.js"></script> */}
     </div>
