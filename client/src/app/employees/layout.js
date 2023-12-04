@@ -22,8 +22,6 @@ const role = {
   staff: [roleFunc["list_employee"], roleFunc["list_order"]],
 };
 export default function EmployeesLayout({ children }) {
-  // const pathname = usePathname();
-  // const array = pathname.split("/");
   return (
     <>
       <SideBar role={role.staff} />
@@ -57,7 +55,7 @@ export default function EmployeesLayout({ children }) {
           <Container>{children}</Container>
         </section>
       </div>
-      <script src="/static/script.js"></script>
+      {/* <script src="/static/script.js"></script>  */}
     </>
   );
 }
