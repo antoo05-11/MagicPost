@@ -17,6 +17,7 @@ import { CiMedicalCase } from "react-icons/ci";
 import { FaRegBuilding } from "react-icons/fa";
 import { BsPeople } from "react-icons/bs";
 import { RiTruckLine } from "react-icons/ri";
+import { RiUserHeartLine } from "react-icons/ri";
 import style from "@/css/customer/homePage.module.css";
 
 export default function HomePage() {
@@ -157,6 +158,16 @@ export default function HomePage() {
               <Col xs={10}>
                 <h5>BƯU CỤC RỘNG KHẮP</h5>
                 <p>Mạng lưới bưu cục rộng khắp hoạt động trên toàn quốc</p>
+              </Col>
+            </Row>
+
+            <Row className={style.aboutUsItem}>
+              <Col xs={2} >
+                <RiUserHeartLine size={"5em"} />
+              </Col>
+              <Col xs={10}>
+                <h5>KHÁCH HÀNG TIN DÙNG</h5>
+                <p>Số lượng khách hàng đông đảo trải dài khắp 63 tỉnh thành</p>
               </Col>
             </Row>
 
