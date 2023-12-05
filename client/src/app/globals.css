@@ -1,3 +1,11 @@
-/* *{
-  background-color: darkblue;
-} */
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --background-color: #3DB2FF;
+  --highlight-color: #FFB830;
+  --title-color: #FF2442;
+  --sub-title-color: #0072bc;
+  --container-background-color: #f7f7f7;
+}

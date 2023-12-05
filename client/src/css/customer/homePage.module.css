@@ -1,6 +1,6 @@
 .homePageContainer {
     background-image: url("/bg.png");
-    background-color: #3DB2FF;
+    background-color: var(--background-color);
 }
 
 /* === Section 1: Banner Styles === */
@@ -23,7 +23,7 @@
 
 /* === Section 2: Lookup Styles === */
 .lookup {
-    background-color: #FFB830;
+    background-color: var(--highlight-color);
     border-radius: 30px;
     padding: 30px 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -40,7 +40,7 @@
 .lookupContainer p,
 .lookupContainer label,
 .lookup svg {
-    color: #0072bc;
+    color: var(--sub-title-color);
 }
 
 .lookupItem {
@@ -89,7 +89,7 @@
 }
 
 .serviceTitle h5 {
-    color: #FF2442;
+    color: var(--title-color);
     font-weight: 700;
 }
 
@@ -100,7 +100,7 @@
 
 .serviceContainer h4,
 .serviceContainer svg {
-    color: #FFB830;
+    color: var(--highlight-color);
     margin-bottom: 15px;
     font-weight: 700;
     font-size: clamp(1rem, 0.9285714285714286rem + 0.35714285714285715vw, 1.25rem);
@@ -159,7 +159,7 @@
 }
 
 .aboutUsTitle h5 {
-    color: #FF2442;
+    color: var(--title-color);
     font-weight: 700;
 }
 
@@ -186,7 +186,7 @@
 }
 
 .aboutUs svg {
-    color: #FFB830;
+    color: var(--highlight-color);
 }
 
 @media (max-width: 768px) {

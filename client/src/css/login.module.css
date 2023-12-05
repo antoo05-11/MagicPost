@@ -1,11 +1,8 @@
 .container {
   height: 100vh;
-  background-color: #3DB2FF;
+  background-color: var(--background-color);
   background-image: url("/bg.png");
 }
-
-
-
 
 .inputField input {
   background: none;
