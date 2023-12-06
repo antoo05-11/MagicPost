@@ -18,20 +18,23 @@ MagicPost Node.js server
       - [Sample request JSON](#sample-request-json-1)
       - [Sample response JSON](#sample-response-json-3)
   - [Order API](#order-api)
-    - [Get all orders](#get-all-orders)
+    - [Get all orders (with current working address)](#get-all-orders-with-current-working-address)
       - [Sample response JSON](#sample-response-json-4)
     - [Get order by ID](#get-order-by-id)
       - [Sample Response JSON](#sample-response-json-5)
     - [Create new order](#create-new-order)
       - [Sample Request JSON](#sample-request-json-2)
       - [Sample Response JSON](#sample-response-json-6)
+  - [Transaction Point API](#transaction-point-api)
+    - [Get transaction point by address](#get-transaction-point-by-address)
+      - [Sample response JSON](#sample-response-json-7)
   - [Address API](#address-api)
     - [Get all communes/districts/provinces](#get-all-communesdistrictsprovinces)
-      - [Sample response JSON](#sample-response-json-7)
-    - [Get all districts by provinceID](#get-all-districts-by-provinceid)
       - [Sample response JSON](#sample-response-json-8)
-    - [Get all communes by districtID](#get-all-communes-by-districtid)
+    - [Get all districts by provinceID](#get-all-districts-by-provinceid)
       - [Sample response JSON](#sample-response-json-9)
+    - [Get all communes by districtID](#get-all-communes-by-districtid)
+      - [Sample response JSON](#sample-response-json-10)
 - [Database Design](#database-design)
 # API List
 
@@ -144,38 +147,23 @@ MagicPost Node.js server
 
 ## Order API
 
-### Get all orders
+### Get all orders (with current working address)
 
 | Request Requirement | Content                                              |
 | ------------------- | ---------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/order/getall  |
 | HTTP method         | GET                                                  |
 | Token Required      | YES                                                  |
-| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER |
+| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER, GOODS_POINT_EMPLOYEE, GOODS_POINT_HEADER  |
 
 #### Sample response JSON
 ```json
 [
     {
         "orderID": "1",
-        "senderID": 1,
-        "receiverID": 2,
         "sentTime": "2023-11-16T00:05:12.000Z",
         "receivedTime": "2023-11-17T00:05:15.000Z",
-        "failChoice": "return",
-        "mainPostage": 100000,
-        "addedPostage": 0,
-        "VATFee": 10000,
-        "otherFee": 0,
-        "receiverCOD": 0,
-        "receiverOtherFee": 0,
-        "startTransactionPointID": 45,
-        "endTransactionPointID": 46,
-        "specialService": null,
-        "creatorID": 23000000,
-        "status": "delivering",
-        "createdAt": null,
-        "updatedAt": null
+        "status": "delivering"
     }
 ]
 ```
@@ -371,9 +359,9 @@ MagicPost Node.js server
 | Request Requirement | Content                                             |
 | ------------------- | --------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/http://localhost:3000/api/transactionPoint/get/?provinceID=?&districtID=?&communeID=? |
-| HTTP method         | POST                                                |
-| Token Required      | YES                                                 |
-| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE                          |
+| HTTP method         | GET                                                |
+| Token Required      | NO                                                 |
+| Roles Authorized    | NONE                          |
 
 #### Sample response JSON
 ```json

@@ -2,7 +2,7 @@ import path from 'path';
 import HttpException from '../../exceptions/http-exception';
 import { sequelize } from '../../models';
 const { QueryTypes } = require('sequelize');
-
+const { Op } = require('sequelize')
 const crypto = require('crypto');
 
 const db = require('../../models');
@@ -10,7 +10,10 @@ const Order = db.orders;
 const Goods = db.goods;
 const Customer = db.customers;
 const Address = db.addresses;
+const Process = db.processes;
+Process.belongsTo(Order, { foreignKey: 'orderID' });
 const fs = require('fs');
+const limitRecordsNum = 10;
 
 const getOrderByIDQueryPath = path.join(__dirname, '../../../queries/orders/order.select.sql');
 let getOrderByIDQuery = ''
@@ -20,11 +23,25 @@ try {
     console.error("Error reading file:", error);
 }
 
-export const getAllOrders = async (req, res) => {
-    const orders = await sequelize.query(getOrderByIDQuery, {
-        replacements: { orderID: 'AEX451934145VN' },
-        type: QueryTypes.SELECT
-    });
+export const getOrdersByWorkingRouteID = async (req, res) => {
+    const currentRoutingPointID = req.user.workingPointID;
+    let page = req.query.page;
+    if (page == undefined) page = 1;
+    const orders = await Order.findAll({
+        offset: ((page - 1) * limitRecordsNum),
+        limit: limitRecordsNum,
+        subQuery: false,
+        where: {
+            orderID: {
+                [Op.in]: sequelize.literal(`
+                (SELECT DISTINCT orderID
+                FROM processes
+                WHERE (currentRoutingPointID = ${currentRoutingPointID} 
+                    OR nextRoutingPointID = ${currentRoutingPointID}))`)
+            }
+        },
+        attributes: ['orderID', 'sentTime', 'receivedTime', 'status']
+    })
     return res.status(200).json(orders);
 }
 
