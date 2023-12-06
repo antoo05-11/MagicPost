@@ -1,15 +1,144 @@
+MagicPost Node.js server
+=======
+
+# Table of content
+- [API List](#api-list)
+  - [Auth API](#auth-api)
+    - [Log in](#log-in)
+  - [Employee API](#employee-api)
+    - [Get all employees](#get-all-employees)
+    - [Get employee by employeeID](#get-employee-by-employeeid)
+    - [Add new employee](#add-new-employee)
+  - [Order API](#order-api)
+    - [Get all orders](#get-all-orders)
+    - [Create new order](#create-new-order)
+  - [Address API](#address-api)
+    - [Get all communes/districts/provinces](#get-all-communesdistrictsprovinces)
+      - [Sample response JSON](#sample-response-json-6)
+    - [Get all districts by provinceID](#get-all-districts-by-provinceid)
+      - [Sample response JSON](#sample-response-json-7)
+    - [Get all communes by districtID](#get-all-communes-by-districtid)
+      - [Sample response JSON](#sample-response-json-8)
+- [Database Design](#database-design)
 # API List
+
+## Auth API
+
+### Log in
+
+#### Sample request JSON
+
+```json
+{
+    "employeeID": "23000014",
+    "password": "password"
+}
+```
+
+#### Sample response JSOn
+
+```json
+{
+    "user": {
+        "employeeID": 23000014,
+        "identifier": "010203090730",
+        "phoneNumber": "0123457789",
+        "fullName": "Nguyễn Thị Hòa",
+        "addressID": 91,
+        "role": "TRANSACTION_POINT_EMPLOYEE",
+        "email": "hoanguyen@gmail.com",
+        "workingPointID": 47
+    },
+    "accessToken": "sample-token"
+}
+```
+
+## Employee API
+
+### Get all employees
+
+| Request Requirement | Content                                                |
+| ------------------- | ------------------------------------------------------ |
+| API URL             | https://magicpost-uet.onrender.com/api/employee/getall |
+| HTTP method         | GET                                                    |
+| Token Required      | YES                                                    |
+| Roles Authorized    | TRANSACTION_POINT_HEADER                               |
+
+#### Sample response JSON
+```json
+[
+    {
+        "employeeID": 23000000,
+        "identifier": "010203000000",
+        "phoneNumber": "0123456789",
+        "fullName": "Nguyễn Hòa Bình",
+        "role": "TRANSACTION_POINT_EMPLOYEE",
+        "email": "hoabinhnguyen@gmail.com",
+        "workingPointID": 45,
+        "address": {
+            "province": "Tỉnh Quảng Ninh",
+            "district": "Thành phố Uông Bí",
+            "commune": "Phường Thanh Sơn",
+            "detail": "435 Trần Khánh Dư"
+        }
+    }
+]
+```
+
+### Get employee by employeeID
+
+| Request Requirement | Content                                                 |
+| ------------------- | ------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/employee/get/:id |
+| HTTP method         | POST                                                    |
+| Token Required      | YES                                                     |
+| Roles Authorized    | TRANSACTION_POINT_HEADER                                |
+
+#### Sample response JSON
+```json
+```
+
+### Add new employee
+
+| Request Requirement | Content                                             |
+| ------------------- | --------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/employee/add |
+| HTTP method         | GET                                                 |
+| Token Required      | YES                                                 |
+| Roles Authorized    | TRANSACTION_POINT_HEADER                            |
+
+#### Sample request JSON
+```json
+{
+    "identifier": "040508576730",
+    "phoneNumber": "0123457589",
+    "fullName": "Thái Hoàng Linh",
+    "address": {
+        "detail": "Số 100, đường 19/4",
+        "communeID": "5355",
+        "districtID": "302",
+        "provinceID": "27" 
+    },
+    "transactionPointID": null,
+    "goodPointID": null,
+    "email": "linhhoang@yahoo.com",
+    "role": null
+}
+```
+#### Sample response JSON
+```json
+```
 
 ## Order API
 
-### Get all order
+### Get all orders
 
-| Request Requirement | Content                                             |
-|---------------------|-----------------------------------------------------|
-| API URL             | https://magicpost-uet.onrender.com/api/order/getall |
-| HTTP method         | GET                                                |
-| Token Required      | YES                                                 |
-| Roles Authorized     | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER                          |
+| Request Requirement | Content                                              |
+| ------------------- | ---------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/order/getall  |
+| HTTP method         | GET                                                  |
+| Token Required      | YES                                                  |
+| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER |
 
 #### Sample response JSON
 ```json
@@ -38,14 +167,77 @@
 ]
 ```
 
+### Get order by ID
+
+| Request Requirement | Content                                              |
+| ------------------- | ---------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/order/get/:id |
+| HTTP method         | GET                                                  |
+| Token Required      | YES                                                  |
+| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER |
+
+#### Sample Response JSON
+```json
+{
+    "order": {
+        "sender": {
+            "fullname": "Trần Vương Khánh",
+            "phoneNumber": "0123456789",
+            "address": {
+                "detail": "Số 1, đường Xuân Thủy",
+                "communeName": "Phường Dịch Vọng Hậu",
+                "districtName": "Quận Cầu Giấy",
+                "provinceName": "Thành phố Hà Nội"
+            }
+        },
+        "receiver": {
+            "fullname": "Vương Khánh Linh",
+            "phoneNumber": "0123456789",
+            "address": {
+                "detail": "435 Trần Khánh Dư",
+                "communeName": "Phường Thanh Sơn",
+                "districtName": "Thành phố Uông Bí",
+                "provinceName": "Tỉnh Quảng Ninh"
+            }
+        },
+        "creator": {
+            "creatorID": 23000014,
+            "creatorName": "Nguyễn Thị Hòa"
+        },
+        "failChoice": "return",
+        "mainPostage": 1000,
+        "addedPostage": 1000,
+        "VATFee": 1000,
+        "otherFee": 1000,
+        "receiverCOD": 1000,
+        "receiverOtherFee": 1000,
+        "specialService": "",
+        "orderID": "AEX451934145VN",
+        "startTransactionPointID": 47,
+        "endTransactionPointID": 46,
+        "createdAt": "2023-11-30T13:00:31.000Z",
+        "updatedAt": "2023-11-30T13:00:31.000Z"
+    },
+    "goodsList": [
+        {
+            "goodsID": 10,
+            "orderID": "AEX451934145VN",
+            "goodsType": "document",
+            "realWeight": 634,
+            "convertedWeight": 643
+        }
+    ]
+}
+```
+
 ### Create new order
 
 | Request Requirement | Content                                             |
-|---------------------|-----------------------------------------------------|
+| ------------------- | --------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/order/create |
 | HTTP method         | POST                                                |
 | Token Required      | YES                                                 |
-| Roles Authorized     | TRANSACTION_POINT_EMPLOYEE                          |
+| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE                          |
 
 
 #### Sample Request JSON
@@ -140,6 +332,52 @@
         }
     ]
 }
+```
+## Address API
+### Get all communes/districts/provinces
+| Request Requirement | Content                                                                                                                                                                                                                       |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/administrative/province/getall  <br/> https://magicpost-uet.onrender.com/api/administrative/district/getall <br/> https://magicpost-uet.onrender.com/api/administrative/commune/getall |
+| HTTP method         | GET                                                                                                                                                                                                                           |
+| Token Required      | YES                                                                                                                                                                                                                           |
+| Roles Authorized    | NONE                                                                                                                                                                                                                          |
+#### Sample response JSON
+```json
+[
+    {
+        "name":"Thành phố Hà Nội", "provinceID/districtID/communeID": 1
+    }
+]
+```
+### Get all districts by provinceID
+| Request Requirement | Content                                                                           |
+| ------------------- | --------------------------------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/administrative/district/getall/:provinceID |
+| HTTP method         | GET                                                                               |
+| Token Required      | YES                                                                               |
+| Roles Authorized    | NONE                                                                              |
+#### Sample response JSON
+```json
+[
+    {
+        "name":"Quận 1","districtID":1474,"provinceID":63
+    }
+]
+```
+### Get all communes by districtID
+| Request Requirement | Content                                                                         |
+| ------------------- | ------------------------------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/administrative/commune/getall/:communeID |
+| HTTP method         | GET                                                                             |
+| Token Required      | YES                                                                             |
+| Roles Authorized    | NONE                                                                            |
+#### Sample response JSON
+```json
+[
+    {
+        "name":"Phường Phúc Xá","communeID":1,"districtID":1
+    }
+]
 ```
 # Database Design
 ![Alt text](drawSQL-magicpost-export-2023-11-15.png)

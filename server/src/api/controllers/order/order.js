@@ -1,5 +1,7 @@
+import path from 'path';
 import HttpException from '../../exceptions/http-exception';
 import { sequelize } from '../../models';
+const { QueryTypes } = require('sequelize');
 
 const crypto = require('crypto');
 
@@ -8,11 +10,79 @@ const Order = db.orders;
 const Goods = db.goods;
 const Customer = db.customers;
 const Address = db.addresses;
+const fs = require('fs');
+
+const getOrderByIDQueryPath = path.join(__dirname, '../../../queries/orders/order.select.sql');
+let getOrderByIDQuery = ''
+try {
+    getOrderByIDQuery = fs.readFileSync(getOrderByIDQueryPath, 'utf8');
+} catch (error) {
+    console.error("Error reading file:", error);
+}
 
 export const getAllOrders = async (req, res) => {
-    const orders = await Order.findAll();
-    console.log(`Random number chosen from (0, 1, 2): ${generateOrderID()}`);
-    return res.status(200).json(orders)
+    const orders = await sequelize.query(getOrderByIDQuery, {
+        replacements: { orderID: 'AEX451934145VN' },
+        type: QueryTypes.SELECT
+    });
+    return res.status(200).json(orders);
+}
+
+export const getOrderByID = async (req, res) => {
+    const orders = await sequelize.query(getOrderByIDQuery, {
+        replacements: { orderID: req.params.id },
+        type: QueryTypes.SELECT
+    });
+    const order = orders[0];
+    const goodsList = await Goods.findAll({
+        where: {
+            orderID: order.orderID
+        }
+    })
+    const result = {
+        order: {
+            sender: {
+                fullname: order.senderFullName,
+                phoneNumber: order.senderPhoneNumber,
+                address: {
+                    detail: order.senderAddressDetail,
+                    communeName: order.senderCommuneName,
+                    districtName: order.senderDistrictName,
+                    provinceName: order.senderProvinceName
+                }
+            },
+            receiver: {
+                fullname: order.receiverFullName,
+                phoneNumber: order.receiverPhoneNumber,
+                address: {
+                    detail: order.receiverAddressDetail,
+                    communeName: order.receiverCommuneName,
+                    districtName: order.receiverDistrictName,
+                    provinceName: order.receiverProvinceName
+                }
+            },
+            creator: {
+                creatorID: order.creatorID,
+                creatorName: order.creatorName
+            },
+            failChoice: order.failChoice,
+            mainPostage: order.mainPostage,
+            addedPostage: order.addedPostage,
+            VATFee: order.VATFee,
+            otherFee: order.otherFee,
+            receiverCOD: order.receiverCOD,
+            receiverOtherFee: order.receiverOtherFee,
+            specialService: order.specialService,
+            orderID: order.orderID,
+            startTransactionPointID: order.startTransactionPointID,
+            endTransactionPointID: order.endTransactionPointID,
+            createdAt: order.createdAt,
+            updatedAt: order.updatedAt
+        },
+        goodsList: goodsList
+    };
+
+    return res.status(200).json(result);
 }
 
 export const createOrder = async (req, res) => {

@@ -8,6 +8,11 @@ import { generateRandomPassword, normalizeName } from "../../../utils";
 import HttpException from "../../exceptions/http-exception";
 
 export const getAllEmployees = async (req, res) => {
+    let pageIndex = req.query.page;
+    if(pageIndex == undefined) {
+        pageIndex = 1
+    }
+    
     const employees = await Employee.findAll();
     let processedResult = [];
     for (const employee of employees) {
