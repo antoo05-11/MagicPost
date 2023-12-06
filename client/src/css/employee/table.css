@@ -1,0 +1,12 @@
+.state-order {
+  margin-left: 10px;
+  width: 20px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.head-table {
+  align-content: center;
+  text-align: center;
+}

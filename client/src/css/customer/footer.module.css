@@ -1,5 +1,5 @@
 .footer {
-    background-color: #3DB2FF;
+    background-color: var(--highlight-color);
     color: #fff !important;
     font-weight: 500;
     margin-top: 50px;
@@ -23,5 +23,4 @@
 .footerMenu {
     list-style: none;
     padding: 0;
-
 }

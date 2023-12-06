@@ -7,6 +7,8 @@
   overflow: auto;
   left: 0;
   top: 0;
+  justify-content: center;
+  align-items: center;
   /* display: none; */
 }
 
@@ -98,4 +100,21 @@
 #dashboard {
   display: grid;
   grid-template-columns: auto auto auto auto;
+}
+
+#btn-logout {
+  /* position: absolute; */
+  /* bottom: 5%; */
+  width: 50px;
+  height: 50px;
+  /* margin-left: 30px; */
+  /* margin-right: auto; */
+  /* right: 0;
+  left: 0; */
+  /* margin-left: auto; */
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-radius: 50%;
+  background-color: gray;
 }

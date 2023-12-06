@@ -1,5 +1,6 @@
 "use client";
 
+import "@/app/globals.css";
 import { Inter } from "next/font/google";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { library } from "@fortawesome/fontawesome-svg-core";

@@ -14,58 +14,76 @@ import { FaRegFile } from "react-icons/fa";
 import { GoRocket } from "react-icons/go";
 import { IoGiftOutline } from "react-icons/io5";
 import { CiMedicalCase } from "react-icons/ci";
-import style from "@/css/customer/home-page.module.css";
+import { FaRegBuilding } from "react-icons/fa";
+import { BsPeople } from "react-icons/bs";
+import { RiTruckLine } from "react-icons/ri";
+import { RiUserHeartLine } from "react-icons/ri";
+import style from "@/css/customer/homePage.module.css";
 
 export default function HomePage() {
   return (
-    <div>
-      <Header />
+    <div className={style.homePageContainer}>
+      <div className={style.banner}>
+        <Header />
 
-      {/* === Section 1: Banner === */}
-      <Container fluid className={style.banner}>
-        <Image src="banner.png" fluid />
-      </Container>
+        <Container>
+          <Row className={style.bannerItemContainer}>
+            <Col md={5} xl={6} xxl={5} className="text-md-start text-center py-8">
+              <h3 className="fw-normal">Nhà cung cấp tin cậy cho </h3>
+              <h3 className="fw-bolder">Dịch vụ chuyển phát nhanh</h3>
+              <h1 className="fw-bolder">MAGIC POST</h1>
+              <p>Cùng bạn đến mọi miền tổ quốc</p>
+            </Col>
+            <Col md={7} xl={6} xxl={7} className="text-center">
+              <Image src="/hero.png" className="pt-6 pt-md-0 w-100"></Image>
+            </Col>
+          </Row>
+        </Container>
+      </div>
 
       {/* === Section 2: Lookup === */}
-      <Container fluid className={style.lookup}>
-        <Row className={style.lookupContainer}>
-          <Col xs={12} md={6}>
-            <Form>
-              <Form.Label className="px-2">
-                <MdMyLocation size={"1em"} />
-                Tra cứu bưu gửi
-              </Form.Label>
-              <InputGroup>
-                <Form.Control
-                  type="text"
-                  id="inputCode"
-                  name="code"
-                  formMethod="get"
-                  placeholder="Nhập mã bưu gửi"
-                  className="rounded-pill"
-                />
-                <Button className="rounded-pill mx-2">🔍</Button>
-              </InputGroup>
-            </Form>
-          </Col>
-          <Col xs={6} md={2} className={`${style.lookupItem} text-center mt-3 mt-md-0`}>
-            <Link href={"/customer/LockupOrders"}>
-              <LiaMapMarkedAltSolid size={'4em'} />
-              <p>Tìm kiếm bưu cục</p>
-            </Link>
-          </Col>
-          <Col xs={6} md={2} className={`${style.lookupItem} text-center mt-3 mt-md-0`}>
-            <Link href={"/customer/EstimateCost"}>
-              <PiMoneyDuotone size={'4em'} />
-              <p>Ước tính phí</p>
-            </Link>
-          </Col>
-        </Row>
+      <Container className={style.lookup}>
+        <Container>
+          <Row className={style.lookupContainer}>
+            <Col xs={12} md={6}>
+              <Form>
+                <Form.Label className="px-2">
+                  <MdMyLocation size={"1em"} />
+                  Tra cứu bưu gửi
+                </Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    type="text"
+                    id="inputCode"
+                    name="code"
+                    formMethod="get"
+                    placeholder="Nhập mã bưu gửi"
+                    className="rounded-pill"
+                  />
+                  <Button className="rounded-pill mx-2">🔍</Button>
+                </InputGroup>
+              </Form>
+            </Col>
+            <Col xs={6} md={2} className={`${style.lookupItem} text-center mt-3 mt-md-0`}>
+              <Link href={"/customer/LockupOrders"}>
+                <LiaMapMarkedAltSolid size={'4em'} />
+                <p>Tìm kiếm bưu cục</p>
+              </Link>
+            </Col>
+            <Col xs={6} md={2} className={`${style.lookupItem} text-center mt-3 mt-md-0`}>
+              <Link href={"/customer/EstimateCost"}>
+                <PiMoneyDuotone size={'4em'} />
+                <p>Ước tính phí</p>
+              </Link>
+            </Col>
+          </Row>
+        </Container>
       </Container>
 
       {/* === Section 3: Service === */}
       <Container className={style.service}>
         <Row className={style.serviceTitle}>
+          <h5>DỊCH VỤ</h5>
           <h2>Dịch vụ nổi bật</h2>
         </Row>
 
@@ -121,46 +139,60 @@ export default function HomePage() {
       </Container>
 
       {/* === Section 4: About us === */}
-      <Container className={style.aboutUs} fluid>
-        <Row>
-          {/* aboutUsTitle */}
-          <Col className={style.aboutUsTitle} lg={5} md={12}>
-            <h2>Về chúng tôi</h2>
-            <p>
-              J&T Express là thương hiệu chuyển phát nhanh dựa trên sự phát triển của công nghệ và Internet. Chúng tôi sở hữu mạng lưới rộng khắp nhằm hỗ trợ các hoạt động giao nhận hàng hóa nhanh chóng không chỉ ở nội thành mà còn ở ngoại thành và các vùng xa của các tỉnh thành trong cả nước Việt Nam.
-            </p>
-          </Col>
+      <Container className={style.aboutUs} >
+        <Row className={style.aboutUsTitle}>
+          <h5>VỀ CHÚNG TÔI</h5>
+          <h2>Dịch vụ chuyển phát nhanh chuyên nghiệp</h2>
+        </Row>
 
-          {/* aboutUsWrapperItem */}
-          <Col className={style.aboutUsWrapperItem}>
-            <Row>
-              <Col lg={5} md={12} className={style.aboutUsItem}>
-                <Image src="/63tinh-thanh.png" />
-                <h5>63 TỈNH THÀNH</h5>
-                <p>Phủ sóng khắp 63 tỉnh thành</p>
+        <Row>
+          <Col xs={12} md={6}>
+            <Image src="/22.png" className="pt-6 pt-md-0 w-100"></Image>
+          </Col>
+          <Col className={style.aboutUsWrapperItem} xs={12} md={6}>
+
+            <Row className={style.aboutUsItem}>
+              <Col xs={2} >
+                <FaRegBuilding size={"5em"} />
               </Col>
-              <Col lg={5} md={12} className={style.aboutUsItem}>
-                <Image src="/1000xe.png" />
-                <h5>ĐA DẠNG PHƯƠNG TIỆN</h5>
-                <p>Đa dạng phương tiện vận chuyển hàng hóa</p>
+              <Col xs={10}>
+                <h5>BƯU CỤC RỘNG KHẮP</h5>
+                <p>Mạng lưới bưu cục rộng khắp hoạt động trên toàn quốc</p>
               </Col>
             </Row>
-            <Row>
-              <Col lg={5} md={12} className={style.aboutUsItem}>
-                <Image src="/1900bu-cuc.png" />
+
+            <Row className={style.aboutUsItem}>
+              <Col xs={2} >
+                <RiUserHeartLine size={"5em"} />
+              </Col>
+              <Col xs={10}>
+                <h5>KHÁCH HÀNG TIN DÙNG</h5>
+                <p>Số lượng khách hàng đông đảo trải dài khắp 63 tỉnh thành</p>
+              </Col>
+            </Row>
+
+            <Row className={style.aboutUsItem} >
+              <Col xs={2}>
+                <BsPeople size={"5em"} />
+              </Col>
+              <Col xs={10}>
                 <h5>NHÂN SỰ CHUYÊN NGHIỆP</h5>
                 <p>Nhân sự được đào tạo bài bản & chuyên nghiệp</p>
               </Col>
-              <Col lg={5} md={12} className={style.aboutUsItem}>
-                <Image src="/25000nhan-vien.png" />
-                <h5>BƯU CỤC RỘNG KHẮP</h5>
-                <p>Mạng lưới bưu cục rộng khắp hoạt động trên toàn quốc</p>
+            </Row>
+
+            <Row className={style.aboutUsItem}>
+              <Col xs={2}>
+                <RiTruckLine size={"5em"} />
+              </Col>
+              <Col xs={10}>
+                <h5>ĐA DẠNG PHƯƠNG TIỆN</h5>
+                <p>Đa dạng phương tiện vận chuyển hàng hóa</p>
               </Col>
             </Row>
           </Col>
         </Row>
       </Container>
-
 
       <Footer />
     </div>
