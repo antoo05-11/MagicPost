@@ -46,9 +46,19 @@ export const getOrderByID = async (req, res) => {
                 phoneNumber: order.senderPhoneNumber,
                 address: {
                     detail: order.senderAddressDetail,
-                    communeName: order.senderCommuneName,
-                    districtName: order.senderDistrictName,
-                    provinceName: order.senderProvinceName
+                    commune: {
+                        communeID: order.senderCommuneID,
+                        name: order.senderCommuneName
+                    },
+                    district: {
+                        districtID: order.senderDistrictID,
+                        name: order.senderDistrictName
+                    },
+                    province: {
+                        provinceID: order.senderProvinceID,
+                        name: order.senderProvinceName
+                    }
+
                 }
             },
             receiver: {
@@ -56,9 +66,18 @@ export const getOrderByID = async (req, res) => {
                 phoneNumber: order.receiverPhoneNumber,
                 address: {
                     detail: order.receiverAddressDetail,
-                    communeName: order.receiverCommuneName,
-                    districtName: order.receiverDistrictName,
-                    provinceName: order.receiverProvinceName
+                    commune: {
+                        communeID: order.receiverCommuneID,
+                        name: order.receiverCommuneName
+                    },
+                    districtName: {
+                        districtID: order.receiverDistrictID,
+                        name: order.receiverDistrictName
+                    },
+                    provinceName: {
+                        provinceID: order.receiverProvinceID,
+                        name: order.receiverProvinceName
+                    }
                 }
             },
             creator: {

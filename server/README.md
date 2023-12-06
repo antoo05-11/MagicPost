@@ -2,23 +2,36 @@ MagicPost Node.js server
 =======
 
 # Table of content
+- [MagicPost Node.js server](#magicpost-nodejs-server)
+- [Table of content](#table-of-content)
 - [API List](#api-list)
   - [Auth API](#auth-api)
     - [Log in](#log-in)
+      - [Sample request JSON](#sample-request-json)
+      - [Sample response JSOn](#sample-response-json)
   - [Employee API](#employee-api)
     - [Get all employees](#get-all-employees)
+      - [Sample response JSON](#sample-response-json-1)
     - [Get employee by employeeID](#get-employee-by-employeeid)
+      - [Sample response JSON](#sample-response-json-2)
     - [Add new employee](#add-new-employee)
+      - [Sample request JSON](#sample-request-json-1)
+      - [Sample response JSON](#sample-response-json-3)
   - [Order API](#order-api)
     - [Get all orders](#get-all-orders)
+      - [Sample response JSON](#sample-response-json-4)
+    - [Get order by ID](#get-order-by-id)
+      - [Sample Response JSON](#sample-response-json-5)
     - [Create new order](#create-new-order)
+      - [Sample Request JSON](#sample-request-json-2)
+      - [Sample Response JSON](#sample-response-json-6)
   - [Address API](#address-api)
     - [Get all communes/districts/provinces](#get-all-communesdistrictsprovinces)
-      - [Sample response JSON](#sample-response-json-6)
-    - [Get all districts by provinceID](#get-all-districts-by-provinceid)
       - [Sample response JSON](#sample-response-json-7)
-    - [Get all communes by districtID](#get-all-communes-by-districtid)
+    - [Get all districts by provinceID](#get-all-districts-by-provinceid)
       - [Sample response JSON](#sample-response-json-8)
+    - [Get all communes by districtID](#get-all-communes-by-districtid)
+      - [Sample response JSON](#sample-response-json-9)
 - [Database Design](#database-design)
 # API List
 
@@ -185,9 +198,18 @@ MagicPost Node.js server
             "phoneNumber": "0123456789",
             "address": {
                 "detail": "Số 1, đường Xuân Thủy",
-                "communeName": "Phường Dịch Vọng Hậu",
-                "districtName": "Quận Cầu Giấy",
-                "provinceName": "Thành phố Hà Nội"
+                "commune": {
+                    "communeID": 57,
+                    "name": "Phường Dịch Vọng Hậu"
+                },
+                "district": {
+                    "districtID": 5,
+                    "name": "Quận Cầu Giấy"
+                },
+                "province": {
+                    "provinceID": 1,
+                    "name": "Thành phố Hà Nội"
+                }
             }
         },
         "receiver": {
@@ -195,9 +217,18 @@ MagicPost Node.js server
             "phoneNumber": "0123456789",
             "address": {
                 "detail": "435 Trần Khánh Dư",
-                "communeName": "Phường Thanh Sơn",
-                "districtName": "Thành phố Uông Bí",
-                "provinceName": "Tỉnh Quảng Ninh"
+                "commune": {
+                    "communeID": 2464,
+                    "name": "Phường Thanh Sơn"
+                },
+                "districtName": {
+                    "districtID": 145,
+                    "name": "Thành phố Uông Bí"
+                },
+                "provinceName": {
+                    "provinceID": 14,
+                    "name": "Tỉnh Quảng Ninh"
+                }
             }
         },
         "creator": {
@@ -333,6 +364,37 @@ MagicPost Node.js server
     ]
 }
 ```
+
+## Transaction Point API
+### Get transaction point by address
+
+| Request Requirement | Content                                             |
+| ------------------- | --------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/http://localhost:3000/api/transactionPoint/get/?provinceID=?&districtID=?&communeID=? |
+| HTTP method         | POST                                                |
+| Token Required      | YES                                                 |
+| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE                          |
+
+#### Sample response JSON
+```json
+[
+    {
+        "address": {
+            "detail": "Số 1, đường Xuân Thủy",
+            "commune": {
+                "name": "Phường Dịch Vọng Hậu"
+            },
+            "district": {
+                "name": "Quận Cầu Giấy"
+            },
+            "province": {
+                "name": "Thành phố Hà Nội"
+            }
+        }
+    }
+]
+```
+
 ## Address API
 ### Get all communes/districts/provinces
 | Request Requirement | Content                                                                                                                                                                                                                       |
