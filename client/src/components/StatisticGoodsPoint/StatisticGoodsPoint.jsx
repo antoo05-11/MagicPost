@@ -6,12 +6,13 @@ import { Button } from 'react-bootstrap';
 const data = {
     series: [{
         name: 'Hàng gửi',
-        data: [31, 40, 28, 51, 42, 109, 100]
+        data: [55, 75, 22, 35, 50, 65, 80]
     }, {
         name: 'Hàng nhận',
-        data: [11, 32, 45, 32, 34, 52, 41]
+        data: [30, 60, 45, 20, 70, 55, 80]
     }],
-}
+};
+
 
 const options = {
     chart: {
@@ -48,7 +49,7 @@ const options = {
 
 };
 
-export default function AreaStatistic() {
+export default function StatisticGoodsPoint() {
     return (
         <Card title={"Điểm tập kết"}>
             <Chart type='area' options={options} height={205} series={data.series} />

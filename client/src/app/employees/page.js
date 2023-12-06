@@ -7,9 +7,11 @@ import { Container, Row, Col } from "react-bootstrap";
 import Card from "@/components/dashboard/cards";
 import DemoChart from "@/components/Chart/Chart";
 import { useParams, usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import Overview from "@/components/Overview/Overview";
 import Statistic from "@/components/Statistic/Statistic";
-import AreaStatistic from "@/components/AreaStatistic/AreaStatistic";
+import StatisticGoodsPoint from "@/components/StatisticGoodsPoint/StatisticGoodsPoint";
+import StatisticTransPoint from "@/components/StatisticTransPoint/StatisticTransPoint";
 
 export const orderDetails = [
   "nguoi gui",
@@ -31,7 +33,7 @@ export default function AdminPage() {
       {/* <DemoChart /> */}
       <Row >
         <Col xs={12}>
-          <Statistic />
+          <Statistic userRole={'leader'} />
         </Col>
       </Row>
 
@@ -41,14 +43,14 @@ export default function AdminPage() {
         </Col>
 
         <Col xs={12} md={4}>
-          <AreaStatistic />
+          <StatisticGoodsPoint />
         </Col>
 
         <Col xs={12} md={4}>
-          <AreaStatistic />
+          <StatisticTransPoint />
         </Col>
 
-        
+
       </Row>
 
     </div>

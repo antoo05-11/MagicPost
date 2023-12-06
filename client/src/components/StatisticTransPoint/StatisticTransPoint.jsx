@@ -1,45 +1,26 @@
-import Chart from "react-apexcharts";
-import { Container, Row, Col, Button } from "react-bootstrap";
-
+import React from 'react';
 import Card from "@/components/demoCard/card";
+import Chart from 'react-apexcharts';
+import { Button } from 'react-bootstrap';
+
+const data = {
+    series: [{
+        name: 'Hàng gửi',
+        data: [31, 40, 28, 51, 42, 109, 100]
+    }, {
+        name: 'Hàng nhận',
+        data: [11, 32, 45, 32, 34, 52, 41]
+    }],
+}
 
 const options = {
     chart: {
+        width: 380,
+        type: 'area',
         parentHeightOffset: 0,
         toolbar: { show: false }
     },
-    plotOptions: {
-        bar: {
-            borderRadius: 9,
-            distributed: true,
-            columnWidth: '40%',
-            endingShape: 'rounded',
-            startingShape: 'rounded'
-        }
-    },
-    stroke: {
-        width: 2,
-
-    },
-    legend: { show: false },
-    grid: {
-        strokeDashArray: 7,
-        padding: {
-            top: -1,
-            right: 0,
-            left: -12,
-            bottom: 5
-        }
-    },
     dataLabels: { enabled: false },
-    colors: [
-        // "#f5f5fa",
-        // "#f5f5fa",
-        // "#f5f5fa",
-        // "#3DB2FF",
-        // "#f5f5fa",
-        // "#f5f5fa"
-    ],
     states: {
         hover: {
             filter: { type: 'none' }
@@ -48,6 +29,7 @@ const options = {
             filter: { type: 'none' }
         }
     },
+    legend: { show: false },
     xaxis: {
         categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         tickPlacement: 'on',
@@ -63,13 +45,13 @@ const options = {
             formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}k`
         }
     }
-}
 
-export default function Overview() {
+};
+
+export default function StatisticTransPoint() {
     return (
-
-        <Card title={"Lợi nhuận tuần"}>
-            <Chart type='bar' height={205} options={options} series={[{ data: [37, 57, 45, 75, 57, 40, 65] }]} />
+        <Card title={"Điểm giao dịch"}>
+            <Chart type='area' options={options} height={205} series={data.series} />
             <p>
                 Your sales performance is 45% 😎 better compared to last month
             </p>
