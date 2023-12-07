@@ -13,7 +13,7 @@ employeeRoute.get("/get", verifyToken,
     (req, res, next) => authorize(req, res, next, [role.MANAGER, role.TRANSACTION_POINT_EMPLOYEE]),
     catchAsync(getAllEmployees));
 
-employeeRoute.get("/:id", catchAsync(getEmployeeInfo));
+employeeRoute.get("/:id/get", catchAsync(getEmployeeInfo));
 employeeRoute.post("/add", catchAsync(addNewEmployee));
 employeeRoute.put("/:id/edit", catchAsync(editEmployeeInfo));
 
