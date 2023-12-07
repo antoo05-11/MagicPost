@@ -54,11 +54,12 @@ export default function () {
             <Row>Hiển thị thông tin ở đây, display: none;</Row>
           </Col>
 
-          <Col>
+          <Col className={style.mapContainer}>
             <iframe
               src="https://www.google.com/maps/d/u/0/embed?mid=1VCEMjR_Ldo68vk5FiAWGf_7oV5r9PE8&ehbc=2E312F"
               width="640"
               height="480"
+              className={style.map}
             ></iframe>
           </Col>
         </Row>

@@ -22,3 +22,13 @@
     margin-top: 20px;
     background-color: var(--highlight-color);
 }
+
+.mapContainer {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.map {
+    margin-top: -150px;
+}

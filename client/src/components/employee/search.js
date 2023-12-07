@@ -1,7 +1,8 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
-export default function SearchEmployee() {
+import "@/css/employee/search.css";
+export default function SearchBox() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -16,20 +17,10 @@ export default function SearchEmployee() {
     replace(`${pathname}?${params.toString()}`);
   }, 300);
   return (
-    // <div className="box-search">
-    // <input
-    //   className="search-input"
-    // onChange={(e) => {
-    //   handleSearch(e.target.value);
-    // }}
-    //   placeholder="Search"
-    //   defaultValue={searchParams.get("query")?.toString()}
-    // />
-    // </div>
-    <div className="row input-group">
+    <div className="d-flex">
       <input
         type="text"
-        className="form-control col"
+        className="form-control"
         aria-label="Text input with segmented dropdown button"
         defaultValue={searchParams.get("query")?.toString()}
         onChange={(e) => {
@@ -43,7 +34,7 @@ export default function SearchEmployee() {
         <option value="3">Three</option>
       </select>
       <label className="input-group-text col-1" for="inputGroupSelect02">
-        Options
+        Search
       </label>
     </div>
   );
