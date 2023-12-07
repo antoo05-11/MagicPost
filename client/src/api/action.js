@@ -26,32 +26,39 @@ export async function login() {
   }
 }
 
-export async function addEmployee(infoEmployee) {
+export async function createEmployee(infoEmployee) {
   const data = {
-    identifier: infoEmployee?.identifier,
-    phoneNumber: infoEmployee?.phoneNumber,
-    fullName: infoEmployee?.fullName,
+    identifier: "040508576730",
+    phoneNumber: "0123457589",
+    fullName: "Do Minh Duy",
     address: {
-      detail: infoEmployee?.address.detail,
-      commune: infoEmployee?.address.commune,
-      district: infoEmployee?.address.district,
-      province: infoEmployee?.address.province,
+      detail: "Số 100, đường 19/4",
+      communeID: "5355",
+      districtID: "302",
+      provinceID: "27",
     },
-    transactionPointID: infoEmployee?.transactionPointID,
-    goodPointID: infoEmployee?.goodPointID,
-    email: infoEmployee?.email,
-    role: infoEmployee?.role,
+    transactionPointID: null,
+    goodPointID: null,
+    email: "linhhoang@yahoo.com",
+    role: "Tong Giam Doc",
   };
+  const token = await login();
+  // console.log(JSON.stringify(data));
   const url = "https://magicpost-uet.onrender.com/api/employee/add";
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(data),
-  });
-  if (res.ok) {
-    return true;
-  } else return false;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    console.log(res.ok);
+    if (res.ok) {
+      return true;
+    } else return false;
+  } catch (error) {
+    console.log(error);
+  }
 }

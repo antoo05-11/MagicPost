@@ -1,4 +1,6 @@
 #create-search {
+  display: block;
+  left: 0;
   display: grid;
   grid-template-columns: 85% 15%;
 }
