@@ -14,17 +14,25 @@ import { useAnimate, stagger } from "framer-motion";
 import { MenuToggle } from "@/components/employee/sidebar/menutoggle";
 import { motion } from "framer-motion";
 const roleFunc = {
+  home_page: {
+    url: "/employees",
+    name: "Trang chinh",
+  },
   list_employee: {
     url: "/employees/list_employee",
-    name: "Danh sach nhan vien",
+    name: "Quan li nhan vien",
   },
   list_order: {
     url: "/employees/list_ordered",
-    name: "Danh sach don hang",
+    name: "Quan li don hang",
   },
 };
 const role = {
-  staff: [roleFunc["list_employee"], roleFunc["list_order"]],
+  staff: [
+    roleFunc["home_page"],
+    roleFunc["list_employee"],
+    roleFunc["list_order"],
+  ],
 };
 
 function useMenuAnimation(isOpen) {
@@ -35,11 +43,11 @@ function useMenuAnimation(isOpen) {
       ? [
           [
             "#mySidebar",
-            { transform: "translateX(0%)" },
-            { ease: [0.08, 0.65, 0.53, 0.96], duration: 0.6 },
+            { transform: "translateX(0%)", opacity: 1 },
+            { at: "<" },
           ],
           ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
-          ["#main", { transform: "translateX(0%)" }, { at: "<" }],
+          // ["#main", { transform: "translateX(0%)" }, { at: "<" }],
           // [
           //   "li",
           //   { transform: "scale(1)", opacity: 1, filter: "blur(0px)" },
@@ -52,23 +60,23 @@ function useMenuAnimation(isOpen) {
           //   { transform: "scale(0.5)", opacity: 0, filter: "blur(10px)" },
           //   { delay: stagger(0.05, { from: "last" }), at: "<" },
           // ],
-          ["#mySidebar", { transform: "translateX(-100%)" }, { at: "-0.1" }],
+          ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
           ["#togle-zone", { transform: "translateX(-15vw)" }, { at: "<" }],
-          ["#main", { transform: "translateX(-15vw)" }, { at: "<" }],
+          // ["#main", { transform: "translateX(-15vw)" }, { at: "<" }],
         ];
 
     animate([
-      [
-        "path.top",
-        { d: isOpen ? "M 3 16.5 L 17 2.5" : "M 2 2.5 L 20 2.5" },
-        { at: "<" },
-      ],
-      ["path.middle", { opacity: isOpen ? 0 : 1 }, { at: "<" }],
-      [
-        "path.bottom",
-        { d: isOpen ? "M 3 2.5 L 17 16.346" : "M 2 16.346 L 20 16.346" },
-        { at: "<" },
-      ],
+      // [
+      //   "path.top",
+      //   { d: isOpen ? "M 3 16.5 L 17 2.5" : "M 2 2.5 L 20 2.5" },
+      //   { at: "<" },
+      // ],
+      // ["path.middle", { opacity: isOpen ? 0 : 1 }, { at: "<" }],
+      // [
+      //   "path.bottom",
+      //   { d: isOpen ? "M 3 2.5 L 17 16.346" : "M 2 16.346 L 20 16.346" },
+      //   { at: "<" },
+      // ],
       ...menuAnimations,
     ]);
   }, [isOpen]);
@@ -85,11 +93,11 @@ export default function EmployeesLayout({ children }) {
       <MenuToggle toggle={() => setIsOpen(!isOpen)} />
       <motion.div layout id="main" data-isOpen={isOpen}>
         {/* <Breadcrumb>
-          {array.map((list) => {  
+          {array.map((list) => {
             return <Breadcrumb.Item>{list}</Breadcrumb.Item>;
           })}
         </Breadcrumb> */}
-        <TopBar />
+        <TopBar layout />
         <motion.section id="noidung">
           <Container>{children}</Container>
         </motion.section>

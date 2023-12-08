@@ -280,7 +280,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 #content[data-isOpen="false"] {
   background-color: gray;
-  width: 500px;
+  left: 0;
+  width: 100%;
 }
 #togle-zone {
   position: fixed;

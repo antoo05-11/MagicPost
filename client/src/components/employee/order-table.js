@@ -1,6 +1,6 @@
 "use client";
 import "@/css/employee/table.css";
-import { UpdateInvoice } from "./button";
+import { OrderDetail } from "./button";
 export default function OrderTable({ data }) {
   return (
     <div className="mt-6 flow-root table">
@@ -42,7 +42,7 @@ export default function OrderTable({ data }) {
                     <td>{data?.receiverID}</td>
                     <td>{data?.creatorID}</td>
                     <td>
-                      <UpdateInvoice id={data?.employeeID} />
+                      <OrderDetail id={data?.employeeID} />
                     </td>
                   </tr>
                 );

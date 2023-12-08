@@ -26,7 +26,7 @@ export function CreateOrder() {
     </Button>
   );
 }
-export function UpdateInvoice({ id }) {
+export function EmployeeDetail({ id }) {
   const route = useRouter();
 
   return (
@@ -36,7 +36,21 @@ export function UpdateInvoice({ id }) {
         // console.log(id);
       }}
     >
-      Edit Employee
+      Detail
+    </Button>
+  );
+}
+export function OrderDetail({ id }) {
+  const route = useRouter();
+
+  return (
+    <Button
+      onClick={() => {
+        route.push(`/employees/list_ordered/${id}/edit`);
+        // console.log(id);
+      }}
+    >
+      Detail
     </Button>
   );
 }

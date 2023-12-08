@@ -4,6 +4,7 @@ import "bootstrap/js/src/dropdown.js";
 import "@/css/employee/topbar.css";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import BreadCrumb from "./breadcrumd";
 
 const itemVariants = {
   open: {
@@ -17,10 +18,11 @@ const itemVariants = {
 export default function TopBar() {
   const [profile, setProfile] = useState();
   return (
-    <nav class="navbar navbar-light bg-light topbar">
-      <div class="p-2 bd-highlight">Flex item 1</div>
-      <div id="avatar">
+    <motion.nav layout class="navbar navbar-light bg-light topbar">
+      <BreadCrumb />
+      <motion.div layout id="avatar">
         <motion.nav
+          layout
           initial={false}
           animate={profile ? "open" : "closed"}
           className="menu"
@@ -33,12 +35,14 @@ export default function TopBar() {
               <p>Do Minh Duy</p>
             </div>
             <motion.button
+              layout
               whileTap={{ scale: 0.97 }}
               onClick={() => setProfile(!profile)}
               id="icon"
             >
-              <FontAwesomeIcon icon="fa-solid fa-user-tie" size="2xl" />
+              <FontAwesomeIcon layout icon="fa-solid fa-user-tie" size="2xl" />
               <motion.div
+                layout
                 variants={{
                   open: { rotate: 180 },
                   closed: { rotate: 0 },
@@ -83,7 +87,7 @@ export default function TopBar() {
             </motion.li>
           </motion.ul>
         </motion.nav>
-      </div>
-    </nav>
+      </motion.div>
+    </motion.nav>
   );
 }

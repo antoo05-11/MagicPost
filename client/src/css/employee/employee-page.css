@@ -125,9 +125,9 @@
 /* main css */
 
 #main {
-  /* background-color: aquamarine; */
+  position: absolute;
   top: 0;
-  margin-left: 15%;
+  right: 0;
   width: 85%;
 }
 

@@ -5,6 +5,7 @@ import { createEmployee } from "@/api/action";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { useRouter } from "next/navigation";
+import { getEmployee } from "@/api/data";
 
 export default function EmployeeForm() {
   const employee = {
@@ -20,7 +21,7 @@ export default function EmployeeForm() {
     transactionPointID: "",
     goodPointID: "",
     email: "",
-    role: "",
+    role: null,
   };
   const rout = useRouter();
   return (

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { UpdateInvoice } from "./button";
+import { EmployeeDetail } from "./button";
 
 export default function EmployyeeTable({ data }) {
   return (
@@ -26,7 +26,7 @@ export default function EmployyeeTable({ data }) {
                     <td>{data?.role}</td>
                     <td>{data?.email}</td>
                     <td>
-                      <UpdateInvoice id={data?.employeeID} />
+                      <EmployeeDetail id={data?.employeeID} />
                     </td>
                   </tr>
                 );
