@@ -36,13 +36,32 @@ MagicPost Node.js server
     - [Get all communes by districtID](#get-all-communes-by-districtid)
       - [Sample response JSON](#sample-response-json-10)
 - [Database Design](#database-design)
+# Error Response JSON Sample
+```json
+{
+    "code": "...",
+    "error": "...",
+    "message": "..."
+}
+```
+## Error code
+
+| HTTP status code | Error code | Description                                                                               |
+| ---------------- | ---------- | ----------------------------------------------------------------------------------------- |
+| 400              | 10000      | Invalid Address (CommuneID, DistrictID and ProvinceID are not compatible with each other) |
+| 400              | 10001      | Invalid Email                                                                             |
+| 409              | 10002      | Duplicated Identifier                                                                     |
+| 400              | 10003      | Invalid Address (Detail attribute must not be null or empty)                              |
+| 400              | 10004      | Invalid Phone Number                                                                      |
+
+
 # API List
 
 ## Auth API
 
 ### Log in
 
-#### Sample request JSON
+#### Request JSON Sample
 
 ```json
 {
@@ -51,7 +70,7 @@ MagicPost Node.js server
 }
 ```
 
-#### Sample response JSOn
+#### Response JSON Sample
 
 ```json
 {
@@ -62,7 +81,7 @@ MagicPost Node.js server
         "fullName": "Nguyễn Thị Hòa",
         "addressID": 91,
         "role": "TRANSACTION_POINT_EMPLOYEE",
-        "email": "hoanguyen@gmail.com",
+        "email": "email@email.com",
         "workingPointID": 47
     },
     "accessToken": "sample-token"
@@ -70,6 +89,26 @@ MagicPost Node.js server
 ```
 
 ## Employee API
+
+### Get all employee roles
+
+| Request Requirement | Content                                                     |
+| ------------------- | ----------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/employee/getAllRoles |
+| HTTP method         | GET                                                         |
+| Token Required      | YES                                                         |
+| Roles Authorized    | NONE                                                        |
+
+#### Response JSON Sample
+```json
+[
+    "GOODS_POINT_EMPLOYEE",
+    "GOODS_POINT_HEAD",
+    "MANAGER",
+    "TRANSACTION_POINT_EMPLOYEE",
+    "TRANSACTION_POINT_HEAD"
+]
+```
 
 ### Get all employees
 
@@ -80,7 +119,7 @@ MagicPost Node.js server
 | Token Required      | YES                                                    |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                               |
 
-#### Sample response JSON
+#### Response JSON Sample
 ```json
 [
     {
@@ -110,7 +149,7 @@ MagicPost Node.js server
 | Token Required      | YES                                                     |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                                |
 
-#### Sample response JSON
+#### Response JSON Sample
 ```json
 ```
 
@@ -123,11 +162,11 @@ MagicPost Node.js server
 | Token Required      | YES                                                 |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                            |
 
-#### Sample request JSON
+#### Request JSON Sample
 ```json
 {
-    "identifier": "040508576730",
-    "phoneNumber": "0123457589",
+    "identifier": "0405899833000",
+    "phoneNumber": "0192344559",
     "fullName": "Thái Hoàng Linh",
     "address": {
         "detail": "Số 100, đường 19/4",
@@ -141,22 +180,94 @@ MagicPost Node.js server
     "role": null
 }
 ```
-#### Sample response JSON
+#### Response JSON Sample
 ```json
+{
+    "employeeID": 23000042,
+    "identifier": "0405899833000",
+    "phoneNumber": "0192344559",
+    "fullName": "Thái Hoàng Linh",
+    "addressID": 171,
+    "email": "linhhoang@yahoo.com",
+    "password": "YRkLcYuE",
+    "role": null,
+    "address": {
+        "province": "Tỉnh Nghệ An",
+        "district": "Huyện Tân Kỳ",
+        "commune": "Thị trấn Tân Kỳ",
+        "detail": "Số 100, đường 19/4"
+    }
+}
+```
+
+### Get employee by ID
+| Request Requirement | Content                                                 |
+| ------------------- | ------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/employee/:id/get |
+| HTTP method         | GET                                                     |
+| Token Required      | YES                                                     |
+| Roles Authorized    | TRANSACTION_POINT_HEADER                                |
+
+#### Response JSON sample
+
+```json
+{
+    "employeeID": 23000000,
+    "identifier": "010203000000",
+    "phoneNumber": "0123456789",
+    "fullName": "Nguyễn Hòa Bình",
+    "role": "TRANSACTION_POINT_EMPLOYEE",
+    "email": "hoabinhnguyen@gmail.com",
+    "workingPointID": 45,
+    "address": {
+        "addressID": 90,
+        "detail": "435 Trần Khánh Dư",
+        "commune": {
+            "communeID": 2464,
+            "name": "Phường Thanh Sơn"
+        },
+        "district": {
+            "districtID": 145,
+            "name": "Thành phố Uông Bí"
+        },
+        "province": {
+            "provinceID": 14,
+            "name": "Tỉnh Quảng Ninh"
+        }
+    },
+    "routing_point": {
+        "routingPointID": 45,
+        "address": {
+            "addressID": 81,
+            "commune": {
+                "communeID": 57,
+                "name": "Phường Dịch Vọng Hậu"
+            },
+            "district": {
+                "districtID": 5,
+                "name": "Quận Cầu Giấy"
+            },
+            "province": {
+                "provinceID": 1,
+                "name": "Thành phố Hà Nội"
+            }
+        }
+    }
+}
 ```
 
 ## Order API
 
 ### Get all orders (with current working address)
 
-| Request Requirement | Content                                              |
-| ------------------- | ---------------------------------------------------- |
-| API URL             | https://magicpost-uet.onrender.com/api/order/getall  |
-| HTTP method         | GET                                                  |
-| Token Required      | YES                                                  |
-| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER, GOODS_POINT_EMPLOYEE, GOODS_POINT_HEADER  |
+| Request Requirement | Content                                                                                        |
+| ------------------- | ---------------------------------------------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/order/getall                                            |
+| HTTP method         | GET                                                                                            |
+| Token Required      | YES                                                                                            |
+| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER, GOODS_POINT_EMPLOYEE, GOODS_POINT_HEADER |
 
-#### Sample response JSON
+#### Response JSON Sample
 ```json
 [
     {
@@ -177,7 +288,7 @@ MagicPost Node.js server
 | Token Required      | YES                                                  |
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER |
 
-#### Sample Response JSON
+#### Response JSON Sample
 ```json
 {
     "order": {
@@ -259,7 +370,7 @@ MagicPost Node.js server
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE                          |
 
 
-#### Sample Request JSON
+#### Request JSON Sample
 
 ```json
 {
@@ -303,7 +414,7 @@ MagicPost Node.js server
 }
 ```
 
-#### Sample Response JSON
+#### Response JSON Sample
 
 ```json
 {
@@ -356,14 +467,14 @@ MagicPost Node.js server
 ## Transaction Point API
 ### Get transaction point by address
 
-| Request Requirement | Content                                             |
-| ------------------- | --------------------------------------------------- |
+| Request Requirement | Content                                                                                                                      |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/http://localhost:3000/api/transactionPoint/get/?provinceID=?&districtID=?&communeID=? |
-| HTTP method         | GET                                                |
-| Token Required      | NO                                                 |
-| Roles Authorized    | NONE                          |
+| HTTP method         | GET                                                                                                                          |
+| Token Required      | NO                                                                                                                           |
+| Roles Authorized    | NONE                                                                                                                         |
 
-#### Sample response JSON
+#### Response JSON Sample
 ```json
 [
     {
@@ -391,7 +502,7 @@ MagicPost Node.js server
 | HTTP method         | GET                                                                                                                                                                                                                           |
 | Token Required      | YES                                                                                                                                                                                                                           |
 | Roles Authorized    | NONE                                                                                                                                                                                                                          |
-#### Sample response JSON
+#### Response JSON Sample
 ```json
 [
     {
@@ -406,7 +517,7 @@ MagicPost Node.js server
 | HTTP method         | GET                                                                               |
 | Token Required      | YES                                                                               |
 | Roles Authorized    | NONE                                                                              |
-#### Sample response JSON
+#### Response JSON Sample
 ```json
 [
     {
@@ -421,7 +532,7 @@ MagicPost Node.js server
 | HTTP method         | GET                                                                             |
 | Token Required      | YES                                                                             |
 | Roles Authorized    | NONE                                                                            |
-#### Sample response JSON
+#### Response JSON Sample
 ```json
 [
     {

@@ -9,11 +9,14 @@ import {
 } from "../controllers/auth";
 
 import catchAsync from "../exceptions/catch-async";
+import { login_schema, validate } from "../middlewares/login_schema";
 
 const authRoute = Router();
 
-authRoute.post("/login", catchAsync(login));
+authRoute.post("/login",
+    (req, res, next) => validate(req, res, next, login_schema),
+    catchAsync(login));
 authRoute.post("/refresh-token", catchAsync(requestRefreshToken));
-authRoute.get("/logout",catchAsync(logout))
+authRoute.get("/logout", catchAsync(logout))
 
 export default authRoute;

@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import HttpException from "../exceptions/http-exception";
 import jwt from "jsonwebtoken";
+import { login_schema, validate } from "../middlewares/login_schema";
 const Crypto = require('node-crypt');
 
 const db = require('../models');
@@ -33,8 +34,7 @@ const crypto = new Crypto({
     hmacKey: 'dcf8cd2a90b1856c74a9f914abbb5f467c38252b611b138d8eedbe2abb4434fc'
 });
 
-export const login = async (req, res, next) => {
-
+export const login = async (req, res) => {
     const user = await Employee.findOne({
         where: { employeeID: req.body.employeeID }
     });

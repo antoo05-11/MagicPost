@@ -1,22 +1,30 @@
 const db = require('../../models');
-const EmailValidator = require("email-validator");
-const { parsePhoneNumber } = require('libphonenumber-js');
 
 const Employee = db.employees;
 const Address = db.addresses;
 const Commune = db.communes;
 const District = db.districts;
 const Province = db.provinces;
+const RoutingPoint = db.routing_points;
+const TransactionPoint = db.transaction_points;
+const GoodsPoint = db.goods_points;
 
+Employee.belongsTo(Address, { foreignKey: 'addressID', as: 'address' });
+Address.belongsTo(Commune, { foreignKey: 'communeID' });
 Commune.belongsTo(District, { foreignKey: 'districtID' });
 District.belongsTo(Province, { foreignKey: 'provinceID' });
+RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
+Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID' });
 
 import bcrypt from "bcryptjs";
 import { getAddressByID } from "../routing_point/address";
 import { generateRandomPassword, normalizeName } from "../../../utils";
 import { sequelize } from '../../models';
 import ErrorList from "../../exceptions/error-list";
+import { isValidEmail, isValidPhoneNumber } from "../validation-checking";
+import InvalidData from "../../exceptions/invalid-data";
 
+const pageSize = 10;
 
 export const getAllEmployees = async (req, res) => {
     let pageIndex = req.query.page;
@@ -24,7 +32,11 @@ export const getAllEmployees = async (req, res) => {
         pageIndex = 1
     }
 
-    const employees = await Employee.findAll();
+    const employees = await Employee.findAll({
+        offset: (pageIndex - 1) * pageSize,
+        limit: pageSize
+    });
+
     let processedResult = [];
     for (const employee of employees) {
         const cloneEmployee = { ...employee.get() };
@@ -90,7 +102,7 @@ export const addNewEmployee = async (req, res) => {
             password: hashedPassword,
             role: req.body.role
         }
-        if (!EmailValidator.validate(newUser.email))
+        if (!isValidEmail(newUser.email))
             return res.status(400).json(ErrorList[1]);
         if (!isValidPhoneNumber(newUser.phoneNumber, 'VN')) {
             return res.status(400).json(ErrorList[4]);
@@ -102,6 +114,7 @@ export const addNewEmployee = async (req, res) => {
     } catch (error) {
         await t.rollback();
         console.error(error);
+        return res.status(500);
     }
     const cloneNewUser = newUser.dataValues;
     cloneNewUser.address = await getAddressByID(cloneNewUser.addressID);
@@ -113,17 +126,70 @@ export const editEmployeeInfo = async (req, res) => {
     return res.status(200).json({});
 }
 
-export const getEmployeeInfo = async (req, res) => {
-    return res.status(200).json({ id: req.params.id });
+export const getEmployeeByID = async (req, res) => {
+    let employee = await Employee.findOne(
+        {
+            where: {
+                employeeID: req.params.id
+            },
+            include: [
+                {
+                    model: Address,
+                    as: 'address',
+                    attributes: ['addressID', 'detail'],
+                    include: [
+                        {
+                            model: Commune,
+                            attributes: ['communeID', 'name']
+                        },
+                        {
+                            model: District,
+                            attributes: ['districtID', 'name']
+                        },
+
+                        {
+                            model: Province,
+                            attributes: ['provinceID', 'name']
+                        }
+                    ]
+                },
+                {
+                    model: RoutingPoint,
+                    attributes: ['routingPointID'],
+                    include: {
+                        model: Address,
+                        attributes: ['addressID'],
+                        include: [
+                            {
+                                model: Commune,
+                                attributes: ['communeID', 'name']
+                            },
+                            {
+                                model: District,
+                                attributes: ['districtID', 'name']
+                            },
+
+                            {
+                                model: Province,
+                                attributes: ['provinceID', 'name']
+                            }
+                        ]
+                    }
+
+                }
+            ]
+        }
+    )
+    if (!employee) return res.status(404).json();
+
+    employee = { ...employee.get() };
+    delete employee.password;
+    delete employee.addressID;
+
+    return res.status(200).json(employee);
 }
 
-function isValidPhoneNumber(phoneNumber, countryCode) {
-    if (phoneNumber.toString().length !== 10) return false;
-    try {
-        const parsedNumber = parsePhoneNumber(phoneNumber, countryCode);
-        return parsedNumber.isValid();
-    } catch (error) {
-        console.error('Lỗi khi kiểm tra số điện thoại:', error.message);
-        return false;
-    }
+const customAddress = (address) => {
+
+    return address;
 }
