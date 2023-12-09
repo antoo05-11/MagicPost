@@ -20,15 +20,21 @@ export default async function page({ searchParams: { query, page } }) {
   }
   const totalPage = data.length / item_per_page;
   return (
-    <div className="content">
-      <h2>Danh sach don hang</h2>
+    <div className="container bg-white shadow-lg rounded pt-3">
+      {/* <h2>Danh sach don hang</h2> */}
       {/* <div id="create-search"> */}
       {/* <SearchEmployee /> */}
       {/* <CreateOrder /> */}
       {/* </div> */}
-      <SearchBox />
-      <OrderTable data={data}></OrderTable>
-      <Pagination totalPage={totalPage} />
+      {/* <SearchBox /> */}
+      <div className="row border-bottom">
+        <h3>Danh sách đơn hàng</h3>
+      </div>
+
+      <div className="row">
+        <OrderTable data={data}></OrderTable>
+        <Pagination totalPage={totalPage} />
+      </div>
     </div>
   );
 }

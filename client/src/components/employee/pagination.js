@@ -17,7 +17,7 @@ export default function Pagination({ totalPage }) {
   const allPages = generatePagination(currentPage, totalPage + 1);
   console.log(allPages);
   return (
-    <ul className="pagination position-absolute top-100 start-50 translate-middle">
+    <ul className="pagination d-flex justify-content-center ">
       <li className="page-item">
         <a className="page-link" href="#" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
