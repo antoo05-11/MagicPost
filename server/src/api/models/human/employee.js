@@ -45,12 +45,13 @@ module.exports = (sequelize, DataTypes) => {
                 model: 'routing_points',
                 key: 'routingPointID'
             }
+        },
+        status: {
+            type: DataTypes.ENUM,
+            values: ['ACTIVE', 'INACTIVE']
         }
     }, {
-        id: false,
-        timestamps: false,
-        createdAt: false,
-        updatedAt: false,
+        id: false
     });
 
     return Employee;

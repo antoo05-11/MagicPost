@@ -14,7 +14,7 @@ Address.belongsTo(Commune, { foreignKey: 'communeID' });
 Commune.belongsTo(District, { foreignKey: 'districtID' });
 District.belongsTo(Province, { foreignKey: 'provinceID' });
 RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
-Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID' });
+Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID' , as: 'workingPoint' });
 
 import bcrypt from "bcryptjs";
 import { getAddressByID } from "../routing_point/address";
@@ -52,10 +52,8 @@ export const getAllEmployees = async (req, res) => {
 export const addNewEmployee = async (req, res) => {
     let employee = await Employee.findOne({ where: { identifier: req.body.identifier } });
     if (employee) {
-        return res.status(409).json(ErrorList[2])
+        return res.status(409).json(ErrorList[1]);
     }
-    const password = generateRandomPassword();
-    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Check validation of Address.
     let newAddress = {
@@ -64,7 +62,9 @@ export const addNewEmployee = async (req, res) => {
         districtID: req.body.address.districtID,
         provinceID: req.body.address.provinceID
     }
-    if (!newAddress.detail) return res.status(400).json(ErrorList[3]);
+
+    const password = generateRandomPassword();
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     let checkAddress = await Commune.findOne({
         where: {
@@ -91,7 +91,6 @@ export const addNewEmployee = async (req, res) => {
     try {
         newAddress = await Address.create(newAddress, { transaction: t });
 
-        // Check validation of new user information.
         newUser = {
             identifier: req.body.identifier,
             phoneNumber: req.body.phoneNumber,
@@ -101,11 +100,6 @@ export const addNewEmployee = async (req, res) => {
             workingPointID: req.body.workingPointID,
             password: hashedPassword,
             role: req.body.role
-        }
-        if (!isValidEmail(newUser.email))
-            return res.status(400).json(ErrorList[1]);
-        if (!isValidPhoneNumber(newUser.phoneNumber, 'VN')) {
-            return res.status(400).json(ErrorList[4]);
         }
 
         newUser = await Employee.create(newUser, { transaction: t });
@@ -123,6 +117,7 @@ export const addNewEmployee = async (req, res) => {
 }
 
 export const editEmployeeInfo = async (req, res) => {
+    
     return res.status(200).json({});
 }
 
@@ -155,6 +150,7 @@ export const getEmployeeByID = async (req, res) => {
                 },
                 {
                     model: RoutingPoint,
+                    as: 'workingPoint',
                     attributes: ['routingPointID'],
                     include: {
                         model: Address,
@@ -187,9 +183,4 @@ export const getEmployeeByID = async (req, res) => {
     delete employee.addressID;
 
     return res.status(200).json(employee);
-}
-
-const customAddress = (address) => {
-
-    return address;
 }

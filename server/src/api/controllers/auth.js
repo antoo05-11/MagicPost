@@ -1,7 +1,6 @@
 import bcrypt from "bcryptjs";
 import HttpException from "../exceptions/http-exception";
 import jwt from "jsonwebtoken";
-import { login_schema, validate } from "../middlewares/login_schema";
 const Crypto = require('node-crypt');
 
 const db = require('../models');

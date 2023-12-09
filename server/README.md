@@ -4,37 +4,43 @@ MagicPost Node.js server
 # Table of content
 - [MagicPost Node.js server](#magicpost-nodejs-server)
 - [Table of content](#table-of-content)
+- [Error Response JSON Sample](#error-response-json-sample)
+  - [Error code](#error-code)
 - [API List](#api-list)
   - [Auth API](#auth-api)
     - [Log in](#log-in)
-      - [Sample request JSON](#sample-request-json)
-      - [Sample response JSOn](#sample-response-json)
+      - [Request JSON Sample](#request-json-sample)
+      - [Response JSON Sample](#response-json-sample)
   - [Employee API](#employee-api)
+    - [Get all employee roles](#get-all-employee-roles)
+      - [Response JSON Sample](#response-json-sample-1)
     - [Get all employees](#get-all-employees)
-      - [Sample response JSON](#sample-response-json-1)
+      - [Response JSON Sample](#response-json-sample-2)
     - [Get employee by employeeID](#get-employee-by-employeeid)
-      - [Sample response JSON](#sample-response-json-2)
+      - [Response JSON Sample](#response-json-sample-3)
     - [Add new employee](#add-new-employee)
-      - [Sample request JSON](#sample-request-json-1)
-      - [Sample response JSON](#sample-response-json-3)
+      - [Request JSON Sample](#request-json-sample-1)
+      - [Response JSON Sample](#response-json-sample-4)
+    - [Get employee by ID](#get-employee-by-id)
+      - [Response JSON sample](#response-json-sample-5)
   - [Order API](#order-api)
     - [Get all orders (with current working address)](#get-all-orders-with-current-working-address)
-      - [Sample response JSON](#sample-response-json-4)
+      - [Response JSON Sample](#response-json-sample-6)
     - [Get order by ID](#get-order-by-id)
-      - [Sample Response JSON](#sample-response-json-5)
+      - [Response JSON Sample](#response-json-sample-7)
     - [Create new order](#create-new-order)
-      - [Sample Request JSON](#sample-request-json-2)
-      - [Sample Response JSON](#sample-response-json-6)
+      - [Request JSON Sample](#request-json-sample-2)
+      - [Response JSON Sample](#response-json-sample-8)
   - [Transaction Point API](#transaction-point-api)
     - [Get transaction point by address](#get-transaction-point-by-address)
-      - [Sample response JSON](#sample-response-json-7)
+      - [Response JSON Sample](#response-json-sample-9)
   - [Address API](#address-api)
     - [Get all communes/districts/provinces](#get-all-communesdistrictsprovinces)
-      - [Sample response JSON](#sample-response-json-8)
+      - [Response JSON Sample](#response-json-sample-10)
     - [Get all districts by provinceID](#get-all-districts-by-provinceid)
-      - [Sample response JSON](#sample-response-json-9)
+      - [Response JSON Sample](#response-json-sample-11)
     - [Get all communes by districtID](#get-all-communes-by-districtid)
-      - [Sample response JSON](#sample-response-json-10)
+      - [Response JSON Sample](#response-json-sample-12)
 - [Database Design](#database-design)
 # Error Response JSON Sample
 ```json
@@ -48,12 +54,9 @@ MagicPost Node.js server
 
 | HTTP status code | Error code | Description                                                                               |
 | ---------------- | ---------- | ----------------------------------------------------------------------------------------- |
-| 400              | 10000      | Invalid Address (CommuneID, DistrictID and ProvinceID are not compatible with each other) |
-| 400              | 10001      | Invalid Email                                                                             |
+| 400              | 10000      | Invalid Data in Request Body                                                              |
+| 409              | 10001      | Invalid Address (CommuneID, DistrictID and ProvinceID are not compatible with each other) |
 | 409              | 10002      | Duplicated Identifier                                                                     |
-| 400              | 10003      | Invalid Address (Detail attribute must not be null or empty)                              |
-| 400              | 10004      | Invalid Phone Number                                                                      |
-
 
 # API List
 
@@ -212,40 +215,43 @@ MagicPost Node.js server
 
 ```json
 {
-    "employeeID": 23000000,
-    "identifier": "010203000000",
-    "phoneNumber": "0123456789",
-    "fullName": "Nguyễn Hòa Bình",
+    "employeeID": 23000013,
+    "identifier": "010203090030",
+    "phoneNumber": "0123457789",
+    "fullName": "Hoàng Văn Anh",
     "role": "TRANSACTION_POINT_EMPLOYEE",
-    "email": "hoabinhnguyen@gmail.com",
-    "workingPointID": 45,
+    "email": "anhhoang@gmail.com",
+    "workingPointID": 46,
+    "status": "ACTIVE",
+    "createdAt": "2023-12-09T17:05:12.000Z",
+    "updatedAt": "2023-12-09T17:05:12.000Z",
     "address": {
-        "addressID": 90,
-        "detail": "435 Trần Khánh Dư",
+        "addressID": 89,
+        "detail": "Ngh. 285/35 Đ. Kim Giang",
         "commune": {
-            "communeID": 2464,
-            "name": "Phường Thanh Sơn"
+            "communeID": 121,
+            "name": "Phường Kim Giang"
         },
         "district": {
-            "districtID": 145,
-            "name": "Thành phố Uông Bí"
+            "districtID": 9,
+            "name": "Quận Thanh Xuân"
         },
         "province": {
-            "provinceID": 14,
-            "name": "Tỉnh Quảng Ninh"
+            "provinceID": 1,
+            "name": "Thành phố Hà Nội"
         }
     },
-    "routing_point": {
-        "routingPointID": 45,
+    "workingPoint": {
+        "routingPointID": 46,
         "address": {
-            "addressID": 81,
+            "addressID": 82,
             "commune": {
-                "communeID": 57,
-                "name": "Phường Dịch Vọng Hậu"
+                "communeID": 64,
+                "name": "Phường Láng Thượng"
             },
             "district": {
-                "districtID": 5,
-                "name": "Quận Cầu Giấy"
+                "districtID": 6,
+                "name": "Quận Đống Đa"
             },
             "province": {
                 "provinceID": 1,

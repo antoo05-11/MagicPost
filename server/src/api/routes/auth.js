@@ -1,15 +1,10 @@
-import {
-    Router
-} from "express";
+import { Router } from "express";
 
-import {
-    login,
-    logout,
-    requestRefreshToken
-} from "../controllers/auth";
+import { login, logout, requestRefreshToken } from "../controllers/auth";
 
 import catchAsync from "../exceptions/catch-async";
-import { login_schema, validate } from "../middlewares/login_schema";
+import { validate } from "../middlewares/validation/validate";
+import { login_schema } from "../middlewares/validation/login_schema";
 
 const authRoute = Router();
 
