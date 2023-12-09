@@ -2,6 +2,9 @@
 import Link from "next/link";
 import { Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import { FaRegEye } from "react-icons/fa";
+
+
 export function CreateEmployee() {
   const route = useRouter();
   return (
@@ -31,12 +34,13 @@ export function EmployeeDetail({ id }) {
 
   return (
     <Button
+    className=".bg-transparent"
       onClick={() => {
         route.push(`/employees/list_employee/${id}/edit`);
         // console.log(id);
       }}
     >
-      Detail
+      <FaRegEye />
     </Button>
   );
 }

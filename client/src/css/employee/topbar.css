@@ -17,10 +17,12 @@ body {
 }
 
 .topbar {
+  background-color: #c7e9ff !important;
   z-index: 1;
 }
 #avatar {
   position: fixed;
+  display: inline-flex;
   top: 0;
   right: 0;
 }
@@ -31,7 +33,7 @@ body {
   display: flex;
   flex-direction: column;
 }
-#icon {
+.icon {
   border: none;
   border-radius: 100%;
   height: 50px;

@@ -42,11 +42,11 @@ export default function OrderForm() {
     <div className="container">
       <form>
         <div className="container bg-white rounded shadow-lg p-3 mb-3">
-          <div className="row">
+          <div className="row border-bottom">
             <h3>Thông tin người gửi</h3>
           </div>
 
-          <div className="row">
+          <div className="row mt-2">
             <div className="col">
               <label htmlFor="senderName">Họ và tên</label>
               <input
@@ -77,7 +77,7 @@ export default function OrderForm() {
               </select>
             </div>
 
-            <div className="col">
+            <div className="col mt-2">
               <select className="form-select" aria-label="Default select example">
                 <option selected>Chọn Xã / Phường</option>
                 <option value="1">One</option>
@@ -86,7 +86,7 @@ export default function OrderForm() {
               </select>
             </div>
 
-            <div className="col">
+            <div className="col mt-2">
               <select className="form-select" aria-label="Default select example">
                 <option selected>Chọn Quận / Huyện</option>
                 <option value="1">One</option>
@@ -97,7 +97,7 @@ export default function OrderForm() {
           </div>
 
           <div className="row ">
-            <div className="col">
+            <div className="col mt-2">
               <input
                 className="form-control"
                 id="addressDetail"
@@ -129,11 +129,11 @@ export default function OrderForm() {
         </div>
 
         <div className="container bg-white rounded shadow-lg p-3 mb-3">
-          <div className="row">
+          <div className="row border-bottom">
             <h3>Thông tin người nhận</h3>
           </div>
 
-          <div className="row">
+          <div className="row mt-2">
             <div className="col">
               <label htmlFor="receiverName">Họ và tên</label>
               <input
@@ -164,7 +164,7 @@ export default function OrderForm() {
               </select>
             </div>
 
-            <div className="col">
+            <div className="col mt-2">
               <select className="form-select" aria-label="Default select example">
                 <option selected>Chọn Xã / Phường</option>
                 <option value="1">One</option>
@@ -173,7 +173,7 @@ export default function OrderForm() {
               </select>
             </div>
 
-            <div className="col">
+            <div className="col mt-2">
               <select className="form-select" aria-label="Default select example">
                 <option selected>Chọn Quận / Huyện</option>
                 <option value="1">One</option>
@@ -184,7 +184,7 @@ export default function OrderForm() {
           </div>
 
           <div className="row ">
-            <div className="col">
+            <div className="col mt-2">
               <input
                 className="form-control"
                 id="addressDetail"
@@ -216,11 +216,11 @@ export default function OrderForm() {
         </div>
 
         <div className="container bg-white rounded shadow-lg p-3 mb-3">
-          <div className="row">
+          <div className="row border-bottom">
             <h3>Thông tin hàng hóa</h3>
           </div>
 
-          <div className="">
+          <div className="mt-2">
             <button type="button" class="btn btn-primary ">Thêm hàng hóa</button>
           </div>
           <div className="row p-2 table-responsive">

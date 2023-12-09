@@ -50,4 +50,5 @@ export async function getOrder(query) {
 
 export async function findOrder(orderID) {}
 
+export async function getOrderById(id) {}
 export const icon = {};

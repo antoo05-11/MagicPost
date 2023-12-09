@@ -3,25 +3,28 @@ import "@/css/employee/table.css";
 import { OrderDetail } from "./button";
 export default function OrderTable({ data }) {
   return (
-    <div className="mt-6 flow-root table">
+    <div className="mt-2 flow-root table">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <table className="table table-bordered">
+        <div className="rounded-lg bg-gray-50 md:pt-0 table-responsive">
+          <table className="table table-hover mb-0 ">
             <thead>
               <tr>
-                <th scope="col" className="head-table">
+                <th scope="col">
+                  STT
+                </th>
+                <th scope="col" >
                   Ma don hang
                 </th>
-                <th scope="col" className="head-table">
+                <th scope="col" >
                   Nguoi gui
                 </th>
-                <th scope="col" className="head-table">
+                <th scope="col" >
                   Nguoi nhan
                 </th>
-                <th scope="col" className="head-table">
+                <th scope="col" >
                   Dia chi nguoi nhan
                 </th>
-                <th scope="col" className="head-table">
+                <th scope="col" >
                   Trang thai
                   <select className="state-order">
                     <option value="volvo">Volvo</option>
@@ -33,9 +36,10 @@ export default function OrderTable({ data }) {
               </tr>
             </thead>
             <tbody>
-              {data?.map((data) => {
+              {data?.map((data,index) => {
                 return (
                   <tr key={data?.employeeID}>
+                    <td>{index + 1}</td>
                     <td>{data?.orderID}</td>
                     <td>{data?.status}</td>
                     <td>{data?.senderID}</td>

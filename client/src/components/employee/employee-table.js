@@ -3,23 +3,25 @@ import { EmployeeDetail } from "./button";
 
 export default function EmployyeeTable({ data }) {
   return (
-    <div className="mt-6 flow-root table">
+    <div className="mt-2 flow-root table ">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <table className="table table-bordered">
+        <div className="rounded-lg bg-gray-50 md:pt-0 table-responsive">
+          <table className="table table-hover mb-0">
             <thead>
               <tr>
-                <th scope="col">Ho va ten</th>
-                <th scope="col">So dien thoai</th>
-                <th scope="col">Dia chi</th>
-                <th scope="col">Vi tri</th>
+                <th scope="col">STT</th>
+                <th scope="col">Họ và tên</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Vai trò</th>
                 <th scope="col">Email</th>
               </tr>
             </thead>
-            <tbody>
-              {data?.map((data) => {
+            <tbody class="table-group-divider">
+              {data?.map((data, index) => {
                 return (
                   <tr key={data?.employeeID}>
+                    <td>{index + 1}</td>
                     <td>{data?.fullName}</td>
                     <td>{data?.phoneNumber}</td>
                     <td>{data?.address.province}</td>

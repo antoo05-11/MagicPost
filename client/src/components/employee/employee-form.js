@@ -35,8 +35,11 @@ export default function EmployeeForm() {
 
   return (
     <div className="bg-white container p-3 rounded shadow-lg">
-      <form id="form-employee">
-        <div className="row mt-0">
+      <form id="form-employee ">
+        <div className="row border-bottom">
+          <h3>Thông tin nhân viên</h3>
+        </div>
+        <div className="row mt-2">
           <div className="col-md-6 mt-2">
             <label htmlFor="fullName">Họ và tên</label>
             <input

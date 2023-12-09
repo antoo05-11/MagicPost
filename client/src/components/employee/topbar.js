@@ -19,9 +19,12 @@ const itemVariants = {
 export default function TopBar() {
   const [profile, setProfile] = useState();
   return (
-    <motion.nav layout class="navbar navbar-light bg-light topbar">
+    <motion.nav layout class="navbar navbar-light topbar">
       <BreadCrumb />
       <motion.div layout id="avatar">
+        <motion.button layout type="button" class="btn btn-primary icon">
+          <span class="badge text-bg-secondary">4</span>
+        </motion.button>
         <motion.nav
           layout
           initial={false}
@@ -39,7 +42,7 @@ export default function TopBar() {
               layout
               whileTap={{ scale: 0.97 }}
               onClick={() => setProfile(!profile)}
-              id="icon"
+              className="icon"
             >
               <FontAwesomeIcon layout icon="fa-solid fa-user-tie" size="2xl" />
               <motion.div
