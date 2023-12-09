@@ -1,48 +1,39 @@
-MagicPost Node.js server
-=======
+# <samp>MagicPost Node.js server</samp>
 
-# Table of content
-- [MagicPost Node.js server](#magicpost-nodejs-server)
-- [Table of content](#table-of-content)
-- [Error Response JSON Sample](#error-response-json-sample)
-  - [Error code](#error-code)
-- [API List](#api-list)
-  - [Auth API](#auth-api)
-    - [Log in](#log-in)
-      - [Request JSON Sample](#request-json-sample)
-      - [Response JSON Sample](#response-json-sample)
-  - [Employee API](#employee-api)
-    - [Get all employee roles](#get-all-employee-roles)
-      - [Response JSON Sample](#response-json-sample-1)
-    - [Get all employees](#get-all-employees)
-      - [Response JSON Sample](#response-json-sample-2)
-    - [Get employee by employeeID](#get-employee-by-employeeid)
-      - [Response JSON Sample](#response-json-sample-3)
-    - [Add new employee](#add-new-employee)
-      - [Request JSON Sample](#request-json-sample-1)
-      - [Response JSON Sample](#response-json-sample-4)
-    - [Get employee by ID](#get-employee-by-id)
-      - [Response JSON sample](#response-json-sample-5)
-  - [Order API](#order-api)
-    - [Get all orders (with current working address)](#get-all-orders-with-current-working-address)
-      - [Response JSON Sample](#response-json-sample-6)
-    - [Get order by ID](#get-order-by-id)
-      - [Response JSON Sample](#response-json-sample-7)
-    - [Create new order](#create-new-order)
-      - [Request JSON Sample](#request-json-sample-2)
-      - [Response JSON Sample](#response-json-sample-8)
-  - [Transaction Point API](#transaction-point-api)
-    - [Get transaction point by address](#get-transaction-point-by-address)
-      - [Response JSON Sample](#response-json-sample-9)
-  - [Address API](#address-api)
-    - [Get all communes/districts/provinces](#get-all-communesdistrictsprovinces)
-      - [Response JSON Sample](#response-json-sample-10)
-    - [Get all districts by provinceID](#get-all-districts-by-provinceid)
-      - [Response JSON Sample](#response-json-sample-11)
-    - [Get all communes by districtID](#get-all-communes-by-districtid)
-      - [Response JSON Sample](#response-json-sample-12)
-- [Database Design](#database-design)
-# Error Response JSON Sample
+## <samp>Table of contents</samp>
+- [<samp>Server Information</samp>](#server-information)
+- [<samp>Install and run</samp>](#install-and-run)
+- [<samp>Error Response JSON Sample and Error codes<samp>](#error-response-json-sample-and-error-codes)
+- [<samp>API List</samp>](#api-list)
+  - [<samp>Auth API</samp>](#auth-api)
+    - [<samp>Log in</samp>](#log-in)
+  - [<samp>Employee API</samp>](#employee-api)
+    - [<samp>Get all employee roles</samp>](#get-all-employee-roles)
+    - [<samp>Get all employees</samp>](#get-all-employees)
+    - [<samp>Add new employee</samp>](#add-new-employee)
+    - [<samp>Get employee by ID</samp>](#get-employee-by-id)
+  - [<samp>Order API</samp>](#order-api)
+    - [<samp>Get all orders (with current working address)</samp>](#get-all-orders-with-current-working-address)
+    - [<samp>Get order by ID</samp>](#get-order-by-id)
+    - [<samp>Create new order</samp>](#create-new-order)
+  - [<samp>Transaction Point API</samp>](#transaction-point-api)
+    - [<samp>Get transaction point by address</samp>](#get-transaction-point-by-address)
+  - [<samp>Address API</samp>](#address-api)
+    - [<samp>Get all communes/districts/provinces</samp>](#get-all-communesdistrictsprovinces)
+    - [<samp>Get all districts by provinceID</samp>](#get-all-districts-by-provinceid)
+    - [<samp>Get all communes by districtID</samp>](#get-all-communes-by-districtid)
+- [<samp>Database Design</samp>](#database-design)
+  - [<samp>Relation Schema</samp>](#relation-schema)
+
+## <samp>Server Information</samp>
+
++ <samp>This Node.js application is hosted on <a href="https://dashboard.render.com/"><samp>Render.com<samp></a> with URL <a href = "https://magicpost-uet.onrender.com/">magicpost-uet.onrender.com</a>.</samp>
++ <samp>The database is hosted on <a href="https://console.clever-cloud.com" target="_blank">Clever Cloud console</a>.</samp>
++ <samp>Last Updated: 09/12/2023</samp>
+  
+## <samp>Install and run</samp>
+
+## <samp>Error Response JSON Sample and Error codes</samp>
 ```json
 {
     "code": "...",
@@ -50,7 +41,6 @@ MagicPost Node.js server
     "message": "..."
 }
 ```
-## Error code
 
 | HTTP status code | Error code | Description                                                                               |
 | ---------------- | ---------- | ----------------------------------------------------------------------------------------- |
@@ -58,13 +48,13 @@ MagicPost Node.js server
 | 409              | 10001      | Invalid Address (CommuneID, DistrictID and ProvinceID are not compatible with each other) |
 | 409              | 10002      | Duplicated Identifier                                                                     |
 
-# API List
+## <samp> API List </samp>
 
-## Auth API
+### <samp> Auth API </samp>
 
-### Log in
+#### <samp> Log in </samp>
 
-#### Request JSON Sample
++ <em>Request JSON Sample</em>
 
 ```json
 {
@@ -73,7 +63,7 @@ MagicPost Node.js server
 }
 ```
 
-#### Response JSON Sample
++ <em>Response JSON Sample</em>
 
 ```json
 {
@@ -91,18 +81,20 @@ MagicPost Node.js server
 }
 ```
 
-## Employee API
+### <samp>Employee API</samp>
 
-### Get all employee roles
+#### <samp>Get all employee roles</samp>
 
-| Request Requirement | Content                                                     |
++ <em> API Information </em>
+
+| Request Requirement</samp> | Content                                                    |
 | ------------------- | ----------------------------------------------------------- |
-| API URL             | https://magicpost-uet.onrender.com/api/employee/getAllRoles |
-| HTTP method         | GET                                                         |
+| API URL            | https://magicpost-uet.onrender.com/api/employee/getAllRoles |
+| HTTP method         | GET                                                        |
 | Token Required      | YES                                                         |
 | Roles Authorized    | NONE                                                        |
 
-#### Response JSON Sample
++ <em>Response JSON Sample</em>
 ```json
 [
     "GOODS_POINT_EMPLOYEE",
@@ -113,7 +105,8 @@ MagicPost Node.js server
 ]
 ```
 
-### Get all employees
+#### <samp>Get all employees</samp>
++ <em> API Information </em>
 
 | Request Requirement | Content                                                |
 | ------------------- | ------------------------------------------------------ |
@@ -122,7 +115,7 @@ MagicPost Node.js server
 | Token Required      | YES                                                    |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                               |
 
-#### Response JSON Sample
++ <em> Response JSON Sample </em>
 ```json
 [
     {
@@ -143,19 +136,6 @@ MagicPost Node.js server
 ]
 ```
 
-### Get employee by employeeID
-
-| Request Requirement | Content                                                 |
-| ------------------- | ------------------------------------------------------- |
-| API URL             | https://magicpost-uet.onrender.com/api/employee/get/:id |
-| HTTP method         | POST                                                    |
-| Token Required      | YES                                                     |
-| Roles Authorized    | TRANSACTION_POINT_HEADER                                |
-
-#### Response JSON Sample
-```json
-```
-
 ### Add new employee
 
 | Request Requirement | Content                                             |
@@ -165,7 +145,7 @@ MagicPost Node.js server
 | Token Required      | YES                                                 |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                            |
 
-#### Request JSON Sample
++ <em> Request JSON Sample </em>
 ```json
 {
     "identifier": "0405899833000",
@@ -183,7 +163,7 @@ MagicPost Node.js server
     "role": null
 }
 ```
-#### Response JSON Sample
++ <em>Response JSON Sample</em>
 ```json
 {
     "employeeID": 23000042,
@@ -203,7 +183,10 @@ MagicPost Node.js server
 }
 ```
 
-### Get employee by ID
+### <samp> Get employee by ID </samp>
+
++ <em> API Information </em>
+
 | Request Requirement | Content                                                 |
 | ------------------- | ------------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/employee/:id/get |
@@ -211,7 +194,7 @@ MagicPost Node.js server
 | Token Required      | YES                                                     |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                                |
 
-#### Response JSON sample
++ <em> Response JSON sample </em>
 
 ```json
 {
@@ -228,43 +211,27 @@ MagicPost Node.js server
     "address": {
         "addressID": 89,
         "detail": "Ngh. 285/35 Đ. Kim Giang",
-        "commune": {
-            "communeID": 121,
-            "name": "Phường Kim Giang"
-        },
-        "district": {
-            "districtID": 9,
-            "name": "Quận Thanh Xuân"
-        },
-        "province": {
-            "provinceID": 1,
-            "name": "Thành phố Hà Nội"
-        }
+        "commune": { "communeID": 121, "name": "Phường Kim Giang" },
+        "district": { "districtID": 9, "name": "Quận Thanh Xuân" },
+        "province": { "provinceID": 1, "name": "Thành phố Hà Nội" }
     },
     "workingPoint": {
         "routingPointID": 46,
         "address": {
             "addressID": 82,
-            "commune": {
-                "communeID": 64,
-                "name": "Phường Láng Thượng"
-            },
-            "district": {
-                "districtID": 6,
-                "name": "Quận Đống Đa"
-            },
-            "province": {
-                "provinceID": 1,
-                "name": "Thành phố Hà Nội"
-            }
+            "commune": { "communeID": 64, "name": "Phường Láng Thượng" },
+            "district": { "districtID": 6, "name": "Quận Đống Đa" },
+            "province": { "provinceID": 1, "name": "Thành phố Hà Nội" }
         }
     }
 }
 ```
 
-## Order API
+### <samp> Order API </samp>
 
-### Get all orders (with current working address)
+#### <samp>Get all orders (with current working address)</samp>
+
++ <em>API Information</em>
 
 | Request Requirement | Content                                                                                        |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
@@ -273,7 +240,7 @@ MagicPost Node.js server
 | Token Required      | YES                                                                                            |
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER, GOODS_POINT_EMPLOYEE, GOODS_POINT_HEADER |
 
-#### Response JSON Sample
++ <em>Response JSON Sample</em>
 ```json
 [
     {
@@ -285,7 +252,9 @@ MagicPost Node.js server
 ]
 ```
 
-### Get order by ID
+### <samp>Get order by ID</samp>
+
++ <em> API Information</em>
 
 | Request Requirement | Content                                              |
 | ------------------- | ---------------------------------------------------- |
@@ -294,7 +263,7 @@ MagicPost Node.js server
 | Token Required      | YES                                                  |
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER |
 
-#### Response JSON Sample
++ <em>Response JSON Sample</em>
 ```json
 {
     "order": {
@@ -303,18 +272,9 @@ MagicPost Node.js server
             "phoneNumber": "0123456789",
             "address": {
                 "detail": "Số 1, đường Xuân Thủy",
-                "commune": {
-                    "communeID": 57,
-                    "name": "Phường Dịch Vọng Hậu"
-                },
-                "district": {
-                    "districtID": 5,
-                    "name": "Quận Cầu Giấy"
-                },
-                "province": {
-                    "provinceID": 1,
-                    "name": "Thành phố Hà Nội"
-                }
+                "commune": { "communeID": 57, "name": "Phường Dịch Vọng Hậu" },
+                "district": { "districtID": 5, "name": "Quận Cầu Giấy" },
+                "province": { "provinceID": 1, "name": "Thành phố Hà Nội" }
             }
         },
         "receiver": {
@@ -322,24 +282,12 @@ MagicPost Node.js server
             "phoneNumber": "0123456789",
             "address": {
                 "detail": "435 Trần Khánh Dư",
-                "commune": {
-                    "communeID": 2464,
-                    "name": "Phường Thanh Sơn"
-                },
-                "districtName": {
-                    "districtID": 145,
-                    "name": "Thành phố Uông Bí"
-                },
-                "provinceName": {
-                    "provinceID": 14,
-                    "name": "Tỉnh Quảng Ninh"
-                }
+                "commune": { "communeID": 2464, "name": "Phường Thanh Sơn" },
+                "districtName": { "districtID": 145, "name": "Thành phố Uông Bí" },
+                "provinceName": { "provinceID": 14, "name": "Tỉnh Quảng Ninh" }
             }
         },
-        "creator": {
-            "creatorID": 23000014,
-            "creatorName": "Nguyễn Thị Hòa"
-        },
+        "creator": { "creatorID": 23000014, "creatorName": "Nguyễn Thị Hòa" },
         "failChoice": "return",
         "mainPostage": 1000,
         "addedPostage": 1000,
@@ -355,18 +303,14 @@ MagicPost Node.js server
         "updatedAt": "2023-11-30T13:00:31.000Z"
     },
     "goodsList": [
-        {
-            "goodsID": 10,
-            "orderID": "AEX451934145VN",
-            "goodsType": "document",
-            "realWeight": 634,
-            "convertedWeight": 643
-        }
+        { "goodsID": 10, "goodsType": "document", "realWeight": 634, "convertedWeight": 643 }
     ]
 }
 ```
 
-### Create new order
+#### <samp> Create new order </samp>
+
++ <em>API Information</em>
 
 | Request Requirement | Content                                             |
 | ------------------- | --------------------------------------------------- |
@@ -376,7 +320,7 @@ MagicPost Node.js server
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE                          |
 
 
-#### Request JSON Sample
++ <em>Request JSON Sample</em>
 
 ```json
 {
@@ -384,22 +328,12 @@ MagicPost Node.js server
         "sender": {
             "fullname": "Hoang Thuy Linh",
             "phoneNumber": "0123456789",
-            "address": {
-                "detail": "39S, Street A",
-                "communeID": "121",
-                "districtID": "9",
-                "provinceID": "1"
-            }
+            "address": { "detail": "39S, Street A", "communeID": "121", "districtID": "9", "provinceID": "1" }
         },
         "receiver": {
             "fullname": "Nguyen Huu Minh",
             "phoneNumber": "0123456789",
-            "address": {
-                "detail": "43, Street A",
-                "communeID": "121",
-                "districtID": "9",
-                "provinceID": "1"
-            }
+            "address": { "detail": "43, Street A", "communeID": "121", "districtID": "9", "provinceID": "1" }
         },
         "failChoice": "return",
         "mainPostage": "1000",
@@ -411,16 +345,12 @@ MagicPost Node.js server
         "specialService": ""
     },
     "goodsList": [
-        {
-            "realWeight": "100",
-            "convertedWeight": "25",
-            "goodsType": "goods"
-        }
+        { "realWeight": "100", "convertedWeight": "25", "goodsType": "goods" }
     ]
 }
 ```
 
-#### Response JSON Sample
++ <em>Response JSON Sample</em>
 
 ```json
 {
@@ -429,20 +359,14 @@ MagicPost Node.js server
             "fullname": "Hoang Thuy Linh",
             "phoneNumber": "0123456789",
             "address": {
-                "detail": "39S, Street A",
-                "communeID": "121",
-                "districtID": "9",
-                "provinceID": "1"
+                "detail": "39S, Street A", "communeID": "121", "districtID": "9", "provinceID": "1"
             }
         },
         "receiver": {
             "fullname": "Nguyen Huu Minh",
             "phoneNumber": "0123456789",
             "address": {
-                "detail": "43, Street A",
-                "communeID": "121",
-                "districtID": "9",
-                "provinceID": "1"
+                "detail": "43, Street A", "communeID": "121", "districtID": "9", "provinceID": "1"
             }
         },
         "failChoice": "return",
@@ -461,17 +385,15 @@ MagicPost Node.js server
         "updatedAt": "2023-11-30T13:39:12.787Z"
     },
     "goodsList": [
-        {
-            "realWeight": "100",
-            "convertedWeight": "25",
-            "goodsType": "goods"
-        }
+        { "realWeight": "100", "convertedWeight": "25", "goodsType": "goods" }
     ]
 }
 ```
 
-## Transaction Point API
-### Get transaction point by address
+### <samp> Transaction Point API </samp>
+#### <samp> Get transaction point by address </samp>
+
++ <em> API Information </em>
 
 | Request Requirement | Content                                                                                                                      |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -480,28 +402,25 @@ MagicPost Node.js server
 | Token Required      | NO                                                                                                                           |
 | Roles Authorized    | NONE                                                                                                                         |
 
-#### Response JSON Sample
++ <em>Response JSON Sample</em>
 ```json
 [
     {
         "address": {
             "detail": "Số 1, đường Xuân Thủy",
-            "commune": {
-                "name": "Phường Dịch Vọng Hậu"
-            },
-            "district": {
-                "name": "Quận Cầu Giấy"
-            },
-            "province": {
-                "name": "Thành phố Hà Nội"
-            }
+            "commune": { "name": "Phường Dịch Vọng Hậu" },
+            "district": { "name": "Quận Cầu Giấy" },
+            "province": { "name": "Thành phố Hà Nội" }
         }
     }
 ]
 ```
 
-## Address API
-### Get all communes/districts/provinces
+### <samp> Address API </samp>
+#### <samp> Get all communes/districts/provinces </samp>
+
++ <em>API Information</em>
+
 | Request Requirement | Content                                                                                                                                                                                                                       |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/administrative/province/getall  <br/> https://magicpost-uet.onrender.com/api/administrative/district/getall <br/> https://magicpost-uet.onrender.com/api/administrative/commune/getall |
@@ -511,12 +430,13 @@ MagicPost Node.js server
 #### Response JSON Sample
 ```json
 [
-    {
-        "name":"Thành phố Hà Nội", "provinceID/districtID/communeID": 1
-    }
+    { "name":"Thành phố Hà Nội", "provinceID/districtID/communeID": 1 }
 ]
 ```
-### Get all districts by provinceID
+#### <samp> Get all districts by provinceID </samp>
+
++ <em>API Information</em>
+
 | Request Requirement | Content                                                                           |
 | ------------------- | --------------------------------------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/administrative/district/getall/:provinceID |
@@ -526,25 +446,26 @@ MagicPost Node.js server
 #### Response JSON Sample
 ```json
 [
-    {
-        "name":"Quận 1","districtID":1474,"provinceID":63
-    }
+    { "name":"Quận 1","districtID":1474,"provinceID":63 }
 ]
 ```
-### Get all communes by districtID
+#### <samp> Get all communes by districtID </samp>
+
++ <em>API Information</em>
+
 | Request Requirement | Content                                                                         |
 | ------------------- | ------------------------------------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/administrative/commune/getall/:communeID |
 | HTTP method         | GET                                                                             |
 | Token Required      | YES                                                                             |
 | Roles Authorized    | NONE                                                                            |
-#### Response JSON Sample
++ <em>Response JSON sample</em>
 ```json
 [
-    {
-        "name":"Phường Phúc Xá","communeID":1,"districtID":1
-    }
+    { "name":"Phường Phúc Xá","communeID":1,"districtID":1 }
 ]
 ```
-# Database Design
+# <samp> Database Design </samp>
+
+## <samp> Relation Schema </samp>
 ![Alt text](drawSQL-magicpost-export-2023-11-15.png)

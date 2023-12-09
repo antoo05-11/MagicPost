@@ -14,15 +14,13 @@ Address.belongsTo(Commune, { foreignKey: 'communeID' });
 Commune.belongsTo(District, { foreignKey: 'districtID' });
 District.belongsTo(Province, { foreignKey: 'provinceID' });
 RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
-Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID' , as: 'workingPoint' });
+Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID', as: 'workingPoint' });
 
 import bcrypt from "bcryptjs";
 import { getAddressByID } from "../routing_point/address";
 import { generateRandomPassword, normalizeName } from "../../../utils";
 import { sequelize } from '../../models';
 import ErrorList from "../../exceptions/error-list";
-import { isValidEmail, isValidPhoneNumber } from "../validation-checking";
-import InvalidData from "../../exceptions/invalid-data";
 
 const pageSize = 10;
 
@@ -117,6 +115,8 @@ export const addNewEmployee = async (req, res) => {
 }
 
 export const editEmployeeInfo = async (req, res) => {
+    const t = await sequelize.transaction();
+    const employee = await Employee.findOne({ where: { employeeID: req.params.id } });
     
     return res.status(200).json({});
 }
@@ -183,4 +183,4 @@ export const getEmployeeByID = async (req, res) => {
     delete employee.addressID;
 
     return res.status(200).json(employee);
-}
+} 
