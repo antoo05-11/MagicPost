@@ -12,7 +12,9 @@ export const employee_adding_schema = Joi.object({
         .pattern(/^[0-9]+$/)
         .required(),
 
-    fullName: Joi.string().pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/).required(),
+    fullName: Joi.string()
+        .pattern(/[^a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]/u)
+        .required(),
 
     address: {
         detail: Joi.string().required(),
@@ -25,7 +27,11 @@ export const employee_adding_schema = Joi.object({
 
     email: Joi.string().email().required(),
 
-    role: Joi.string().allow(null).valid(role).optional()
+    role: Joi.string().allow(null).valid(role.GOODS_POINT_EMPLOYEE,
+        role.GOODS_POINT_HEADER,
+        role.MANAGER,
+        role.TRANSACTION_POINT_EMPLOYEE,
+        role.TRANSACTION_POINT_HEADER).optional()
 });
 
 export const employee_editting_schema = Joi.object({
@@ -38,7 +44,9 @@ export const employee_editting_schema = Joi.object({
         .pattern(/^[0-9]+$/)
         .optional(),
 
-    fullName: Joi.string().pattern(/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/).optional(),
+    fullName: Joi.string()
+        .pattern(/[^a-z0-9A-Z_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễếệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]/u)
+        .optional(),
 
     address: {
         detail: Joi.string().optional(),
@@ -51,5 +59,11 @@ export const employee_editting_schema = Joi.object({
 
     email: Joi.string().email().optional(),
 
-    role: Joi.string().allow(null).valid(role)
+    role: Joi.string().allow(null).valid(role.GOODS_POINT_EMPLOYEE,
+        role.GOODS_POINT_HEADER,
+        role.MANAGER,
+        role.TRANSACTION_POINT_EMPLOYEE,
+        role.TRANSACTION_POINT_HEADER),
+
+    status: Joi.string().optional().valid('ACTIVE', 'INACTIVE')
 });
