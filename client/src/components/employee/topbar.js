@@ -4,6 +4,8 @@ import "bootstrap/js/src/dropdown.js";
 import "@/css/employee/topbar.css";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import BreadCrumb from "./breadcrumd";
+import { signOut } from "next-auth/react";
 
 const itemVariants = {
   open: {
@@ -17,10 +19,11 @@ const itemVariants = {
 export default function TopBar() {
   const [profile, setProfile] = useState();
   return (
-    <nav class="navbar navbar-light bg-light topbar">
-      <div class="p-2 bd-highlight">Flex item 1</div>
-      <div id="avatar">
+    <motion.nav layout class="navbar navbar-light bg-light topbar">
+      <BreadCrumb />
+      <motion.div layout id="avatar">
         <motion.nav
+          layout
           initial={false}
           animate={profile ? "open" : "closed"}
           className="menu"
@@ -33,12 +36,14 @@ export default function TopBar() {
               <p>Do Minh Duy</p>
             </div>
             <motion.button
+              layout
               whileTap={{ scale: 0.97 }}
               onClick={() => setProfile(!profile)}
               id="icon"
             >
-              <FontAwesomeIcon icon="fa-solid fa-user-tie" size="2xl" />
+              <FontAwesomeIcon layout icon="fa-solid fa-user-tie" size="2xl" />
               <motion.div
+                layout
                 variants={{
                   open: { rotate: 180 },
                   closed: { rotate: 0 },
@@ -60,6 +65,7 @@ export default function TopBar() {
                   delayChildren: 0.3,
                   staggerChildren: 0.05,
                 },
+                display: "inline",
               },
               closed: {
                 clipPath: "inset(10% 5% 90% 5% round 10px)",
@@ -67,7 +73,9 @@ export default function TopBar() {
                   type: "spring",
                   bounce: 0,
                   duration: 0.3,
+                  display: "inline",
                 },
+                display: "none",
               },
             }}
             style={{ pointerEvents: profile ? "auto" : "none" }}
@@ -78,12 +86,16 @@ export default function TopBar() {
             <motion.li className="acc-list" variants={itemVariants}>
               Setting
             </motion.li>
-            <motion.li className="acc-list" variants={itemVariants}>
+            <motion.li
+              className="acc-list"
+              variants={itemVariants}
+              onClick={() => signOut()}
+            >
               Logout
             </motion.li>
           </motion.ul>
         </motion.nav>
-      </div>
-    </nav>
+      </motion.div>
+    </motion.nav>
   );
 }

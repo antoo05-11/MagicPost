@@ -5,6 +5,7 @@ import { createEmployee } from "@/api/action";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { useRouter } from "next/navigation";
+import { getEmployee } from "@/api/data";
 
 export default function EmployeeForm() {
   const employee = {
@@ -20,134 +21,171 @@ export default function EmployeeForm() {
     transactionPointID: "",
     goodPointID: "",
     email: "",
-    role: "",
+    role: null,
   };
-  const rout = useRouter();
+  const router = useRouter();
+
+  // let res = await fetch("https://magicpost-uet.onrender.com/api/administrative/province/getall", {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(data),
+  // });
+
   return (
-    <div>
+    <div className="bg-white container p-3 rounded shadow-lg">
       <form id="form-employee">
-        <div className="input-group">
-          <span class="input-group-text">Ho va ten</span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Ho va ten"
-            onChange={(e) => {
-              employee.fullName = e.target.value;
-            }}
-          />
-          {/* <input type="text" class="form-control" placeholder="Ten" /> */}
-        </div>
-        <div className="row">
-          <div className="form-group col">
-            <label for="exampleFormControlInput1">CCCD/CMND</label>
+        <div className="row mt-0">
+          <div className="col-md-6 mt-2">
+            <label htmlFor="fullName">Họ và tên</label>
             <input
+              type="text"
               className="form-control"
-              id="exampleFormControlInput1"
+              id="fullName"
+              placeholder="Họ và tên"
               onChange={(e) => {
-                employee.identifier = e.target.value;
+                employee.fullName = e.target.value;
               }}
             />
           </div>
-          <div className="form-group col">
-            <label for="exampleFormControlInput1">Email address</label>
+
+          <div className="col-md-6 mt-2">
+            <label htmlFor="dob">Ngày sinh</label>
+            <input
+              type="date"
+              className="form-control"
+              id="dob"
+            />
+          </div>
+        </div>
+
+        <div className="row mt-0">
+          <div className="col-md-6 mt-2">
+            <label htmlFor="email">Địa chỉ Email</label>
             <input
               type="email"
               className="form-control"
-              id="exampleFormControlInput1"
+              id="email"
               onChange={(e) => {
                 employee.email = e.target.value;
               }}
             />
           </div>
-        </div>
-        <div className="form-group row">
-          <label for="exampleFormControlInput1">Dia chi</label>
 
-          <div class="form-floating mb-3 col">
+          <div className="col-md-6 mt-2">
+            <label htmlFor="phoneNumber">Số điện thoại</label>
             <input
-              class="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
+              type="tel"
+              className="form-control"
+              id="phoneNumber"
               onChange={(e) => {
-                employee.address.communeID = e.target.value;
+                employee.phoneNumber = e.target.value;
               }}
             />
-            <label className="address" for="floatingInput">
-              Xa
-            </label>
           </div>
-          <div class="form-floating mb-3 col">
+        </div>
+
+        <div className="row mt-0">
+          <div className="col mt-2">
+            <label htmlFor="phoneNumber">CCCD</label>
             <input
-              class="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
+              type="tel"
+              className="form-control"
+              id="phoneNumber"
               onChange={(e) => {
-                employee.address.districtID = e.target.value;
+                employee.identifier = e.target.value;
               }}
             />
-            <label className="address" for="floatingInput">
-              Huyen/Quan
-            </label>
           </div>
-          <div class="form-floating mb-3 col">
-            <input
-              class="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
-              onChange={(e) => {
-                employee.address.provinceID = e.target.value;
-              }}
-            />
-            <label className="address" for="floatingInput">
-              Tinh
-            </label>
+        </div>
+
+        <div className="row">
+          <div>
+            Giới tính
           </div>
-          <div class="form-floating mb-3">
+        </div>
+
+        <div className="row mt-0">
+          <label htmlFor="province" className="col-sm-12 col-form-label mt-2">Địa chỉ</label>
+          <div className="col-md-4 mt-2">
+            <select className="form-select" aria-label="Default select example" id="province">
+              <option selected>Chọn Tỉnh / TP</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+
+          <div className="col-md-4 mt-2">
+            <select className="form-select" aria-label="Default select example">
+              <option selected>Chọn Xã / Phường</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+
+          <div className="col-md-4 mt-2">
+            <select className="form-select" aria-label="Default select example">
+              <option selected>Chọn Quận / Huyện</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="row mt-0">
+          <div className="col mt-2">
             <input
-              class="form-control"
-              id="floatingInput"
-              placeholder="name@example.com"
+              className="form-control"
+              id="addressDetail"
+              placeholder="Chi tiết"
               onChange={(e) => {
                 employee.address.detail = e.target.value;
               }}
             />
-            <label className="address" for="floatingInput">
-              Chi tiet
-            </label>
           </div>
         </div>
-        <div className="form-group">
-          <label for="exampleFormControlInput1">Role</label>
-          <input
-            className="form-control"
-            id="exampleFormControlInput1"
-            onChange={(e) => {
-              employee.role = e.target.value;
-            }}
-          />
+
+        <div className="row mt-0">
+          <div className="col-md-6 mt-2">
+            <label htmlFor="role">Vai trò</label>
+            <select className="form-select" aria-label="Default select example" id="role">
+              <option selected>Chọn vai trò</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+
+          <div className="col-md-6 mt-2">
+            <label htmlFor="transactionPoint">Địa điểm làm việc</label>
+            <select className="form-select" aria-label="Default select example">
+              <option selected>Địa điểm làm việc</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
         </div>
-        <div className="form-group">
-          <label for="exampleFormControlInput1">Dia diem lam viec</label>
-          <input
-            className="form-control"
-            id="exampleFormControlInput1"
-            onChange={(e) => {
-              employee.transactionPointID = e.target.value;
-            }}
-          />
-        </div>
-        <button>
-          <a href="/employees/list_employee/">Cancel</a>
-        </button>
+
       </form>
-      <button
-        onClick={() => {
-          console.log(createEmployee(employee));
-        }}
-      >
-        Create
-      </button>
+
+      <div className="mt-3">
+        <button
+          onClick={() => {
+            console.log(createEmployee(employee));
+          }}
+          type="button"
+          className="btn btn-primary me-3"
+        >
+          Tạo nhân viên
+        </button>
+
+        <button type="button" className="btn btn-secondary">Xóa</button>
+      </div>
     </div>
   );
 }

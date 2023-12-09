@@ -28,7 +28,7 @@ export async function login() {
 
 export async function createEmployee(infoEmployee) {
   const data = {
-    identifier: "040508576730",
+    identifier: "091978238391",
     phoneNumber: "0123457589",
     fullName: "Do Minh Duy",
     address: {
@@ -40,7 +40,7 @@ export async function createEmployee(infoEmployee) {
     transactionPointID: null,
     goodPointID: null,
     email: "linhhoang@yahoo.com",
-    role: "Tong Giam Doc",
+    role: null,
   };
   const token = await login();
   // console.log(JSON.stringify(data));
@@ -49,12 +49,14 @@ export async function createEmployee(infoEmployee) {
     const res = await fetch(url, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
+
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
     });
-    console.log(res.ok);
+    // const data1 = await res.json();
+    // console.log(data1);
     if (res.ok) {
       return true;
     } else return false;

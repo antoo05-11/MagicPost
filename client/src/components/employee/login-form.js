@@ -2,8 +2,17 @@
 
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { Container, Row, Col, Image, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
-import style from "@/css/login.module.css"
+import {
+  Container,
+  Row,
+  Col,
+  Image,
+  Form,
+  Button,
+  InputGroup,
+  FormControl,
+} from "react-bootstrap";
+import style from "@/css/login.module.css";
 
 export default function LoginForm() {
   const [username, setusername] = useState();
@@ -26,7 +35,7 @@ export default function LoginForm() {
             alt="Sample image"
           />
         </Col>
-        <Col md={6} lg={6} xl={4} offset-xl-1 >
+        <Col md={6} lg={6} xl={4} offset-xl-1>
           <Form>
             <Row>
               <Form.Group className="mb-4">
@@ -71,7 +80,8 @@ export default function LoginForm() {
                 variant="primary"
                 size="lg"
                 className="login-btn"
-                onClick={onSubMit}>
+                onClick={onSubMit}
+              >
                 Đăng nhập
               </Button>
             </div>

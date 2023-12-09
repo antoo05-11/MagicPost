@@ -7,6 +7,7 @@ import { signOut } from "next-auth/react";
 import { motion, useAnimate } from "framer-motion";
 import "bootstrap/js/src/dropdown.js";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 export default function SideBar({ role, open }) {
   const route = useRouter();
   const [scope, animate] = useAnimate();
@@ -33,9 +34,9 @@ export default function SideBar({ role, open }) {
       id="mySidebar"
       exit={{ opacity: 0 }}
     >
-      <a href="/employees" id="app-name">
+      <Link href="/employees" id="app-name">
         Magic Post
-      </a>
+      </Link>
 
       <hr />
       {role?.map((roro) => {
