@@ -26,12 +26,17 @@ const roleFunc = {
     url: "/employees/list_ordered",
     name: "Quan li don hang",
   },
+  list_workspace: {
+    url: "/employees/list_workspace",
+    name: "Quan li diem tap ket",
+  },
 };
 const role = {
   staff: [
     roleFunc["home_page"],
     roleFunc["list_employee"],
     roleFunc["list_order"],
+    roleFunc["list_workspace"],
   ],
 };
 
@@ -92,11 +97,6 @@ export default function EmployeesLayout({ children }) {
       <SideBar role={role.staff} />
       <MenuToggle toggle={() => setIsOpen(!isOpen)} />
       <motion.div layout id="main" data-isOpen={isOpen}>
-        {/* <Breadcrumb>
-          {array.map((list) => {
-            return <Breadcrumb.Item>{list}</Breadcrumb.Item>;
-          })}
-        </Breadcrumb> */}
         <TopBar layout />
         <motion.section id="noidung">
           <Container>{children}</Container>

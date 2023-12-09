@@ -5,6 +5,7 @@ import "@/css/employee/topbar.css";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import BreadCrumb from "./breadcrumd";
+import { signOut } from "next-auth/react";
 
 const itemVariants = {
   open: {
@@ -64,6 +65,7 @@ export default function TopBar() {
                   delayChildren: 0.3,
                   staggerChildren: 0.05,
                 },
+                display: "inline",
               },
               closed: {
                 clipPath: "inset(10% 5% 90% 5% round 10px)",
@@ -71,7 +73,9 @@ export default function TopBar() {
                   type: "spring",
                   bounce: 0,
                   duration: 0.3,
+                  display: "inline",
                 },
+                display: "none",
               },
             }}
             style={{ pointerEvents: profile ? "auto" : "none" }}
@@ -82,7 +86,11 @@ export default function TopBar() {
             <motion.li className="acc-list" variants={itemVariants}>
               Setting
             </motion.li>
-            <motion.li className="acc-list" variants={itemVariants}>
+            <motion.li
+              className="acc-list"
+              variants={itemVariants}
+              onClick={() => signOut()}
+            >
               Logout
             </motion.li>
           </motion.ul>
