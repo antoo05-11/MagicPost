@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import Card from "@/components/demoCard/card";
+import Card from "@/components/employee/dashboard/card";
+import "@/css/employee/dashboard/statistic.css"
 
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";
@@ -12,55 +13,70 @@ export default function Statistic({ userRole }) {
         <Card title={"Tổng quan"}>
             {userRole === 'leader' && (
                 <>
-                    {/* Leader Statistics */}
                     <Col>
                         <Row>
-                            <Col xs={3} className="bg-warning d-flex justify-content-center align-items-center rounded">
+                            <Col xs={3} className="itemContainer profit">
                                 <FaRegMoneyBillAlt size={'2em'} />
                             </Col>
 
                             <Col>
-                                <p>Lợi nhuận</p>
-                                <p>245.000.000.000 VND</p>
+                                <Row className="title">
+                                    <p>Lợi nhuận</p>
+                                </Row>
+                                <Row className="statisticNumber">
+                                    <h5>2.400.000.000 VND</h5>
+                                </Row>
                             </Col>
                         </Row>
                     </Col>
 
                     <Col>
                         <Row>
-                            <Col xs={3} className="bg-warning d-flex justify-content-center align-items-center rounded">
+                            <Col xs={3} className="itemContainer totalPackage">
                                 <FiPackage size={'2em'} />
                             </Col>
 
                             <Col>
-                                <p>Tổng hàng hóa</p>
-                                <p>73820</p>
+                                <Row className="title">
+                                    <p>Tổng hàng hóa</p>
+                                </Row>
+                                <Row className="statisticNumber">
+                                    <h5>70000</h5>
+                                </Row>
                             </Col>
                         </Row>
                     </Col>
 
                     <Col>
                         <Row>
-                            <Col xs={3} className="bg-warning d-flex justify-content-center align-items-center rounded">
+                            <Col xs={3} className="itemContainer transPoint">
                                 <TbTruckDelivery size={'2em'} />
                             </Col>
 
                             <Col>
-                                <p>Số điểm giao dịch</p>
-                                <p>1200</p>
+                                <Row className="title">
+                                    <p>Số điểm giao dịch</p>
+                                </Row>
+                                <Row className="statisticNumber">
+                                    <h5>500</h5>
+                                </Row>
                             </Col>
                         </Row>
                     </Col>
 
                     <Col>
                         <Row>
-                            <Col xs={3} className="bg-warning d-flex justify-content-center align-items-center rounded">
+                            <Col xs={3} className="itemContainer goodPoint">
                                 <LuPackageOpen size={'2em'} />
                             </Col>
 
                             <Col>
-                                <p>Số điểm tập kết</p>
-                                <p>300</p>
+                                <Row className="title">
+                                    <p>Số điểm tập kết</p>
+                                </Row>
+                                <Row className="statisticNumber">
+                                    <h5>300</h5>
+                                </Row>
                             </Col>
                         </Row>
                     </Col>

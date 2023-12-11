@@ -1,3 +1,5 @@
+import "@/css/employee/customForm.css"
+
 export default function OrderForm() {
   const order = {
     order: {
@@ -41,8 +43,8 @@ export default function OrderForm() {
   return (
     <div className="container">
       <form>
-        <div className="container bg-white rounded shadow-lg p-3 mb-3">
-          <div className="row border-bottom">
+        <div className="formContainer">
+          <div className="row">
             <h3>Thông tin người gửi</h3>
           </div>
 
@@ -66,9 +68,9 @@ export default function OrderForm() {
             </div>
           </div>
 
-          <div className="row ">
-            <label htmlFor="province" className="col-sm-12 col-form-label mt-2">Địa chỉ</label>
-            <div className="col-md-4 mt-2">
+          <div className="row mt-2">
+            <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
+            <div className="col-md-4">
               <select className="form-select" aria-label="Default select example" id="province">
                 <option selected>Chọn Tỉnh / TP</option>
                 <option value="1">One</option>
@@ -77,7 +79,7 @@ export default function OrderForm() {
               </select>
             </div>
 
-            <div className="col mt-2">
+            <div className="col">
               <select className="form-select" aria-label="Default select example">
                 <option selected>Chọn Xã / Phường</option>
                 <option value="1">One</option>
@@ -86,7 +88,7 @@ export default function OrderForm() {
               </select>
             </div>
 
-            <div className="col mt-2">
+            <div className="col">
               <select className="form-select" aria-label="Default select example">
                 <option selected>Chọn Quận / Huyện</option>
                 <option value="1">One</option>
@@ -96,8 +98,8 @@ export default function OrderForm() {
             </div>
           </div>
 
-          <div className="row ">
-            <div className="col mt-2">
+          <div className="row mt-2">
+            <div className="col">
               <input
                 className="form-control"
                 id="addressDetail"
@@ -106,8 +108,8 @@ export default function OrderForm() {
             </div>
           </div>
 
-          <div className="row mt-0">
-            <div className="col mt-2">
+          <div className="row mt-2">
+            <div className="col">
               <label htmlFor="senderCode">Mã khách hàng</label>
               <input
                 type="text"
@@ -116,7 +118,7 @@ export default function OrderForm() {
                 placeholder="Mã khách hàng" />
             </div>
 
-            <div className="col mt-2">
+            <div className="col">
               <label htmlFor="senderPostalCode">Mã bưu chính</label>
               <input
                 type="text"
@@ -128,7 +130,7 @@ export default function OrderForm() {
 
         </div>
 
-        <div className="container bg-white rounded shadow-lg p-3 mb-3">
+        <div className="formContainer">
           <div className="row border-bottom">
             <h3>Thông tin người nhận</h3>
           </div>
@@ -153,9 +155,9 @@ export default function OrderForm() {
             </div>
           </div>
 
-          <div className="row">
-            <label htmlFor="province" className="col-sm-12 col-form-label mt-2">Địa chỉ</label>
-            <div className="col-md-4 mt-2">
+          <div className="row mt-2">
+            <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
+            <div className="col-md-4">
               <select className="form-select" aria-label="Default select example" id="province">
                 <option selected>Chọn Tỉnh / TP</option>
                 <option value="1">One</option>
@@ -164,7 +166,7 @@ export default function OrderForm() {
               </select>
             </div>
 
-            <div className="col mt-2">
+            <div className="col">
               <select className="form-select" aria-label="Default select example">
                 <option selected>Chọn Xã / Phường</option>
                 <option value="1">One</option>
@@ -173,7 +175,7 @@ export default function OrderForm() {
               </select>
             </div>
 
-            <div className="col mt-2">
+            <div className="col">
               <select className="form-select" aria-label="Default select example">
                 <option selected>Chọn Quận / Huyện</option>
                 <option value="1">One</option>
@@ -183,8 +185,8 @@ export default function OrderForm() {
             </div>
           </div>
 
-          <div className="row ">
-            <div className="col mt-2">
+          <div className="row mt-2">
+            <div className="col">
               <input
                 className="form-control"
                 id="addressDetail"
@@ -193,8 +195,8 @@ export default function OrderForm() {
             </div>
           </div>
 
-          <div className="row mt-0">
-            <div className="col mt-2">
+          <div className="row mt-2">
+            <div className="col">
               <label htmlFor="receiverCode">Mã khách hàng</label>
               <input
                 type="text"
@@ -203,7 +205,7 @@ export default function OrderForm() {
                 placeholder="Mã khách hàng" />
             </div>
 
-            <div className="col mt-2">
+            <div className="col">
               <label htmlFor="receiverPostalCode">Mã bưu chính</label>
               <input
                 type="text"
@@ -215,14 +217,17 @@ export default function OrderForm() {
 
         </div>
 
-        <div className="container bg-white rounded shadow-lg p-3 mb-3">
-          <div className="row border-bottom">
-            <h3>Thông tin hàng hóa</h3>
+        <div className="formContainer">
+          <div className="row">
+            <div className="col">
+              <h3>Thông tin hàng hóa</h3>
+            </div>
+
+            <div className="col btnContainer">
+              <button type="button" class="btn btnCreate">Thêm hàng hóa</button>
+            </div>
           </div>
 
-          <div className="mt-2">
-            <button type="button" class="btn btn-primary ">Thêm hàng hóa</button>
-          </div>
           <div className="row p-2 table-responsive">
             <table className="table">
               <thead>
@@ -240,8 +245,8 @@ export default function OrderForm() {
               </tbody>
             </table>
           </div>
-          <div className="mt-3">
-            <button type="button" className="btn btn-success me-3">
+          <div className="btnContainer">
+            <button type="button" className="btn btnCreate">
               Tạo đơn hàng
             </button>
 

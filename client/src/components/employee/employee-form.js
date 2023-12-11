@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { useRouter } from "next/navigation";
 import { getEmployee } from "@/api/data";
+import "@/css/employee/customForm.css"
 
 export default function EmployeeForm() {
   const employee = {
@@ -34,13 +35,13 @@ export default function EmployeeForm() {
   // });
 
   return (
-    <div className="bg-white container p-3 rounded shadow-lg">
+    <div className="formContainer">
       <form id="form-employee ">
-        <div className="row border-bottom">
+        <div className="row">
           <h3>Thông tin nhân viên</h3>
         </div>
         <div className="row mt-2">
-          <div className="col-md-6 mt-2">
+          <div className="col-md-6">
             <label htmlFor="fullName">Họ và tên</label>
             <input
               type="text"
@@ -53,7 +54,7 @@ export default function EmployeeForm() {
             />
           </div>
 
-          <div className="col-md-6 mt-2">
+          <div className="col-md-6">
             <label htmlFor="dob">Ngày sinh</label>
             <input
               type="date"
@@ -63,25 +64,27 @@ export default function EmployeeForm() {
           </div>
         </div>
 
-        <div className="row mt-0">
-          <div className="col-md-6 mt-2">
+        <div className="row mt-2">
+          <div className="col-md-6">
             <label htmlFor="email">Địa chỉ Email</label>
             <input
               type="email"
               className="form-control"
               id="email"
+              placeholder="Địa chỉ email"
               onChange={(e) => {
                 employee.email = e.target.value;
               }}
             />
           </div>
 
-          <div className="col-md-6 mt-2">
+          <div className="col-md-6">
             <label htmlFor="phoneNumber">Số điện thoại</label>
             <input
               type="tel"
               className="form-control"
               id="phoneNumber"
+              placeholder="Số điện thoại"
               onChange={(e) => {
                 employee.phoneNumber = e.target.value;
               }}
@@ -89,8 +92,8 @@ export default function EmployeeForm() {
           </div>
         </div>
 
-        <div className="row mt-0">
-          <div className="col mt-2">
+        <div className="row mt-2">
+          <div className="col">
             <label htmlFor="phoneNumber">CCCD</label>
             <input
               type="tel"
@@ -103,15 +106,15 @@ export default function EmployeeForm() {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row mt-2">
           <div>
             Giới tính
           </div>
         </div>
 
-        <div className="row mt-0">
-          <label htmlFor="province" className="col-sm-12 col-form-label mt-2">Địa chỉ</label>
-          <div className="col-md-4 mt-2">
+        <div className="row mt-2">
+          <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
+          <div className="col-md-4">
             <select className="form-select" aria-label="Default select example" id="province">
               <option selected>Chọn Tỉnh / TP</option>
               <option value="1">One</option>
@@ -120,7 +123,7 @@ export default function EmployeeForm() {
             </select>
           </div>
 
-          <div className="col-md-4 mt-2">
+          <div className="col-md-4">
             <select className="form-select" aria-label="Default select example">
               <option selected>Chọn Xã / Phường</option>
               <option value="1">One</option>
@@ -129,7 +132,7 @@ export default function EmployeeForm() {
             </select>
           </div>
 
-          <div className="col-md-4 mt-2">
+          <div className="col-md-4">
             <select className="form-select" aria-label="Default select example">
               <option selected>Chọn Quận / Huyện</option>
               <option value="1">One</option>
@@ -139,8 +142,8 @@ export default function EmployeeForm() {
           </div>
         </div>
 
-        <div className="row mt-0">
-          <div className="col mt-2">
+        <div className="row mt-2">
+          <div className="col">
             <input
               className="form-control"
               id="addressDetail"
@@ -152,8 +155,8 @@ export default function EmployeeForm() {
           </div>
         </div>
 
-        <div className="row mt-0">
-          <div className="col-md-6 mt-2">
+        <div className="row mt-2">
+          <div className="col-md-6">
             <label htmlFor="role">Vai trò</label>
             <select className="form-select" aria-label="Default select example" id="role">
               <option selected>Chọn vai trò</option>
@@ -163,7 +166,7 @@ export default function EmployeeForm() {
             </select>
           </div>
 
-          <div className="col-md-6 mt-2">
+          <div className="col-md-6">
             <label htmlFor="transactionPoint">Địa điểm làm việc</label>
             <select className="form-select" aria-label="Default select example">
               <option selected>Địa điểm làm việc</option>
@@ -176,13 +179,13 @@ export default function EmployeeForm() {
 
       </form>
 
-      <div className="mt-3">
+      <div className="mt-3 btnContainer">
         <button
           onClick={() => {
             console.log(createEmployee(employee));
           }}
           type="button"
-          className="btn btn-primary me-3"
+          className="btn btnCreate"
         >
           Tạo nhân viên
         </button>

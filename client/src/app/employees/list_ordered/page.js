@@ -3,11 +3,12 @@ import { CreateOrder } from "@/components/employee/button";
 import Pagination from "@/components/employee/pagination";
 import SearchEmployee from "@/components/employee/search";
 import OrderTable from "@/components/employee/order-table";
-const item_per_page = 6;
-import "@/css/employee/list_employee.css";
 import SearchBox from "@/components/employee/search";
+import "@/css/employee/customTable.css"
+
 export default async function page({ searchParams: { query, page } }) {
   const currentQuery = query || "";
+  const item_per_page = 6;
   const currentPage = Number(page) || 1;
   const getdata = await getOrder();
   let data = [];
@@ -20,21 +21,30 @@ export default async function page({ searchParams: { query, page } }) {
   }
   const totalPage = data.length / item_per_page;
   return (
-    <div className="container bg-white shadow-lg rounded pt-3">
+    <div className="tableContainer">
       {/* <h2>Danh sach don hang</h2> */}
       {/* <div id="create-search"> */}
       {/* <SearchEmployee /> */}
       {/* <CreateOrder /> */}
       {/* </div> */}
       {/* <SearchBox /> */}
-      <div className="row border-bottom">
-        <h3>Danh sách đơn hàng</h3>
+
+      <div className="row">
+        <div className="col">
+          <h3>Danh sách đơn hàng</h3>
+        </div>
+
+        <div className="col btnContainer">
+          <CreateOrder />
+        </div>
       </div>
 
       <div className="row">
         <OrderTable data={data}></OrderTable>
         <Pagination totalPage={totalPage} />
       </div>
+
     </div>
+
   );
 }
