@@ -353,9 +353,7 @@ export const getOrderByIDForCustomer = async (req, res) => {
                     province: {
                         name: order.endTransactionProvinceName
                     }
-                },
-                createdAt: order.createdAt,
-                updatedAt: order.updatedAt
+                }
             },
             goodsList: goodsList,
             processes: processes

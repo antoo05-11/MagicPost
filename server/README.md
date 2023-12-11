@@ -16,6 +16,7 @@
   - [<samp>Order API</samp>](#order-api)
     - [<samp>Get all orders (with current working address)</samp>](#get-all-orders-with-current-working-address)
     - [<samp>Get order by ID</samp>](#get-order-by-id)
+    - [<samp>Get order by ID</samp>](#get-order-by-id-for-customer)
     - [<samp>Create new order</samp>](#create-new-order)
   - [<samp>Transaction Point API</samp>](#transaction-point-api)
     - [<samp>Get transaction point by address</samp>](#get-transaction-point-by-address)
@@ -127,7 +128,9 @@
 | Request Requirement | Content                                                |
 | ------------------- | ------------------------------------------------------ |
 | API URL             | https://magicpost-uet.onrender.com/api/employee/getall |
+|Query Params|page (1 as <i>default</i>)|
 | HTTP method         | GET                                                    |
+| HTTP Header         | X-Total-Pages - defined when page ID param not found in API URL                                   |
 | Token Required      | YES                                                    |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                               |
 
@@ -142,10 +145,13 @@
         "role": "TRANSACTION_POINT_EMPLOYEE",
         "email": "hoabinhnguyen@gmail.com",
         "workingPointID": 45,
+        "status": "ACTIVE",
+        "createdAt": "2023-12-09T17:05:12.000Z",
+        "updatedAt": "2023-12-09T17:05:12.000Z",
         "address": {
-            "province": "Tỉnh Quảng Ninh",
-            "district": "Thành phố Uông Bí",
-            "commune": "Phường Thanh Sơn",
+            "province": { "name": "Tỉnh Quảng Ninh" },
+            "district": { "name": "Thành phố Uông Bí" },
+            "commune": { "name": "Phường Thanh Sơn" },
             "detail": "435 Trần Khánh Dư"
         }
     }
@@ -170,10 +176,7 @@
     "phoneNumber": "0192344559",
     "fullName": "Thái Hoàng Linh",
     "address": {
-        "detail": "Số 100, đường 19/4",
-        "communeID": "5355",
-        "districtID": "302",
-        "provinceID": "27" 
+        "detail": "Số 100, đường 19/4", "communeID": "5355", "districtID": "302", "provinceID": "27" 
     },
     "transactionPointID": null,
     "goodPointID": null,
@@ -383,6 +386,110 @@
     "goodsList": [
         { "goodsID": 10, "goodsType": "document", "realWeight": 634, "convertedWeight": 643 }
     ]
+}
+```
+
+#### <samp>Get Order by ID (for Customer)</samp>
+
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                              |
+| ------------------- | ---------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/order/customerget/:id |
+| HTTP method         | GET                                                  |
+| Token Required      | NO                                                  |
+| Roles Authorized    | NONE                                                   |
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+
+```json
+{
+    "order": {
+        "sender": {
+            "fullname": "Trần Vương Khánh",
+            "phoneNumber": "0123456789",
+            "address": {
+                "detail": "Số 1, đường Xuân Thủy",
+                "commune": { "name": "Phường Dịch Vọng Hậu" },
+                "district": { "name": "Quận Cầu Giấy" },
+                "province": { "name": "Thành phố Hà Nội" }
+            }
+        },
+        "receiver": {
+            "fullname": "Vương Khánh Linh",
+            "phoneNumber": "0123456789",
+            "address": {
+                "detail": "435 Trần Khánh Dư",
+                "commune": { "name": "Phường Thanh Sơn" },
+                "district": { "name": "Thành phố Uông Bí" },
+                "province": { "name": "Tỉnh Quảng Ninh" }
+            }
+        },
+        "failChoice": "return",
+        "mainPostage": 1000,
+        "addedPostage": 1000,
+        "VATFee": 1000,
+        "otherFee": 1000,
+        "receiverCOD": 1000,
+        "receiverOtherFee": 1000,
+        "specialService": "",
+        "orderID": "AEX451934145VN",
+        "startTransactionPoint": {
+            "startTransactionPointID": 47,
+            "address": {
+                "detail": "Ngh. 282/35 Đ. Kim Giang",
+                "commune": { "name": "Phường Kim Giang" },
+                "district": { "name": "Quận Thanh Xuân" },
+                "province": { "name": "Thành phố Hà Nội" }
+            }
+        },
+        "endTransactionPoint": {
+            "endTransactionPoint": 46,
+            "address": {
+                "detail": "Số 2, đường Nguyễn Chí Thanh",
+                "commune": { "name": "Phường Láng Thượng" },
+                "district": { "name": "Quận Đống Đa" },
+                "province": { "name": "Thành phố Hà Nội" }
+            }
+        },
+        "goodsList": [
+            {
+                "goodsID": 10,
+                "orderID": "AEX451934145VN",
+                "goodsType": "document",
+                "realWeight": 634,
+                "convertedWeight": 643
+            }
+        ],
+        "processes": [
+            {
+                "processID": 1,
+                "orderID": "AEX451934145VN",
+                "currentRoutingPointID": 47,
+                "nextRoutingPointID": 1,
+                "arrivedTime": "2023-12-11T18:00:34.000Z",
+                "status": "arrived",
+                "currentRoutingPoint": {
+                    "addressID": 83,
+                    "address": {
+                        "detail": "Ngh. 282/35 Đ. Kim Giang",
+                        "commune": { "name": "Phường Kim Giang" },
+                        "district": { "name": "Quận Thanh Xuân" },
+                        "province": { "name": "Thành phố Hà Nội" }
+                    }
+                },
+                "nextRoutingPoint": {
+                    "addressID": 87,
+                    "address": {
+                        "detail": "Số 157, đường Xuân Thủy",
+                        "commune": { "name": "Phường Dịch Vọng Hậu" },
+                        "district": { "name": "Quận Cầu Giấy" },
+                        "province": { "name": "Thành phố Hà Nội" }
+                    }
+                }
+            }
+        ]
+    }
 }
 ```
 

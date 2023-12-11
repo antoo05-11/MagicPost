@@ -19,6 +19,11 @@ employeeRoute.get("/get", verifyToken,
 employeeRoute.get("/:id/get", catchAsync(getEmployeeByID));
 
 employeeRoute.post("/add",
+    verifyToken,
+    (req, res, next) => authorize(req, res, next,
+        [role.MANAGER,
+        role.TRANSACTION_POINT_HEADER,
+        role.GOODS_POINT_HEADER]),
     (req, res, next) => validate(req, res, next, employee_adding_schema),
     catchAsync(addNewEmployee));
 
