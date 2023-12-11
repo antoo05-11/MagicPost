@@ -1,26 +1,42 @@
-// import useSWR from "swr";
+"use client";
+import useSWR from "swr";
+import { useSession } from "next-auth/react";
 
-import { login } from "./action";
-import axios from "axios";
-import { headers } from "../../next.config";
-
-async function getData(url) {
-  const token = await login();
-  const data = await fetch(url, {
-    headers: new Headers({
-      "Content-Type": "application/x-www-form-urlencoded",
-      Authorization: `Bearer ${token}`,
-    }),
-  });
-  const dataRes = await data.json();
-  return dataRes;
+export function getData(url) {
+  const fetcher = (url, token) =>
+    fetch(url, {
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }),
+    }).then((res) => res.json());
+  const { data: session, status } = useSession();
+  const token = session?.accessToken;
+  // if (token) {
+  const { data, error, isLoading } = useSWR([url, token], ([url, token]) =>
+    fetcher(url, token)
+  );
+  return data;
+  // }
 }
 
-export async function getEmployee(query) {
+export function getEmployee(query) {
+  // try {
+  const data = getData("https://magicpost-uet.onrender.com/api/employee/get");
+  const dat = [];
+  for (var i in data) {
+    dat.push(data[i]);
+  }
+  return dat;
+  // } catch (error) {
+  // console.error("Database Error:", error);
+  // throw Error("Failed to fetch the latest invoices.");
+  // }
+}
+
+export function getOrder(query) {
   try {
-    const data = await getData(
-      "https://magicpost-uet.onrender.com/api/employee/get"
-    );
+    const data = getData("https://magicpost-uet.onrender.com/api/order/getall");
     const dat = [];
     for (var i in data) {
       dat.push(data[i]);
@@ -32,23 +48,7 @@ export async function getEmployee(query) {
   }
 }
 
-export async function getOrder(query) {
-  try {
-    const data = await getData(
-      "https://magicpost-uet.onrender.com/api/order/getall"
-    );
-    const dat = [];
-    for (var i in data) {
-      dat.push(data[i]);
-    }
-    return dat;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw Error("Failed to fetch the latest invoices.");
-  }
-}
+export function findOrder(orderID) {}
 
-export async function findOrder(orderID) {}
-
-export async function getOrderById(id) {}
-export const icon = {};
+export function getOrderById(id) {}
+// export const icon = {};

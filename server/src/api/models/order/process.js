@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
             },
             allowNull: false
         },
-        currentRoutingPoint: {
+        currentRoutingPointID: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
                 key: 'routingPointID'
             },
         },
-        nextRoutingPoint: {
+        nextRoutingPointID: {
             type: DataTypes.INTEGER,
             allowNull: true,
             references: {
@@ -38,10 +38,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         }
     }, {
-        id: false,
-        timestamps: false,
-        createdAt: false,
-        updatedAt: false,
+        id: false
     });
     return Processes;
 }

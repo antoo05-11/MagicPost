@@ -71,19 +71,24 @@
 // }
 "use client";
 import useSWR from "swr";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { login } from "@/api/action";
+import { headers } from "../../../next.config";
+import { getEmployee, getgetData, testSWR } from "@/api/definations";
+import { getData } from "@/api/data";
 
 export default function page() {
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    "https://reqres.in/api/users?page=2",
-    fetcher
+  // const url = "https://magicpost-uet.onrender.com/api/employee/get";
+  // const data = getgetData(url);
+  // const { data: session, status: isLoading } = useSession();
+  // console.log("check token: ", session?.accessToken);
+  const data = getData("https://magicpost-uet.onrender.com/api/order/getall");
+  console.log(data);
+  return (
+    <>
+      <h1>Protected Page</h1>
+      <p>You can view this page because you are signed in.</p>
+    </>
   );
-  const { data: session } = useSession();
-  console.log("check token", session);
-  if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
-  // console.log("check data", data);
-  // render data
-  return <div>hello!</div>;
 }

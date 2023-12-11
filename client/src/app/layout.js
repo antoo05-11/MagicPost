@@ -11,10 +11,11 @@ library.add(fas);
 const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children, session }) {
+  // console.log("check session", session);
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider session={session}>{children}</SessionProvider>
       </body>
     </html>
   );

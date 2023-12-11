@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export default withAuth(
   function middleware(req) {
     if (req.nextUrl.pathname.startsWith("/login")) {
-      console.log(123);
+      // console.log(123);
       //   NextResponse.redirect(new URL("/"));
       //   return NextResponse.rewrite(new URL(`/employees`));
       return NextResponse.redirect(new URL("/employees", req.url));
@@ -15,7 +15,7 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ token }) => {
-        // console.log("hihi");
+        // console.log(token.accessToken);
       },
     },
   },
@@ -27,4 +27,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/dashboard", "/employees"] };
+export const config = { matcher: ["/dashboard", "/employees", "/test"] };

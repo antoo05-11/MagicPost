@@ -33,11 +33,16 @@ export const getAddressByID = async (addressID) => {
     });
     if (address) {
         const response = {
-            province: address.district.province.name,
-            district: address.district.name,
-            commune: address.commune.name,
-            detail: address.dataValues.detail,
-            exactPostion: address.dataValues.exactPosition
+            province: {
+                name: address.district.province.name
+            },
+            district: {
+                name: address.district.name,
+            },
+            commune: {
+                name: address.commune.name
+            },
+            detail: address.dataValues.detail
         }
         return response;
     }
@@ -88,7 +93,7 @@ export const checkAddress = async (address, validAddress) => {
     let districtID = address.districtID;
     let provinceID = address.provinceID;
 
-    if(!communeID || !districtID || !provinceID) if(!validAddress) return false;
+    if (!communeID || !districtID || !provinceID) if (!validAddress) return false;
 
     if (communeID == validAddress.communeID &&
         districtID == validAddress.districtID &&

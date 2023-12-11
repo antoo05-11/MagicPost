@@ -15,7 +15,7 @@ export const authOptions = {
         const data = {
           //   employeeID: username,
           //   password: password,
-          employeeID: "23000000",
+          employeeID: "23000014",
           password: "password",
         };
         const url = "https://magicpost-uet.onrender.com/api/auth/login";
@@ -28,6 +28,7 @@ export const authOptions = {
         });
 
         const user = await res.json();
+        // return false;
         if (res.ok && user) {
           return user;
         } else {
@@ -37,12 +38,25 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url;
-      return baseUrl;
+    async signIn({ user, account, profile, email, credentials }) {
+      // console.log(user);
+      return true;
+    },
+    async jwt({ token, user }) {
+      // if (user) {
+      //   token.accessToken = user.accessToken;
+      // }
+      // console.log(user);
+      return { ...token, ...user };
+    },
+    async session({ session, token, user }) {
+      // console.log("check user", user);
+      // console.log("check token", token);
+      session.accessToken = token.accessToken;
+      session.user = token.user;
+      // console.log(session);
+      // console.log(session.accessToken);
+      return session;
     },
   },
   session: {

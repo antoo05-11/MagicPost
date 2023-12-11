@@ -9,8 +9,11 @@ import goodsPointRoute from "./routing_point/goods_point";
 import transactionPointRoute from "./routing_point/transaction_point";
 import employeeRoute from "./human/employee";
 import orderRoute from "./order/order";
+import Error from "../exceptions/error";
 
 const router = Router();
+
+Error.initErrors();
 
 router.use("/auth", authRoute);
 router.use("/administrative", administrativeRoute);

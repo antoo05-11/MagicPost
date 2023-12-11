@@ -1,17 +1,18 @@
+"use client";
 import { getOrder } from "@/api/data";
 import { CreateOrder } from "@/components/employee/button";
 import Pagination from "@/components/employee/pagination";
 import SearchEmployee from "@/components/employee/search";
 import OrderTable from "@/components/employee/order-table";
 import SearchBox from "@/components/employee/search";
-import "@/css/employee/customTable.css"
+import "@/css/employee/customTable.css";
 import OrderProgress from "@/components/employee/order-progress";
 
 export default async function page({ searchParams: { query, page } }) {
   const currentQuery = query || "";
   const item_per_page = 6;
   const currentPage = Number(page) || 1;
-  const getdata = await getOrder();
+  const getdata = getOrder();
   let data = [];
   for (
     var i = (currentPage - 1) * item_per_page;
@@ -45,8 +46,6 @@ export default async function page({ searchParams: { query, page } }) {
         {/* <OrderProgress ></OrderProgress> */}
         <Pagination totalPage={totalPage} />
       </div>
-
     </div>
-
   );
 }

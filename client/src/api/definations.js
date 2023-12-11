@@ -1,19 +1,54 @@
+"use client";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
 
-export function getgetData() {
-  const token = login();
-  console.log(token);
-  const fetcher = (url) =>
+export function getData(url) {
+  const fetcher = (url, token) =>
     fetch(url, {
       headers: new Headers({
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       }),
     }).then((res) => res.json());
-  const { data, error, isLoading } = useSWR(
-    "https://magicpost-uet.onrender.com/api/employee/get",
-    fetcher
+  const { data: session, status } = useSession();
+  const token = session?.accessToken;
+  // if (token) {
+  const { data, error, isLoading } = useSWR([url, token], ([url, token]) =>
+    fetcher(url, token)
   );
   return data;
-  // console.log(data);
+  // }
 }
+
+export function getEmployee(query) {
+  // try {
+  const data = getData("https://magicpost-uet.onrender.com/api/employee/get");
+  const dat = [];
+  for (var i in data) {
+    dat.push(data[i]);
+  }
+  return dat;
+  // } catch (error) {
+  // console.error("Database Error:", error);
+  // throw Error("Failed to fetch the latest invoices.");
+  // }
+}
+
+export function getOrder(query) {
+  try {
+    const data = getData("https://magicpost-uet.onrender.com/api/order/getall");
+    const dat = [];
+    for (var i in data) {
+      dat.push(data[i]);
+    }
+    return dat;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw Error("Failed to fetch the latest invoices.");
+  }
+}
+
+export function findOrder(orderID) {}
+
+export function getOrderById(id) {}
+// export const icon = {};
