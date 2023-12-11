@@ -11,6 +11,6 @@ export const getAllCommunes = async (req, res) => {
 
 export const getAllCommunesByDistrictID = async (req, res) => {
     const communes = await Commune.findAll({ where: { districtID: req.params.districtID } });
-    if (!communes) throw new HttpException(404, `Cannot find communes by ID ${req.params.districtID}`);
+    if (!communes) return res.status(404);
     return res.status(200).json(communes);
 }

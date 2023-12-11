@@ -1,6 +1,6 @@
 import path from 'path';
-import HttpException from '../../exceptions/http-exception';
 import { sequelize } from '../../models';
+import Error from '../../exceptions/error';
 const { QueryTypes } = require('sequelize');
 const { Op } = require('sequelize')
 const crypto = require('crypto');
@@ -11,7 +11,21 @@ const Goods = db.goods;
 const Customer = db.customers;
 const Address = db.addresses;
 const Process = db.processes;
+const RoutingPoint = db.routing_points;
+const Commune = db.communes;
+const District = db.districts;
+const Province = db.provinces;
+const TransactionPoint = db.transaction_points;
+const GoodsPoint = db.goods_points;
+
 Process.belongsTo(Order, { foreignKey: 'orderID' });
+Process.belongsTo(RoutingPoint, { foreignKey: 'currentRoutingPointID', as: 'currentRoutingPoint' });
+Process.belongsTo(RoutingPoint, { foreignKey: 'nextRoutingPointID', as: 'nextRoutingPoint' });
+Address.belongsTo(Commune, { foreignKey: 'communeID' });
+Commune.belongsTo(District, { foreignKey: 'districtID' });
+District.belongsTo(Province, { foreignKey: 'provinceID' });
+RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
+
 const fs = require('fs');
 const limitRecordsNum = 10;
 
@@ -19,6 +33,14 @@ const getOrderByIDQueryPath = path.join(__dirname, '../../../queries/orders/orde
 let getOrderByIDQuery = ''
 try {
     getOrderByIDQuery = fs.readFileSync(getOrderByIDQueryPath, 'utf8');
+} catch (error) {
+    console.error("Error reading file:", error);
+}
+
+const getOrderByIDForCustomerQueryPath = path.join(__dirname, '../../../queries/orders/orderForCustomer.select.sql');
+let getOrderByIDForCustomerQuery = ''
+try {
+    getOrderByIDForCustomerQuery = fs.readFileSync(getOrderByIDForCustomerQueryPath, 'utf8');
 } catch (error) {
     console.error("Error reading file:", error);
 }
@@ -87,11 +109,11 @@ export const getOrderByID = async (req, res) => {
                         communeID: order.receiverCommuneID,
                         name: order.receiverCommuneName
                     },
-                    districtName: {
+                    district: {
                         districtID: order.receiverDistrictID,
                         name: order.receiverDistrictName
                     },
-                    provinceName: {
+                    province: {
                         provinceID: order.receiverProvinceID,
                         name: order.receiverProvinceName
                     }
@@ -186,4 +208,159 @@ function generateOrderID() {
         + alphabet[randomIndexes[2] % 26];
     orderID += crypto.randomInt(100000000, 999999999).toString() + "VN";
     return orderID;
+}
+
+export const getOrderByIDForCustomer = async (req, res) => {
+    const orders = await sequelize.query(getOrderByIDForCustomerQuery, {
+        replacements: { orderID: req.params.id },
+        type: QueryTypes.SELECT
+    });
+    if (orders.length == 0) return res.status(404).json(Error.getError(Error.code.invalid_order_id));
+    const order = orders[0];
+    const goodsList = await Goods.findAll({
+        where: {
+            orderID: order.orderID
+        }
+    })
+
+    let processes = await Process.findAll({
+        where: { orderID: order.orderID },
+        order: [
+            ['processID', 'ASC']
+        ],
+        attributes: { exclude: ['updatedAt', 'createdAt'] },
+        include: [
+            {
+                model: RoutingPoint,
+                as: 'currentRoutingPoint',
+                include: {
+                    model: Address,
+                    include: [
+                        {
+                            model: Commune,
+                            attributes: ['name']
+                        },
+                        {
+                            model: District,
+                            attributes: ['name']
+                        },
+
+                        {
+                            model: Province,
+                            attributes: ['name']
+                        }
+                    ],
+                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                },
+                attributes: { exclude: ['routingPointID'] }
+            },
+            {
+                model: RoutingPoint,
+                as: 'nextRoutingPoint',
+                include: {
+                    model: Address,
+                    include: [
+                        {
+                            model: Commune,
+                            attributes: ['name']
+                        },
+                        {
+                            model: District,
+                            attributes: ['name']
+                        },
+
+                        {
+                            model: Province,
+                            attributes: ['name']
+                        }
+                    ],
+                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                },
+                attributes: { exclude: ['routingPointID'] }
+            }
+        ]
+    });
+
+    const result = {
+        order: {
+            sender: {
+                fullname: order.senderFullName,
+                phoneNumber: order.senderPhoneNumber,
+                address: {
+                    detail: order.senderAddressDetail,
+                    commune: {
+                        name: order.senderCommuneName
+                    },
+                    district: {
+                        name: order.senderDistrictName
+                    },
+                    province: {
+                        name: order.senderProvinceName
+                    }
+
+                }
+            },
+            receiver: {
+                fullname: order.receiverFullName,
+                phoneNumber: order.receiverPhoneNumber,
+                address: {
+                    detail: order.receiverAddressDetail,
+                    commune: {
+                        name: order.receiverCommuneName
+                    },
+                    district: {
+                        name: order.receiverDistrictName
+                    },
+                    province: {
+                        name: order.receiverProvinceName
+                    }
+                }
+            },
+            failChoice: order.failChoice,
+            mainPostage: order.mainPostage,
+            addedPostage: order.addedPostage,
+            VATFee: order.VATFee,
+            otherFee: order.otherFee,
+            receiverCOD: order.receiverCOD,
+            receiverOtherFee: order.receiverOtherFee,
+            specialService: order.specialService,
+            orderID: order.orderID,
+            startTransactionPoint: {
+                startTransactionPointID: order.startTransactionPointID,
+                address: {
+                    detail: order.startTransactionAddressDetail,
+                    commune: {
+                        name: order.startTransactionCommuneName
+                    },
+                    district: {
+                        name: order.startTransactionDistrictName
+                    },
+                    province: {
+                        name: order.startTransactionProvinceName
+                    }
+                }
+            },
+            endTransactionPoint: {
+                endTransactionPoint: order.endTransactionPointID,
+                address: {
+                    detail: order.endTransactionAddressDetail,
+                    commune: {
+                        name: order.endTransactionCommuneName
+                    },
+                    district: {
+                        name: order.endTransactionDistrictName
+                    },
+                    province: {
+                        name: order.endTransactionProvinceName
+                    }
+                },
+                createdAt: order.createdAt,
+                updatedAt: order.updatedAt
+            },
+            goodsList: goodsList,
+            processes: processes
+        }
+    };
+
+    return res.status(200).json(result);
 }
