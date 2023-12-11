@@ -17,15 +17,18 @@ body {
 }
 
 .topbar {
-  background-color: #c7e9ff !important;
+  background-color: #fff !important;
   z-index: 1;
+  border-bottom: 1px solid #dee2e6;
 }
+
 #avatar {
   position: fixed;
   display: inline-flex;
   top: 0;
   right: 0;
 }
+
 .menu {
   /* display: block; */
   filter: drop-shadow(1px 1px 1px #4700b3);
@@ -33,6 +36,7 @@ body {
   display: flex;
   flex-direction: column;
 }
+
 .icon {
   border: none;
   border-radius: 100%;
@@ -53,9 +57,11 @@ body {
 .list-infor {
   background: var(--accent);
 }
+
 .acc-list:hover {
   background-color: gray;
 }
+
 .acc-list,
 .list-infor {
   list-style: none;

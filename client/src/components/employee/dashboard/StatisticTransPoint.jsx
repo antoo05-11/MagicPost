@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from "@/components/demoCard/card";
+import Card from "@/components/employee/dashboard/card";
 import Chart from 'react-apexcharts';
 import { Button } from 'react-bootstrap';
 
@@ -29,6 +29,7 @@ const options = {
             filter: { type: 'none' }
         }
     },
+    colors: ['#ff6178', '#26e7a6'],
     legend: { show: false },
     xaxis: {
         categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -42,7 +43,7 @@ const options = {
         tickAmount: 4,
         labels: {
             offsetX: -17,
-            formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}k`
+            formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}`
         }
     }
 

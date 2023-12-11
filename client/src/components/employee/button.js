@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { FaRegEye } from "react-icons/fa";
-
+import { FiUserPlus } from "react-icons/fi";
+import { LuPackagePlus } from "react-icons/lu";
 
 export function CreateEmployee() {
   const route = useRouter();
@@ -12,8 +13,10 @@ export function CreateEmployee() {
       onClick={() => {
         route.push("/employees/list_employee/create");
       }}
+      className="btnCreate"
     >
-      Create
+      <FiUserPlus size={'2em'} />
+      Tạo nhân viên
     </Button>
   );
 }
@@ -24,8 +27,10 @@ export function CreateOrder() {
       onClick={() => {
         route.push("/employees/list_ordered/create");
       }}
+      className="btnCreate"
     >
-      Create
+      <LuPackagePlus size={'2em'} />
+      Tạo đơn hàng
     </Button>
   );
 }
@@ -34,7 +39,7 @@ export function EmployeeDetail({ id }) {
 
   return (
     <Button
-    className=".bg-transparent"
+      className=".bg-transparent"
       onClick={() => {
         route.push(`/employees/list_employee/${id}/edit`);
         // console.log(id);
@@ -54,7 +59,7 @@ export function OrderDetail({ id }) {
         // console.log(id);
       }}
     >
-      Detail
+      <FaRegEye />
     </Button>
   );
 }

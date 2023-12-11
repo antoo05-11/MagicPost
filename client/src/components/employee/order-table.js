@@ -13,19 +13,19 @@ export default function OrderTable({ data }) {
                   STT
                 </th>
                 <th scope="col" >
-                  Ma don hang
+                  Mã đơn hàng
                 </th>
                 <th scope="col" >
-                  Nguoi gui
+                  Người gửi
                 </th>
                 <th scope="col" >
-                  Nguoi nhan
+                  Người nhận 
                 </th>
                 <th scope="col" >
-                  Dia chi nguoi nhan
+                  Địa chỉ
                 </th>
                 <th scope="col" >
-                  Trang thai
+                  Trạng thái
                   <select className="state-order">
                     <option value="volvo">Volvo</option>
                     <option value="saab">Saab</option>
@@ -35,7 +35,7 @@ export default function OrderTable({ data }) {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="table-group-divider">
               {data?.map((data,index) => {
                 return (
                   <tr key={data?.employeeID}>

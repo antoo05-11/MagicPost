@@ -1,15 +1,16 @@
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import "@/css/employee/dashboard/card.css"
 
 export default function Card({ title, children }) {
     return (
-        <Container className="bg-light rounded p-4 shadow-lg mb-2">
-            <Row >
+        <Container className="cardContainer">
+            <Row>
                 <Col xs={11}>
                     <h4>{title}</h4>
                 </Col>
-                <Col xs={1} className="d-flex justify-content-end p-0">
-                    <BsThreeDotsVertical/>
+                <Col xs={1} className="btnStatistic">
+                    <BsThreeDotsVertical />
                 </Col>
             </Row>
             <Row>

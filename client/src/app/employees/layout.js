@@ -16,19 +16,19 @@ import { motion } from "framer-motion";
 const roleFunc = {
   home_page: {
     url: "/employees",
-    name: "Trang chinh",
+    name: "Trang chính",
   },
   list_employee: {
     url: "/employees/list_employee",
-    name: "Quan li nhan vien",
+    name: "Nhân viên",
   },
   list_order: {
     url: "/employees/list_ordered",
-    name: "Quan li don hang",
+    name: "Đơn hàng",
   },
   list_workspace: {
     url: "/employees/list_workspace",
-    name: "Quan li diem tap ket",
+    name: "Điểm tập kết",
   },
 };
 const role = {
@@ -98,7 +98,7 @@ export default function EmployeesLayout({ children }) {
       <MenuToggle toggle={() => setIsOpen(!isOpen)} />
       <motion.div layout id="main" data-isOpen={isOpen}>
         <TopBar layout />
-        <motion.section id="noidung">
+        <motion.section id="noidung" children className="p-3">
           <Container>{children}</Container>
         </motion.section>
       </motion.div>

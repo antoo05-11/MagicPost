@@ -24,12 +24,12 @@ export default function LoginForm() {
       redirect: true,
       callbackUrl: "/employees",
     });
-  };
+  };  
   return (
     <Container fluid className={style.container}>
       <Row className="d-flex justify-content-center align-items-center h-100">
         <Col md={9} lg={6} xl={5}>
-          <Image
+          <Image  
             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
             fluid
             alt="Sample image"

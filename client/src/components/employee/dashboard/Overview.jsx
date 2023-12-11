@@ -1,7 +1,7 @@
 import Chart from "react-apexcharts";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
-import Card from "@/components/demoCard/card";
+import Card from "@/components/employee/dashboard/card";
 
 const options = {
     chart: {
@@ -60,7 +60,7 @@ const options = {
         tickAmount: 4,
         labels: {
             offsetX: -17,
-            formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}k`
+            formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}`
         }
     }
 }
