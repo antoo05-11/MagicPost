@@ -18,16 +18,21 @@ const Province = db.provinces;
 const TransactionPoint = db.transaction_points;
 const GoodsPoint = db.goods_points;
 
+Order.belongsTo(RoutingPoint, { foreignKey: 'startTransactionPointID', as: 'startTransactionPoint' });
+Order.belongsTo(RoutingPoint, { foreignKey: 'endTransactionPointID', as: 'endTransactionPoint' });
+
 Process.belongsTo(Order, { foreignKey: 'orderID' });
 Process.belongsTo(RoutingPoint, { foreignKey: 'currentRoutingPointID', as: 'currentRoutingPoint' });
 Process.belongsTo(RoutingPoint, { foreignKey: 'nextRoutingPointID', as: 'nextRoutingPoint' });
+
 Address.belongsTo(Commune, { foreignKey: 'communeID' });
 Commune.belongsTo(District, { foreignKey: 'districtID' });
 District.belongsTo(Province, { foreignKey: 'provinceID' });
 RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
+Order.hasMany(Process, { foreignKey: 'orderID' })
 
 const fs = require('fs');
-const limitRecordsNum = 10;
+const limitRecordsNum = 8;
 
 const getOrderByIDQueryPath = path.join(__dirname, '../../../queries/orders/order.select.sql');
 let getOrderByIDQuery = ''
@@ -62,8 +67,114 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                     OR nextRoutingPointID = ${currentRoutingPointID}))`)
             }
         },
-        attributes: ['orderID', 'sentTime', 'receivedTime', 'status']
+        include: [
+            {
+                model: Process,
+                order: [['processID', 'DESC']],
+                limit: 1,
+                include: [
+                    {
+                        model: RoutingPoint,
+                        as: 'currentRoutingPoint',
+                        include: {
+                            model: Address,
+                            include: [
+                                {
+                                    model: Commune,
+                                    attributes: ['name']
+                                },
+                                {
+                                    model: District,
+                                    attributes: ['name']
+                                },
+
+                                {
+                                    model: Province,
+                                    attributes: ['name']
+                                }
+                            ],
+                            attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                        },
+                        attributes: { exclude: ['routingPointID'] }
+                    },
+                    {
+                        model: RoutingPoint,
+                        as: 'nextRoutingPoint',
+                        include: {
+                            model: Address,
+                            include: [
+                                {
+                                    model: Commune,
+                                    attributes: ['name']
+                                },
+                                {
+                                    model: District,
+                                    attributes: ['name']
+                                },
+
+                                {
+                                    model: Province,
+                                    attributes: ['name']
+                                }
+                            ],
+                            attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                        },
+                        attributes: { exclude: ['routingPointID'] }
+                    }
+                ]
+            },
+            {
+                model: RoutingPoint,
+                as: 'startTransactionPoint',
+                include: {
+                    model: Address,
+                    include: [
+                        {
+                            model: Commune,
+                            attributes: ['name']
+                        },
+                        {
+                            model: District,
+                            attributes: ['name']
+                        },
+
+                        {
+                            model: Province,
+                            attributes: ['name']
+                        }
+                    ],
+                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                },
+                attributes: { exclude: ['routingPointID'] }
+            },
+            {
+                model: RoutingPoint,
+                as: 'endTransactionPoint',
+                include: {
+                    model: Address,
+                    include: [
+                        {
+                            model: Commune,
+                            attributes: ['name']
+                        },
+                        {
+                            model: District,
+                            attributes: ['name']
+                        },
+
+                        {
+                            model: Province,
+                            attributes: ['name']
+                        }
+                    ],
+                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                },
+                attributes: { exclude: ['routingPointID'] }
+            }
+        ],
+        attributes: ['orderID', 'sentTime', 'status', 'createdAt']
     })
+
     return res.status(200).json(orders);
 }
 

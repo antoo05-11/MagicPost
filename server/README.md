@@ -47,13 +47,17 @@
 }
 ```
 
-| HTTP status code | Error code | Description                                                                               |
-|------------------|------------|-------------------------------------------------------------------------------------------|
-| 400              | 10000      | Invalid Data in Request Body                                                              |
-| 409              | 10001      | Invalid Address (CommuneID, DistrictID and ProvinceID are not compatible with each other) |
-| 409              | 10002      | Duplicated Identifier                                                                     |
-| 400              | 10003      | Invalid Employee ID                                                                       |
-| 400              | 10004      | Invalid Working Address ID                                                                |                                                                  |
+| HTTP status code | Error code | Description                                                                                         |
+|------------------|------------|-----------------------------------------------------------------------------------------------------|
+| 400              | 10000      | No credentials sent                                                                                 |
+| 400              | 10001      | Not authorized                                                                                      |
+| 400              | 10002      | Authentication Failed                                                                               |
+| 400              | 10003      | Invalid Request Body                                                                                |
+| 409              | 10004      | Invalid Address ID (Commune does not match with province and district)                              |
+| 404              | 10005      | Invalid Employee ID                                                                                 |
+| 409              | 10006      | Invalid Working Address ID (Working address cannot be found or does not match with role registered) |
+| 409              | 10007      | Duplicated identifier (Identifier has been registered before)                                       |
+| 404              | 10008      | Invalid Order ID                                                                                    |
 
 ## <samp>API List</samp>
 
@@ -325,10 +329,58 @@
 ```json
 [
     {
-        "orderID": "1",
-        "sentTime": "2023-11-16T00:05:12.000Z",
-        "receivedTime": "2023-11-17T00:05:15.000Z",
-        "status": "delivering"
+        "orderID": "AEX451934145VN",
+        "sentTime": "2023-12-11T23:34:37.000Z",
+        "status": "delivering",
+        "createdAt": "2023-11-30T13:00:31.000Z",
+        "startTransactionPoint": {
+            "addressID": 83,
+            "address": {
+                "detail": "Ngh. 282/35 Đ. Kim Giang",
+                "commune": { "name": "Phường Kim Giang" },
+                "district": { "name": "Quận Thanh Xuân" },
+                "province": { "name": "Thành phố Hà Nội" }
+            }
+        },
+        "endTransactionPoint": {
+            "addressID": 82,
+            "address": {
+                "detail": "Số 2, đường Nguyễn Chí Thanh",
+                "commune": { "name": "Phường Láng Thượng" },
+                "district": { "name": "Quận Đống Đa" },
+                "province": { "name": "Thành phố Hà Nội" }
+            }
+        },
+        "processes": [
+            {
+                "processID": 4,
+                "orderID": "AEX451934145VN",
+                "currentRoutingPointID": 3,
+                "nextRoutingPointID": 46,
+                "arrivedTime": "2023-12-11T20:04:13.000Z",
+                "status": "arrived",
+                "createdAt": "2023-12-11T18:49:55.000Z",
+                "updatedAt": "2023-12-11T18:49:55.000Z",
+                "currentRoutingPoint": {
+                    "addressID": 89,
+                    "address": {
+                        "detail": "hello",
+                        "commune": { "name": "Phường Khương Đình" },
+                        "district": { "name": "Quận Thanh Xuân" },
+                        "province": { "name": "Thành phố Hà Nội" }
+                    }
+                },
+                "nextRoutingPoint": {
+                    "addressID": 82,
+                    "address": {
+                        "detail": "Số 2, đường Nguyễn Chí Thanh",
+                        "commune": { "name": "Phường Láng Thượng" },
+                        "district": { "name": "Quận Đống Đa" },
+                        "province": { "name": "Thành phố Hà Nội" }
+                    }
+                }
+            }
+        ]
     }
 ]
 ```

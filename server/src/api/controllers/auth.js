@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import HttpException from "../exceptions/http-exception";
 import jwt from "jsonwebtoken";
+import Error from "../exceptions/error";
 const Crypto = require('node-crypt');
 
 const db = require('../models');
@@ -37,7 +37,8 @@ export const login = async (req, res) => {
     const user = await Employee.findOne({
         where: { employeeID: req.body.employeeID }
     });
-    if (!user) throw new HttpException(404, "User not found");
+    if (!user)
+        return res.status(404).json(Error.getError(Error.code.invalid_employee_id));
 
     //const encrypted = await crypto.encrypt("password");
     //console.log(encrypted);
@@ -52,7 +53,8 @@ export const login = async (req, res) => {
     // **Not decrypt input password.
 
     const isMatch = await bcrypt.compare(req.body.password, user.password);
-    if (!isMatch) throw new HttpException(400, "Incorrect password");
+    if (!isMatch)
+        return res.status(400).json(Error.get(Error.code.invalid_password))
 
     const accessToken = genToken(user);
     const refreshToken = genRefreshToken(user);
@@ -79,9 +81,11 @@ export const requestRefreshToken = async (req, res) => {
         refreshToken
     } = req.cookies;
 
-    if (!refreshToken) throw new HttpException(400, "No refresh token");
+    if (!refreshToken)
+        return res.status(404).json(Error.getError(Error.code.no_refresh_token));
 
-    if (!refreshTokens.includes(refreshToken)) throw new HttpException(403, "Refresh token is invalid");
+    if (!refreshTokens.includes(refreshToken))
+        return res.status(403).json(Error.getError(Error.code.invalid_refresh_token));
 
     try {
         const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY);
@@ -90,7 +94,8 @@ export const requestRefreshToken = async (req, res) => {
             { where: { employeeID: decoded.employeeID } }
         );
 
-        if (!user) throw new HttpException(404, "User not found");
+        if (!user)
+            return res.status(404).json(Error.getError(Error.code.invalid_employee_id));
 
         const accessToken = genToken(user);
 
@@ -98,7 +103,7 @@ export const requestRefreshToken = async (req, res) => {
             accessToken
         });
     } catch (error) {
-        throw new HttpException(401, "Invalid refresh token");
+        return res.status(403).json(Error.getError(Error.code.invalid_refresh_token));
     }
 };
 

@@ -8,7 +8,10 @@ export default class Error {
         invalid_employee_id: 10005,
         invalid_working_address_id: 10006,
         duplicated_identifier: 10007,
-        invalid_order_id: 10008
+        invalid_order_id: 10008,
+        invalid_password: 10009,
+        invalid_refresh_token: 100010,
+        no_refresh_token: 100011
     };
 
     static initErrors() {
@@ -43,6 +46,16 @@ export default class Error {
         this.errors.set(this.code.invalid_order_id,
             new ErrorRes("Invalid Data!",
                 "Order ID not found!"));
+
+        this.errors.set(this.code.invalid_password,
+            new ErrorRes("Invalid Data!",
+                "Wrong Password"));
+
+        this.errors.set(this.code.invalid_refresh_token,
+            new ErrorRes("Invalid refresh token"));
+
+        this.errors.set(this.code.no_refresh_token,
+            new ErrorRes("No refresh token"));
     }
 
     static errors = new Map();

@@ -1,5 +1,3 @@
-import HttpException from '../../exceptions/http-exception';
-
 const db = require('../../models')
 export const Commune = db.communes;
 
