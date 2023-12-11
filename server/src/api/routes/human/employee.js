@@ -1,7 +1,7 @@
 import { addNewEmployee, editEmployeeInfo, getAllEmployees, getEmployeeByID } from "../../controllers/human/employee";
 import { getAllEmployeeRoles } from "../../controllers/human/employee_role";
 import { authorize } from "../../middlewares/authorize";
-import { employee_adding_schema } from "../../middlewares/validation/employee_schema";
+import { employee_adding_schema, employee_editting_schema } from "../../middlewares/validation/employee_schema";
 import { validate } from "../../middlewares/validation/validate";
 import { verifyToken } from "../../middlewares/verify";
 import { role } from "../../models/human/role";
@@ -17,9 +17,14 @@ employeeRoute.get("/get", verifyToken,
     catchAsync(getAllEmployees));
 
 employeeRoute.get("/:id/get", catchAsync(getEmployeeByID));
-employeeRoute.post("/add", (req, res, next) => validate(req, res, next, employee_adding_schema),
+
+employeeRoute.post("/add",
+    (req, res, next) => validate(req, res, next, employee_adding_schema),
     catchAsync(addNewEmployee));
-employeeRoute.put("/:id/edit", catchAsync(editEmployeeInfo));
+
+employeeRoute.put("/:id/edit",
+    (req, res, next) => validate(req, res, next, employee_editting_schema),
+    catchAsync(editEmployeeInfo));
 
 employeeRoute.get("/getAllRoles", catchAsync(getAllEmployeeRoles))
 

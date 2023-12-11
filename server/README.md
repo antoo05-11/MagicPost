@@ -12,6 +12,7 @@
     - [<samp>Get all employees</samp>](#get-all-employees)
     - [<samp>Add new employee</samp>](#add-new-employee)
     - [<samp>Get employee by ID</samp>](#get-employee-by-id)
+    - [<samp>Edit employee by ID</samp>](#edit-employee-by-id)
   - [<samp>Order API</samp>](#order-api)
     - [<samp>Get all orders (with current working address)</samp>](#get-all-orders-with-current-working-address)
     - [<samp>Get order by ID</samp>](#get-order-by-id)
@@ -26,12 +27,15 @@
   - [<samp>Relation Schema</samp>](#relation-schema)
 
 ## <samp>Server Information</samp>
-
-+ <samp>This Node.js application is hosted on <a href="https://dashboard.render.com/"><samp>Render.com<samp></a> with URL <a href = "https://magicpost-uet.onrender.com/">magicpost-uet.onrender.com</a>.</samp>
-+ <samp>The database is hosted on <a href="https://console.clever-cloud.com" target="_blank">Clever Cloud console</a>.</samp>
-+ <samp>Last Updated: 09/12/2023</samp>
++ <samp> This project is a part of Web Application Development course in UET, VNU. </samp>
++ <samp>This Node.js application is hosted on <a href="https://dashboard.render.com/"><samp>Render.com<samp></a> with URL <a href = "https://magicpost-uet.onrender.com/"><samp>magicpost-uet.onrender.com</samp></a>.</samp>
++ <samp>The database is hosted on <a href="https://console.clever-cloud.com" target="_blank"><samp>Clever Cloud Console</samp></a>.</samp>
++ <samp>Last Updated: 2023/12/10</samp>
   
 ## <samp>Install and run</samp>
+
+<samp>Contact me to get SQL initial commands and build database. </samp>
+<samp>Then, clone my project and change directory to server folder. Now, execute the following commands one by one: ```npm install``` - ```npm run dev```.</samp>
 
 ## <samp>Error Response JSON Sample and Error codes</samp>
 ```json
@@ -43,18 +47,29 @@
 ```
 
 | HTTP status code | Error code | Description                                                                               |
-| ---------------- | ---------- | ----------------------------------------------------------------------------------------- |
+|------------------|------------|-------------------------------------------------------------------------------------------|
 | 400              | 10000      | Invalid Data in Request Body                                                              |
 | 409              | 10001      | Invalid Address (CommuneID, DistrictID and ProvinceID are not compatible with each other) |
 | 409              | 10002      | Duplicated Identifier                                                                     |
+| 400              | 10003      | Invalid Employee ID                                                                       |
+| 400              | 10004      | Invalid Working Address ID                                                                |                                                                  |
 
-## <samp> API List </samp>
+## <samp>API List</samp>
 
-### <samp> Auth API </samp>
+### <samp>Auth API</samp>
 
-#### <samp> Log in </samp>
+#### <samp>Log in</samp>
 
-+ <em>Request JSON Sample</em>
++ ##### <em><samp>API Information</samp></em>
+  
+| Request Requirement | Content                                           |
+|---------------------|---------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/auth/login |
+| HTTP method         | POST                                              |
+| Token Required      | NO                                                |
+| Roles Authorized    | NONE                                              |
+
++ ##### <em><samp>Request JSON Sample</samp></em>
 
 ```json
 {
@@ -63,7 +78,7 @@
 }
 ```
 
-+ <em>Response JSON Sample</em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 
 ```json
 {
@@ -85,16 +100,17 @@
 
 #### <samp>Get all employee roles</samp>
 
-+ <em> API Information </em>
++ ##### <em> <samp> API Information </samp></em>
 
-| Request Requirement</samp> | Content                                                    |
+| Request Requirement | Content                                                     |
 | ------------------- | ----------------------------------------------------------- |
-| API URL            | https://magicpost-uet.onrender.com/api/employee/getAllRoles |
-| HTTP method         | GET                                                        |
+| API URL             | https://magicpost-uet.onrender.com/api/employee/getAllRoles |
+| Params              | page - optional                                             |
+| HTTP method         | GET                                                         |
 | Token Required      | YES                                                         |
 | Roles Authorized    | NONE                                                        |
 
-+ <em>Response JSON Sample</em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
     "GOODS_POINT_EMPLOYEE",
@@ -106,7 +122,7 @@
 ```
 
 #### <samp>Get all employees</samp>
-+ <em> API Information </em>
++ ##### <em> <samp> API Information </samp></em>
 
 | Request Requirement | Content                                                |
 | ------------------- | ------------------------------------------------------ |
@@ -115,7 +131,7 @@
 | Token Required      | YES                                                    |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                               |
 
-+ <em> Response JSON Sample </em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
     {
@@ -136,7 +152,9 @@
 ]
 ```
 
-### Add new employee
+#### <samp> Add new employee </samp>
+
++ ##### <em><samp>API Information</samp></em>
 
 | Request Requirement | Content                                             |
 | ------------------- | --------------------------------------------------- |
@@ -145,7 +163,7 @@
 | Token Required      | YES                                                 |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                            |
 
-+ <em> Request JSON Sample </em>
++ ##### <em><samp>Request JSON Sample</samp></em>
 ```json
 {
     "identifier": "0405899833000",
@@ -163,7 +181,7 @@
     "role": null
 }
 ```
-+ <em>Response JSON Sample</em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 {
     "employeeID": 23000042,
@@ -183,9 +201,9 @@
 }
 ```
 
-### <samp> Get employee by ID </samp>
+### <samp>Get employee by ID<samp>
 
-+ <em> API Information </em>
++ ##### <em> <samp> API Information </samp></em>
 
 | Request Requirement | Content                                                 |
 | ------------------- | ------------------------------------------------------- |
@@ -194,7 +212,7 @@
 | Token Required      | YES                                                     |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                                |
 
-+ <em> Response JSON sample </em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 
 ```json
 {
@@ -227,11 +245,71 @@
 }
 ```
 
-### <samp> Order API </samp>
+#### <samp>Edit employee by ID</samp>
+
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                                  |
+|---------------------|----------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/employee/:id/edit |
+| HTTP method         | PUT                                                      |
+| Token Required      | YES                                                      |
+| Roles Authorized    | GOODS_POINT_HEADER, TRANSACTION_POINT_HEADER             |
+| Note                | All attributes in Request JSON are optional              |
+
++ ##### <em><samp>Request JSON Sample</samp></em>
+
+```json
+{
+    "identifier": "923456789012",
+    "phoneNumber": "0123457789",
+    "fullName": "Hoàng Văn Anh",
+    "role": "TRANSACTION_POINT_EMPLOYEE",
+    "email": "anhhoang@gmail.com",
+    "workingPointID": 46,
+    "status": "ACTIVE",
+    "address": { "detail": "hello", "communeID": 120, "districtID": 9, "provinceID": 1 }
+}
+```
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+
+```json
+{
+    "employeeID": 23000013,
+    "identifier": "923456789012",
+    "phoneNumber": "0123457789",
+    "fullName": "Hoàng Văn Anh",
+    "role": "TRANSACTION_POINT_EMPLOYEE",
+    "email": "anhhoang@gmail.com",
+    "workingPointID": 46,
+    "status": "ACTIVE",
+    "createdAt": "2023-12-09T17:05:12.000Z",
+    "updatedAt": "2023-12-09T18:24:01.000Z",
+    "address": {
+        "addressID": 89,
+        "detail": "Street A",
+        "commune": { "communeID": 120, "name": "Phường Khương Đình" },
+        "district": { "districtID": 9, "name": "Quận Thanh Xuân" },
+        "province": { "provinceID": 1, "name": "Thành phố Hà Nội" }
+    },
+    "workingPoint": {
+        "routingPointID": 46,
+        "address": {
+            "addressID": 82,
+            "commune": { "communeID": 64, "name": "Phường Láng Thượng" },
+            "district": { "districtID": 6, "name": "Quận Đống Đa" },
+            "province": { "provinceID": 1, "name": "Thành phố Hà Nội" }
+        }
+    }
+}
+```
+
+### <samp>Order API<samp>
 
 #### <samp>Get all orders (with current working address)</samp>
 
-+ <em>API Information</em>
++ ##### <em><samp>API Information</samp></em>
 
 | Request Requirement | Content                                                                                        |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
@@ -240,7 +318,7 @@
 | Token Required      | YES                                                                                            |
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER, GOODS_POINT_EMPLOYEE, GOODS_POINT_HEADER |
 
-+ <em>Response JSON Sample</em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
     {
@@ -254,7 +332,7 @@
 
 ### <samp>Get order by ID</samp>
 
-+ <em> API Information</em>
++ ##### <em><samp>API Information</samp></em>
 
 | Request Requirement | Content                                              |
 | ------------------- | ---------------------------------------------------- |
@@ -263,7 +341,7 @@
 | Token Required      | YES                                                  |
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER |
 
-+ <em>Response JSON Sample</em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 {
     "order": {
@@ -308,9 +386,9 @@
 }
 ```
 
-#### <samp> Create new order </samp>
+#### <samp>Create new order<samp>
 
-+ <em>API Information</em>
++ ##### <em><samp>API Information</samp></em>
 
 | Request Requirement | Content                                             |
 | ------------------- | --------------------------------------------------- |
@@ -320,7 +398,7 @@
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE                          |
 
 
-+ <em>Request JSON Sample</em>
++ ##### <em><samp>Request JSON Sample</samp></em>
 
 ```json
 {
@@ -350,7 +428,7 @@
 }
 ```
 
-+ <em>Response JSON Sample</em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 
 ```json
 {
@@ -390,10 +468,10 @@
 }
 ```
 
-### <samp> Transaction Point API </samp>
-#### <samp> Get transaction point by address </samp>
+### <samp>Transaction Point API<samp>
+#### <samp>Get transaction point by address<samp>
 
-+ <em> API Information </em>
++ ##### <em> <samp> API Information </samp></em>
 
 | Request Requirement | Content                                                                                                                      |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
@@ -402,7 +480,7 @@
 | Token Required      | NO                                                                                                                           |
 | Roles Authorized    | NONE                                                                                                                         |
 
-+ <em>Response JSON Sample</em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
     {
@@ -416,10 +494,10 @@
 ]
 ```
 
-### <samp> Address API </samp>
-#### <samp> Get all communes/districts/provinces </samp>
+### <samp>Address API<samp>
+#### <samp>Get all communes/districts/provinces<samp>
 
-+ <em>API Information</em>
++ ##### <em><samp>API Information</samp></em>
 
 | Request Requirement | Content                                                                                                                                                                                                                       |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -427,15 +505,15 @@
 | HTTP method         | GET                                                                                                                                                                                                                           |
 | Token Required      | YES                                                                                                                                                                                                                           |
 | Roles Authorized    | NONE                                                                                                                                                                                                                          |
-#### Response JSON Sample
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
     { "name":"Thành phố Hà Nội", "provinceID/districtID/communeID": 1 }
 ]
 ```
-#### <samp> Get all districts by provinceID </samp>
+#### <samp>Get all districts by provinceID<samp>
 
-+ <em>API Information</em>
++ ##### <em><samp>API Information</samp></em>
 
 | Request Requirement | Content                                                                           |
 | ------------------- | --------------------------------------------------------------------------------- |
@@ -443,15 +521,15 @@
 | HTTP method         | GET                                                                               |
 | Token Required      | YES                                                                               |
 | Roles Authorized    | NONE                                                                              |
-#### Response JSON Sample
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
-    { "name":"Quận 1","districtID":1474,"provinceID":63 }
+    { "name":"Quận 1", "districtID":1474, "provinceID":63 }
 ]
 ```
-#### <samp> Get all communes by districtID </samp>
+#### <samp>Get all communes by districtID<samp>
 
-+ <em>API Information</em>
++ ##### <em><samp>API Information</samp></em>
 
 | Request Requirement | Content                                                                         |
 | ------------------- | ------------------------------------------------------------------------------- |
@@ -459,13 +537,13 @@
 | HTTP method         | GET                                                                             |
 | Token Required      | YES                                                                             |
 | Roles Authorized    | NONE                                                                            |
-+ <em>Response JSON sample</em>
++ ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
-    { "name":"Phường Phúc Xá","communeID":1,"districtID":1 }
+    { "name":"Phường Phúc Xá", "communeID":1, "districtID":1 }
 ]
 ```
-# <samp> Database Design </samp>
+# <samp>Database Design<samp>
 
-## <samp> Relation Schema </samp>
+## <samp>Relation Schema<samp>
 ![Alt text](drawSQL-magicpost-export-2023-11-15.png)
