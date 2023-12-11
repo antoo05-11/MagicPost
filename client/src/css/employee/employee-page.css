@@ -66,15 +66,12 @@
   text-align: center;
   cursor: pointer;
   white-space: nowrap;
-  margin: 10px;
-  border-radius: 20px;
-  font-weight: 500;
-  color: #606972;
-  font-size: 18px;
+  border-top-right-radius: 17% 100%;
+  border-bottom-right-radius: 18% 100%;
 }
 
 .bar-item:hover {
-  color: black !important;
+  color: white !important;
   background-color: #c2e7ff;
   /* background-color: #3DB2FF !important; */
 }

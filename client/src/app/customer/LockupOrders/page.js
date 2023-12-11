@@ -5,6 +5,7 @@ import Image from 'react-bootstrap/Image';
 import Search from "@/components/lookupOrder/search";
 import { HiOutlineDocumentSearch } from "react-icons/hi";
 import style from "@/css/customer/lookUpOrder.module.css";
+import OrderProgress from "@/components/employee/order-progress";
 
 export default function page({ searchParams: { query, page } }) {
   const currentQuery = query || "";
@@ -22,6 +23,10 @@ export default function page({ searchParams: { query, page } }) {
         <Row className={style.demo}>
             <Search />
         </Row>
+      </Container>
+
+      <Container>
+        <OrderProgress />
       </Container>
     </div>
   );
