@@ -18,25 +18,56 @@ Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID', as: 'workingPoi
 
 import bcrypt from "bcryptjs";
 import { checkAddress, getAddressByID } from "../routing_point/address";
-import { generateRandomPassword, normalizeName } from "../../../utils";
+import { checkDateFormat, generateRandomPassword, normalizeDate, normalizeName } from "../../../utils";
 import { sequelize } from '../../models';
 import { role } from "../../models/human/role";
 import Error from "../../exceptions/error";
+import { Op } from "sequelize";
 
 const pageSize = 8;
 
 export const getAllEmployees = async (req, res) => {
-    let pageIndex = req.query.page;
-    let employees;
-    if (pageIndex == undefined) {
-        pageIndex = 1
-        employees = await Employee.findAll();
-        res.setHeader('X-Total-Pages', Math.ceil(employees.length / pageSize));
-    }
+    let pageIndex = req.query.page || 1;
+    let pageLimit = req.query.limit || pageSize;
+    let employeeID = req.query.employeeID || '';
+    let identifier = req.query.identifier || '';
+    let phoneNumber = req.query.phoneNumber || '';
+    let fullName = req.query.fullName || '';
+    let role = req.query.role || '';
+    let email = req.query.email || '';
 
-    employees = await Employee.findAll({
+    let totalPages = await Employee.count({
+        where: {
+            [Op.and]: [
+                { employeeID: { [Op.like]: ['%' + employeeID + '%'] } },
+                { identifier: { [Op.like]: ['%' + identifier + '%'] } },
+                { phoneNumber: { [Op.like]: ['%' + phoneNumber + '%'] } },
+                { fullName: { [Op.like]: ['%' + fullName + '%'] } },
+                {
+                    [Op.or]: [
+                        { role: { [Op.like]: ['%' + role + '%'] } },
+                        { role: null }
+                    ]
+                },
+                { email: { [Op.like]: ['%' + email + '%'] } }
+            ]
+        }
+    });    
+
+    totalPages = Math.ceil(totalPages / pageLimit);
+
+    let employees = await Employee.findAll({
         offset: (pageIndex - 1) * pageSize,
-        limit: pageSize
+        limit: parseInt(pageLimit),
+        where: {
+            [Op.and]: [
+                { employeeID: { [Op.like]: ['%' + employeeID + '%'] } },
+                { identifier: { [Op.like]: ['%' + identifier + '%'] } },
+                { phoneNumber: { [Op.like]: ['%' + phoneNumber + '%'] } },
+                { fullName: { [Op.like]: ['%' + fullName + '%'] } },
+                { role: { [Op.like]: ['%' + role + '%'] } },
+                { email: { [Op.like]: ['%' + email + '%'] } }]
+        }
     });
 
     let processedResult = [];
@@ -48,7 +79,13 @@ export const getAllEmployees = async (req, res) => {
         delete cloneEmployee.addressID;
         processedResult.push(cloneEmployee);
     }
-    return res.status(200).json(processedResult);
+
+    const finalResult = {
+        totalPages: totalPages,
+        limit: pageLimit,
+        employees: processedResult
+    }
+    return res.status(200).json(finalResult);
 }
 
 export const addNewEmployee = async (req, res) => {

@@ -28,7 +28,7 @@ export default function BreadCrumb() {
   for (var i = 1; i < pathname.length; i++) {
     listItem.push(listItem[listItem.length - 1] + "/" + pathname[i]);
   }
-  console.log(listItem);
+  // console.log(listItem);
   const route = useRouter();
   return (
     <Breadcrumb>

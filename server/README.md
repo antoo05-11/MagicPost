@@ -132,34 +132,36 @@
 | Request Requirement | Content                                                |
 | ------------------- | ------------------------------------------------------ |
 | API URL             | https://magicpost-uet.onrender.com/api/employee/getall |
-|Query Params|page (1 as <i>default</i>)|
+|Query Params|page (1 as <i>default</i>), limit (1 as <i>default</i>), <br> employeeID, identifier, fullName, role, email |
 | HTTP method         | GET                                                    |
-| HTTP Header         | X-Total-Pages - defined when page ID param not found in API URL                                   |
 | Token Required      | YES                                                    |
 | Roles Authorized    | TRANSACTION_POINT_HEADER                               |
 
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
-[
-    {
-        "employeeID": 23000000,
-        "identifier": "010203000000",
-        "phoneNumber": "0123456789",
-        "fullName": "Nguyễn Hòa Bình",
-        "role": "TRANSACTION_POINT_EMPLOYEE",
-        "email": "hoabinhnguyen@gmail.com",
-        "workingPointID": 45,
-        "status": "ACTIVE",
-        "createdAt": "2023-12-09T17:05:12.000Z",
-        "updatedAt": "2023-12-09T17:05:12.000Z",
-        "address": {
-            "province": { "name": "Tỉnh Quảng Ninh" },
-            "district": { "name": "Thành phố Uông Bí" },
-            "commune": { "name": "Phường Thanh Sơn" },
-            "detail": "435 Trần Khánh Dư"
+{
+    "totalPages": 6,
+    "limit": "4",
+    "employees": [
+        {
+            "employeeID": 23000000,
+            "identifier": "010203000000",
+            "phoneNumber": "0123456789",
+            "fullName": "Nguyễn Hòa Bình",
+            "role": "TRANSACTION_POINT_EMPLOYEE",
+            "email": "hoabinhnguyen@gmail.com",
+            "workingPointID": 45,
+            "status": "ACTIVE",
+            "createdAt": "2023-12-09T17:05:12.000Z",
+            "updatedAt": "2023-12-09T17:05:12.000Z",
+            "address": {
+                "province": { "name": "Tỉnh Quảng Ninh" },
+                "district": { "name": "Thành phố Uông Bí" },
+                "commune": { "name": "Phường Thanh Sơn" },
+                "detail": "435 Trần Khánh Dư"
+            }
         }
-    }
-]
+]}
 ```
 
 #### <samp> Add new employee </samp>

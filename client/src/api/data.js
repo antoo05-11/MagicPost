@@ -21,17 +21,21 @@ export function getData(url) {
 }
 
 export function getEmployee(query) {
-  // try {
-  const data = getData("https://magicpost-uet.onrender.com/api/employee/get");
-  const dat = [];
-  for (var i in data) {
-    dat.push(data[i]);
+  try {
+    const data = getData(
+      `https://magicpost-uet.onrender.com/api/employee/get/?page=${query?.page}`
+    );
+    const dataRes = [];
+    for (var i in data?.employees) {
+      dataRes.push(data?.employees[i]);
+    }
+    const totalPage = data?.totalPages;
+    const itemPerPage = data?.limit;
+    return { dataRes, totalPage, itemPerPage };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw Error("Failed to fetch the latest invoices.");
   }
-  return dat;
-  // } catch (error) {
-  // console.error("Database Error:", error);
-  // throw Error("Failed to fetch the latest invoices.");
-  // }
 }
 
 export function getOrder(query) {
@@ -41,7 +45,7 @@ export function getOrder(query) {
     for (var i in data) {
       dat.push(data[i]);
     }
-    return dat;
+    // return dat;
   } catch (error) {
     console.error("Database Error:", error);
     throw Error("Failed to fetch the latest invoices.");
