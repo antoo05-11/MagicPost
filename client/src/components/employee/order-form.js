@@ -1,6 +1,49 @@
-import "@/css/employee/customForm.css"
+"use client"
+
+import "@/css/employee/customForm.css";
+import { useEffect, useState } from "react";
+import { getDistrictByProvinceID, getProvinceInfo, getCommuneByDistrictID } from "@/api/data";
 
 export default function OrderForm() {
+  const provinceData = getProvinceInfo();
+
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [districtData, setDistrictData] = useState([]);
+
+  const [selectedDistrict, setSelectedDistrict] = useState('')
+  const [communeData, setCommuneData] = useState([]);
+
+  const [selectedCommune, setSelectedCommune] = useState('')
+
+  useEffect(() => {
+    async function fetchDistricts() {
+      try {
+        if (selectedProvince) {
+          const districts = await getDistrictByProvinceID(selectedProvince);
+          setDistrictData(districts);
+        }
+      } catch (error) {
+        console.error('Error fetching district data:', error);
+      }
+    }
+    setSelectedDistrict("0");
+    fetchDistricts();
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    async function fetchCommune() {
+      try {
+        if (selectedDistrict) {
+          const communes = await getCommuneByDistrictID(selectedDistrict);
+          setCommuneData(communes);
+        }
+      } catch (error) {
+        console.error('Error fetching district data:', error);
+      }
+    }
+    fetchCommune();
+  }, [selectedDistrict]);
+
   const order = {
     order: {
       sender: {
@@ -71,29 +114,47 @@ export default function OrderForm() {
           <div className="row mt-2">
             <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
             <div className="col-md-4">
-              <select className="form-select" aria-label="Default select example" id="province">
+              <select className="form-select" aria-label="Default select example" id="province"
+                onChange={
+                  (e) => {
+                    setSelectedProvince(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                  }}>
                 <option selected>Chọn Tỉnh / TP</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                {provinceData.map((province) => (
+                  <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
+                    {province.name}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="col">
-              <select className="form-select" aria-label="Default select example">
+              <select className="form-select" aria-label="Default select example"
+                onChange={
+                  (e) => {
+                    setSelectedDistrict(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                  }}>
                 <option selected>Chọn Xã / Phường</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                {districtData.map((district) => (
+                  <option key={district.districtID} data-key={district.districtID} value={district.districtID}>
+                    {district.name}
+                  </option>
+                ))}
               </select>
             </div>
 
             <div className="col">
-              <select className="form-select" aria-label="Default select example">
+              <select className="form-select" aria-label="Default select example"
+                onChange={
+                  (e) => {
+                    setSelectedCommune(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                  }}>
                 <option selected>Chọn Quận / Huyện</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                {communeData.map((commune) => (
+                  <option key={commune.communeID} data-key={commune.communeID} value={commune.communeID}>
+                    {commune.name}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -131,7 +192,7 @@ export default function OrderForm() {
         </div>
 
         <div className="formContainer">
-          <div className="row border-bottom">
+          <div className="row">
             <h3>Thông tin người nhận</h3>
           </div>
 
@@ -156,32 +217,52 @@ export default function OrderForm() {
           </div>
 
           <div className="row mt-2">
-            <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
-            <div className="col-md-4">
-              <select className="form-select" aria-label="Default select example" id="province">
-                <option selected>Chọn Tỉnh / TP</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
+            <div className="row mt-2">
+              <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
+              <div className="col-md-4">
+                <select className="form-select" aria-label="Default select example" id="province"
+                  onChange={
+                    (e) => {
+                      setSelectedProvince(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                    }}>
+                  <option selected>Chọn Tỉnh / TP</option>
+                  {provinceData.map((province) => (
+                    <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
+                      {province.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="col">
-              <select className="form-select" aria-label="Default select example">
-                <option selected>Chọn Xã / Phường</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
+              <div className="col">
+                <select className="form-select" aria-label="Default select example"
+                  onChange={
+                    (e) => {
+                      setSelectedDistrict(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                    }}>
+                  <option selected>Chọn Xã / Phường</option>
+                  {districtData.map((district) => (
+                    <option key={district.districtID} data-key={district.districtID} value={district.districtID}>
+                      {district.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div className="col">
-              <select className="form-select" aria-label="Default select example">
-                <option selected>Chọn Quận / Huyện</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+              <div className="col">
+                <select className="form-select" aria-label="Default select example"
+                  onChange={
+                    (e) => {
+                      setSelectedCommune(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                    }}>
+                  <option selected>Chọn Quận / Huyện</option>
+                  {communeData.map((commune) => (
+                    <option key={commune.communeID} data-key={commune.communeID} value={commune.communeID}>
+                      {commune.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 

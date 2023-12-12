@@ -1,14 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createEmployee } from "@/api/action";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { useRouter } from "next/navigation";
-import { getEmployee } from "@/api/data";
+import { getEmployee, getDistrictByProvinceID, getProvinceInfo, getCommuneByDistrictID } from "@/api/data";
 import "@/css/employee/customForm.css"
 
 export default function EmployeeForm() {
+  const provinceData = getProvinceInfo();
+
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [districtData, setDistrictData] = useState([]);
+
+  const [selectedDistrict, setSelectedDistrict] = useState('')
+  const [communeData, setCommuneData] = useState([]);
+
+  const [selectedCommune, setSelectedCommune] = useState('')
+
+  useEffect(() => {
+    async function fetchDistricts() {
+      try {
+        if (selectedProvince) {
+          const districts = await getDistrictByProvinceID(selectedProvince);
+          setDistrictData(districts);
+        }
+      } catch (error) {
+        console.error('Error fetching district data:', error);
+      }
+    }
+    setSelectedDistrict("0");
+    fetchDistricts();
+  }, [selectedProvince]);
+
+  useEffect(() => {
+    async function fetchCommune() {
+      try {
+        if (selectedDistrict) {
+          const communes = await getCommuneByDistrictID(selectedDistrict);
+          setCommuneData(communes);
+        }
+      } catch (error) {
+        console.error('Error fetching district data:', error);
+      }
+    }
+    fetchCommune();
+  }, [selectedDistrict]);
+
+
   const employee = {
     identifier: "",
     phoneNumber: "",
@@ -117,29 +157,47 @@ export default function EmployeeForm() {
         <div className="row mt-2">
           <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
           <div className="col-md-4">
-            <select className="form-select" aria-label="Default select example" id="province">
+            <select className="form-select" aria-label="Default select example" id="province"
+              onChange={
+                (e) => {
+                  setSelectedProvince(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                }}>
               <option selected>Chọn Tỉnh / TP</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {provinceData.map((province) => (
+                <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
+                  {province.name}
+                </option>
+              ))}
             </select>
           </div>
 
           <div className="col-md-4">
-            <select className="form-select" aria-label="Default select example">
+            <select className="form-select" aria-label="Default select example"
+              onChange={
+                (e) => {
+                  setSelectedDistrict(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                }}>
               <option selected>Chọn Xã / Phường</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {districtData.map((district) => (
+                <option key={district.districtID} data-key={district.districtID} value={district.districtID}>
+                  {district.name}
+                </option>
+              ))}
             </select>
           </div>
 
           <div className="col-md-4">
-            <select className="form-select" aria-label="Default select example">
+            <select className="form-select" aria-label="Default select example"
+              onChange={
+                (e) => {
+                  setSelectedCommune(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                }}>
               <option selected>Chọn Quận / Huyện</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              {communeData.map((commune) => (
+                <option key={commune.communeID} data-key={commune.communeID} value={commune.communeID}>
+                  {commune.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
