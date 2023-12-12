@@ -1,7 +1,48 @@
+import { getDistrictByProvinceID, getProvinceInfo, getCommuneByDistrictID } from "@/api/data";
+import { useEffect, useState } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 
 export default function LookUpTransaction() {
+    const provinceData = getProvinceInfo();
+
+    const [selectedProvince, setSelectedProvince] = useState('');
+    const [districtData, setDistrictData] = useState([]);
+
+    const [selectedDistrict, setSelectedDistrict] = useState('')
+    const [communeData, setCommuneData] = useState([]);
+
+    const [selectedCommune, setSelectedCommune] = useState('')
+
+    useEffect(() => {
+        async function fetchDistricts() {
+            try {
+                if (selectedProvince) {
+                    const districts = await getDistrictByProvinceID(selectedProvince);
+                    setDistrictData(districts);
+                }
+            } catch (error) {
+                console.error('Error fetching district data:', error);
+            }
+        }
+        setSelectedDistrict("0");
+        fetchDistricts();
+    }, [selectedProvince]);
+
+    useEffect(() => {
+        async function fetchCommune() {
+            try {
+                if (selectedDistrict) {
+                    const communes = await getCommuneByDistrictID(selectedDistrict);
+                    setCommuneData(communes);
+                }
+            } catch (error) {
+                console.error('Error fetching district data:', error);
+            }
+        }
+        fetchCommune();
+    }, [selectedDistrict]);
+
     return (
         <Container>
             <Row>
@@ -14,34 +55,52 @@ export default function LookUpTransaction() {
                                         <Form.Select
                                             aria-label="Chọn Tỉnh/ TP"
                                             className="selectContainer"
+                                            onChange={
+                                                (e) => {
+                                                    setSelectedProvince(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                                                }}
                                             required
                                         >
                                             <option>Chọn Tỉnh/ TP</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            {provinceData.map((province) => (
+                                                <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
+                                                    {province.name}
+                                                </option>
+                                            ))}
                                         </Form.Select>
 
                                         <Form.Select
-                                            aria-label="Chọn Quận/ Huyện"
-                                            className="selectContainer"
+                                            onChange={
+                                                (e) => {
+                                                    setSelectedDistrict(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                                                }}
                                             required
+                                            className="selectContainer"
                                         >
                                             <option>Chọn Quận/ Huyện</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            {districtData.map((district) => (
+                                                <option key={district.districtID} data-key={district.districtID} value={district.districtID}>
+                                                    {district.name}
+                                                </option>
+                                            ))}
+
                                         </Form.Select>
 
                                         <Form.Select
                                             aria-label="Chọn Xã/ Phường"
                                             className="selectContainer"
+                                            onChange={
+                                                (e) => {
+                                                    setSelectedCommune(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
+                                                }}
                                             required
                                         >
                                             <option>Chọn Xã/ Phường</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            {communeData.map((commune) => (
+                                                <option key={commune.communeID} data-key={commune.communeID} value={commune.communeID}>
+                                                    {commune.name}
+                                                </option>
+                                            ))}
                                         </Form.Select>
 
                                         <Button className="submitButton">TRA CỨU</Button>

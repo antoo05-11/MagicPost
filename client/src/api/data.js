@@ -45,7 +45,7 @@ export function getOrder(query) {
     for (var i in data) {
       dat.push(data[i]);
     }
-    // return dat;
+    return dat;
   } catch (error) {
     console.error("Database Error:", error);
     throw Error("Failed to fetch the latest invoices.");
@@ -57,11 +57,46 @@ export function findOrder(orderID) { }
 export function getOrderById(id) { }
 // export const icon = {};
 
-export function getCityInfo() {
+export function getProvinceInfo() {
   try {
-    const data = getData()
+    const data = getData("https://magicpost-uet.onrender.com/api/administrative/province/getall");
+    const dat = [];
+    for (var i in data) {
+      dat.push(data[i]);
+    }
+    return dat;
   } catch (error) {
     console.error("Database Error:", error);
     throw Error("Failed to fetch the latest invoices.");
   }
+}
+
+export async function getDistrictByProvinceID(id) {
+  let url = `https://magicpost-uet.onrender.com/api/administrative/district/getall/${id}`;
+  let res = await fetch(url, {
+    headers: new Headers({
+      "Content-Type": "application/json"
+    }),
+  })
+  let data = await res.json();
+  const dat = [];
+  for (var i in data) {
+    dat.push(data[i]);
+  }
+  return dat;
+}
+
+export async function getCommuneByDistrictID(id) {
+  let url = `https://magicpost-uet.onrender.com/api/administrative/commune/getall/${id}`;
+  let res = await fetch(url, {
+    headers: new Headers({
+      "Content-Type": "application/json"
+    }),
+  })
+  let data = await res.json();
+  const dat = [];
+  for (var i in data) {
+    dat.push(data[i]);
+  }
+  return dat;
 }
