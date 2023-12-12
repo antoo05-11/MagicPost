@@ -10,8 +10,9 @@ export default class Error {
         duplicated_identifier: 10007,
         invalid_order_id: 10008,
         invalid_password: 10009,
-        invalid_refresh_token: 100010,
-        no_refresh_token: 100011
+        invalid_refresh_token: 10010,
+        no_refresh_token: 10011,
+        invalid_date_param_format: 10012
     };
 
     static initErrors() {
@@ -42,6 +43,10 @@ export default class Error {
         this.errors.set(this.code.invalid_employee_id,
             new ErrorRes("Invalid Data!",
                 "Invalid Employee ID! Check employee ID again."));
+
+        this.errors.set(this.code.invalid_date_param_format,
+            new ErrorRes("Invalid Params Format!",
+                "Invalid date param format (yyyymmdd)."));
 
         this.errors.set(this.code.invalid_order_id,
             new ErrorRes("Invalid Data!",

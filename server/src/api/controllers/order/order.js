@@ -1,6 +1,7 @@
 import path from 'path';
 import { sequelize } from '../../models';
 import Error from '../../exceptions/error';
+import { checkDateFormat, normalizeDate } from '../../../utils';
 const { QueryTypes } = require('sequelize');
 const { Op } = require('sequelize')
 const crypto = require('crypto');
@@ -54,6 +55,16 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
     const currentRoutingPointID = req.user.workingPointID;
     let page = req.query.page;
     if (page == undefined) page = 1;
+
+    let maxCreatedAt = req.query.maxCreatedAt;
+    let minCreatedAt = req.query.minCreatedAt;
+
+    if (!checkDateFormat(maxCreatedAt) || !checkDateFormat(minCreatedAt))
+        return res.status(400).json(Error.getError(Error.code.invalid_date_param_format));
+
+    if (!minCreatedAt) minCreatedAt = normalizeDate('1/1/1970');
+    if (!maxCreatedAt) maxCreatedAt = normalizeDate(new Date(Date.now()).toLocaleDateString());
+
     const orders = await Order.findAll({
         offset: ((page - 1) * limitRecordsNum),
         limit: limitRecordsNum,
@@ -65,6 +76,11 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                 FROM processes
                 WHERE (currentRoutingPointID = ${currentRoutingPointID} 
                     OR nextRoutingPointID = ${currentRoutingPointID}))`)
+            },
+            createdAt: {
+                [Op.between]: [
+                    minCreatedAt, maxCreatedAt
+                ]
             }
         },
         include: [
