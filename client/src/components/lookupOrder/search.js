@@ -9,7 +9,6 @@ export default function Search() {
   const { replace } = useRouter();
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
-    // console.log(params);
     if (term) {
       params.set("query", term);
     } else {
@@ -20,14 +19,9 @@ export default function Search() {
 
   return (
     <div className="d-flex justify-content-between">
-      {/* <label htmlFor="search" className="sr-only">
-        Search
-      </label> */}
-
       <form className="w-100 h-100 align-items-center">
         <input
           className="w-75 h-100 rounded border"
-          //   placeholder={placeholder}
           onChange={(e) => {
             handleSearch(e.target.value);
           }}
