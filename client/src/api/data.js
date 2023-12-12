@@ -48,7 +48,16 @@ export function getOrder(query) {
   }
 }
 
-export function findOrder(orderID) {}
+export function findOrder(orderID) { }
 
-export function getOrderById(id) {}
+export function getOrderById(id) { }
 // export const icon = {};
+
+export function getCityInfo() {
+  try {
+    const data = getData()
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw Error("Failed to fetch the latest invoices.");
+  }
+}

@@ -2,10 +2,13 @@
 import OrderProgress from "@/components/employee/order-progress";
 import LookUpBanner from "@/components/customer/lookUpBanner";
 import LookUpOrder from "@/components/customer/lookUpOrder";
+import { useState } from "react";
 
-export default function Order({ searchParams: { query, page } }) {
+export default function Order({ searchParams: { query } }) {
   const currentQuery = query || "";
-  const currentPage = Number(page);
+  const [searched, isSearch] = useState(false);
+
+
   return (
     <div>
       <LookUpBanner title={"TRA CỨU BƯU GỬI"} />

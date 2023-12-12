@@ -1,6 +1,6 @@
-export default function OrderProgress() {
+export default function OrderProgress({searched}) {
     return (
-        <div className="mt-2 flow-root table">
+        <div className="mt-2 flow-root table" style={{display:"none"}}>
             <div className="inline-block min-w-full align-middle">
                 <div className="rounded-lg bg-gray-50 md:pt-0 table-responsive">
                     <table className="table table-hover mb-0 ">

@@ -33,9 +33,9 @@ export default function EstimateCost() {
 
                 </Row>
                 <Row >
-                    <Col>
+                        
                         <Button className='submitButton'>Tra cứu</Button>
-                    </Col>
+                  
                 </Row>
             </Form>
         </Container>
