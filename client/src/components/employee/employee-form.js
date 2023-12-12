@@ -24,6 +24,7 @@ export default function EmployeeForm() {
     email: "",
     role: null,
   };
+  const [isCreate, setCreate] = useState();
   const router = useRouter();
 
   // let res = await fetch("https://magicpost-uet.onrender.com/api/administrative/province/getall", {
@@ -99,6 +100,7 @@ export default function EmployeeForm() {
               type="tel"
               className="form-control"
               id="phoneNumber"
+              placeholder="CCCD"
               onChange={(e) => {
                 employee.identifier = e.target.value;
               }}

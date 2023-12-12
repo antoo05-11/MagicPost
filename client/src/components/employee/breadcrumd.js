@@ -16,11 +16,11 @@ const funtrole = {
   },
 };
 const url = {
-  "/employees": "Trang Chinh",
-  "/employees/list_employee": "Quan li nhan vien",
-  "/employees/list_ordered": "Quan li don hang",
-  "/employees/list_ordered/create": "Tao don hang",
-  "/employees/list_employee/create": "Tao tai khoan nhan vien",
+  "/employees": "Trang Chính",
+  "/employees/list_employee": "Nhân viên",
+  "/employees/list_ordered": "Đơn hàng",
+  "/employees/list_ordered/create": "Tạo đơn hàng",
+  "/employees/list_employee/create": "Tạo nhân viên",
 };
 export default function BreadCrumb() {
   const pathname = usePathname().split("/");
@@ -31,7 +31,7 @@ export default function BreadCrumb() {
   console.log(listItem);
   const route = useRouter();
   return (
-    <Breadcrumb style={{ paddingLeft: "10px" }}>
+    <Breadcrumb>
       {listItem.map((item) => {
         if (item != "") {
           return (

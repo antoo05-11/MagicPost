@@ -51,6 +51,7 @@ export default function SideBar({ role, open }) {
               route.push(roro?.url);
             }}
           >
+            {roro?.icon}
             {roro?.name}
           </div>
         );

@@ -16,6 +16,14 @@ export default function EmployyeeTable({ data }) {
                 <th scope="col">Vai trò</th>
                 <th scope="col">Email</th>
               </tr>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col">Họ và tên</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Vai trò</th>
+                <th scope="col">Email</th>
+              </tr>
             </thead>
             <tbody class="table-group-divider">
               {data?.map((data, index) => {

@@ -6,6 +6,7 @@ import SearchEmployee from "@/components/employee/search";
 import OrderTable from "@/components/employee/order-table";
 import SearchBox from "@/components/employee/search";
 import "@/css/employee/customTable.css";
+import OrderProgress from "@/components/employee/order-progress";
 
 export default async function page({ searchParams: { query, page } }) {
   const currentQuery = query || "";
@@ -42,6 +43,7 @@ export default async function page({ searchParams: { query, page } }) {
 
       <div className="row">
         <OrderTable data={data}></OrderTable>
+        {/* <OrderProgress ></OrderProgress> */}
         <Pagination totalPage={totalPage} />
       </div>
     </div>
