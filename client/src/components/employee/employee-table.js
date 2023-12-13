@@ -44,7 +44,7 @@ export default function EmployyeeTable({ page }) {
                       <td>{employeeRole[employee?.role]}</td>
                       <td>{employee?.email}</td>
                       <td>
-                        <EmployeeDetail />
+                        <EmployeeDetail id={employee?.employeeID} />
                       </td>
                     </tr>
                     // <div>{employee?.employeeID}</div>
