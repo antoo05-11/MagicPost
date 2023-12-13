@@ -100,3 +100,27 @@ export async function getCommuneByDistrictID(id) {
   }
   return dat;
 }
+
+export async function getTransactionPoint(provinceID, districtID, communeID) {
+  let url = 'https://magicpost-uet.onrender.com/api/transactionPoint/get/?';
+  if (provinceID) {
+    url = url + `provinceID=${provinceID}`
+  }
+  if (districtID) {
+    url = url + `&districtID=${districtID}`
+  }
+  if (communeID) {
+    url = url + `&communeID=${communeID}`
+  }
+  let res = await fetch(url, {
+    headers: new Headers({
+      "Content-Type": "application/json"
+    }),
+  })
+  let data = await res.json();
+  const dat = [];
+  for (var i in data) {
+    dat.push(data[i]);
+  }
+  return dat;
+}

@@ -1,7 +1,6 @@
 import { getDistrictByProvinceID, getProvinceInfo, getCommuneByDistrictID } from "@/api/data";
 import { useEffect, useState } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
-import Image from "react-bootstrap/Image";
 
 export default function LookUpTransaction() {
     const provinceData = getProvinceInfo();
@@ -44,12 +43,12 @@ export default function LookUpTransaction() {
     }, [selectedDistrict]);
 
     return (
-        <Container>
+        <Container className="lookUpContainer">
             <Row>
                 <Col>
                     <Container>
                         <Row>
-                            <Col className="lookUpContainer">
+                            <Col >
                                 <Form>
                                     <Row>
                                         <Form.Select
@@ -115,7 +114,7 @@ export default function LookUpTransaction() {
                     <iframe
                         src="https://www.google.com/maps/d/u/0/embed?mid=1VCEMjR_Ldo68vk5FiAWGf_7oV5r9PE8&ehbc=2E312F"
                         width="640"
-                        height="480"
+                        height="350"
                         className="map"
                     ></iframe>
                 </Col>
