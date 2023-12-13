@@ -13,10 +13,8 @@ export const authOptions = {
         // console.log(req);
         const { username, password } = credentials;
         const data = {
-          //   employeeID: username,
-          //   password: password,
-          employeeID: "23000014",
-          password: "password",
+          employeeID: username,
+          password: password,
         };
         const url = "https://magicpost-uet.onrender.com/api/auth/login";
         const res = await fetch(url, {
@@ -26,7 +24,9 @@ export const authOptions = {
           },
           body: JSON.stringify(data),
         });
-
+        if (res.ok) {
+          console.log("thanh cong");
+        } else console.log("sai");
         const user = await res.json();
         // return false;
         if (res.ok && user) {

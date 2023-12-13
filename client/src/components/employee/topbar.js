@@ -94,7 +94,7 @@ export default function TopBar() {
                 <motion.li
                   className="acc-list"
                   variants={itemVariants}
-                  onClick={() => signOut()}
+                  // onClick={() => signOut()}
                 >
                   Logout
                 </motion.li>
