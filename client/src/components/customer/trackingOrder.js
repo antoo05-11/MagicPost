@@ -7,6 +7,23 @@ export default function OrderTracking({ data }) {
         return null;
     }
 
+    const formatDate = (dateTimeString) => {
+        const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+        return new Date(dateTimeString).toLocaleDateString('en-US', options);
+    };
+
+    const convertStatus = (status) => {
+        switch (status) {
+            case 'arrived':
+                return 'Đã chuyển';
+            case 'on_way':
+                return 'Đang chuyển';
+
+            default:
+                return status;
+        }
+    };
+
     return (
         <Container className="lookUpContainer">
             <Row>
@@ -32,8 +49,9 @@ export default function OrderTracking({ data }) {
 
                 <Col>
                     <Row><strong>Trạng thái</strong> </Row>
-                    <Row><p className='m-0'>{data.processes?.[0]?.status}</p></Row>
+                    <Row><p className='m-0'>{convertStatus(data.processes?.[0]?.status)}</p></Row>
                 </Col>
+
             </Row>
 
             <Row>
@@ -54,8 +72,8 @@ export default function OrderTracking({ data }) {
                                     <td>{process?.processID}</td>
                                     <td>{process?.currentRoutingPoint?.address?.detail}</td>
                                     <td>{process?.nextRoutingPoint?.address?.detail}</td>
-                                    <td>{process?.arrivedTime}</td>
-                                    <td>{process?.status}</td>
+                                    <td>{formatDate(process?.arrivedTime)}</td>
+                                    <td>{convertStatus(process?.status)}</td>
                                 </tr>
                             ))}
                         </tbody>
