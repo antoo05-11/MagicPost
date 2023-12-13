@@ -1,12 +1,13 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Button } from "react-bootstrap";
 import { useDebouncedCallback } from "use-debounce";
+import { Button } from "react-bootstrap";
 
 export default function Search() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter();
+
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -16,6 +17,13 @@ export default function Search() {
     }
     replace(`${pathname}?${params.toString()}`);
   });
+
+  const handleClick = () => {
+    // Perform additional actions or handle the click event here
+    // For example, you can trigger the search with the current input value
+    const inputValue = document.getElementById("searchInput").value;
+    handleSearch(inputValue);
+  };
 
   return (
     <div className="d-flex justify-content-between">

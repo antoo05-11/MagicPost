@@ -13,7 +13,7 @@ export default function Order({ searchParams: { query } }) {
     <div>
       <LookUpBanner title={"TRA CỨU BƯU GỬI"} />
       <LookUpOrder />
-      <OrderProgress />
+      {/* <OrderProgress /> */}
     </div>
   );
 }
