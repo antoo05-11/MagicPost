@@ -36,4 +36,4 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/dashboard",  "/test"] };
+export const config = { matcher: ["/dashboard"] };

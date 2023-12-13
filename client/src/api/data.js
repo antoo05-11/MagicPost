@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { useSession } from "next-auth/react";
 
 export function getData(url) {
-  const fetcher = (url, token) =>
+  const fetcher = async (url, token) =>
     fetch(url, {
       headers: new Headers({
         "Content-Type": "application/json",
@@ -72,10 +72,21 @@ export function getOrder(query) {
   }
 }
 
-export function findOrder(orderID) { }
+export function findOrder(orderID) {}
 
-export function getOrderById(id) { }
+export function getOrderById(id) {}
 // export const icon = {};
+
+export function getAllProvince() {
+  const dataRes = getDataWithoutToken(
+    "https://magicpost-uet.onrender.com/api/administrative/province/getall"
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
+  }
+  return data;
+}
 
 export function getProvinceInfo() {
   try {
@@ -93,57 +104,35 @@ export function getProvinceInfo() {
   }
 }
 
-export async function getDistrictByProvinceID(id) {
-  let url = `https://magicpost-uet.onrender.com/api/administrative/district/getall/${id}`;
-  let res = await fetch(url, {
-    headers: new Headers({
-      "Content-Type": "application/json",
-    }),
-  });
-  let data = await res.json();
-  const dat = [];
-  for (var i in data) {
-    dat.push(data[i]);
+export function getDistrictByProvinceID(id) {
+  const dataRes = getDataWithoutToken(
+    `https://magicpost-uet.onrender.com/api/administrative/district/getall/${id}`
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
   }
-  return dat;
+  return data;
 }
 
-export async function getCommuneByDistrictID(id) {
-  let url = `https://magicpost-uet.onrender.com/api/administrative/commune/getall/${id}`;
-  let res = await fetch(url, {
-    headers: new Headers({
-      "Content-Type": "application/json",
-    }),
-  });
-  let data = await res.json();
-  const dat = [];
-  for (var i in data) {
-    dat.push(data[i]);
+export function getCommuneByDistrictID(id) {
+  const dataRes = getDataWithoutToken(
+    `https://magicpost-uet.onrender.com/api/administrative/commune/getall/${id}`
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
   }
-  return dat;
+  return data;
 }
 
-export async function getTransactionPoint(provinceID, districtID, communeID) {
-  let url = 'https://magicpost-uet.onrender.com/api/transactionPoint/get/?';
-  if (provinceID && provinceID != "0") {
-    url = url + `provinceID=${provinceID}`
+export function getTransactionPoint(provinceID, districtID, communeID) {
+  const dataRes = getDataWithoutToken(
+    `https://magicpost-uet.onrender.com/api/transactionPoint/get/?provinceID=${1}&districtID=${1}&communeID=${1}`
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
   }
-  if (districtID && districtID != "0") {
-    url = url + `&districtID=${districtID}`
-  }
-  if (communeID && communeID != "0") {
-    url = url + `&communeID=${communeID}`
-  }
-  let res = await fetch(url, {
-    headers: new Headers({
-      "Content-Type": "application/json"
-    }),
-  })
-  console.log(url)
-  let data = await res.json();
-  const dat = [];
-  for (var i in data) {
-    dat.push(data[i]);
-  }
-  return dat;
+  return data;
 }

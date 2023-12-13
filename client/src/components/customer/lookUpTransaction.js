@@ -1,144 +1,136 @@
-import { getDistrictByProvinceID, getProvinceInfo, getCommuneByDistrictID, getTransactionPoint } from "@/api/data";
+import {
+  getDistrictByProvinceID,
+  getProvinceInfo,
+  getCommuneByDistrictID,
+  getTransactionPoint,
+  getAllProvince,
+} from "@/api/data";
 import { useEffect, useState } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import TransactionList from "./transactionList";
 
-
 export default function LookUpTransaction() {
-    const provinceData = getProvinceInfo();
+  const provinceData = getAllProvince();
 
-    const [selectedProvince, setSelectedProvince] = useState('');
-    const [districtData, setDistrictData] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState();
 
-    const [selectedDistrict, setSelectedDistrict] = useState('')
-    const [communeData, setCommuneData] = useState([]);
+  const districtData = getDistrictByProvinceID(selectedProvince);
+  districtData.unshift({
+    name: "Chọn Quận/ Huyện",
+    districtID: 0,
+  });
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const communeData = getCommuneByDistrictID(selectedDistrict);
+  communeData.unshift({
+    name: "Chọn Xã/ Phường",
+    communeID: 0,
+  });
 
-    const [selectedCommune, setSelectedCommune] = useState('')
+  const [selectedCommune, setSelectedCommune] = useState("");
 
-    const [showTransactionList, setShowTransactionList] = useState(false);
+  const [showTransactionList, setShowTransactionList] = useState(false);
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                if (selectedProvince && selectedProvince != 0) {
-                    const districts = await getDistrictByProvinceID(selectedProvince);
-                    setDistrictData(districts);
+  const data = getDistrictByProvinceID(0);
+  console.log(selectedProvince, selectedDistrict, selectedCommune);
+  return (
+    <div>
+      <Container className="lookUpContainer">
+        <Row>
+          <Col>
+            <Container>
+              <Row>
+                <Col>
+                  <Form>
+                    <Row>
+                      <Form.Select
+                        aria-label="Chọn Tỉnh/ TP"
+                        className="selectContainer"
+                        onChange={(e) => {
+                          setSelectedProvince(e.target.value);
+                          setSelectedDistrict(0);
+                          setSelectedCommune(0);
+                        }}
+                        required
+                      >
+                        <option value={0}>Chọn Tỉnh/ TP</option>
+                        {provinceData.map((province) => (
+                          <option
+                            key={province.provinceID}
+                            value={province.provinceID}
+                          >
+                            {province.name}
+                          </option>
+                        ))}
+                      </Form.Select>
 
-                    setSelectedDistrict("0");
-                    setSelectedCommune("0");
-                }
+                      <Form.Select
+                        onChange={(e) => {
+                          setSelectedDistrict(e.target.value);
+                          setSelectedCommune(0);
+                        }}
+                        required
+                        className="selectContainer"
+                      >
+                        {districtData?.map((district) => (
+                          <option
+                            key={district.districtID}
+                            value={district.districtID}
+                          >
+                            {district.name}
+                          </option>
+                        ))}
+                      </Form.Select>
 
-                if (selectedDistrict && selectedDistrict !== "0") {
-                    const communes = await getCommuneByDistrictID(selectedDistrict);
-                    setCommuneData(communes);
-                } else {
-                    setCommuneData([])
-                };
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-        fetchData();
-    }, [selectedProvince, selectedDistrict]);
+                      <Form.Select
+                        aria-label="Chọn Xã/ Phường"
+                        className="selectContainer"
+                        onChange={(e) => {
+                          setSelectedCommune(e.target.value);
+                        }}
+                        required
+                      >
+                        {communeData.map((commune) => (
+                          <option
+                            key={commune.communeID}
+                            value={commune.communeID}
+                          >
+                            {commune.name}
+                          </option>
+                        ))}
+                      </Form.Select>
 
-    console.log(selectedDistrict)
-
-    const handleSearchButtonClick = () => {
-        try {
-            setShowTransactionList(true);
-        } catch (error) {
-            console.error("Error fetching transaction data:", error);
-        }
-    };
-
-    return (
-        <div>
-            <Container className="lookUpContainer">
-                <Row>
-                    <Col>
-                        <Container>
-                            <Row>
-                                <Col >
-                                    <Form>
-                                        <Row>
-                                            <Form.Select
-                                                aria-label="Chọn Tỉnh/ TP"
-                                                className="selectContainer"
-                                                onChange={
-                                                    (e) => {
-                                                        setSelectedProvince(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                                                    }}
-                                                required
-                                            >
-                                                <option>Chọn Tỉnh/ TP</option>
-                                                {provinceData.map((province) => (
-                                                    <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
-                                                        {province.name}
-                                                    </option>
-                                                ))}
-                                            </Form.Select>
-
-                                            <Form.Select
-                                                onChange={
-                                                    (e) => {
-                                                        setSelectedDistrict(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                                                    }}
-                                                required
-                                                className="selectContainer"
-                                            >
-                                                <option>Chọn Quận/ Huyện</option>
-                                                {districtData.map((district) => (
-                                                    <option key={district.districtID} data-key={district.districtID} value={district.districtID}>
-                                                        {district.name}
-                                                    </option>
-                                                ))}
-
-                                            </Form.Select>
-
-                                            <Form.Select
-                                                aria-label="Chọn Xã/ Phường"
-                                                className="selectContainer"
-                                                onChange={
-                                                    (e) => {
-                                                        setSelectedCommune(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                                                    }}
-                                                required
-                                            >
-                                                <option>Chọn Xã/ Phường</option>
-                                                {communeData.map((commune) => (
-                                                    <option key={commune.communeID} data-key={commune.communeID} value={commune.communeID}>
-                                                        {commune.name}
-                                                    </option>
-                                                ))}
-                                            </Form.Select>
-
-                                            <Button className="submitButton" onClick={handleSearchButtonClick}>TRA CỨU</Button>
-                                        </Row>
-                                    </Form>
-                                </Col>
-                            </Row>
-                        </Container>
-                    </Col>
-
-                    <Col className="mapContainer">
-                        <iframe
-                            src="https://www.google.com/maps/d/u/0/embed?mid=1VCEMjR_Ldo68vk5FiAWGf_7oV5r9PE8&ehbc=2E312F"
-                            width="640"
-                            height="350"
-                            className="map"
-                        ></iframe>
-                    </Col>
-                </Row>
+                      <Button
+                        className="submitButton"
+                        onClick={() => {
+                          setShowTransactionList(true);
+                        }}
+                      >
+                        TRA CỨU
+                      </Button>
+                    </Row>
+                  </Form>
+                </Col>
+              </Row>
             </Container>
-            {showTransactionList && (
-                <TransactionList
-                    provinceID={selectedProvince}
-                    districtID={selectedDistrict}
-                    communeID={selectedCommune}
-                />
-            )}
-        </div>
+          </Col>
 
-
-    );
+          <Col className="mapContainer">
+            <iframe
+              src="https://www.google.com/maps/d/u/0/embed?mid=1VCEMjR_Ldo68vk5FiAWGf_7oV5r9PE8&ehbc=2E312F"
+              width="640"
+              height="350"
+              className="map"
+            ></iframe>
+          </Col>
+        </Row>
+      </Container>
+      {showTransactionList && (
+        <TransactionList
+          provinceID={selectedProvince}
+          districtID={selectedDistrict}
+          communeID={selectedCommune}
+        />
+      )}
+    </div>
+  );
 }
