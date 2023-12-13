@@ -5,19 +5,25 @@ import { createEmployee } from "@/api/action";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { useRouter } from "next/navigation";
-import { getEmployee, getDistrictByProvinceID, getProvinceInfo, getCommuneByDistrictID } from "@/api/data";
-import "@/css/employee/customForm.css"
+import {
+  getEmployee,
+  getDistrictByProvinceID,
+  getProvinceInfo,
+  getCommuneByDistrictID,
+  getEmployeebyID,
+} from "@/api/data";
+import "@/css/employee/customForm.css";
 
-export default function EmployeeForm() {
+export default function EmployeeForm({ id }) {
   const provinceData = getProvinceInfo();
 
-  const [selectedProvince, setSelectedProvince] = useState('');
+  const [selectedProvince, setSelectedProvince] = useState("");
   const [districtData, setDistrictData] = useState([]);
 
-  const [selectedDistrict, setSelectedDistrict] = useState('')
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const [communeData, setCommuneData] = useState([]);
 
-  const [selectedCommune, setSelectedCommune] = useState('')
+  const [selectedCommune, setSelectedCommune] = useState("");
 
   useEffect(() => {
     async function fetchDistricts() {
@@ -27,7 +33,7 @@ export default function EmployeeForm() {
           setDistrictData(districts);
         }
       } catch (error) {
-        console.error('Error fetching district data:', error);
+        console.error("Error fetching district data:", error);
       }
     }
     setSelectedDistrict("0");
@@ -42,13 +48,15 @@ export default function EmployeeForm() {
           setCommuneData(communes);
         }
       } catch (error) {
-        console.error('Error fetching district data:', error);
+        console.error("Error fetching district data:", error);
       }
     }
     fetchCommune();
   }, [selectedDistrict]);
-
-
+  // console.log("check id ", id);
+  const emp = getEmployeebyID(id);
+  if (emp) {
+  }
   const employee = {
     identifier: "",
     phoneNumber: "",
@@ -64,6 +72,8 @@ export default function EmployeeForm() {
     email: "",
     role: null,
   };
+  if (emp) {
+  }
   const [isCreate, setCreate] = useState();
   const router = useRouter();
 
@@ -97,11 +107,7 @@ export default function EmployeeForm() {
 
           <div className="col-md-6">
             <label htmlFor="dob">Ngày sinh</label>
-            <input
-              type="date"
-              className="form-control"
-              id="dob"
-            />
+            <input type="date" className="form-control" id="dob" />
           </div>
         </div>
 
@@ -149,22 +155,33 @@ export default function EmployeeForm() {
         </div>
 
         <div className="row mt-2">
-          <div>
-            Giới tính
-          </div>
+          <div>Giới tính</div>
         </div>
 
         <div className="row mt-2">
-          <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
+          <label htmlFor="province" className="col-sm-12 col-form-label">
+            Địa chỉ
+          </label>
           <div className="col-md-4">
-            <select className="form-select" aria-label="Default select example" id="province"
-              onChange={
-                (e) => {
-                  setSelectedProvince(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                }}>
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              id="province"
+              onChange={(e) => {
+                setSelectedProvince(
+                  e.target.options[e.target.selectedIndex].getAttribute(
+                    "data-key"
+                  )
+                );
+              }}
+            >
               <option selected>Chọn Tỉnh / TP</option>
               {provinceData.map((province) => (
-                <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
+                <option
+                  key={province.provinceID}
+                  data-key={province.provinceID}
+                  value={province.provinceID}
+                >
                   {province.name}
                 </option>
               ))}
@@ -172,14 +189,24 @@ export default function EmployeeForm() {
           </div>
 
           <div className="col-md-4">
-            <select className="form-select" aria-label="Default select example"
-              onChange={
-                (e) => {
-                  setSelectedDistrict(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                }}>
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              onChange={(e) => {
+                setSelectedDistrict(
+                  e.target.options[e.target.selectedIndex].getAttribute(
+                    "data-key"
+                  )
+                );
+              }}
+            >
               <option selected>Chọn Xã / Phường</option>
               {districtData.map((district) => (
-                <option key={district.districtID} data-key={district.districtID} value={district.districtID}>
+                <option
+                  key={district.districtID}
+                  data-key={district.districtID}
+                  value={district.districtID}
+                >
                   {district.name}
                 </option>
               ))}
@@ -187,14 +214,24 @@ export default function EmployeeForm() {
           </div>
 
           <div className="col-md-4">
-            <select className="form-select" aria-label="Default select example"
-              onChange={
-                (e) => {
-                  setSelectedCommune(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                }}>
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              onChange={(e) => {
+                setSelectedCommune(
+                  e.target.options[e.target.selectedIndex].getAttribute(
+                    "data-key"
+                  )
+                );
+              }}
+            >
               <option selected>Chọn Quận / Huyện</option>
               {communeData.map((commune) => (
-                <option key={commune.communeID} data-key={commune.communeID} value={commune.communeID}>
+                <option
+                  key={commune.communeID}
+                  data-key={commune.communeID}
+                  value={commune.communeID}
+                >
                   {commune.name}
                 </option>
               ))}
@@ -218,7 +255,11 @@ export default function EmployeeForm() {
         <div className="row mt-2">
           <div className="col-md-6">
             <label htmlFor="role">Vai trò</label>
-            <select className="form-select" aria-label="Default select example" id="role">
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              id="role"
+            >
               <option selected>Chọn vai trò</option>
               <option value="1">One</option>
               <option value="2">Two</option>
@@ -236,7 +277,6 @@ export default function EmployeeForm() {
             </select>
           </div>
         </div>
-
       </form>
 
       <div className="mt-3 btnContainer">
@@ -250,7 +290,9 @@ export default function EmployeeForm() {
           Tạo nhân viên
         </button>
 
-        <button type="button" className="btn btn-secondary">Xóa</button>
+        <button type="button" className="btn btn-secondary">
+          Xóa
+        </button>
       </div>
     </div>
   );

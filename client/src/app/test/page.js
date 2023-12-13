@@ -7,6 +7,7 @@ import StatisticTransPoint from "@/components/employee/dashboard/StatisticTransP
 import { motion } from "framer-motion";
 import EmployyeeTable from "@/components/employee/employee-table";
 import { ChartSkeleton } from "@/components/skeleton";
+import { getEmployeebyID } from "@/api/data";
 export const orderDetails = [
   "nguoi gui",
   "nguoi nhan",
@@ -15,6 +16,7 @@ export const orderDetails = [
   "Phi van chuyen",
 ];
 export default function AdminPage() {
+  const data = getEmployeebyID();
   return (
     // <motion.div layout>
     //   {/* <motion.h1 layout>Dashboard</motion.h1> */}

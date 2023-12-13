@@ -20,6 +20,14 @@ export function getData(url) {
   // }
 }
 
+export function getDataWithoutToken(url) {
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  // if (token) {
+  const { data, error, isLoading } = useSWR(url, fetcher);
+  return data;
+  // }
+}
+
 export function getEmployee(query) {
   try {
     const data = getData(
@@ -32,6 +40,18 @@ export function getEmployee(query) {
     const totalPage = data?.totalPages;
     const itemPerPage = data?.limit;
     return { dataRes, totalPage, itemPerPage };
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw Error("Failed to fetch the latest invoices.");
+  }
+}
+
+export function getEmployeebyID(id) {
+  try {
+    const data = getData(
+      `https://magicpost-uet.onrender.com/api/employee/${id}/get`
+    );
+    return data;
   } catch (error) {
     console.error("Database Error:", error);
     throw Error("Failed to fetch the latest invoices.");
@@ -52,14 +72,16 @@ export function getOrder(query) {
   }
 }
 
-export function findOrder(orderID) { }
+export function findOrder(orderID) {}
 
-export function getOrderById(id) { }
+export function getOrderById(id) {}
 // export const icon = {};
 
 export function getProvinceInfo() {
   try {
-    const data = getData("https://magicpost-uet.onrender.com/api/administrative/province/getall");
+    const data = getData(
+      "https://magicpost-uet.onrender.com/api/administrative/province/getall"
+    );
     const dat = [];
     for (var i in data) {
       dat.push(data[i]);
@@ -75,9 +97,9 @@ export async function getDistrictByProvinceID(id) {
   let url = `https://magicpost-uet.onrender.com/api/administrative/district/getall/${id}`;
   let res = await fetch(url, {
     headers: new Headers({
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     }),
-  })
+  });
   let data = await res.json();
   const dat = [];
   for (var i in data) {
@@ -90,9 +112,9 @@ export async function getCommuneByDistrictID(id) {
   let url = `https://magicpost-uet.onrender.com/api/administrative/commune/getall/${id}`;
   let res = await fetch(url, {
     headers: new Headers({
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     }),
-  })
+  });
   let data = await res.json();
   const dat = [];
   for (var i in data) {
