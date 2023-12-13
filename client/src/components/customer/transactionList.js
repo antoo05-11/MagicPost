@@ -1,36 +1,56 @@
 import { getTransactionPoint } from "@/api/data";
 import { Container, Row, Col } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
-console.log(getTransactionPoint(1))
+export default function TransactionList({ provinceID, districtID, communeID }) {
+    const [data, setData] = useState([]);
 
-export default function TransactionList() {
-    const data = getTransactionPoint()
+    useEffect(() => {
+        try {
+            async function fetchData() {
+                let result;
+                if (provinceID && provinceID !== '0') {
+                    result = await getTransactionPoint(provinceID);
+                }
+                if (districtID && districtID !== '0') {
+                    result = await getTransactionPoint(provinceID, districtID);
+                }
+                if (communeID && communeID !== '0') {
+                    result = await getTransactionPoint(provinceID, districtID, communeID);
+                }
+                setData(result || []);
+            }
+
+            fetchData();
+        } catch (error) {
+            console.error("Error fetching transaction data:", error);
+        }
+    }, [provinceID, districtID, communeID]);
+
+    const postOfficeCount = data.length;
 
     return (
-        <Container className="lookUpContainer container">
-            <Row className="border-bottom mt-2">
-                <Row>
-                    <h3>Tên</h3>
+        <Container className="lookUpContainer" style={{ maxHeight: "300px", overflowY: "auto" }}>
+            <Row>
+                <Col>
+                    <h3>Số lượng bưu cục: {postOfficeCount}</h3>
+                </Col>
+            </Row>
+            {data.slice(0, 3).map((item, index) => (
+                <Row key={index} className="border-bottom mt-2">
+                    <Row>
+                        <h3>Transaction Details</h3>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <p>Địa chỉ: {item.address.detail}</p>
+                            <p>Commune: {item.address.commune.name}</p>
+                            <p>District: {item.address.district.name}</p>
+                            <p>Province: {item.address.province.name}</p>
+                        </Col>
+                    </Row>
                 </Row>
-                <Row>
-                    <Col>
-                        <p>Địa chỉ</p>
-                    </Col>
-                    <Col>
-                        <p>SDT</p>
-                    </Col>
-                </Row>
-            </Row>
-            <Row className="border-bottom mt-2">
-                <h5>NAME</h5>
-                <p>Địa chỉ</p>
-                <p>Tỉnh</p>
-            </Row>
-            <Row className="border-bottom mt-2">
-                <h5>NAME</h5>
-                <p>Địa chỉ</p>
-                <p>Tỉnh</p>
-            </Row>
+            ))}
         </Container>
     );
 }

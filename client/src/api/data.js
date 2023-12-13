@@ -72,9 +72,9 @@ export function getOrder(query) {
   }
 }
 
-export function findOrder(orderID) {}
+export function findOrder(orderID) { }
 
-export function getOrderById(id) {}
+export function getOrderById(id) { }
 // export const icon = {};
 
 export function getProvinceInfo() {
@@ -125,13 +125,13 @@ export async function getCommuneByDistrictID(id) {
 
 export async function getTransactionPoint(provinceID, districtID, communeID) {
   let url = 'https://magicpost-uet.onrender.com/api/transactionPoint/get/?';
-  if (provinceID) {
+  if (provinceID && provinceID != "0") {
     url = url + `provinceID=${provinceID}`
   }
-  if (districtID) {
+  if (districtID && districtID != "0") {
     url = url + `&districtID=${districtID}`
   }
-  if (communeID) {
+  if (communeID && communeID != "0") {
     url = url + `&communeID=${communeID}`
   }
   let res = await fetch(url, {
@@ -139,6 +139,7 @@ export async function getTransactionPoint(provinceID, districtID, communeID) {
       "Content-Type": "application/json"
     }),
   })
+  console.log(url)
   let data = await res.json();
   const dat = [];
   for (var i in data) {

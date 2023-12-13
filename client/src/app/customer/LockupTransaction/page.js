@@ -10,7 +10,7 @@ export default function Transaction() {
     <div>
       <LookUpBanner title={"TRA CỨU BƯU CỤC"} />
       <LookUpTransaction />
-      <TransactionList />
+      {/* <TransactionList /> */}
     </div>
   );
 }
