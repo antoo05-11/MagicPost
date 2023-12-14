@@ -26,7 +26,7 @@ export default class Error {
             new ErrorRes("Authentical failed!"));
 
         this.errors.set(this.code.invalid_request_body,
-            new ErrorRes("No credentials sent!"));
+            new ErrorRes("Invalid request body format!"));
 
         this.errors.set(this.code.invalid_address,
             new ErrorRes("Invalid Data!",
@@ -66,7 +66,7 @@ export default class Error {
     static errors = new Map();
 
     static getError(code) {
-        let error = { ...this.errors.get(code) };
+        let error = ErrorRes.clone(this.errors.get(code));
         error.code = code;
         return error;
     }
@@ -76,5 +76,12 @@ class ErrorRes {
     constructor(error, message) {
         this.error = error;
         this.message = message;
+    }
+    static clone(errorRes) {
+        return new ErrorRes(errorRes.error, errorRes.message);
+    }
+    setMessage(message) {
+        this.message = message;
+        return this;
     }
 }

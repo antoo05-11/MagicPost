@@ -131,7 +131,7 @@
 
 | Request Requirement | Content                                                |
 | ------------------- | ------------------------------------------------------ |
-| API URL             | https://magicpost-uet.onrender.com/api/employee/getall |
+| API URL             | https://magicpost-uet.onrender.com/api/employee/get |
 |Query Params|page (1 as <i>default</i>), limit (1 as <i>default</i>), <br> employeeID, identifier, fullName, role, email |
 | HTTP method         | GET                                                    |
 | Token Required      | YES                                                    |
@@ -205,7 +205,7 @@
         "province": "Tỉnh Nghệ An",
         "district": "Huyện Tân Kỳ",
         "commune": "Thị trấn Tân Kỳ",
-        "detail": "Số 100, đường 19/4"
+        "detail": "Số 100, đưng 19/4"
     }
 }
 ```
@@ -636,7 +636,7 @@
 
 | Request Requirement | Content                                                                                                                      |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| API URL             | https://magicpost-uet.onrender.com/api/http://localhost:3000/api/transactionPoint/get/?provinceID=?&districtID=?&communeID=? |
+| API URL             | https://magicpost-uet.onrender.com/api/transactionPoint/get/?provinceID=?&districtID=?&communeID=? |
 | HTTP method         | GET                                                                                                                          |
 | Token Required      | NO                                                                                                                           |
 | Roles Authorized    | NONE                                                                                                                         |

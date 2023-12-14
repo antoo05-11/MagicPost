@@ -54,7 +54,7 @@ export const login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch)
-        return res.status(400).json(Error.get(Error.code.invalid_password))
+        return res.status(400).json(Error.getError(Error.code.invalid_password))
 
     const accessToken = genToken(user);
     const refreshToken = genRefreshToken(user);
