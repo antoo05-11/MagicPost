@@ -18,19 +18,20 @@ import style from "@/css/login.module.css";
 export default function LoginForm() {
   const [username, setusername] = useState();
   const [pass, setpass] = useState();
+
   const onSubMit = async () => {
     const result = await signIn("credentials", {
-      username: username,
-      password: pass,
+      username: "23000014",
+      password: "password",
       redirect: true,
       callbackUrl: "/employees",
     });
-  };  
+  };
   return (
     <Container fluid className={style.container}>
       <Row className="d-flex justify-content-center align-items-center h-100">
         <Col md={9} lg={6} xl={5}>
-          <Image  
+          <Image
             src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
             fluid
             alt="Sample image"
@@ -51,9 +52,13 @@ export default function LoginForm() {
                   onChange={(e) => setusername(e.target.value)}
                   className={style.inputField}
                 /> */}
-                <Form.Label htmlFor="form3Example3" className="text-light">Tài khoản</Form.Label>
+                <Form.Label htmlFor="form3Example3" className="text-light">
+                  Tài khoản
+                </Form.Label>
                 <InputGroup>
-                  <InputGroup.Text id="basic-addon1"><FaRegUser /></InputGroup.Text>
+                  <InputGroup.Text id="basic-addon1">
+                    <FaRegUser />
+                  </InputGroup.Text>
                   <Form.Control
                     placeholder="Tài khoản"
                     aria-label="Username"
@@ -73,9 +78,13 @@ export default function LoginForm() {
                   placeholder="Enter password"
                   onChange={(e) => setpass(e.target.value)}
                 /> */}
-                <Form.Label htmlFor="form3Example4" className="text-light">Mật khẩu</Form.Label>
+                <Form.Label htmlFor="form3Example4" className="text-light">
+                  Mật khẩu
+                </Form.Label>
                 <InputGroup>
-                  <InputGroup.Text id="basic-addon1"><LuLock /></InputGroup.Text>
+                  <InputGroup.Text id="basic-addon1">
+                    <LuLock />
+                  </InputGroup.Text>
                   <Form.Control
                     placeholder="Mật khẩu"
                     aria-label="Password"
@@ -109,12 +118,7 @@ export default function LoginForm() {
                 Đăng nhập
               </Button>
 
-              <Button
-                variant="primary"
-                size="lg"
-                className="login-btn"
-                
-              >
+              <Button variant="primary" size="lg" className="login-btn">
                 Đăng nhập
               </Button>
             </div>

@@ -9,6 +9,7 @@ import { signOut } from "next-auth/react";
 import { FaRegBell } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { useRouter } from "next/navigation";
 
 const itemVariants = {
   open: {
@@ -20,6 +21,7 @@ const itemVariants = {
 };
 
 export default function TopBar() {
+  const route = useRouter();
   const [profile, setProfile] = useState();
   return (
     <motion.nav layout className="nav topbar">
@@ -35,14 +37,18 @@ export default function TopBar() {
             </motion.button>
           </Col>
           <Col xs="auto" className="avatarContainer">
-            <motion.nav layout initial={false} animate={profile ? "open" : "closed"} >
+            <motion.nav
+              layout
+              initial={false}
+              animate={profile ? "open" : "closed"}
+            >
               <Container onClick={() => setProfile(!profile)}>
-                <Row >
+                <Row>
                   <Col xs="auto" className="userName">
                     Đỗ Minh Duy
                   </Col>
                   <Col xs="auto">
-                    <FaRegUserCircle size={'2em'}/>
+                    <FaRegUserCircle size={"2em"} />
                   </Col>
                 </Row>
               </Container>
@@ -73,7 +79,13 @@ export default function TopBar() {
                 }}
                 style={{ pointerEvents: profile ? "auto" : "none" }}
               >
-                <motion.li className="acc-list" variants={itemVariants}>
+                <motion.li
+                  className="acc-list"
+                  variants={itemVariants}
+                  onClick={() => {
+                    route.push("/employees/information");
+                  }}
+                >
                   Information
                 </motion.li>
                 <motion.li className="acc-list" variants={itemVariants}>
@@ -82,7 +94,7 @@ export default function TopBar() {
                 <motion.li
                   className="acc-list"
                   variants={itemVariants}
-                  onClick={() => signOut()}
+                  // onClick={() => signOut()}
                 >
                   Logout
                 </motion.li>
