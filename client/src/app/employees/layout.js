@@ -17,6 +17,7 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { IoPeopleOutline } from "react-icons/io5";
 import { LuPackage2 } from "react-icons/lu";
 import { RiRoadMapLine } from "react-icons/ri";
+import { HiOutlineBuildingOffice } from "react-icons/hi2";
 
 const roleFunc = {
   home_page: {
@@ -39,6 +40,11 @@ const roleFunc = {
     name: "Điểm tập kết",
     icon: <RiRoadMapLine size={'2em'}/>
   },
+  list_transaction: {
+    url: "/employees/list_transaction",
+    name: "Điểm giao dịch",
+    icon: <HiOutlineBuildingOffice size={'2em'} />
+  }
 };
 const role = {
   staff: [
@@ -46,6 +52,7 @@ const role = {
     roleFunc["list_employee"],
     roleFunc["list_order"],
     roleFunc["list_workspace"],
+    roleFunc["list_transaction"],
   ],
 };
 

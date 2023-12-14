@@ -19,8 +19,17 @@ import { BsPeople } from "react-icons/bs";
 import { RiTruckLine } from "react-icons/ri";
 import { RiUserHeartLine } from "react-icons/ri";
 import style from "@/css/customer/homePage.module.css";
+import { useState } from "react";
 
 export default function HomePage() {
+  const router = useRouter();
+  const [orderID, setOrderID] = useState('');
+  const handleSearch = () => {
+    if (orderID.trim() !== '') {
+      router.push(`/customer/LockupOrders?query=${orderID}`);
+    }
+  };
+
   return (
     <div className={style.homePageContainer}>
       <div className={style.banner}>
@@ -59,8 +68,9 @@ export default function HomePage() {
                     formMethod="get"
                     placeholder="Nhập mã bưu gửi"
                     className="rounded-pill"
+                    onChange={(e) => setOrderID(e.target.value)}
                   />
-                  <Button className="rounded-pill mx-2">🔍</Button>
+                  <Button className="rounded-pill mx-2" onClick={handleSearch}>🔍</Button>
                 </InputGroup>
               </Form>
             </Col>
