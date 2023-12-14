@@ -82,7 +82,7 @@ export const requestRefreshToken = async (req, res) => {
     } = req.cookies;
 
     if (!refreshToken)
-        return res.status(404).json(Error.getError(Error.code.no_refresh_token));
+        return res.status(401).json(Error.getError(Error.code.no_refresh_token));
 
     if (!refreshTokens.includes(refreshToken))
         return res.status(403).json(Error.getError(Error.code.invalid_refresh_token));

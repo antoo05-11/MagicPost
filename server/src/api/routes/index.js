@@ -1,7 +1,4 @@
-import {
-    Router
-} from "express";
-
+import { Router } from "express";
 import authRoute from "./auth";
 import administrativeRoute from "./administrative";
 import addressRoute from "./routing_point/address";

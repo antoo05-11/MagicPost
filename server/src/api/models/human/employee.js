@@ -49,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
         status: {
             type: DataTypes.ENUM,
             values: ['ACTIVE', 'INACTIVE']
+        },
+        birthDate: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     }, {
         id: false

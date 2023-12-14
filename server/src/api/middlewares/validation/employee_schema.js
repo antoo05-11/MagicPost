@@ -28,10 +28,10 @@ export const employee_adding_schema = Joi.object({
     email: Joi.string().email().required(),
 
     role: Joi.string().allow(null).valid(role.GOODS_POINT_EMPLOYEE,
-        role.GOODS_POINT_HEADER,
+        role.GOODS_POINT_HEAD,
         role.MANAGER,
         role.TRANSACTION_POINT_EMPLOYEE,
-        role.TRANSACTION_POINT_HEADER).optional()
+        role.TRANSACTION_POINT_HEAD).optional()
 });
 
 export const employee_editting_schema = Joi.object({
@@ -60,10 +60,40 @@ export const employee_editting_schema = Joi.object({
     email: Joi.string().email().optional(),
 
     role: Joi.string().allow(null).valid(role.GOODS_POINT_EMPLOYEE,
-        role.GOODS_POINT_HEADER,
+        role.GOODS_POINT_HEAD,
         role.MANAGER,
         role.TRANSACTION_POINT_EMPLOYEE,
-        role.TRANSACTION_POINT_HEADER),
+        role.TRANSACTION_POINT_HEAD),
 
     status: Joi.string().optional().valid('ACTIVE', 'INACTIVE')
+});
+
+export const employee_filter_schema = Joi.object({
+    page: Joi.number().integer().min(0).optional(),
+    limit: Joi.number().integer().min(1).optional(),
+    employeeID: Joi.string().optional(),
+    identifier: Joi.string().optional(),
+    phoneNumber: Joi.string().optional(),
+    fullName: Joi.string().optional(),
+    role: Joi.string().optional(),
+    email: Joi.string().optional(),
+    status: Joi.string().optional(),
+    address: Joi.object({
+        provinceID: Joi.number().integer().min(1),
+        communeID: Joi.number().integer().min(1),
+        districtID: Joi.number().integer().min(1),
+    }).or('provinceID', 'communeID', 'districtID').optional(),
+    workingAddress: Joi.object({
+        provinceID: Joi.number().integer().min(1),
+        communeID: Joi.number().integer().min(1),
+        districtID: Joi.number().integer().min(1),
+    }).or('provinceID', 'communeID', 'districtID').optional()
+}).when(Joi.object({ address: Joi.exist() }), {
+    then: Joi.object({
+        address: Joi.required()
+    })
+}).when(Joi.object({ workingAddress: Joi.exist() }), {
+    then: Joi.object({
+        address: Joi.required()
+    })
 });

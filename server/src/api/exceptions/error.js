@@ -3,7 +3,7 @@ export default class Error {
         no_credentials_sent: 10000,
         not_authorized: 10001,
         authentication_failed: 10002,
-        invalid_request_body: 10003,
+        invalid_request: 10003,
         invalid_address: 10004,
         invalid_employee_id: 10005,
         invalid_working_address_id: 10006,
@@ -12,7 +12,11 @@ export default class Error {
         invalid_password: 10009,
         invalid_refresh_token: 10010,
         no_refresh_token: 10011,
-        invalid_date_param_format: 10012
+        invalid_date_param_format: 10012,
+        invalid_district_id: 10013,
+        invalid_commune_id: 10014,
+        invalid_province_id: 10015,
+        no_record_found: 10016
     };
 
     static initErrors() {
@@ -25,8 +29,8 @@ export default class Error {
         this.errors.set(this.code.authentication_failed,
             new ErrorRes("Authentical failed!"));
 
-        this.errors.set(this.code.invalid_request_body,
-            new ErrorRes("Invalid request body format!"));
+        this.errors.set(this.code.invalid_request,
+            new ErrorRes("Invalid request format!"));
 
         this.errors.set(this.code.invalid_address,
             new ErrorRes("Invalid Data!",
@@ -52,6 +56,21 @@ export default class Error {
             new ErrorRes("Invalid Data!",
                 "Order ID not found!"));
 
+        this.errors.set(this.code.invalid_district_id,
+            new ErrorRes("Invalid Data!",
+                "District ID not found!"));
+
+        this.errors.set(this.code.invalid_province_id,
+            new ErrorRes("Invalid Data!",
+                "Province ID not found!"));
+
+        this.errors.set(this.code.invalid_commune_id,
+            new ErrorRes("Invalid Data!",
+                "Commune ID not found!"));
+
+        this.errors.set(this.code.no_record_found,
+            new ErrorRes("No record found!"));
+
         this.errors.set(this.code.invalid_password,
             new ErrorRes("Invalid Data!",
                 "Wrong Password"));
@@ -69,6 +88,10 @@ export default class Error {
         let error = ErrorRes.clone(this.errors.get(code));
         error.code = code;
         return error;
+    }
+
+    static buildErrorRes(error, message) {
+        return new ErrorRes(error, message)
     }
 }
 

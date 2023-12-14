@@ -443,14 +443,6 @@ export const getOrderByIDForCustomer = async (req, res) => {
                     }
                 }
             },
-            failChoice: order.failChoice,
-            mainPostage: order.mainPostage,
-            addedPostage: order.addedPostage,
-            VATFee: order.VATFee,
-            otherFee: order.otherFee,
-            receiverCOD: order.receiverCOD,
-            receiverOtherFee: order.receiverOtherFee,
-            specialService: order.specialService,
             orderID: order.orderID,
             startTransactionPoint: {
                 startTransactionPointID: order.startTransactionPointID,

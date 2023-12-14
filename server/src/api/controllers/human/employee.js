@@ -17,75 +17,129 @@ RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
 Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID', as: 'workingPoint' });
 
 import bcrypt from "bcryptjs";
-import { checkAddress, getAddressByID } from "../routing_point/address";
-import { checkDateFormat, generateRandomPassword, normalizeDate, normalizeName } from "../../../utils";
+import { buildAddressWhereClause, checkAddress, getAddressByID } from "../routing_point/address";
+import { generateRandomPassword, normalizeName } from "../../../utils";
 import { sequelize } from '../../models';
 import { role } from "../../models/human/role";
 import Error from "../../exceptions/error";
 import { Op } from "sequelize";
 
-const pageSize = 8;
+const defaultPageLimit = 8;
 
+/**
+ * A controller function that retrieves a list of employees from the database 
+ * based on the provided filter criteria. It accepts query
+ * parameters such as `page`, `limit`, `employeeID`, ... to filter the results.
+ * 
+ * Records collected are also satisfy the conditions corresponding 
+ * to request sender role.
+ */
 export const getAllEmployees = async (req, res) => {
-    let pageIndex = req.query.page || 1;
-    let pageLimit = req.query.limit || pageSize;
-    let employeeID = req.query.employeeID || '';
-    let identifier = req.query.identifier || '';
-    let phoneNumber = req.query.phoneNumber || '';
-    let fullName = req.query.fullName || '';
-    let role = req.query.role || '';
-    let email = req.query.email || '';
+    // Filter query params.
+    const pageIndex = req.query.page || 1;
+    const pageLimit = req.query.limit || defaultPageLimit;
+    const employeeID = req.query.employeeID || '';
+    const identifier = req.query.identifier || '';
+    const phoneNumber = req.query.phoneNumber || '';
+    const fullName = req.query.fullName || '';
+    const role = req.query.role;
+    const status = req.query.status || '';
+    const email = req.query.email || '';
+    const address = req.query.address;
+    const workingAddress = req.query.workingAddress;
 
+    // Where-clause to use for employees filter.
+    const employeeWhereClause = {
+        [Op.and]: [
+            { workingPointID: req.user.workingPointID },
+            { employeeID: { [Op.like]: `%${employeeID}%` } },
+            { identifier: { [Op.like]: `%${identifier}%` } },
+            { phoneNumber: { [Op.like]: `%${phoneNumber}%` } },
+            { fullName: { [Op.like]: `%${fullName}%` } },
+            { email: { [Op.like]: `%${email}%` } },
+            { status: { [Op.like]: `%${status}%` } }
+        ]
+    };
+    if (role) {
+        employeeWhereClause[Op.and].push({ role: { [Op.like]: `%${role}%` } });
+    }
+
+    // Where-clause to use for address and working address filter.
+    const addressWhereClause = buildAddressWhereClause(address);
+    const workingAddressWhereClause = buildAddressWhereClause(workingAddress);
+
+    // Find the number of pages with filter and limit page size.
     let totalPages = await Employee.count({
-        where: {
-            [Op.and]: [
-                { employeeID: { [Op.like]: ['%' + employeeID + '%'] } },
-                { identifier: { [Op.like]: ['%' + identifier + '%'] } },
-                { phoneNumber: { [Op.like]: ['%' + phoneNumber + '%'] } },
-                { fullName: { [Op.like]: ['%' + fullName + '%'] } },
-                {
-                    [Op.or]: [
-                        { role: { [Op.like]: ['%' + role + '%'] } },
-                        { role: null }
-                    ]
-                },
-                { email: { [Op.like]: ['%' + email + '%'] } }
-            ]
-        }
-    });    
-
+        where: employeeWhereClause,
+        include: [
+            {
+                model: Address,
+                as: 'address',
+                where: addressWhereClause,
+                required: true
+            },
+            {
+                model: RoutingPoint,
+                as: 'workingPoint',
+                required: true,
+                include: {
+                    model: Address,
+                    where: workingAddressWhereClause,
+                    required: true
+                }
+            }
+        ]
+    });
     totalPages = Math.ceil(totalPages / pageLimit);
 
-    let employees = await Employee.findAll({
-        offset: (pageIndex - 1) * pageSize,
+    if (totalPages == 0) return res.status(404).json(Error.getError(Error.code.no_record_found));
+
+    // Find all employees with filter and limit page size.
+    const employees = await Employee.findAll({
+        offset: (pageIndex - 1) * pageLimit,
         limit: parseInt(pageLimit),
-        where: {
-            [Op.and]: [
-                { employeeID: { [Op.like]: ['%' + employeeID + '%'] } },
-                { identifier: { [Op.like]: ['%' + identifier + '%'] } },
-                { phoneNumber: { [Op.like]: ['%' + phoneNumber + '%'] } },
-                { fullName: { [Op.like]: ['%' + fullName + '%'] } },
-                { role: { [Op.like]: ['%' + role + '%'] } },
-                { email: { [Op.like]: ['%' + email + '%'] } }]
-        }
+        where: employeeWhereClause,
+        attributes: { exclude: ['password', 'birthDate', 'createdAt', 'updatedAt'] },
+        include: [
+            {
+                model: Address,
+                as: 'address',
+                attributes: ['detail'],
+                where: addressWhereClause,
+                required: true,
+                include: [
+                    { model: Commune, attributes: ['name'] },
+                    { model: District, attributes: ['name'] },
+                    { model: Province, attributes: ['name'] }
+                ]
+            },
+            {
+                model: RoutingPoint,
+                as: 'workingPoint',
+                attributes: ['addressID'],
+                required: true,
+                include: {
+                    model: Address,
+                    attributes: ['detail'],
+                    where: workingAddressWhereClause,
+                    required: true,
+                    include: [
+                        { model: Commune, attributes: ['name'] },
+                        { model: District, attributes: ['name'] },
+                        { model: Province, attributes: ['name'] }
+                    ]
+                }
+            }
+        ]
     });
 
-    let processedResult = [];
-    for (const employee of employees) {
-        const cloneEmployee = { ...employee.get() };
-        delete cloneEmployee.password;
-        const address = await getAddressByID(cloneEmployee.addressID);
-        cloneEmployee.address = address;
-        delete cloneEmployee.addressID;
-        processedResult.push(cloneEmployee);
-    }
-
-    const finalResult = {
+    // Adjust final result for responding request.
+    const result = {
         totalPages: totalPages,
         limit: pageLimit,
-        employees: processedResult
+        employees: employees
     }
-    return res.status(200).json(finalResult);
+    return res.status(200).json(result);
 }
 
 export const addNewEmployee = async (req, res) => {
