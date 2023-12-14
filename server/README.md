@@ -31,11 +31,11 @@
 + <samp> This project is a part of Web Application Development course in UET, VNU. </samp>
 + <samp>This Node.js application is hosted on <a href="https://dashboard.render.com/"><samp>Render.com<samp></a> with URL <a href = "https://magicpost-uet.onrender.com/"><samp>magicpost-uet.onrender.com</samp></a>.</samp>
 + <samp>The database is hosted on <a href="https://console.clever-cloud.com" target="_blank"><samp>Clever Cloud Console</samp></a>.</samp>
-+ <samp>Last Updated: 2023/12/10</samp>
++ <samp>Last Updated: 2023/12/15</samp>
   
 ## <samp>Install and run</samp>
 
-<samp>Contact me to get SQL initial commands and build database. </samp>
+<samp>Contact me to get environment variables, SQL initial commands and build database. </samp>
 <samp>Then, clone my project and change directory to server folder. Now, execute the following commands one by one: ```npm install``` - ```npm run dev```.</samp>
 
 ## <samp>Error Response JSON Sample and Error codes</samp>
@@ -49,6 +49,7 @@
 
 | HTTP status code | Error code | Description                                                                                         |
 |------------------|------------|-----------------------------------------------------------------------------------------------------|
+|500||Internal Server Error|
 | 400              | 10000      | No credentials sent                                                                                 |
 | 400              | 10001      | Not authorized                                                                                      |
 | 400              | 10002      | Authentication Failed                                                                               |
@@ -58,6 +59,14 @@
 | 409              | 10006      | Invalid Working Address ID (Working address cannot be found or does not match with role registered) |
 | 409              | 10007      | Duplicated identifier (Identifier has been registered before)                                       |
 | 404              | 10008      | Invalid Order ID                                                                                    |
+| 400              | 10009      | Invalid Password                                                                                    |
+| 403              | 10010      | Invalid Refresh Token                                                                               |
+| 401              | 10011      | No Refresh Token                                                                                    |
+| 400              | 10012      | Invalid Date Param Format                                                                           |
+| 404              | 10013      | Invalid District ID                                                                                 |
+| 404              | 10014      | Invalid Commune ID                                                                                  |
+| 404              | 10015      | Invalid Province ID                                                                                 |
+| 404              | 10016      | No Record Found                                                                                     |
 
 ## <samp>API List</samp>
 
@@ -129,42 +138,58 @@
 #### <samp>Get all employees</samp>
 + ##### <em> <samp> API Information </samp></em>
 
-| Request Requirement | Content                                                |
-| ------------------- | ------------------------------------------------------ |
-| API URL             | https://magicpost-uet.onrender.com/api/employee/get |
-|Query Params|page (1 as <i>default</i>), limit (1 as <i>default</i>), <br> employeeID, identifier, fullName, role, email |
-| HTTP method         | GET                                                    |
-| Token Required      | YES                                                    |
-| Roles Authorized    | TRANSACTION_POINT_HEADER                               |
+| Request Requirement | Content                                                                                                                                                                                                |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/employee/get                                                                                                                                                    |
+| Query Params        | `page` (1 as default), `limit` (8 as default), `employeeID`, `identifier`, `fullName`, `role`, `email`, `address: {communeID, districtID, provinceID}` |
+| HTTP method         | GET                                                                                                                                                                                                    |
+| Token Required      | YES                                                                                                                                                                                                    |
+| Roles Authorized    | TRANSACTION_POINT_HEAD, GOODS_POINT_HEAD   
+
++ ##### <em><samp>Explaination</samp></em>
+    <samp> This API is used for getting all employees working in request sender's working address. Note that only heads of transaction points and goods points are authorized to execute this. </samp>
+
+    <samp>All params in query API URL is optional. Attributes `address` and `workingAddress` are both objects, if they are defined, remember to attach it with at least one of three attributes: `communeID`, `districtID`, `provinceID`</samp>.
+
+    <samp>Example: [http://localhost:3000/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1](http://localhost:3000/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1)</samp>
 
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 {
-    "totalPages": 6,
+    "totalPages": 1,
     "limit": "4",
     "employees": [
         {
-            "employeeID": 23000000,
-            "identifier": "010203000000",
-            "phoneNumber": "0123456789",
-            "fullName": "Nguyễn Hòa Bình",
-            "role": "TRANSACTION_POINT_EMPLOYEE",
-            "email": "hoabinhnguyen@gmail.com",
-            "workingPointID": 45,
+            "employeeID": 23000014,
+            "identifier": "010203090730",
+            "phoneNumber": "0123457789",
+            "fullName": "Nguyễn Thị Hòa",
+            "addressID": 91,
+            "role": "TRANSACTION_POINT_HEAD",
+            "email": "hoanguyen@gmail.com",
+            "workingPointID": 47,
             "status": "ACTIVE",
-            "createdAt": "2023-12-09T17:05:12.000Z",
-            "updatedAt": "2023-12-09T17:05:12.000Z",
             "address": {
-                "province": { "name": "Tỉnh Quảng Ninh" },
-                "district": { "name": "Thành phố Uông Bí" },
-                "commune": { "name": "Phường Thanh Sơn" },
-                "detail": "435 Trần Khánh Dư"
+                "detail": "Số 10, Vũ Tướng",
+                "commune": { "name": "Phường Giếng Đáy" },
+                "district": { "name": "Thành phố Hạ Long" },
+                "province": { "name": "Tỉnh Quảng Ninh" }
+            },
+            "workingPoint": {
+                "addressID": 83,
+                "address": {
+                    "detail": "Ngh. 282/35 Đ. Kim Giang",
+                    "commune": { "name": "Phường Kim Giang" },
+                    "district": { "name": "Quận Thanh Xuân" },
+                    "province": { "name": "Thành phố Hà Nội" }
+                }
             }
         }
-]}
+    ]
+}
 ```
 
-#### <samp> Add new employee </samp>
+#### <samp>Add new employee</samp>
 
 + ##### <em><samp>API Information</samp></em>
 
@@ -479,14 +504,6 @@
                 "province": { "name": "Tỉnh Quảng Ninh" }
             }
         },
-        "failChoice": "return",
-        "mainPostage": 1000,
-        "addedPostage": 1000,
-        "VATFee": 1000,
-        "otherFee": 1000,
-        "receiverCOD": 1000,
-        "receiverOtherFee": 1000,
-        "specialService": "",
         "orderID": "AEX451934145VN",
         "startTransactionPoint": {
             "startTransactionPointID": 47,

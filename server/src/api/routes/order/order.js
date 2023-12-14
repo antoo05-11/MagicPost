@@ -10,15 +10,15 @@ const orderRoute = Router();
 
 orderRoute.get("/getAll", verifyToken,
     (req, res, next) => authorize(req, res, next,
-        [role.TRANSACTION_POINT_EMPLOYEE, role.TRANSACTION_POINT_HEADER,
-        role.GOODS_POINT_EMPLOYEE, role.GOODS_POINT_HEADER]),
+        [role.TRANSACTION_POINT_EMPLOYEE, role.TRANSACTION_POINT_HEAD,
+        role.GOODS_POINT_EMPLOYEE, role.GOODS_POINT_HEAD]),
     catchAsync(getOrdersByWorkingRouteID));
 
 orderRoute.get("/get/:id", verifyToken,
     (req, res, next) =>
         authorize(req, res, next,
-            [role.TRANSACTION_POINT_EMPLOYEE, role.TRANSACTION_POINT_HEADER,
-            role.GOODS_POINT_EMPLOYEE, role.GOODS_POINT_HEADER]),
+            [role.TRANSACTION_POINT_EMPLOYEE, role.TRANSACTION_POINT_HEAD,
+            role.GOODS_POINT_EMPLOYEE, role.GOODS_POINT_HEAD]),
     catchAsync(getOrderByID));
 
 orderRoute.post("/create", verifyToken,

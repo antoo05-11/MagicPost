@@ -9,9 +9,11 @@ import { login_schema } from "../middlewares/validation/login_schema";
 const authRoute = Router();
 
 authRoute.post("/login",
-    (req, res, next) => validate(req, res, next, login_schema),
+    (req, res, next) => validate(req.body, res, next, login_schema),
     catchAsync(login));
+
 authRoute.post("/refresh-token", catchAsync(requestRefreshToken));
+
 authRoute.get("/logout", catchAsync(logout))
 
 export default authRoute;
