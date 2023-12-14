@@ -7,3 +7,4 @@ server/src/api/config
 server/dbconfig.js
 server/package-lock.json
 client/package-lock.json
+.vscode/settings.json
