@@ -54,8 +54,9 @@ try {
 
 export const getOrdersByWorkingRouteID = async (req, res) => {
     const currentRoutingPointID = req.user.workingPointID;
-    let page = req.query.page;
-    if (page == undefined) page = 1;
+
+    const page = req.query.page || 1;
+    const limit = req.query.limit || limitRecordsNum;
 
     let maxCreatedAt = req.query.maxCreatedAt;
     let minCreatedAt = req.query.minCreatedAt;
@@ -66,9 +67,29 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
     if (!minCreatedAt) minCreatedAt = normalizeDate('1/1/1970');
     if (!maxCreatedAt) maxCreatedAt = normalizeDate(new Date(Date.now()).toLocaleDateString());
 
+    let totalPages = await Order.count({
+        subQuery: false,
+        where: {
+            orderID: {
+                [Op.in]: sequelize.literal(`
+                (SELECT DISTINCT orderID
+                FROM processes
+                WHERE (currentRoutingPointID = ${currentRoutingPointID} 
+                    OR nextRoutingPointID = ${currentRoutingPointID}))`)
+            },
+            createdAt: {
+                [Op.between]: [
+                    minCreatedAt, maxCreatedAt
+                ]
+            }
+        }
+    });
+    totalPages = Math.ceil(totalPages / limit);
+    if (totalPages == 0) return res.status(200).json([]);
+
     const orders = await Order.findAll({
-        offset: ((page - 1) * limitRecordsNum),
-        limit: limitRecordsNum,
+        offset: ((page - 1) * limit),
+        limit: limit,
         subQuery: false,
         where: {
             orderID: {
@@ -193,7 +214,11 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
         attributes: ['orderID', 'sentTime', 'status', 'createdAt']
     })
 
-    return res.status(200).json(orders);
+    return res.status(200).json({
+        totalPages: totalPages,
+        limit: limit,
+        orders: orders
+    });
 }
 
 export const getOrderByID = async (req, res) => {
