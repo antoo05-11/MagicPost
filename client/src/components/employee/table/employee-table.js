@@ -34,10 +34,10 @@ export default function EmployyeeTable({ page }) {
                 </tr>
               </thead>
               <tbody class="table-group-divider">
-                {inforEmployees.map((employee) => {
+                {inforEmployees.map((employee, index) => {
                   return (
                     <tr key={employee?.employeeID}>
-                      <td>{1}</td>
+                      <td>{index + 1}</td>
                       <td>{employee?.fullName}</td>
                       <td>{employee?.phoneNumber}</td>
                       <td>{employee?.fullName}</td>

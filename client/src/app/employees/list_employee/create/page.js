@@ -15,7 +15,7 @@ export default async function Page() {
           //   console.log(createEmployee(employee));
           // }} 
           // type="button"
-          // className="btn btnCreate"
+          className="btn btnCreate"
         >
           Tạo nhân viên
         </button>

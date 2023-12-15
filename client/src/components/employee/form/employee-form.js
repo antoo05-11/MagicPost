@@ -217,8 +217,5 @@ export default function EmployeeForm({ id, isEdit }) {
           </div>
         </div>
       </form>
-
-      
-    
   );
 }

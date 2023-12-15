@@ -13,12 +13,11 @@ export default function page({ searchParams: { query, page } }) {
   const currentPage = Number(page) || 1;
   return (
     <div className="tableContainer">
-      <div className="row ">
+      <div className="row">
         <div className="col">
           <h3>Danh sách nhân viên</h3>
         </div>
         <div className="col btnContainer">
-          <button className="btn">Xuất Excel</button>
           <CreateEmployee />
         </div>
       </div>
