@@ -7,6 +7,7 @@ import transactionPointRoute from "./routing_point/transaction_point";
 import employeeRoute from "./human/employee";
 import orderRoute from "./order/order";
 import Error from "../exceptions/error";
+import processRoute from "./order/process";
 
 const router = Router();
 
@@ -19,5 +20,6 @@ router.use("/goodsPoint", goodsPointRoute);
 router.use("/transactionPoint", transactionPointRoute);
 router.use("/employee", employeeRoute);
 router.use("/order", orderRoute);
+router.use("/process", processRoute);
 
 export default router;

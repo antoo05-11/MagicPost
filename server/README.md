@@ -258,6 +258,8 @@
     "email": "anhhoang@gmail.com",
     "workingPointID": 46,
     "status": "ACTIVE",
+    "birthDate": "2023-12-15",
+    "gender": "male",
     "createdAt": "2023-12-09T17:05:12.000Z",
     "updatedAt": "2023-12-09T17:05:12.000Z",
     "address": {
@@ -388,13 +390,13 @@
         "sender": {
             "fullName": "Trần Vương Khánh",
             "phoneNumber": "0123456789",
-            "address": "Số 1, đường Xuân Thủy, Quận Cầu Giấy, Quận Cầu Giấy, Thành phố Hà Nội",
+            "address": "Số 1, đường Xuân Thủy, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội",
             "customerID": 1
         },
         "receiver": {
             "fullName": "Vương Khánh Linh",
             "phoneNumber": "0123456789",
-            "address": "435 Trần Khánh Dư, Thành phố Uông Bí, Thành phố Uông Bí, Tỉnh Quảng Ninh",
+            "address": "435 Trần Khánh Dư, Phường Thanh Sơn, Thành phố Uông Bí, Tỉnh Quảng Ninh",
             "customerID": 2
         },
         "creator": {
@@ -414,43 +416,43 @@
         "receivedTime": null,
         "startTransactionPoint": {
             "name": "Thanh Xuân",
-            "address": "Ngh. 282/35 Đ. Kim Giang, Quận Thanh Xuân, Quận Thanh Xuân, Thành phố Hà Nội",
+            "address": "Ngh. 282/35 Đ. Kim Giang, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
             "zipCode": "53453"
         },
         "endTransactionPoint": {
             "name": "Đống Đa",
-            "address": "Số 2, đường Nguyễn Chí Thanh, Quận Đống Đa, Quận Đống Đa, Thành phố Hà Nội",
+            "address": "Số 2, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
             "zipCode": "13245"
         },
         "createdAt": "2023-11-30T13:00:31.000Z",
         "processes": [
             {
                 "processID": 1,
-                "routingPointAddress": "Ngh. 282/35 Đ. Kim Giang, Quận Thanh Xuân, Quận Thanh Xuân, Thành phố Hà Nội",
+                "routingPointAddress": "Ngh. 282/35 Đ. Kim Giang, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
                 "status": "forwarded",
                 "arrivedTime": "2023-12-11T18:00:34.000Z"
             },
             {
                 "processID": 2,
-                "routingPointAddress": "Số 157, đường Xuân Thủy, Quận Cầu Giấy, Quận Cầu Giấy, Thành phố Hà Nội",
+                "routingPointAddress": "Số 157, đường Xuân Thủy, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội",
                 "status": "forwarded",
                 "arrivedTime": "2023-12-11T18:04:02.000Z"
             },
             {
                 "processID": 3,
-                "routingPointAddress": "Số 324, đường Nguyễn Chí Thanh, Quận Đống Đa, Quận Đống Đa, Thành phố Hà Nội",
+                "routingPointAddress": "Số 324, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
                 "status": "forwarded",
                 "arrivedTime": "2023-12-11T19:04:09.000Z"
             },
             {
                 "processID": 4,
-                "routingPointAddress": "hello, Quận Thanh Xuân, Quận Thanh Xuân, Thành phố Hà Nội",
+                "routingPointAddress": "hello, Phường Khương Đình, Quận Thanh Xuân, Thành phố Hà Nội",
                 "status": "forwarded",
                 "arrivedTime": "2023-12-11T20:04:13.000Z"
             },
             {
                 "processID": 5,
-                "routingPointAddress": "Số 2, đường Nguyễn Chí Thanh, Quận Đống Đa, Quận Đống Đa, Thành phố Hà Nội",
+                "routingPointAddress": "Số 2, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
                 "status": "arriving",
                 "arrivedTime": "2023-12-11T20:04:13.000Z"
             }
