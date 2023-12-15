@@ -42,7 +42,7 @@ export default function EmployeeForm({ id, isEdit }) {
   // console.log(selectedProvince, selectedDistrict, selectedCommune);
   // console.log(employee?.address.province.provinceID);
   return (
-    <div className="formContainer">
+    
       <form id="form-employee ">
         <div className="row">
           <h3>Thông tin nhân viên</h3>
@@ -218,24 +218,7 @@ export default function EmployeeForm({ id, isEdit }) {
         </div>
       </form>
 
-      <div className="mt-3 btnContainer">
-        <button
-          onClick={() => {
-            employee.address.districtID = selectedDistrict;
-            employee.address.communeID = selectedCommune;
-            employee.address.provinceID = selectedProvince;
-            console.log(createEmployee(employee));
-          }}
-          type="button"
-          className="btn btnCreate"
-        >
-          Tạo nhân viên
-        </button>
-
-        <button type="button" className="btn btn-secondary">
-          Xóa
-        </button>
-      </div>
-    </div>
+      
+    
   );
 }

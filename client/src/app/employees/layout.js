@@ -17,6 +17,7 @@ import { MdOutlineDashboard } from "react-icons/md";
 import { IoPeopleOutline } from "react-icons/io5";
 import { LuPackage2 } from "react-icons/lu";
 import { RiRoadMapLine } from "react-icons/ri";
+import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { SWRConfig } from "swr";
 import { useSession } from "next-auth/react";
 
@@ -63,29 +64,29 @@ function useMenuAnimation(isOpen) {
   useEffect(() => {
     const menuAnimations = isOpen
       ? [
-          [
-            "#mySidebar",
-            { transform: "translateX(0%)", opacity: 1 },
-            { at: "<" },
-          ],
-          ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
-          // ["#main", { transform: "translateX(0%)" }, { at: "<" }],
-          // [
-          //   "li",
-          //   { transform: "scale(1)", opacity: 1, filter: "blur(0px)" },
-          //   { delay: stagger(0.05), at: "-0.1" },
-          // ],
-        ]
+        [
+          "#mySidebar",
+          { transform: "translateX(0%)", opacity: 1 },
+          { at: "<" },
+        ],
+        ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
+        // ["#main", { transform: "translateX(0%)" }, { at: "<" }],
+        // [
+        //   "li",
+        //   { transform: "scale(1)", opacity: 1, filter: "blur(0px)" },
+        //   { delay: stagger(0.05), at: "-0.1" },
+        // ],
+      ]
       : [
-          // [
-          //   "li",
-          //   { transform: "scale(0.5)", opacity: 0, filter: "blur(10px)" },
-          //   { delay: stagger(0.05, { from: "last" }), at: "<" },
-          // ],
-          ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
-          ["#togle-zone", { transform: "translateX(-15vw)" }, { at: "<" }],
-          // ["#main", { transform: "translateX(-15vw)" }, { at: "<" }],
-        ];
+        // [
+        //   "li",
+        //   { transform: "scale(0.5)", opacity: 0, filter: "blur(10px)" },
+        //   { delay: stagger(0.05, { from: "last" }), at: "<" },
+        // ],
+        ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
+        ["#togle-zone", { transform: "translateX(-15vw)" }, { at: "<" }],
+        // ["#main", { transform: "translateX(-15vw)" }, { at: "<" }],
+      ];
 
     animate([
       // [

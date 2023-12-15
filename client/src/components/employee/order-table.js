@@ -11,9 +11,8 @@ export default function OrderTable({ data }) {
               <tr>
                 <th scope="col">STT</th>
                 <th scope="col">Mã đơn hàng</th>
-                <th scope="col">Người gửi</th>
-                <th scope="col">Người nhận</th>
-                <th scope="col">Địa chỉ</th>
+                <th scope="col">Địa chỉ gửi</th>
+                <th scope="col">Địa chỉ nhận</th> 
                 <th scope="col">
                   Trạng thái
                   <select className="state-order">

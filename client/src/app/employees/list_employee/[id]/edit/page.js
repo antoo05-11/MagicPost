@@ -6,6 +6,7 @@ export default function Page({ params }) {
   return (
     <main>
       <EmployeeForm id={id} />
+      
     </main>
   );
 }
