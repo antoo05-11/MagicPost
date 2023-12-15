@@ -34,6 +34,7 @@
         "express-validator": "^7.0.1",
         "fix-esm": "^1.0.1",
         "fs": "^0.0.1-security",
+        "graphlib": "^2.1.8",
         "jade": "^1.11.0",
         "joi": "^17.11.0",
         "jsonwebtoken": "^9.0.0",

@@ -203,34 +203,50 @@
 + ##### <em><samp>Request JSON Sample</samp></em>
 ```json
 {
-    "identifier": "0405899833000",
-    "phoneNumber": "0192344559",
-    "fullName": "Thái Hoàng Linh",
+    "identifier": "123426783902",
+    "phoneNumber": "0192344547",
+    "fullName": "Nguyen Ngoc Linh",
     "address": {
-        "detail": "Số 100, đường 19/4", "communeID": "5355", "districtID": "302", "provinceID": "27" 
+        "detail": "Số 100, đường 19/4",
+        "communeID": "5375",
+        "districtID": "302",
+        "provinceID": "27" 
     },
-    "transactionPointID": null,
-    "goodPointID": null,
+    "gender": "MALE",
+    "birthDate": "2003-11-24",
+    "workingPointID": null,
     "email": "linhhoang@yahoo.com",
     "role": null
 }
+
 ```
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 {
-    "employeeID": 23000042,
-    "identifier": "0405899833000",
-    "phoneNumber": "0192344559",
-    "fullName": "Thái Hoàng Linh",
-    "addressID": 171,
+    "employeeID": 23000047,
+    "identifier": "123426783902",
+    "phoneNumber": "0192344547",
+    "fullName": "Nguyen Ngoc Linh",
+    "addressID": 184,
     "email": "linhhoang@yahoo.com",
-    "password": "YRkLcYuE",
+    "workingPointID": null,
+    "password": "tqSQiRVf",
     "role": null,
+    "gender": "MALE",
+    "birthDate": "2003-11-24T00:00:00.000Z",
+    "updatedAt": "2023-12-15T20:55:44.503Z",
+    "createdAt": "2023-12-15T20:55:44.503Z",
     "address": {
-        "province": "Tỉnh Nghệ An",
-        "district": "Huyện Tân Kỳ",
-        "commune": "Thị trấn Tân Kỳ",
-        "detail": "Số 100, đưng 19/4"
+        "province": {
+            "name": "Tỉnh Nghệ An"
+        },
+        "district": {
+            "name": "Huyện Tân Kỳ"
+        },
+        "commune": {
+            "name": "Xã Tân Hương"
+        },
+        "detail": "Số 100, đường 19/4"
     }
 }
 ```
@@ -244,7 +260,7 @@
 | API URL             | https://magicpost-uet.onrender.com/api/employee/:id/get |
 | HTTP method         | GET                                                     |
 | Token Required      | YES                                                     |
-| Roles Authorized    | TRANSACTION_POINT_HEADER                                |
+| Roles Authorized    | TRANSACTION_POINT_HEAD                                  |
 
 + ##### <em><samp>Response JSON Sample</samp></em>
 

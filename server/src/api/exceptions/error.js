@@ -18,7 +18,8 @@ export default class Error {
         invalid_province_id: 10015,
         no_record_found: 10016,
         no_return_in_root_process: 10017,
-        repeated_data_update: 10018
+        repeated_data_update: 10018,
+        invalid_data_order: 10019
     };
 
     static initErrors() {
@@ -73,6 +74,10 @@ export default class Error {
         this.errors.set(this.code.repeated_data_update,
             new ErrorRes("Update unsuccessfully!",
                 "New data is repeated!"));
+
+        this.errors.set(this.code.invalid_data_order,
+            new ErrorRes("Update unsuccessfully!",
+                "Invalid Data Order!"));
 
         this.errors.set(this.code.invalid_commune_id,
             new ErrorRes("Invalid Data!",

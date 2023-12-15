@@ -15,6 +15,11 @@ District.belongsTo(Province, { foreignKey: 'provinceID' });
 const request = require('request');
 const parseString = require('xml2js').parseString;
 
+export const getAddress = async (req, res) => {
+    let address = await getAddressByID(req.params.id);
+    return res.status(200).json(buildAddressString(address));
+}
+
 /**
  * The function `getAddressByID` retrieves an address from the database based on the provided address
  * ID and returns the province, district, commune, and detail of the address.
@@ -123,13 +128,16 @@ export const checkAddress = async (address, validAddress) => {
 
     if (!communeID || !districtID || !provinceID) if (!validAddress) return false;
 
-    if (communeID == validAddress.communeID &&
-        districtID == validAddress.districtID &&
-        provinceID == validAddress.provinceID) return true;
+    if (!validAddress) {
+        if (communeID == validAddress.communeID &&
+            districtID == validAddress.districtID &&
+            provinceID == validAddress.provinceID) return true;
 
-    if (!communeID) communeID = validAddress.communeID;
-    if (!districtID) districtID = validAddress.districtID;
-    if (!provinceID) provinceID = validAddress.provinceID;
+        if (!communeID) communeID = validAddress.communeID;
+        if (!districtID) districtID = validAddress.districtID;
+        if (!provinceID) provinceID = validAddress.provinceID;
+    }
+
 
     let checkAddress = await Commune.findOne({
         where: {
