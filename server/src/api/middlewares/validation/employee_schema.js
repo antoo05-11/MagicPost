@@ -23,6 +23,10 @@ export const employee_adding_schema = Joi.object({
         provinceID: Joi.number().integer().required()
     },
 
+    gender: Joi.string().valid('MALE', 'FEMALE').required(),
+
+    birthDate: Joi.string().isoDate().required(),
+
     workingPointID: Joi.number().integer().allow(null).optional(),
 
     email: Joi.string().email().required(),

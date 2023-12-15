@@ -18,7 +18,7 @@ Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID', as: 'workingPoi
 
 import bcrypt from "bcryptjs";
 import { buildAddressWhereClause, checkAddress, getAddressByID } from "../routing_point/address";
-import { generateRandomPassword, normalizeName } from "../../../utils";
+import { generateRandomPassword, normalizeDate, normalizeName } from "../../../utils";
 import { sequelize } from '../../models';
 import { role } from "../../models/human/role";
 import Error from "../../exceptions/error";
@@ -154,7 +154,7 @@ export const addNewEmployee = async (req, res) => {
         provinceID: req.body.address.provinceID
     }
 
-    if (!(await checkAddress(newAddress)))
+    if (!(await checkAddress(newAddress, true)))
         return res.status(400).json(Error.getError(Error.code.invalid_address));
 
     const password = generateRandomPassword();
@@ -173,7 +173,9 @@ export const addNewEmployee = async (req, res) => {
             email: req.body.email,
             workingPointID: req.body.workingPointID,
             password: hashedPassword,
-            role: req.body.role
+            role: req.body.role,
+            gender: req.body.gender,
+            birthDate: req.body.birthDate
         }
 
         newUser = await Employee.create(newUser, { transaction: t });
@@ -211,7 +213,7 @@ export const editEmployeeInfo = async (req, res) => {
     let newRole = employee.role;
     if (newEmployee.role) newRole = newEmployee.role;
     if (newEmployee.workingPointID) {
-        if (newRole == role.TRANSACTION_POINT_HEADER || role.TRANSACTION_POINT_EMPLOYEE) {
+        if (newRole == role.TRANSACTION_POINT_HEAD || role.TRANSACTION_POINT_EMPLOYEE) {
             if (!(await TransactionPoint.findOne({
                 where: { transactionPointID: newEmployee.workingPointID }
             })))

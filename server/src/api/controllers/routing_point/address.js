@@ -128,13 +128,16 @@ export const checkAddress = async (address, validAddress) => {
 
     if (!communeID || !districtID || !provinceID) if (!validAddress) return false;
 
-    if (communeID == validAddress.communeID &&
-        districtID == validAddress.districtID &&
-        provinceID == validAddress.provinceID) return true;
+    if (!validAddress) {
+        if (communeID == validAddress.communeID &&
+            districtID == validAddress.districtID &&
+            provinceID == validAddress.provinceID) return true;
 
-    if (!communeID) communeID = validAddress.communeID;
-    if (!districtID) districtID = validAddress.districtID;
-    if (!provinceID) provinceID = validAddress.provinceID;
+        if (!communeID) communeID = validAddress.communeID;
+        if (!districtID) districtID = validAddress.districtID;
+        if (!provinceID) provinceID = validAddress.provinceID;
+    }
+
 
     let checkAddress = await Commune.findOne({
         where: {
