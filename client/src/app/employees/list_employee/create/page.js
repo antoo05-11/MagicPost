@@ -1,3 +1,4 @@
+import { getEmployee } from "@/api/data";
 import EmployeeForm from "@/components/employee/employee-form";
 // import "@/css/list_employee.css";
 export default async function Page() {

@@ -12,10 +12,11 @@ export default async function page({ searchParams: { query, page } }) {
   const currentQuery = query || "";
   const item_per_page = 6;
   const currentPage = Number(page) || 1;
-  // const getdata = getOrder();
+  const data = getOrder();
+  console.log(data);
   // let data = [];
 
-  // const totalPage = data.length / item_per_page;
+  // const totalPage = data.length  / item_per_page;
   return (
     <div className="tableContainer">
       {/* <h2>Danh sach don hang</h2> */}
@@ -36,8 +37,8 @@ export default async function page({ searchParams: { query, page } }) {
       </div>
 
       <div className="row">
-        {/* <OrderTable data={data}></OrderTable> */}
-        {/* <OrderProgress ></OrderProgress> */}
+        <OrderTable data={data}></OrderTable>
+        <OrderProgress></OrderProgress>
         {/* <Pagination totalPage={totalPage} /> */}
       </div>
     </div>

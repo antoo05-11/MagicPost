@@ -31,7 +31,6 @@ export default function LookUpTransaction() {
   const [showTransactionList, setShowTransactionList] = useState(false);
 
   const data = getDistrictByProvinceID(0);
-  console.log(selectedProvince, selectedDistrict, selectedCommune);
   return (
     <div>
       <Container className="lookUpContainer">

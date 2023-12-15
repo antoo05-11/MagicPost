@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { motion, useAnimate } from "framer-motion";
-import "bootstrap/js/src/dropdown.js";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 export default function SideBar({ role, open }) {
@@ -56,6 +55,31 @@ export default function SideBar({ role, open }) {
           </div>
         );
       })}
+      <div className="dropdown">
+        <div
+          className={"bar-item button item-bar dropdown-toggle"}
+          onClick={() => {}}
+        >
+          Drop down
+        </div>
+        <ul className="dropdown-menu">
+          <li>
+            <a className="dropdown-item" href="#">
+              Action
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Another action
+            </a>
+          </li>
+          <li>
+            <a className="dropdown-item" href="#">
+              Something else here
+            </a>
+          </li>
+        </ul>
+      </div>
 
       <hr />
     </motion.div>
