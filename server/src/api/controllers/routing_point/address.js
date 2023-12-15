@@ -15,6 +15,11 @@ District.belongsTo(Province, { foreignKey: 'provinceID' });
 const request = require('request');
 const parseString = require('xml2js').parseString;
 
+export const getAddress = async (req, res) => {
+    let address = await getAddressByID(req.params.id);
+    return res.status(200).json(buildAddressString(address));
+}
+
 /**
  * The function `getAddressByID` retrieves an address from the database based on the provided address
  * ID and returns the province, district, commune, and detail of the address.

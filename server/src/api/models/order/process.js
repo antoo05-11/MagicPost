@@ -2,8 +2,8 @@ module.exports = (sequelize, DataTypes) => {
     const Processes = sequelize.define("processes", {
         processID: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            autoIncrement: true
         },
         orderID: {
             type: DataTypes.STRING,
