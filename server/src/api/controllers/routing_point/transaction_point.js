@@ -9,8 +9,7 @@ const Order = db.orders;
 const RoutingPoint = db.routing_points;
 const Process = db.processes;
 
-Process.belongsTo(TransactionPoint, { foreignKey: 'currentRoutingPointID', as: 'currentTransactionPoint' });
-Process.belongsTo(TransactionPoint, { foreignKey: 'nextRoutingPointID', as: 'nextTransactionPoint' });
+Process.belongsTo(TransactionPoint, { foreignKey: 'routingPointID'});
 
 export const getAllTransactionPoints = async (req, res) => {
     // let transactionPoints = await TransactionPoint.findAll({
@@ -39,12 +38,6 @@ export const getAllTransactionPoints = async (req, res) => {
         include: [
             {
                 model: TransactionPoint,
-                as: 'currentTransactionPoint',
-                required: true
-            },
-            {
-                model: TransactionPoint,
-                as: 'currentTransactionPoint',
                 required: true
             }
         ]

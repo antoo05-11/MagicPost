@@ -173,3 +173,19 @@ export const buildAddressWhereClause = (address) => {
     }
     return addressWhereClause;
 }
+
+/**
+ * The function `buildAddressString` takes an address object and returns a formatted string containing
+ * the address details, district name, and province name.
+ * @param address - {
+ * @returns a string that represents the address. The string includes the address detail, district
+ * name, district name again, and province name.
+ */
+export const buildAddressString = (address, detailContained) => {
+    let result = address.commune.name + ', ' +
+        address.district.name + ', ' + address.province.name;
+    if (detailContained == true || detailContained === undefined) {
+        result = address.detail + ', ' + result;
+    }
+    return result;
+}
