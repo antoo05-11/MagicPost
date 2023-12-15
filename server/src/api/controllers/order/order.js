@@ -19,8 +19,9 @@ const Province = db.provinces;
 const TransactionPoint = db.transaction_points;
 const GoodsPoint = db.goods_points;
 
-Order.belongsTo(RoutingPoint, { foreignKey: 'startTransactionPointID', as: 'startTransactionPoint' });
-Order.belongsTo(RoutingPoint, { foreignKey: 'endTransactionPointID', as: 'endTransactionPoint' });
+Order.belongsTo(TransactionPoint, { foreignKey: 'startTransactionPointID', as: 'startTransactionPoint' });
+Order.belongsTo(TransactionPoint, { foreignKey: 'endTransactionPointID', as: 'endTransactionPoint' });
+TransactionPoint.belongsTo(RoutingPoint, { foreignKey: 'transactionPointID' });
 
 Process.belongsTo(Order, { foreignKey: 'orderID' });
 Process.belongsTo(RoutingPoint, { foreignKey: 'currentRoutingPointID', as: 'currentRoutingPoint' });
@@ -140,52 +141,53 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                 ]
             },
             {
-                model: RoutingPoint,
+                model: TransactionPoint,
                 as: 'startTransactionPoint',
                 include: {
-                    model: Address,
-                    include: [
-                        {
-                            model: Commune,
-                            attributes: ['name']
-                        },
-                        {
-                            model: District,
-                            attributes: ['name']
-                        },
-
-                        {
-                            model: Province,
-                            attributes: ['name']
-                        }
-                    ],
-                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
-                },
-                attributes: { exclude: ['routingPointID'] }
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        include: [
+                            {
+                                model: Commune,
+                                attributes: ['name']
+                            },
+                            {
+                                model: District,
+                                attributes: ['name']
+                            },
+                            {
+                                model: Province,
+                                attributes: ['name']
+                            }
+                        ]
+                    }
+                }
             },
             {
-                model: RoutingPoint,
+                model: TransactionPoint,
                 as: 'endTransactionPoint',
                 include: {
-                    model: Address,
-                    include: [
-                        {
-                            model: Commune,
-                            attributes: ['name']
-                        },
-                        {
-                            model: District,
-                            attributes: ['name']
-                        },
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        include: [
+                            {
+                                model: Commune,
+                                attributes: ['name']
+                            },
+                            {
+                                model: District,
+                                attributes: ['name']
+                            },
 
-                        {
-                            model: Province,
-                            attributes: ['name']
-                        }
-                    ],
-                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
-                },
-                attributes: { exclude: ['routingPointID'] }
+                            {
+                                model: Province,
+                                attributes: ['name']
+                            }
+                        ]
+                    }
+                }
             }
         ],
         attributes: ['orderID', 'sentTime', 'status', 'createdAt']

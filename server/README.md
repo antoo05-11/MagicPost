@@ -149,9 +149,9 @@
 + ##### <em><samp>Explaination</samp></em>
     <samp> This API is used for getting all employees working in request sender's working address. Note that only heads of transaction points and goods points are authorized to execute this. </samp>
 
-    <samp>All params in query API URL is optional. Attributes `address` and `workingAddress` are both objects, if they are defined, remember to attach it with at least one of three attributes: `communeID`, `districtID`, `provinceID`</samp>.
+    <samp>All params in query API URL are optional. Attributes `address` and `workingAddress` are both objects, if they are defined, remember to attach it with at least one of three attributes: `communeID`, `districtID`, `provinceID`</samp>.
 
-    <samp>Example: [http://localhost:3000/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1](http://localhost:3000/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1)</samp>
+    <samp>Example: [https://magicpost-uet.onrender.com/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1](https://magicpost-uet.onrender.com/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1)</samp>
 
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json

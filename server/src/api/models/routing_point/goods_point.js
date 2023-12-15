@@ -2,16 +2,7 @@ module.exports = (sequelize, DataTypes) => {
     const GoodsPoints = sequelize.define("goods_points", {
         goodsPointID: {
             type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        addressID: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'addresses',
-                key: 'addressID'
-            }
+            primaryKey: true
         }
     }, {
         id: false,
