@@ -1,5 +1,5 @@
-import Form from "@/components/employee/employee-form";
-import OrderForm from "@/components/employee/order-form";
+// import Form from "@/components/employee/employee-form";
+import OrderForm from "@/components/employee/form/order-form";
 
 export default async function Page() {
   return (

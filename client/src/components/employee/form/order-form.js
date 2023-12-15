@@ -1,48 +1,44 @@
-"use client"
+"use client";
 
 import "@/css/employee/customForm.css";
 import { useEffect, useState } from "react";
-import { getDistrictByProvinceID, getProvinceInfo, getCommuneByDistrictID } from "@/api/data";
+import {
+  getDistrictByProvinceID,
+  getProvinceInfo,
+  getCommuneByDistrictID,
+  getAllProvince,
+} from "@/api/data";
 
 export default function OrderForm() {
-  const provinceData = getProvinceInfo();
+  const provinceData = getAllProvince();
 
-  const [selectedProvince, setSelectedProvince] = useState('');
-  const [districtData, setDistrictData] = useState([]);
+  const [senderProvince, setsenderProvince] = useState();
+  const districtDataSender = getDistrictByProvinceID(senderProvince);
+  districtDataSender.unshift({
+    name: "Chọn Quận/ Huyện",
+    districtID: 0,
+  });
+  const [senderDistrict, setsenderDistrict] = useState();
+  const communeDataSender = getCommuneByDistrictID(senderDistrict);
+  communeDataSender.unshift({
+    name: "Chọn Xã / Phường",
+    districtID: 0,
+  });
+  const [senderCommune, setsenderCommune] = useState();
 
-  const [selectedDistrict, setSelectedDistrict] = useState('')
-  const [communeData, setCommuneData] = useState([]);
-
-  const [selectedCommune, setSelectedCommune] = useState('')
-
-  useEffect(() => {
-    async function fetchDistricts() {
-      try {
-        if (selectedProvince) {
-          const districts = await getDistrictByProvinceID(selectedProvince);
-          setDistrictData(districts);
-        }
-      } catch (error) {
-        console.error('Error fetching district data:', error);
-      }
-    }
-    setSelectedDistrict("0");
-    fetchDistricts();
-  }, [selectedProvince]);
-
-  useEffect(() => {
-    async function fetchCommune() {
-      try {
-        if (selectedDistrict) {
-          const communes = await getCommuneByDistrictID(selectedDistrict);
-          setCommuneData(communes);
-        }
-      } catch (error) {
-        console.error('Error fetching district data:', error);
-      }
-    }
-    fetchCommune();
-  }, [selectedDistrict]);
+  const [receiverProvince, setreceiverProvince] = useState();
+  const districtDataReceiver = getDistrictByProvinceID(receiverProvince);
+  districtDataReceiver.unshift({
+    name: "Chọn Quận/ Huyện",
+    districtID: 0,
+  });
+  const [receiverDistrict, setreceiverDistrict] = useState();
+  const communeDataReceiver = getCommuneByDistrictID(receiverDistrict);
+  communeDataReceiver.unshift({
+    name: "Chọn Xã / Phường",
+    districtID: 0,
+  });
+  const [receiverCommune, setreceiverCommune] = useState();
 
   const order = {
     order: {
@@ -86,11 +82,12 @@ export default function OrderForm() {
   return (
     <div className="container">
       <form>
+        {/* Thong tin nguoi gui */}
         <div className="formContainer">
           <div className="row">
             <h3>Thông tin người gửi</h3>
           </div>
-
+          {/* Thong tin co ban */}
           <div className="row mt-2">
             <div className="col">
               <label htmlFor="senderName">Họ và tên</label>
@@ -98,7 +95,11 @@ export default function OrderForm() {
                 type="text"
                 className="form-control"
                 id="senderName"
-                placeholder="Họ và tên" />
+                placeholder="Họ và tên"
+                onChange={(e) => {
+                  order.order.sender.fullname = e.target.value;
+                }}
+              />
             </div>
 
             <div className="col">
@@ -107,21 +108,33 @@ export default function OrderForm() {
                 type="text"
                 className="form-control"
                 id="senderPhoneNumber"
-                placeholder="Số điện thoại" />
+                placeholder="Số điện thoại"
+                onChange={(e) => {
+                  order.order.sender.phoneNumber = e.target.value;
+                }}
+              />
             </div>
           </div>
-
+          {/* Dia chi */}
           <div className="row mt-2">
-            <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
+            <label htmlFor="province" className="col-sm-12 col-form-label">
+              Địa chỉ
+            </label>
             <div className="col-md-4">
-              <select className="form-select" aria-label="Default select example" id="province"
-                onChange={
-                  (e) => {
-                    setSelectedProvince(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                  }}>
-                <option selected>Chọn Tỉnh / TP</option>
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                id="province"
+                onChange={(e) => {
+                  setsenderProvince(e.target.value);
+                }}
+              >
+                <option sender>Chọn Tỉnh / TP</option>
                 {provinceData.map((province) => (
-                  <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
+                  <option
+                    key={province.provinceIDnceID}
+                    value={province.provinceID}
+                  >
                     {province.name}
                   </option>
                 ))}
@@ -129,14 +142,18 @@ export default function OrderForm() {
             </div>
 
             <div className="col">
-              <select className="form-select" aria-label="Default select example"
-                onChange={
-                  (e) => {
-                    setSelectedDistrict(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                  }}>
-                <option selected>Chọn Xã / Phường</option>
-                {districtData.map((district) => (
-                  <option key={district.districtID} data-key={district.districtID} value={district.districtID}>
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                onChange={(e) => {
+                  setsenderDistrict(e.target.value);
+                }}
+              >
+                {districtDataSender.map((district) => (
+                  <option
+                    key={district.districtIDictID}
+                    value={district.districtID}
+                  >
                     {district.name}
                   </option>
                 ))}
@@ -144,21 +161,25 @@ export default function OrderForm() {
             </div>
 
             <div className="col">
-              <select className="form-select" aria-label="Default select example"
-                onChange={
-                  (e) => {
-                    setSelectedCommune(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                  }}>
-                <option selected>Chọn Quận / Huyện</option>
-                {communeData.map((commune) => (
-                  <option key={commune.communeID} data-key={commune.communeID} value={commune.communeID}>
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                onChange={(e) => {
+                  setsenderCommune(e.target.value);
+                }}
+              >
+                {communeDataSender.map((commune) => (
+                  <option
+                    key={commune.communeIDuneID}
+                    value={commune.communeID}
+                  >
                     {commune.name}
                   </option>
                 ))}
               </select>
             </div>
           </div>
-
+          {/* Dia chi chi tiet */}
           <div className="row mt-2">
             <div className="col">
               <input
@@ -168,33 +189,13 @@ export default function OrderForm() {
               />
             </div>
           </div>
-
-          <div className="row mt-2">
-            <div className="col">
-              <label htmlFor="senderCode">Mã khách hàng</label>
-              <input
-                type="text"
-                className="form-control"
-                id="senderCode"
-                placeholder="Mã khách hàng" />
-            </div>
-
-            <div className="col">
-              <label htmlFor="senderPostalCode">Mã bưu chính</label>
-              <input
-                type="text"
-                className="form-control"
-                id="senderPostalCode"
-                placeholder="Mã bưu chính" />
-            </div>
-          </div>
-
         </div>
-
+        {/* Thong tin nguoi nhan */}
         <div className="formContainer">
           <div className="row">
             <h3>Thông tin người nhận</h3>
           </div>
+          {/* Thong tin co ban */}
 
           <div className="row mt-2">
             <div className="col">
@@ -203,7 +204,11 @@ export default function OrderForm() {
                 type="text"
                 className="form-control"
                 id="receiverName"
-                placeholder="Họ và tên" />
+                placeholder="Họ và tên"
+                onChange={(e) => {
+                  order.order.receiver.fullname = e.target.value;
+                }}
+              />
             </div>
 
             <div className="col">
@@ -212,22 +217,33 @@ export default function OrderForm() {
                 type="text"
                 className="form-control"
                 id="receiverPhoneNumber"
-                placeholder="Số điện thoại" />
+                placeholder="Số điện thoại"
+                onChange={(e) => {
+                  order.order.receiver.phoneNumber = e.target.value;
+                }}
+              />
             </div>
           </div>
+          {/* Dia chi */}
 
           <div className="row mt-2">
             <div className="row mt-2">
-              <label htmlFor="province" className="col-sm-12 col-form-label">Địa chỉ</label>
+              <label htmlFor="province" className="col-sm-12 col-form-label">
+                Địa chỉ
+              </label>
               <div className="col-md-4">
-                <select className="form-select" aria-label="Default select example" id="province"
-                  onChange={
-                    (e) => {
-                      setSelectedProvince(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                    }}>
-                  <option selected>Chọn Tỉnh / TP</option>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  id="province"
+                  onChange={(e) => setreceiverProvince(e.target.value)}
+                >
+                  <option sender>Chọn Tỉnh / TP</option>
                   {provinceData.map((province) => (
-                    <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
+                    <option
+                      key={province.provinceID}
+                      value={province.provinceID}
+                    >
                       {province.name}
                     </option>
                   ))}
@@ -235,14 +251,17 @@ export default function OrderForm() {
               </div>
 
               <div className="col">
-                <select className="form-select" aria-label="Default select example"
-                  onChange={
-                    (e) => {
-                      setSelectedDistrict(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                    }}>
-                  <option selected>Chọn Xã / Phường</option>
-                  {districtData.map((district) => (
-                    <option key={district.districtID} data-key={district.districtID} value={district.districtID}>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => setreceiverDistrict(e.target.value)}
+                >
+                  <option sender>Chọn Xã / Phường</option>
+                  {districtDataReceiver.map((district) => (
+                    <option
+                      key={district.districtID}
+                      value={district.districtID}
+                    >
                       {district.name}
                     </option>
                   ))}
@@ -250,14 +269,14 @@ export default function OrderForm() {
               </div>
 
               <div className="col">
-                <select className="form-select" aria-label="Default select example"
-                  onChange={
-                    (e) => {
-                      setSelectedCommune(e.target.options[e.target.selectedIndex].getAttribute('data-key'));
-                    }}>
-                  <option selected>Chọn Quận / Huyện</option>
-                  {communeData.map((commune) => (
-                    <option key={commune.communeID} data-key={commune.communeID} value={commune.communeID}>
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  onChange={(e) => setreceiverCommune(e.target.value)}
+                >
+                  <option sender>Chọn Quận / Huyện</option>
+                  {communeDataReceiver.map((commune) => (
+                    <option key={commune.communeID} value={commune.communeID}>
                       {commune.name}
                     </option>
                   ))}
@@ -265,6 +284,7 @@ export default function OrderForm() {
               </div>
             </div>
           </div>
+          {/* Dia chi chi tiet */}
 
           <div className="row mt-2">
             <div className="col">
@@ -272,32 +292,14 @@ export default function OrderForm() {
                 className="form-control"
                 id="addressDetail"
                 placeholder="Chi tiết"
+                onChange={(e) => {
+                  order.order.receiver.address.detail = e.target.value;
+                }}
               />
             </div>
           </div>
-
-          <div className="row mt-2">
-            <div className="col">
-              <label htmlFor="receiverCode">Mã khách hàng</label>
-              <input
-                type="text"
-                className="form-control"
-                id="receiverCode"
-                placeholder="Mã khách hàng" />
-            </div>
-
-            <div className="col">
-              <label htmlFor="receiverPostalCode">Mã bưu chính</label>
-              <input
-                type="text"
-                className="form-control"
-                id="receiverPostalCode"
-                placeholder="Mã bưu chính" />
-            </div>
-          </div>
-
         </div>
-
+        {/* Thong tin hang hoa */}
         <div className="formContainer">
           <div className="row">
             <div className="col">
@@ -305,7 +307,52 @@ export default function OrderForm() {
             </div>
 
             <div className="col btnContainer">
-              <button type="button" class="btn btnCreate">Thêm hàng hóa</button>
+              <button
+                type="button"
+                className="btn btn-primary btnCreate"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+              >
+                Them hang hoa
+              </button>
+            </div>
+            <div
+              className="modal fade"
+              id="staticBackdrop"
+              data-bs-backdrop="static"
+              data-bs-keyboard="false"
+              tabindex="-1"
+              aria-labelledby="staticBackdropLabel"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1 className="modal-title fs-5" id="staticBackdropLabel">
+                      Modal title
+                    </h1>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">...</div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button type="button" className="btn btn-primary">
+                      Understood
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -321,117 +368,28 @@ export default function OrderForm() {
                   <th scope="col">Sửa, xóa = 1 nút</th>
                 </tr>
               </thead>
-              <tbody id="goodsTableBody">
-
-              </tbody>
+              <tbody id="goodsTableBody"></tbody>
             </table>
           </div>
           <div className="btnContainer">
-            <button type="button" className="btn btnCreate">
-              Tạo đơn hàng
+            <button
+              type="button"
+              className="btn btn-primary btnCreate"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+            >
+              Tao don hang
             </button>
-
-            <button type="button" className="btn btn-secondary">Xóa</button>
+            <button type="button" className="btn btn-secondary">
+              Xóa
+            </button>
           </div>
-
         </div>
-
       </form>
     </div>
-    // <form className="row g-3">
-    //   <h2>Thong tin nguoi gui</h2>
-    //   <div className="col-md-6">
-    //     <label className="form-label">Ho va ten nguoi gui</label>
-    //     <input className="form-control" id="inputEmail4" />
-    //   </div>
-    //   <div className="col-md-6">
-    //     <label className="form-label">So dien thoai</label>
-    //     <input className="password" id="inputPassword4" />
-    //   </div>
-    //   <div className="col-12">
-    //     <label className="form-label">Dia chi</label>
-    //     <input
-    //       type="text"
-    //       className="form-control"
-    //       id="inputAddress"
-    //       placeholder="1234 Main St"
-    //     />
-    //   </div>
-    //   <div className="col-md-6">
-    //     <label className="form-label">Ma khach hang</label>
-    //     <input className="form-control" id="inputEmail4" />
-    //   </div>
-    //   <div className="col-md-6">
-    //     <label className="form-label">Ma buu chinh</label>
-    //     <input className="form-control" id="inputPassword4" />
-    //   </div>
-    //   <h2>Thong tin nguoi nhan</h2>
-    //   <div className="col-md-6">
-    //     <label className="form-label">Ho va ten nguoi nhan</label>
-    //     <input className="form-control" id="inputEmail4" />
-    //   </div>
-    //   <div className="col-md-6">
-    //     <label className="form-label">So dien thoai</label>
-    //     <input className="form-control" id="inputPassword4" />
-    //   </div>
-    //   <div className="col-12">
-    //     <label className="form-label">Dia chi</label>
-    //     <input
-    //       type="text"
-    //       className="form-control"
-    //       id="inputAddress"
-    //       placeholder="1234 Main St"
-    //     />
-    //   </div>
-
-    //   <h2>Thong tin hang hoa</h2>
-    //   <div>
-    //     <h3>Loai hang gui</h3>
-    //     <div class="form-check form-check-inline">
-    //       <input
-    //         class="form-check-input"
-    //         type="radio"
-    //         name="inlineRadioOptions"
-    //         id="inlineRadio1"
-    //         value="option1"
-    //       />
-    //       <label class="form-check-label" for="inlineRadio1">
-    //         Tai lieu
-    //       </label>
-    //     </div>
-    //     <div class="form-check form-check-inline">
-    //       <input
-    //         class="form-check-input"
-    //         type="radio"
-    //         name="inlineRadioOptions"
-    //         id="inlineRadio2"
-    //         value="option2"
-    //       />
-    //       <label class="form-check-label" for="inlineRadio2">
-    //         Hang hoa
-    //       </label>
-    //     </div>
-    //     <table class="table">
-    //       <thead>
-    //         <tr>
-    //           <th scope="col">Noi Dung</th>
-    //           <th scope="col">So luong</th>
-    //           <th scope="col">Tri Gia</th>
-    //           <th scope="col">Noi dung dinh kem</th>
-    //         </tr>
-    //       </thead>
-    //       <tbody>
-    //         <tr>
-    //           <th scope="row">tong</th>
-    //           <td>
-    //             <input />
-    //           </td>
-    //           <td>Otto</td>
-    //           <td>@mdo</td>
-    //         </tr>
-    //       </tbody>
-    //     </table>
-    //   </div>
-    // </form>
   );
 }
+
+// function createGoods() {
+//   return ()
+// }
