@@ -3,29 +3,16 @@ import { getOrder } from "@/api/data";
 import { CreateOrder } from "@/components/employee/button";
 import Pagination from "@/components/employee/pagination";
 import SearchEmployee from "@/components/employee/search";
-import OrderTable from "@/components/employee/order-table";
+import OrderTable from "@/components/employee/table/order-table";
 import SearchBox from "@/components/employee/search";
 import "@/css/employee/customTable.css";
-import OrderProgress from "@/components/employee/order-progress";
+import OrderProgress from "@/components/employee/table/order-progress";
 
-export default async function page({ searchParams: { query, page } }) {
-  const currentQuery = query || "";
-  const item_per_page = 6;
-  const currentPage = Number(page) || 1;
-  const data = getOrder();
+export default async function page({ searchParams: { page } }) {
+  const { data: data } = getOrder({ page: 1 });
   console.log(data);
-  // let data = [];
-
-  // const totalPage = data.length  / item_per_page;
   return (
     <div className="tableContainer">
-      {/* <h2>Danh sach don hang</h2> */}
-      {/* <div id="create-search"> */}
-      {/* <SearchEmployee /> */}
-      {/* <CreateOrder /> */}
-      {/* </div> */}
-      {/* <SearchBox /> */}
-
       <div className="row">
         <div className="col">
           <h3>Danh sách đơn hàng</h3>
