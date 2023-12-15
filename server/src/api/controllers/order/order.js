@@ -214,10 +214,20 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
         attributes: ['orderID', 'sentTime', 'status', 'createdAt']
     })
 
+    let resArray = [];
+    for(const order of orders) {
+        resArray.push({
+            orderID: order.orderID,
+            startTransactionProvince: order.startTransactionPoint.routing_point.address.province.name,
+            endTransactionProvince: order.endTransactionPoint.routing_point.address.province.name,
+            createdAt: order.createdAt,
+            goodsStatus: order.processes[0].status
+        })
+    }
     return res.status(200).json({
         totalPages: totalPages,
         limit: limit,
-        orders: orders
+        orders: resArray
     });
 }
 

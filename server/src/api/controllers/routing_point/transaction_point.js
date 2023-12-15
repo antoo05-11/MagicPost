@@ -7,31 +7,49 @@ const TransactionPoint = db.transaction_points;
 const Address = db.addresses;
 const Order = db.orders;
 const RoutingPoint = db.routing_points;
+const Process = db.processes;
+
+Process.belongsTo(TransactionPoint, { foreignKey: 'currentRoutingPointID', as: 'currentTransactionPoint' });
+Process.belongsTo(TransactionPoint, { foreignKey: 'nextRoutingPointID', as: 'nextTransactionPoint' });
 
 export const getAllTransactionPoints = async (req, res) => {
-    let transactionPoints = await TransactionPoint.findAll({
-        attributes: ['transactionPointID', 'addressID'],
-        include: [{
-            model: Address,
-            required: true,
-            attributes: ['detail'],
-            include: [{
-                model: Commune,
-                required: true,
-                attributes: ['name']
-            }, {
-                model: District,
-                required: true,
-                attributes: ['name']
-            }, {
-                model: Province,
-                required: true,
-                attributes: ['name']
-            }]
-        }]
-    });
+    // let transactionPoints = await TransactionPoint.findAll({
+    //     attributes: ['transactionPointID', 'addressID'],
+    //     include: [{
+    //         model: Address,
+    //         required: true,
+    //         attributes: ['detail'],
+    //         include: [{
+    //             model: Commune,
+    //             required: true,
+    //             attributes: ['name']
+    //         }, {
+    //             model: District,
+    //             required: true,
+    //             attributes: ['name']
+    //         }, {
+    //             model: Province,
+    //             required: true,
+    //             attributes: ['name']
+    //         }]
+    //     }]
+    // });
 
-    return res.status(200).json(transactionPoints);
+    const processes = Process.findAll({
+        include: [
+            {
+                model: TransactionPoint,
+                as: 'currentTransactionPoint',
+                required: true
+            },
+            {
+                model: TransactionPoint,
+                as: 'currentTransactionPoint',
+                required: true
+            }
+        ]
+    })
+    return res.status(200).json(processes);
 };
 
 
