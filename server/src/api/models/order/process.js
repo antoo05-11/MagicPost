@@ -13,29 +13,21 @@ module.exports = (sequelize, DataTypes) => {
             },
             allowNull: false
         },
-        currentRoutingPointID: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'routing_points',
-                key: 'routingPointID'
-            },
-        },
-        nextRoutingPointID: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            references: {
-                model: 'routing_points',
-                key: 'routingPointID'
-            }
-        },
         arrivedTime: {
             type: DataTypes.DATE,
             allowNull: true
         },
         status: {
-            type: DataTypes.ENUM('arrived', 'on_way', 'return'),
+            type: DataTypes.ENUM('return', 'arriving', 'forwarded', 'on_stock'),
             allowNull: false
+        },
+        routingPointID: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'routing_points',
+                key: 'routingPointID'
+            }
         }
     }, {
         id: false

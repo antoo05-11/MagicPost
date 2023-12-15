@@ -92,7 +92,7 @@ export const getAllEmployees = async (req, res) => {
     });
     totalPages = Math.ceil(totalPages / pageLimit);
 
-    if (totalPages == 0) return res.status(404).json(Error.getError(Error.code.no_record_found));
+    if (totalPages == 0) return res.status(200).json([]);
 
     // Find all employees with filter and limit page size.
     const employees = await Employee.findAll({

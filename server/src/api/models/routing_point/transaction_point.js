@@ -3,14 +3,9 @@ module.exports = (sequelize, DataTypes) => {
         transactionPointID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true
-        },
-        addressID: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
             references: {
-                model: 'addresses',
-                key: 'addressID'
+                model: 'routing_points',
+                key: 'routingPointID'
             }
         },
         zipCode: {

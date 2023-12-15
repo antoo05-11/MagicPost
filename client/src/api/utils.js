@@ -1,3 +1,9 @@
+import { MdOutlineDashboard } from "react-icons/md";
+import { IoPeopleOutline } from "react-icons/io5";
+import { LuPackage2 } from "react-icons/lu";
+import { RiRoadMapLine } from "react-icons/ri";
+import { HiOutlineBuildingOffice } from "react-icons/hi2";
+
 export const generatePagination = (currentPage, totalPages) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis.
@@ -32,9 +38,52 @@ export const generatePagination = (currentPage, totalPages) => {
 };
 
 export const employeeRole = {
-  GOODS_POINT_EMPLOYEE: "Nhan vien diem tap ket",
-  GOODS_POINT_HEAD: "Quan li diem tap ket",
-  MANAGER: "Quan li",
-  TRANSACTION_POINT_EMPLOYEE: "Nhan vien diem giao dich",
-  TRANSACTION_POINT_HEAD: "Quan li diem giao dich",
+  GOODS_POINT_EMPLOYEE: {
+    name: "Nhan vien diem tap ket",
+    right: [],
+  },
+  GOODS_POINT_HEAD: {
+    name: "Quan li diem tap ket",
+    right: [],
+  },
+  MANAGER: {
+    name: "Quan li",
+    right: [],
+  },
+  TRANSACTION_POINT_EMPLOYEE: {
+    name: "Nhan vien diem giao dich",
+    right: [],
+  },
+  TRANSACTION_POINT_HEAD: {
+    name: "Quan li diem giao dich",
+    right: [],
+  },
+};
+
+export const employeeWorkIn = {
+  homepage: {
+    url: "/employees",
+    name: "Trang chính",
+    icon: <MdOutlineDashboard size={"2em"} />,
+  },
+  manageEmployees: {
+    url: "/employees/list_employee",
+    name: "Nhân viên",
+    icon: <IoPeopleOutline size={"2em"} />,
+  },
+  manageOrders: {
+    url: "/employees/list_ordered",
+    name: "Đơn hàng",
+    icon: <LuPackage2 size={"2em"} />,
+  },
+  manageGoodsPoint: {
+    url: "/employees/list_workspace",
+    name: "Điểm tập kết",
+    icon: <RiRoadMapLine size={"2em"} />,
+  },
+  managaTransactionPoint: {
+    url: "/employees/list_transaction",
+    name: "Điểm giao dịch",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
 };

@@ -19,7 +19,7 @@ export function normalizeDate(date) {
     let dates = date.split('/');
     if (dates[0].length == 1) dates[0] = '0' + dates[0];
     if (dates[1].length == 1) dates[1] = '0' + dates[1];
-    return dates[2] + '-' + dates[1] + '-' + dates[0];
+    return dates[2] + '-' + dates[0] + '-' + dates[1];
 }
 
 export function checkDateFormat(date) {

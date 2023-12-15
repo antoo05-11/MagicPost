@@ -20,7 +20,7 @@ import { RiRoadMapLine } from "react-icons/ri";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
 import { SWRConfig } from "swr";
 import { useSession } from "next-auth/react";
-
+import { HiOutlineBuildingOffice } from "react-icons/hi2";
 const roleFunc = {
   home_page: {
     url: "/employees",

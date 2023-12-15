@@ -1,92 +1,82 @@
-import { Commune, District, Province } from './address';
+import Error from '../../exceptions/error';
+import { Commune, District, Province, buildAddressWhereClause } from './address';
 
 const db = require('../../models');
 
-const Transaction = db.transaction_points;
+const TransactionPoint = db.transaction_points;
 const Address = db.addresses;
+const Order = db.orders;
+const RoutingPoint = db.routing_points;
+const Process = db.processes;
 
-Transaction.belongsTo(Address, { foreignKey: 'addressID' });
+Process.belongsTo(TransactionPoint, { foreignKey: 'routingPointID'});
+
 export const getAllTransactionPoints = async (req, res) => {
-    let transactionPoints = await Transaction.findAll({
-        attributes: ['transactionPointID', 'addressID'],
-        include: [{
-            model: Address,
-            required: true,
-            attributes: ['detail'],
-            include: [{
-                model: Commune,
-                required: true,
-                attributes: ['name']
-            }, {
-                model: District,
-                required: true,
-                attributes: ['name']
-            }, {
-                model: Province,
-                required: true,
-                attributes: ['name']
-            }]
-        }]
-    });
+    // let transactionPoints = await TransactionPoint.findAll({
+    //     attributes: ['transactionPointID', 'addressID'],
+    //     include: [{
+    //         model: Address,
+    //         required: true,
+    //         attributes: ['detail'],
+    //         include: [{
+    //             model: Commune,
+    //             required: true,
+    //             attributes: ['name']
+    //         }, {
+    //             model: District,
+    //             required: true,
+    //             attributes: ['name']
+    //         }, {
+    //             model: Province,
+    //             required: true,
+    //             attributes: ['name']
+    //         }]
+    //     }]
+    // });
 
-    let response = [];
-    for (const transactionPoint of transactionPoints) {
-        response.push({
-            transactionPoint: transactionPoint.transactionPointID,
-            zipcode: transactionPoint.zipcode,
-            name: transactionPoint.name,
-            goodsPointID: transactionPoint.goodsPointID,
-            address: {
-                detail: transactionPoint.address.detail,
-                commune: transactionPoint.address.commune.name,
-                district: transactionPoint.address.district.name,
-                province: transactionPoint.address.province.name
+    const processes = Process.findAll({
+        include: [
+            {
+                model: TransactionPoint,
+                required: true
             }
-        });
-    }
-
-    res.status(200).json(response);
+        ]
+    })
+    return res.status(200).json(processes);
 };
 
-export const getTransactionPointsByAddress = async (req, res) => {
-    let communeID = req.query.communeID;
-    let districtID = req.query.districtID;
-    let provinceID = req.query.provinceID;
 
-    let communeWhereClause = {};
-    if (communeID !== undefined) {
-        communeWhereClause.communeID = communeID;
-    }
-    let districtWhereClause = {};
-    if (districtID !== undefined) {
-        districtWhereClause.districtID = districtID;
-    }
-    let provinceWhereClause = {};
-    if (provinceID !== undefined) {
-        provinceWhereClause.provinceID = provinceID;
-    }
+/**
+ * The function retrieves transaction points by address for a customer.
+ * @param req - The `req` parameter is the request object that contains information about the HTTP
+ * request made by the client. It includes details such as the request method, headers, query
+ * parameters, and body.
+ * @param res - The `res` parameter is the response object that is used to send the response back to
+ * the client. It is typically an instance of the `Response` object.
+ * @returns a response with a status code of 200 and a JSON object containing the transactions.
+ */
+export const getTransactionPointsByAddressForCustomer = async (req, res) => {
+    let addressWhereClause = buildAddressWhereClause(req.query);
 
-    const transactions = await Transaction.findAll({
+    const transactions = await TransactionPoint.findAll({
         attributes: [],
         include: [{
             model: Address,
             required: true,
             attributes: ['detail'],
+            where: addressWhereClause,
             include: [{
                 model: Commune,
                 required: true,
-                attributes: ['name'],
-                where: communeWhereClause
+                attributes: ['name']
             }, {
                 model: District,
                 required: true,
-                attributes: ['name'],
-                where: districtWhereClause
+                attributes: ['name']
             }, {
                 model: Province,
                 required: true,
-                attributes: ['name'],
-                where: provinceWhereClause
+                attributes: ['name']
             }]
         }]
     });

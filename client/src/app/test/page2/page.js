@@ -1,3 +1,9 @@
+import { TestTestTest } from "@/components/skeleton";
+
 export default function page() {
-  return <div>page 2</div>;
+  return (
+    <div>
+      <TestTestTest />
+    </div>
+  );
 }

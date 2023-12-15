@@ -16,7 +16,9 @@ export default class Error {
         invalid_district_id: 10013,
         invalid_commune_id: 10014,
         invalid_province_id: 10015,
-        no_record_found: 10016
+        no_record_found: 10016,
+        no_return_in_root_process: 10017,
+        repeated_data_update: 10018
     };
 
     static initErrors() {
@@ -63,6 +65,14 @@ export default class Error {
         this.errors.set(this.code.invalid_province_id,
             new ErrorRes("Invalid Data!",
                 "Province ID not found!"));
+
+        this.errors.set(this.code.no_return_in_root_process,
+            new ErrorRes("Update unsuccessfully!",
+                "Cannot return an order from the root transaction point!"));
+
+        this.errors.set(this.code.repeated_data_update,
+            new ErrorRes("Update unsuccessfully!",
+                "New data is repeated!"));
 
         this.errors.set(this.code.invalid_commune_id,
             new ErrorRes("Invalid Data!",

@@ -20,7 +20,7 @@ export default function EmployeeForm({ id, isEdit }) {
   const provinceData = getAllProvince();
 
   const [selectedProvince, setSelectedProvince] = useState(
-    employee?.address.province?.provinceID || employee?.address.provinceID
+    employee?.address?.province?.provinceID || employee?.address?.provinceID
   );
   const districtData = getDistrictByProvinceID(selectedProvince);
   districtData.unshift({
@@ -28,7 +28,7 @@ export default function EmployeeForm({ id, isEdit }) {
     districtID: 0,
   });
   const [selectedDistrict, setSelectedDistrict] = useState(
-    employee?.address.district?.districtID || employee?.address.districtID
+    employee?.address?.district?.districtID || employee?.address?.districtID
   );
   const communeData = getCommuneByDistrictID(selectedDistrict);
   communeData.unshift({
@@ -36,7 +36,7 @@ export default function EmployeeForm({ id, isEdit }) {
     districtID: 0,
   });
   const [selectedCommune, setSelectedCommune] = useState(
-    employee?.address.commune?.communeID || employee?.address.communeID
+    employee?.address?.commune?.communeID || employee?.address?.communeID
   );
 
   // console.log(selectedProvince, selectedDistrict, selectedCommune);
@@ -183,7 +183,7 @@ export default function EmployeeForm({ id, isEdit }) {
               className="form-control"
               id="addressDetail"
               placeholder="Chi tiết"
-              defaultValue={employee?.address.detail}
+              defaultValue={employee?.address?.detail}
               onChange={(e) => {
                 employee.address.detail = e.target.value;
               }}

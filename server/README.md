@@ -149,9 +149,9 @@
 + ##### <em><samp>Explaination</samp></em>
     <samp> This API is used for getting all employees working in request sender's working address. Note that only heads of transaction points and goods points are authorized to execute this. </samp>
 
-    <samp>All params in query API URL is optional. Attributes `address` and `workingAddress` are both objects, if they are defined, remember to attach it with at least one of three attributes: `communeID`, `districtID`, `provinceID`</samp>.
+    <samp>All params in query API URL are optional. Attributes `address` and `workingAddress` are both objects, if they are defined, remember to attach it with at least one of three attributes: `communeID`, `districtID`, `provinceID`</samp>.
 
-    <samp>Example: [http://localhost:3000/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1](http://localhost:3000/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1)</samp>
+    <samp>Example: [https://magicpost-uet.onrender.com/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1](https://magicpost-uet.onrender.com/api/employee/get/?limit=4&page=1&employeeID=14&fullName=Hòa&role=TRANSACTION_POINT_HEAD&email=hoa&status=ACTIVE&address[provinceID]=14&workingAddress[provinceID]=1)</samp>
 
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
@@ -258,6 +258,8 @@
     "email": "anhhoang@gmail.com",
     "workingPointID": 46,
     "status": "ACTIVE",
+    "birthDate": "2023-12-15",
+    "gender": "male",
     "createdAt": "2023-12-09T17:05:12.000Z",
     "updatedAt": "2023-12-09T17:05:12.000Z",
     "address": {
@@ -354,62 +356,19 @@
 
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
-[
-    {
-        "orderID": "AEX451934145VN",
-        "sentTime": "2023-12-11T23:34:37.000Z",
-        "status": "delivering",
-        "createdAt": "2023-11-30T13:00:31.000Z",
-        "startTransactionPoint": {
-            "addressID": 83,
-            "address": {
-                "detail": "Ngh. 282/35 Đ. Kim Giang",
-                "commune": { "name": "Phường Kim Giang" },
-                "district": { "name": "Quận Thanh Xuân" },
-                "province": { "name": "Thành phố Hà Nội" }
-            }
-        },
-        "endTransactionPoint": {
-            "addressID": 82,
-            "address": {
-                "detail": "Số 2, đường Nguyễn Chí Thanh",
-                "commune": { "name": "Phường Láng Thượng" },
-                "district": { "name": "Quận Đống Đa" },
-                "province": { "name": "Thành phố Hà Nội" }
-            }
-        },
-        "processes": [
-            {
-                "processID": 4,
-                "orderID": "AEX451934145VN",
-                "currentRoutingPointID": 3,
-                "nextRoutingPointID": 46,
-                "arrivedTime": "2023-12-11T20:04:13.000Z",
-                "status": "arrived",
-                "createdAt": "2023-12-11T18:49:55.000Z",
-                "updatedAt": "2023-12-11T18:49:55.000Z",
-                "currentRoutingPoint": {
-                    "addressID": 89,
-                    "address": {
-                        "detail": "hello",
-                        "commune": { "name": "Phường Khương Đình" },
-                        "district": { "name": "Quận Thanh Xuân" },
-                        "province": { "name": "Thành phố Hà Nội" }
-                    }
-                },
-                "nextRoutingPoint": {
-                    "addressID": 82,
-                    "address": {
-                        "detail": "Số 2, đường Nguyễn Chí Thanh",
-                        "commune": { "name": "Phường Láng Thượng" },
-                        "district": { "name": "Quận Đống Đa" },
-                        "province": { "name": "Thành phố Hà Nội" }
-                    }
-                }
-            }
-        ]
-    }
-]
+{
+    "totalPages": 1,
+    "limit": 8,
+    "orders": [
+        {
+            "orderID": "AEX451934145VN",
+            "startTransactionProvince": "Thành phố Hà Nội",
+            "endTransactionProvince": "Thành phố Hà Nội",
+            "createdAt": "2023-11-30T13:00:31.000Z",
+            "goodsStatus": "arriving"
+        }
+    ]
+}
 ```
 
 ### <samp>Get order by ID</samp>
@@ -427,27 +386,23 @@
 ```json
 {
     "order": {
+        "orderID": "AEX451934145VN",
         "sender": {
-            "fullname": "Trần Vương Khánh",
+            "fullName": "Trần Vương Khánh",
             "phoneNumber": "0123456789",
-            "address": {
-                "detail": "Số 1, đường Xuân Thủy",
-                "commune": { "communeID": 57, "name": "Phường Dịch Vọng Hậu" },
-                "district": { "districtID": 5, "name": "Quận Cầu Giấy" },
-                "province": { "provinceID": 1, "name": "Thành phố Hà Nội" }
-            }
+            "address": "Số 1, đường Xuân Thủy, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội",
+            "customerID": 1
         },
         "receiver": {
-            "fullname": "Vương Khánh Linh",
+            "fullName": "Vương Khánh Linh",
             "phoneNumber": "0123456789",
-            "address": {
-                "detail": "435 Trần Khánh Dư",
-                "commune": { "communeID": 2464, "name": "Phường Thanh Sơn" },
-                "districtName": { "districtID": 145, "name": "Thành phố Uông Bí" },
-                "provinceName": { "provinceID": 14, "name": "Tỉnh Quảng Ninh" }
-            }
+            "address": "435 Trần Khánh Dư, Phường Thanh Sơn, Thành phố Uông Bí, Tỉnh Quảng Ninh",
+            "customerID": 2
         },
-        "creator": { "creatorID": 23000014, "creatorName": "Nguyễn Thị Hòa" },
+        "creator": {
+            "employeeID": 23000014,
+            "fullName": "Nguyễn Thị Hòa"
+        },
         "failChoice": "return",
         "mainPostage": 1000,
         "addedPostage": 1000,
@@ -456,14 +411,61 @@
         "receiverCOD": 1000,
         "receiverOtherFee": 1000,
         "specialService": "",
-        "orderID": "AEX451934145VN",
-        "startTransactionPointID": 47,
-        "endTransactionPointID": 46,
+        "status": "delivered",
+        "sentTime": "2023-12-11T23:34:37.000Z",
+        "receivedTime": null,
+        "startTransactionPoint": {
+            "name": "Thanh Xuân",
+            "address": "Ngh. 282/35 Đ. Kim Giang, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
+            "zipCode": "53453"
+        },
+        "endTransactionPoint": {
+            "name": "Đống Đa",
+            "address": "Số 2, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
+            "zipCode": "13245"
+        },
         "createdAt": "2023-11-30T13:00:31.000Z",
-        "updatedAt": "2023-11-30T13:00:31.000Z"
+        "processes": [
+            {
+                "processID": 1,
+                "routingPointAddress": "Ngh. 282/35 Đ. Kim Giang, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
+                "status": "forwarded",
+                "arrivedTime": "2023-12-11T18:00:34.000Z"
+            },
+            {
+                "processID": 2,
+                "routingPointAddress": "Số 157, đường Xuân Thủy, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội",
+                "status": "forwarded",
+                "arrivedTime": "2023-12-11T18:04:02.000Z"
+            },
+            {
+                "processID": 3,
+                "routingPointAddress": "Số 324, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
+                "status": "forwarded",
+                "arrivedTime": "2023-12-11T19:04:09.000Z"
+            },
+            {
+                "processID": 4,
+                "routingPointAddress": "hello, Phường Khương Đình, Quận Thanh Xuân, Thành phố Hà Nội",
+                "status": "forwarded",
+                "arrivedTime": "2023-12-11T20:04:13.000Z"
+            },
+            {
+                "processID": 5,
+                "routingPointAddress": "Số 2, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
+                "status": "arriving",
+                "arrivedTime": "2023-12-11T20:04:13.000Z"
+            }
+        ]
     },
     "goodsList": [
-        { "goodsID": 10, "goodsType": "document", "realWeight": 634, "convertedWeight": 643 }
+        {
+            "goodsID": 10,
+            "orderID": "AEX451934145VN",
+            "goodsType": "document",
+            "realWeight": 634,
+            "convertedWeight": 643
+        }
     ]
 }
 ```
@@ -484,80 +486,55 @@
 ```json
 {
     "order": {
+        "orderID": "AEX451934145VN",
         "sender": {
-            "fullname": "Trần Vương Khánh",
-            "phoneNumber": "0123456789",
-            "address": {
-                "detail": "Số 1, đường Xuân Thủy",
-                "commune": { "name": "Phường Dịch Vọng Hậu" },
-                "district": { "name": "Quận Cầu Giấy" },
-                "province": { "name": "Thành phố Hà Nội" }
-            }
+            "fullName": "Trần Vương Khánh",
+            "address": "Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội"
         },
         "receiver": {
-            "fullname": "Vương Khánh Linh",
-            "phoneNumber": "0123456789",
-            "address": {
-                "detail": "435 Trần Khánh Dư",
-                "commune": { "name": "Phường Thanh Sơn" },
-                "district": { "name": "Thành phố Uông Bí" },
-                "province": { "name": "Tỉnh Quảng Ninh" }
-            }
+            "fullName": "Vương Khánh Linh",
+            "address": "Phường Thanh Sơn, Thành phố Uông Bí, Tỉnh Quảng Ninh"
         },
-        "orderID": "AEX451934145VN",
-        "startTransactionPoint": {
-            "startTransactionPointID": 47,
-            "address": {
-                "detail": "Ngh. 282/35 Đ. Kim Giang",
-                "commune": { "name": "Phường Kim Giang" },
-                "district": { "name": "Quận Thanh Xuân" },
-                "province": { "name": "Thành phố Hà Nội" }
-            }
+        "creator": {
+            "employeeID": 23000014,
+            "fullName": "Nguyễn Thị Hòa"
         },
-        "endTransactionPoint": {
-            "endTransactionPoint": 46,
-            "address": {
-                "detail": "Số 2, đường Nguyễn Chí Thanh",
-                "commune": { "name": "Phường Láng Thượng" },
-                "district": { "name": "Quận Đống Đa" },
-                "province": { "name": "Thành phố Hà Nội" }
-            }
-        },
-        "goodsList": [
-            {
-                "goodsID": 10,
-                "orderID": "AEX451934145VN",
-                "goodsType": "document",
-                "realWeight": 634,
-                "convertedWeight": 643
-            }
-        ],
+        "status": "delivered",
+        "sentTime": "2023-12-11T23:34:37.000Z",
+        "receivedTime": null,
+        "weight": 634,
+        "estimatedDeliveryDate": "2023-12-11T23:34:37.000Z",
+        "createdAt": "2023-11-30T13:00:31.000Z",
         "processes": [
             {
                 "processID": 1,
-                "orderID": "AEX451934145VN",
-                "currentRoutingPointID": 47,
-                "nextRoutingPointID": 1,
-                "arrivedTime": "2023-12-11T18:00:34.000Z",
-                "status": "arrived",
-                "currentRoutingPoint": {
-                    "addressID": 83,
-                    "address": {
-                        "detail": "Ngh. 282/35 Đ. Kim Giang",
-                        "commune": { "name": "Phường Kim Giang" },
-                        "district": { "name": "Quận Thanh Xuân" },
-                        "province": { "name": "Thành phố Hà Nội" }
-                    }
-                },
-                "nextRoutingPoint": {
-                    "addressID": 87,
-                    "address": {
-                        "detail": "Số 157, đường Xuân Thủy",
-                        "commune": { "name": "Phường Dịch Vọng Hậu" },
-                        "district": { "name": "Quận Cầu Giấy" },
-                        "province": { "name": "Thành phố Hà Nội" }
-                    }
-                }
+                "routingPointAddress": "Ngh. 282/35 Đ. Kim Giang, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
+                "status": "forwarded",
+                "arrivedTime": "2023-12-11T18:00:34.000Z"
+            },
+            {
+                "processID": 2,
+                "routingPointAddress": "Số 157, đường Xuân Thủy, Phường Dịch Vọng Hậu, Quận Cầu Giấy, Thành phố Hà Nội",
+                "status": "forwarded",
+                "arrivedTime": "2023-12-11T18:04:02.000Z"
+            },
+            {
+                "processID": 3,
+                "routingPointAddress": "Số 324, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
+                "status": "forwarded",
+                "arrivedTime": "2023-12-11T19:04:09.000Z"
+            },
+            {
+                "processID": 4,
+                "routingPointAddress": "hello, Phường Khương Đình, Quận Thanh Xuân, Thành phố Hà Nội",
+                "status": "forwarded",
+                "arrivedTime": "2023-12-11T20:04:13.000Z"
+            },
+            {
+                "processID": 5,
+                "routingPointAddress": "Số 2, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
+                "status": "arriving",
+                "arrivedTime": "2023-12-11T20:04:13.000Z"
             }
         ]
     }

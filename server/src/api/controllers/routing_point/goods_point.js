@@ -6,6 +6,7 @@ const GoodsPoint = db.goods_points;
 const Address = db.addresses;
 
 GoodsPoint.belongsTo(Address, { foreignKey: 'addressID' });
+
 export const getAllGoodsPoint = async (req, res) => {
     let goodsPoints = await GoodsPoint.findAll({
         attributes: ['goodsPointID', 'addressID'],
@@ -42,5 +43,5 @@ export const getAllGoodsPoint = async (req, res) => {
         });
     }
 
-    res.json(response);
+    return res.json(response);
 };

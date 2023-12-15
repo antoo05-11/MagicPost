@@ -2,6 +2,7 @@ import path from 'path';
 import { sequelize } from '../../models';
 import Error from '../../exceptions/error';
 import { checkDateFormat, normalizeDate } from '../../../utils';
+import { buildAddressString } from '../routing_point/address';
 const { QueryTypes } = require('sequelize');
 const { Op } = require('sequelize')
 const crypto = require('crypto');
@@ -18,30 +19,29 @@ const District = db.districts;
 const Province = db.provinces;
 const TransactionPoint = db.transaction_points;
 const GoodsPoint = db.goods_points;
+const Employee = db.employees;
 
-Order.belongsTo(RoutingPoint, { foreignKey: 'startTransactionPointID', as: 'startTransactionPoint' });
-Order.belongsTo(RoutingPoint, { foreignKey: 'endTransactionPointID', as: 'endTransactionPoint' });
+Order.belongsTo(TransactionPoint, { foreignKey: 'startTransactionPointID', as: 'startTransactionPoint' });
+Order.belongsTo(TransactionPoint, { foreignKey: 'endTransactionPointID', as: 'endTransactionPoint' });
+TransactionPoint.belongsTo(RoutingPoint, { foreignKey: 'transactionPointID' });
 
 Process.belongsTo(Order, { foreignKey: 'orderID' });
-Process.belongsTo(RoutingPoint, { foreignKey: 'currentRoutingPointID', as: 'currentRoutingPoint' });
-Process.belongsTo(RoutingPoint, { foreignKey: 'nextRoutingPointID', as: 'nextRoutingPoint' });
+Process.belongsTo(RoutingPoint, { foreignKey: 'routingPointID' });
 
 Address.belongsTo(Commune, { foreignKey: 'communeID' });
 Commune.belongsTo(District, { foreignKey: 'districtID' });
 District.belongsTo(Province, { foreignKey: 'provinceID' });
 RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
-Order.hasMany(Process, { foreignKey: 'orderID' })
+Order.hasMany(Process, { foreignKey: 'orderID' });
+
+Order.belongsTo(Customer, { foreignKey: 'senderID', as: 'sender' });
+Order.belongsTo(Customer, { foreignKey: 'receiverID', as: 'receiver' });
+Customer.belongsTo(Address, { foreignKey: 'addressID' });
+
+Order.belongsTo(Employee, { foreignKey: 'creatorID' });
 
 const fs = require('fs');
 const limitRecordsNum = 8;
-
-const getOrderByIDQueryPath = path.join(__dirname, '../../../queries/orders/order.select.sql');
-let getOrderByIDQuery = ''
-try {
-    getOrderByIDQuery = fs.readFileSync(getOrderByIDQueryPath, 'utf8');
-} catch (error) {
-    console.error("Error reading file:", error);
-}
 
 const getOrderByIDForCustomerQueryPath = path.join(__dirname, '../../../queries/orders/orderForCustomer.select.sql');
 let getOrderByIDForCustomerQuery = ''
@@ -51,10 +51,19 @@ try {
     console.error("Error reading file:", error);
 }
 
+/**
+ * The function `getOrdersByWorkingRouteID` retrieves orders based on the working route ID of the user
+ * and returns them with pagination and additional information.
+ * @returns a JSON response with the following structure:
+ * - totalPages: the total number of pages for the orders
+ * - limit: the limit of orders per page
+ * - orders: an array of objects containing the following information for each order.
+ */
 export const getOrdersByWorkingRouteID = async (req, res) => {
     const currentRoutingPointID = req.user.workingPointID;
-    let page = req.query.page;
-    if (page == undefined) page = 1;
+
+    const page = req.query.page || 1;
+    const limit = req.query.limit || limitRecordsNum;
 
     let maxCreatedAt = req.query.maxCreatedAt;
     let minCreatedAt = req.query.minCreatedAt;
@@ -65,22 +74,38 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
     if (!minCreatedAt) minCreatedAt = normalizeDate('1/1/1970');
     if (!maxCreatedAt) maxCreatedAt = normalizeDate(new Date(Date.now()).toLocaleDateString());
 
-    const orders = await Order.findAll({
-        offset: ((page - 1) * limitRecordsNum),
-        limit: limitRecordsNum,
+    let totalPages = await Order.count({
         subQuery: false,
         where: {
             orderID: {
                 [Op.in]: sequelize.literal(`
                 (SELECT DISTINCT orderID
                 FROM processes
-                WHERE (currentRoutingPointID = ${currentRoutingPointID} 
-                    OR nextRoutingPointID = ${currentRoutingPointID}))`)
+                WHERE routingPointID = ${currentRoutingPointID})`)
             },
             createdAt: {
                 [Op.between]: [
                     minCreatedAt, maxCreatedAt
                 ]
+            }
+        }
+    });
+    totalPages = Math.ceil(totalPages / limit);
+    if (totalPages == 0) return res.status(200).json([]);
+
+    const orders = await Order.findAll({
+        offset: ((page - 1) * limit),
+        limit: limit,
+        subQuery: false,
+        where: {
+            orderID: {
+                [Op.in]: sequelize.literal(`
+                (SELECT DISTINCT orderID
+                    FROM processes
+                    WHERE routingPointID = ${currentRoutingPointID})`)
+            },
+            createdAt: {
+                [Op.between]: [minCreatedAt, maxCreatedAt]
             }
         },
         include: [
@@ -88,168 +113,186 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                 model: Process,
                 order: [['processID', 'DESC']],
                 limit: 1,
-                include: [
-                    {
-                        model: RoutingPoint,
-                        as: 'currentRoutingPoint',
-                        include: {
-                            model: Address,
-                            include: [
-                                {
-                                    model: Commune,
-                                    attributes: ['name']
-                                },
-                                {
-                                    model: District,
-                                    attributes: ['name']
-                                },
-
-                                {
-                                    model: Province,
-                                    attributes: ['name']
-                                }
-                            ],
-                            attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
-                        },
-                        attributes: { exclude: ['routingPointID'] }
-                    },
-                    {
-                        model: RoutingPoint,
-                        as: 'nextRoutingPoint',
-                        include: {
-                            model: Address,
-                            include: [
-                                {
-                                    model: Commune,
-                                    attributes: ['name']
-                                },
-                                {
-                                    model: District,
-                                    attributes: ['name']
-                                },
-
-                                {
-                                    model: Province,
-                                    attributes: ['name']
-                                }
-                            ],
-                            attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
-                        },
-                        attributes: { exclude: ['routingPointID'] }
-                    }
-                ]
+                attributes: ['status']
             },
             {
-                model: RoutingPoint,
+                model: TransactionPoint,
                 as: 'startTransactionPoint',
                 include: {
-                    model: Address,
-                    include: [
-                        {
-                            model: Commune,
-                            attributes: ['name']
-                        },
-                        {
-                            model: District,
-                            attributes: ['name']
-                        },
-
-                        {
-                            model: Province,
-                            attributes: ['name']
-                        }
-                    ],
-                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        include: { model: Province, attributes: ['name'] },
+                        attributes: ['addressID']
+                    },
+                    attributes: ['routingPointID']
                 },
-                attributes: { exclude: ['routingPointID'] }
+                attributes: ['transactionPointID']
             },
             {
-                model: RoutingPoint,
+                model: TransactionPoint,
                 as: 'endTransactionPoint',
                 include: {
-                    model: Address,
-                    include: [
-                        {
-                            model: Commune,
-                            attributes: ['name']
-                        },
-                        {
-                            model: District,
-                            attributes: ['name']
-                        },
-
-                        {
-                            model: Province,
-                            attributes: ['name']
-                        }
-                    ],
-                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        include: { model: Province, attributes: ['name'] },
+                        attributes: ['addressID']
+                    },
+                    attributes: ['routingPointID']
                 },
-                attributes: { exclude: ['routingPointID'] }
+                attributes: ['transactionPointID']
             }
         ],
-        attributes: ['orderID', 'sentTime', 'status', 'createdAt']
+        attributes: ['orderID', 'createdAt']
     })
 
-    return res.status(200).json(orders);
+    let resArray = [];
+    for (const order of orders) {
+        resArray.push({
+            orderID: order.orderID,
+            startTransactionProvince: order.startTransactionPoint.routing_point.address.province.name,
+            endTransactionProvince: order.endTransactionPoint.routing_point.address.province.name,
+            createdAt: order.createdAt,
+            goodsStatus: order.processes[0].status
+        })
+    }
+    return res.status(200).json({
+        totalPages: totalPages,
+        limit: limit,
+        orders: resArray
+    });
 }
 
+/**
+ * The function `getOrderByID` retrieves an order and its associated data from the database and returns
+ * it as a JSON response.
+ * @returns a JSON response with the order details and the list of goods associated with the order.
+ */
 export const getOrderByID = async (req, res) => {
-    const orders = await sequelize.query(getOrderByIDQuery, {
-        replacements: { orderID: req.params.id },
-        type: QueryTypes.SELECT
-    });
-    const order = orders[0];
-    const goodsList = await Goods.findAll({
-        where: {
-            orderID: order.orderID
-        }
+    const order = await Order.findOne({
+        where: { orderID: req.params.id },
+        include: [
+            {
+                model: Process,
+                order: [['processID', 'DESC']],
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        include: [
+                            { model: Commune, attributes: ['name'] },
+                            { model: District, attributes: ['name'] },
+                            { model: Province, attributes: ['name'] }
+                        ],
+                        attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                    },
+                    attributes: { exclude: ['routingPointID'] }
+                }
+            },
+            {
+                model: TransactionPoint,
+                as: 'startTransactionPoint',
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        attributes: ['detail'],
+                        include: [
+                            { model: Commune, attributes: ['name'] },
+                            { model: District, attributes: ['name'] },
+                            { model: Province, attributes: ['name'] }
+                        ]
+                    },
+                    attributes: ['routingPointID']
+                },
+                attributes: ['name', 'zipCode']
+            },
+            {
+                model: TransactionPoint,
+                as: 'endTransactionPoint',
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        attributes: ['detail'],
+                        include: [
+                            { model: Commune, attributes: ['name'] },
+                            { model: District, attributes: ['name'] },
+                            { model: Province, attributes: ['name'] }
+                        ]
+                    },
+                    attributes: ['routingPointID']
+                },
+                attributes: ['name', 'zipCode']
+            },
+            {
+                model: Customer,
+                as: 'sender',
+                include: {
+                    model: Address,
+                    attributes: ['detail'],
+                    include: [
+                        { model: Commune, attributes: ['name'] },
+                        { model: District, attributes: ['name'] },
+                        { model: Province, attributes: ['name'] }
+                    ]
+                },
+                attributes: ['fullname', 'customerID', 'phoneNumber']
+            },
+            {
+                model: Customer,
+                as: 'receiver',
+                include: {
+                    model: Address,
+                    attributes: ['detail'],
+                    include: [
+                        { model: Commune, attributes: ['name'] },
+                        { model: District, attributes: ['name'] },
+                        { model: Province, attributes: ['name'] }
+                    ]
+                },
+                attributes: ['fullname', 'customerID', 'phoneNumber']
+            },
+            {
+                model: Employee,
+                attributes: ['employeeID', 'fullName']
+            }
+        ]
     })
+
+    const goodsList = await Goods.findAll({
+        where: { orderID: order.orderID }
+    })
+
+    const processes = []
+    for (let process of order.processes) {
+        process = { ...process.get() }
+        process = {
+            processID: process.processID,
+            routingPointAddress: buildAddressString(process.routing_point.address),
+            status: process.status,
+            arrivedTime: process.arrivedTime
+        }
+        processes.push(process);
+    }
+
     const result = {
         order: {
+            orderID: order.orderID,
             sender: {
-                fullname: order.senderFullName,
-                phoneNumber: order.senderPhoneNumber,
-                address: {
-                    detail: order.senderAddressDetail,
-                    commune: {
-                        communeID: order.senderCommuneID,
-                        name: order.senderCommuneName
-                    },
-                    district: {
-                        districtID: order.senderDistrictID,
-                        name: order.senderDistrictName
-                    },
-                    province: {
-                        provinceID: order.senderProvinceID,
-                        name: order.senderProvinceName
-                    }
-
-                }
+                fullName: order.sender.fullname,
+                phoneNumber: order.sender.phoneNumber,
+                address: buildAddressString(order.sender.address),
+                customerID: order.sender.customerID
             },
             receiver: {
-                fullname: order.receiverFullName,
-                phoneNumber: order.receiverPhoneNumber,
-                address: {
-                    detail: order.receiverAddressDetail,
-                    commune: {
-                        communeID: order.receiverCommuneID,
-                        name: order.receiverCommuneName
-                    },
-                    district: {
-                        districtID: order.receiverDistrictID,
-                        name: order.receiverDistrictName
-                    },
-                    province: {
-                        provinceID: order.receiverProvinceID,
-                        name: order.receiverProvinceName
-                    }
-                }
+                fullName: order.receiver.fullname,
+                phoneNumber: order.receiver.phoneNumber,
+                address: buildAddressString(order.receiver.address),
+                customerID: order.receiver.customerID
             },
-            creator: {
-                creatorID: order.creatorID,
-                creatorName: order.creatorName
-            },
+            creator: order.employee,
             failChoice: order.failChoice,
             mainPostage: order.mainPostage,
             addedPostage: order.addedPostage,
@@ -258,11 +301,21 @@ export const getOrderByID = async (req, res) => {
             receiverCOD: order.receiverCOD,
             receiverOtherFee: order.receiverOtherFee,
             specialService: order.specialService,
-            orderID: order.orderID,
-            startTransactionPointID: order.startTransactionPointID,
-            endTransactionPointID: order.endTransactionPointID,
+            status: order.status,
+            sentTime: order.sentTime,
+            receivedTime: order.receivedTime,
+            startTransactionPoint: {
+                name: order.startTransactionPoint.name,
+                address: buildAddressString(order.startTransactionPoint.routing_point.address),
+                zipCode: order.startTransactionPoint.zipCode
+            },
+            endTransactionPoint: {
+                name: order.endTransactionPoint.name,
+                address: buildAddressString(order.endTransactionPoint.routing_point.address),
+                zipCode: order.endTransactionPoint.zipCode
+            },
             createdAt: order.createdAt,
-            updatedAt: order.updatedAt
+            processes: processes
         },
         goodsList: goodsList
     };
@@ -270,6 +323,11 @@ export const getOrderByID = async (req, res) => {
     return res.status(200).json(result);
 }
 
+/**
+ * The `createOrder` function creates a new order in a database, along with associated sender,
+ * receiver, and goods information, and returns the saved order data.
+ * @returns a response with status code 200 and the `savePoint` object as JSON data.
+ */
 export const createOrder = async (req, res) => {
     let order = JSON.parse(JSON.stringify(req.body.order));
     let savePoint = JSON.parse(JSON.stringify(req.body));
@@ -338,143 +396,135 @@ function generateOrderID() {
 }
 
 export const getOrderByIDForCustomer = async (req, res) => {
-    const orders = await sequelize.query(getOrderByIDForCustomerQuery, {
-        replacements: { orderID: req.params.id },
-        type: QueryTypes.SELECT
-    });
-    if (orders.length == 0) return res.status(404).json(Error.getError(Error.code.invalid_order_id));
-    const order = orders[0];
-    const goodsList = await Goods.findAll({
-        where: {
-            orderID: order.orderID
-        }
-    })
-
-    let processes = await Process.findAll({
-        where: { orderID: order.orderID },
-        order: [
-            ['processID', 'ASC']
-        ],
-        attributes: { exclude: ['updatedAt', 'createdAt'] },
+    const order = await Order.findOne({
+        where: { orderID: req.params.id },
         include: [
             {
-                model: RoutingPoint,
-                as: 'currentRoutingPoint',
+                model: Process,
+                order: [['processID', 'DESC']],
                 include: {
-                    model: Address,
-                    include: [
-                        {
-                            model: Commune,
-                            attributes: ['name']
-                        },
-                        {
-                            model: District,
-                            attributes: ['name']
-                        },
-
-                        {
-                            model: Province,
-                            attributes: ['name']
-                        }
-                    ],
-                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
-                },
-                attributes: { exclude: ['routingPointID'] }
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        include: [
+                            { model: Commune, attributes: ['name'] },
+                            { model: District, attributes: ['name'] },
+                            { model: Province, attributes: ['name'] }
+                        ],
+                        attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                    },
+                    attributes: { exclude: ['routingPointID'] }
+                }
             },
             {
-                model: RoutingPoint,
-                as: 'nextRoutingPoint',
+                model: TransactionPoint,
+                as: 'startTransactionPoint',
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        attributes: ['detail'],
+                        include: [
+                            { model: Commune, attributes: ['name'] },
+                            { model: District, attributes: ['name'] },
+                            { model: Province, attributes: ['name'] }
+                        ]
+                    },
+                    attributes: ['routingPointID']
+                },
+                attributes: ['name', 'zipCode']
+            },
+            {
+                model: TransactionPoint,
+                as: 'endTransactionPoint',
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        attributes: ['detail'],
+                        include: [
+                            { model: Commune, attributes: ['name'] },
+                            { model: District, attributes: ['name'] },
+                            { model: Province, attributes: ['name'] }
+                        ]
+                    },
+                    attributes: ['routingPointID']
+                },
+                attributes: ['name', 'zipCode']
+            },
+            {
+                model: Customer,
+                as: 'sender',
                 include: {
                     model: Address,
+                    attributes: ['detail'],
                     include: [
-                        {
-                            model: Commune,
-                            attributes: ['name']
-                        },
-                        {
-                            model: District,
-                            attributes: ['name']
-                        },
-
-                        {
-                            model: Province,
-                            attributes: ['name']
-                        }
-                    ],
-                    attributes: { exclude: ['addressID', 'communeID', 'districtID', 'provinceID', 'type'] }
+                        { model: Commune, attributes: ['name'] },
+                        { model: District, attributes: ['name'] },
+                        { model: Province, attributes: ['name'] }
+                    ]
                 },
-                attributes: { exclude: ['routingPointID'] }
+                attributes: ['fullname', 'customerID', 'phoneNumber']
+            },
+            {
+                model: Customer,
+                as: 'receiver',
+                include: {
+                    model: Address,
+                    attributes: ['detail'],
+                    include: [
+                        { model: Commune, attributes: ['name'] },
+                        { model: District, attributes: ['name'] },
+                        { model: Province, attributes: ['name'] }
+                    ]
+                },
+                attributes: ['fullname', 'customerID', 'phoneNumber']
+            },
+            {
+                model: Employee,
+                attributes: ['employeeID', 'fullName']
             }
         ]
-    });
+    })
+
+    const goodsList = await Goods.findAll({
+        where: { orderID: order.orderID },
+        attributes: ['realWeight']
+    })
+
+    let weight = 0;
+    for(const goods of goodsList) weight += goods.realWeight;
+
+    const processes = []
+    for (let process of order.processes) {
+        process = { ...process.get() }
+        process = {
+            processID: process.processID,
+            routingPointAddress: buildAddressString(process.routing_point.address),
+            status: process.status,
+            arrivedTime: process.arrivedTime
+        }
+        processes.push(process);
+    }
 
     const result = {
         order: {
+            orderID: order.orderID,
             sender: {
-                fullname: order.senderFullName,
-                phoneNumber: order.senderPhoneNumber,
-                address: {
-                    detail: order.senderAddressDetail,
-                    commune: {
-                        name: order.senderCommuneName
-                    },
-                    district: {
-                        name: order.senderDistrictName
-                    },
-                    province: {
-                        name: order.senderProvinceName
-                    }
-
-                }
+                fullName: order.sender.fullname,
+                address: buildAddressString(order.sender.address, false),
             },
             receiver: {
-                fullname: order.receiverFullName,
-                phoneNumber: order.receiverPhoneNumber,
-                address: {
-                    detail: order.receiverAddressDetail,
-                    commune: {
-                        name: order.receiverCommuneName
-                    },
-                    district: {
-                        name: order.receiverDistrictName
-                    },
-                    province: {
-                        name: order.receiverProvinceName
-                    }
-                }
+                fullName: order.receiver.fullname,
+                address: buildAddressString(order.receiver.address, false),
             },
-            orderID: order.orderID,
-            startTransactionPoint: {
-                startTransactionPointID: order.startTransactionPointID,
-                address: {
-                    detail: order.startTransactionAddressDetail,
-                    commune: {
-                        name: order.startTransactionCommuneName
-                    },
-                    district: {
-                        name: order.startTransactionDistrictName
-                    },
-                    province: {
-                        name: order.startTransactionProvinceName
-                    }
-                }
-            },
-            endTransactionPoint: {
-                endTransactionPoint: order.endTransactionPointID,
-                address: {
-                    detail: order.endTransactionAddressDetail,
-                    commune: {
-                        name: order.endTransactionCommuneName
-                    },
-                    district: {
-                        name: order.endTransactionDistrictName
-                    },
-                    province: {
-                        name: order.endTransactionProvinceName
-                    }
-                }
-            },
-            goodsList: goodsList,
+            creator: order.employee,
+            status: order.status,
+            sentTime: order.sentTime,
+            receivedTime: order.receivedTime,
+            weight: weight,
+            estimatedDeliveryDate: order.sentTime,
+            createdAt: order.createdAt,
             processes: processes
         }
     };

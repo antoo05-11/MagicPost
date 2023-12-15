@@ -18,15 +18,11 @@ export default function Page() {
         </div>
 
         <div className="col m-0">
-          <div >
-
+          <div>
             <Button onClick={() => setCurrentPage("mainInformation")}>
               Thông tin
             </Button>
-            <Button
-              onClick={() => setCurrentPage("security")}
-              className="ms-3"
-            >
+            <Button onClick={() => setCurrentPage("security")} className="ms-3">
               Bảo mật
             </Button>
           </div>
