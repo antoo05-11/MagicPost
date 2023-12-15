@@ -1,15 +1,19 @@
 "use client";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { SWRConfig } from "swr";
 export default function Layout({ children, params }) {
   return (
     <section>
-      {/* <SWRConfig
+      <Link href={"/test/page1"}>page 1</Link>
+      <Link href={"/test/page2"}>page 2</Link>
+      <SWRConfig
         value={{
-          // refreshInterval: 3000,
           fetcher: (url) => fetch(url).then((res) => res.json()),
         }}
-      > */}
-      {children}
+      >
+        {children}
+      </SWRConfig>
       {/* </SWRConfig> */}
     </section>
   );

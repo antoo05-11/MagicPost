@@ -2,6 +2,7 @@
 import { generatePagination } from "@/api/utils";
 import { usePathname, useSearchParams } from "next/navigation";
 import "@/css/components/pagination.css";
+import Link from "next/link";
 export default function Pagination({ totalPage }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -27,19 +28,19 @@ export default function Pagination({ totalPage }) {
         return (
           <li className="page-item">
             {/* <button></button> */}
-            <a
+            <Link
               className={page != currentPage ? "page-link" : "page-link active"}
               href={createPageURL(page)}
             >
               {page}
-            </a>
+            </Link>
           </li>
         );
       })}
       <li className="page-item">
-        <a className="page-link" href="#" aria-label="Next">
+        <Link className="page-link" href="#" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
-        </a>
+        </Link>
       </li>
     </ul>
   );

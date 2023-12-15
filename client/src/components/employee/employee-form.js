@@ -11,80 +11,36 @@ import {
   getProvinceInfo,
   getCommuneByDistrictID,
   getEmployeebyID,
+  getAllProvince,
 } from "@/api/data";
 import "@/css/employee/customForm.css";
 
-export default function EmployeeForm({ id }) {
-  const provinceData = getProvinceInfo();
+export default function EmployeeForm({ id, isEdit }) {
+  const employee = getEmployeebyID(id);
+  const provinceData = getAllProvince();
 
-  const [selectedProvince, setSelectedProvince] = useState("");
-  const [districtData, setDistrictData] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState(
+    employee?.address.province?.provinceID || employee?.address.provinceID
+  );
+  const districtData = getDistrictByProvinceID(selectedProvince);
+  districtData.unshift({
+    name: "Chọn Quận/ Huyện",
+    districtID: 0,
+  });
+  const [selectedDistrict, setSelectedDistrict] = useState(
+    employee?.address.district?.districtID || employee?.address.districtID
+  );
+  const communeData = getCommuneByDistrictID(selectedDistrict);
+  communeData.unshift({
+    name: "Chọn Xã / Phường",
+    districtID: 0,
+  });
+  const [selectedCommune, setSelectedCommune] = useState(
+    employee?.address.commune?.communeID || employee?.address.communeID
+  );
 
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const [communeData, setCommuneData] = useState([]);
-
-  const [selectedCommune, setSelectedCommune] = useState("");
-
-  useEffect(() => {
-    async function fetchDistricts() {
-      try {
-        if (selectedProvince) {
-          const districts = await getDistrictByProvinceID(selectedProvince);
-          setDistrictData(districts);
-        }
-      } catch (error) {
-        console.error("Error fetching district data:", error);
-      }
-    }
-    setSelectedDistrict("0");
-    fetchDistricts();
-  }, [selectedProvince]);
-
-  useEffect(() => {
-    async function fetchCommune() {
-      try {
-        if (selectedDistrict) {
-          const communes = await getCommuneByDistrictID(selectedDistrict);
-          setCommuneData(communes);
-        }
-      } catch (error) {
-        console.error("Error fetching district data:", error);
-      }
-    }
-    fetchCommune();
-  }, [selectedDistrict]);
-  // console.log("check id ", id);
-  const emp = getEmployeebyID(id);
-  if (emp) {
-  }
-  const employee = {
-    identifier: "",
-    phoneNumber: "",
-    fullName: "",
-    address: {
-      detail: "",
-      communeID: "",
-      districtID: "",
-      provinceID: "",
-    },
-    transactionPointID: "",
-    goodPointID: "",
-    email: "",
-    role: null,
-  };
-  if (emp) {
-  }
-  const [isCreate, setCreate] = useState();
-  const router = useRouter();
-
-  // let res = await fetch("https://magicpost-uet.onrender.com/api/administrative/province/getall", {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(data),
-  // });
-
+  // console.log(selectedProvince, selectedDistrict, selectedCommune);
+  // console.log(employee?.address.province.provinceID);
   return (
     <div className="formContainer">
       <form id="form-employee ">
@@ -99,6 +55,7 @@ export default function EmployeeForm({ id }) {
               className="form-control"
               id="fullName"
               placeholder="Họ và tên"
+              defaultValue={employee?.fullName}
               onChange={(e) => {
                 employee.fullName = e.target.value;
               }}
@@ -119,6 +76,7 @@ export default function EmployeeForm({ id }) {
               className="form-control"
               id="email"
               placeholder="Địa chỉ email"
+              defaultValue={employee?.email}
               onChange={(e) => {
                 employee.email = e.target.value;
               }}
@@ -132,6 +90,7 @@ export default function EmployeeForm({ id }) {
               className="form-control"
               id="phoneNumber"
               placeholder="Số điện thoại"
+              defaultValue={employee?.phoneNumber}
               onChange={(e) => {
                 employee.phoneNumber = e.target.value;
               }}
@@ -147,6 +106,7 @@ export default function EmployeeForm({ id }) {
               className="form-control"
               id="phoneNumber"
               placeholder="CCCD"
+              defaultValue={employee?.identifier}
               onChange={(e) => {
                 employee.identifier = e.target.value;
               }}
@@ -167,21 +127,16 @@ export default function EmployeeForm({ id }) {
               className="form-select"
               aria-label="Default select example"
               id="province"
+              defaultValue={1}
               onChange={(e) => {
-                setSelectedProvince(
-                  e.target.options[e.target.selectedIndex].getAttribute(
-                    "data-key"
-                  )
-                );
+                setSelectedProvince(e.target.value);
+                setSelectedDistrict(0);
+                setSelectedCommune(0);
               }}
             >
               <option selected>Chọn Tỉnh / TP</option>
               {provinceData.map((province) => (
-                <option
-                  key={province.provinceID}
-                  data-key={province.provinceID}
-                  value={province.provinceID}
-                >
+                <option key={province.provinceID} value={province.provinceID}>
                   {province.name}
                 </option>
               ))}
@@ -193,20 +148,12 @@ export default function EmployeeForm({ id }) {
               className="form-select"
               aria-label="Default select example"
               onChange={(e) => {
-                setSelectedDistrict(
-                  e.target.options[e.target.selectedIndex].getAttribute(
-                    "data-key"
-                  )
-                );
+                setSelectedDistrict(e.target.value);
+                setSelectedCommune(0);
               }}
             >
-              <option selected>Chọn Xã / Phường</option>
               {districtData.map((district) => (
-                <option
-                  key={district.districtID}
-                  data-key={district.districtID}
-                  value={district.districtID}
-                >
+                <option key={district.districtID} value={district.districtID}>
                   {district.name}
                 </option>
               ))}
@@ -218,20 +165,11 @@ export default function EmployeeForm({ id }) {
               className="form-select"
               aria-label="Default select example"
               onChange={(e) => {
-                setSelectedCommune(
-                  e.target.options[e.target.selectedIndex].getAttribute(
-                    "data-key"
-                  )
-                );
+                setSelectedCommune(e.target.value);
               }}
             >
-              <option selected>Chọn Quận / Huyện</option>
               {communeData.map((commune) => (
-                <option
-                  key={commune.communeID}
-                  data-key={commune.communeID}
-                  value={commune.communeID}
-                >
+                <option key={commune.communeID} value={commune.communeID}>
                   {commune.name}
                 </option>
               ))}
@@ -245,6 +183,7 @@ export default function EmployeeForm({ id }) {
               className="form-control"
               id="addressDetail"
               placeholder="Chi tiết"
+              defaultValue={employee?.address.detail}
               onChange={(e) => {
                 employee.address.detail = e.target.value;
               }}
@@ -282,6 +221,9 @@ export default function EmployeeForm({ id }) {
       <div className="mt-3 btnContainer">
         <button
           onClick={() => {
+            employee.address.districtID = selectedDistrict;
+            employee.address.communeID = selectedCommune;
+            employee.address.provinceID = selectedProvince;
             console.log(createEmployee(employee));
           }}
           type="button"

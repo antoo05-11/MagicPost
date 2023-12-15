@@ -1,37 +1,9 @@
 "use client";
 import useSWR from "swr";
-import { useSession } from "next-auth/react";
-import { RiContactsBookLine } from "react-icons/ri";
-
-export function getData(url) {
-  const fetcher = async (url, token) =>
-    fetch(url, {
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      }),
-    }).then((res) => res.json());
-  const { data: session, status } = useSession();
-  const token = session?.accessToken;
-  // if (token) {
-  const { data, error, isLoading } = useSWR([url, token], ([url, token]) =>
-    fetcher(url, token)
-  );
-  return data;
-  // }
-}
-
-export function getDataWithoutToken(url) {
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-  // if (token) {
-  const { data, error, isLoading } = useSWR(url, fetcher);
-  return { data, error, isLoading };
-  // }
-}
 
 export function getEmployee(query) {
   try {
-    const data = getData(
+    const { data: data } = useSWR(
       `https://magicpost-uet.onrender.com/api/employee/get/?page=${query?.page}`
     );
     const dataRes = [];
@@ -48,8 +20,24 @@ export function getEmployee(query) {
 }
 
 export function getEmployeebyID(id) {
+  if (!id)
+    return {
+      identifier: "",
+      phoneNumber: "",
+      fullName: "",
+      address: {
+        detail: "",
+        communeID: "",
+        districtID: "",
+        provinceID: "",
+      },
+      transactionPointID: "",
+      goodPointID: "",
+      email: "",
+      role: null,
+    };
   try {
-    const data = getData(
+    const { data: data } = useSWR(
       `https://magicpost-uet.onrender.com/api/employee/${id}/get`
     );
     return data;
@@ -61,38 +49,8 @@ export function getEmployeebyID(id) {
 
 export function getOrder(query) {
   try {
-    const data = getData("https://magicpost-uet.onrender.com/api/order/getall");
-    const dat = [];
-    for (var i in data) {
-      dat.push(data[i]);
-    }
-    return dat;
-  } catch (error) {
-    console.error("Database Error:", error);
-    throw Error("Failed to fetch the latest invoices.");
-  }
-}
-
-export function findOrder(orderID) { }
-
-export function getOrderById(id) { }
-// export const icon = {};
-
-export function getAllProvince() {
-  const dataRes = getDataWithoutToken(
-    "https://magicpost-uet.onrender.com/api/administrative/province/getall"
-  );
-  const data = [];
-  for (var i in dataRes) {
-    data.push(dataRes[i]);
-  }
-  return data;
-}
-
-export function getProvinceInfo() {
-  try {
-    const data = getData(
-      "https://magicpost-uet.onrender.com/api/administrative/province/getall"
+    const { data: data } = useSWR(
+      "https://magicpost-uet.onrender.com/api/order/getall"
     );
     const dat = [];
     for (var i in data) {
@@ -105,9 +63,35 @@ export function getProvinceInfo() {
   }
 }
 
+export function findOrder(orderID) {}
+
+export function getOrderById(id) {}
+// export const icon = {};
+
+export function getAllProvince() {
+  const { data: dataRes } = useSWR(
+    "https://magicpost-uet.onrender.com/api/administrative/province/getall",
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
+  }
+  return data;
+}
+
 export function getDistrictByProvinceID(id) {
-  const dataRes = getDataWithoutToken(
-    `https://magicpost-uet.onrender.com/api/administrative/district/getall/${id}`
+  const { data: dataRes } = useSWR(
+    `https://magicpost-uet.onrender.com/api/administrative/district/getall/${id}`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
   );
   const data = [];
   for (var i in dataRes) {
@@ -117,8 +101,13 @@ export function getDistrictByProvinceID(id) {
 }
 
 export function getCommuneByDistrictID(id) {
-  const dataRes = getDataWithoutToken(
-    `https://magicpost-uet.onrender.com/api/administrative/commune/getall/${id}`
+  const { data: dataRes } = useSWR(
+    `https://magicpost-uet.onrender.com/api/administrative/commune/getall/${id}`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
   );
   const data = [];
   for (var i in dataRes) {
@@ -128,8 +117,13 @@ export function getCommuneByDistrictID(id) {
 }
 
 export function getTransactionPoint(provinceID, districtID, communeID) {
-  const dataRes = getDataWithoutToken(
-    `https://magicpost-uet.onrender.com/api/transactionPoint/get/?provinceID=${1}&districtID=${1}&communeID=${1}`
+  const { data: dataRes, error: loi } = useSWR(
+    `https://magicpost-uet.onrender.com/api/transactionPoint/get/?provinceID=${1}&districtID=${1}&communeID=${1}`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
   );
   const data = [];
   for (var i in dataRes) {
@@ -139,19 +133,12 @@ export function getTransactionPoint(provinceID, districtID, communeID) {
 }
 
 export function getOrderTracking(orderID) {
-  const { data: dataRes, error: errorRes } = getDataWithoutToken(
-    `https://magicpost-uet.onrender.com/api/order/customerget/${orderID}`
-  )
-
-  if (errorRes) {
-    console.error('Error fetching order data:', errorRes);
-    return null; 
-  }
-
-  const data = [];
-
-  for (var i in dataRes) {
-    data.push(dataRes[i]);
-  }
-  return data;
+  return useSWR(
+    `https://magicpost-uet.onrender.com/api/order/customerget/${orderID}`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
 }

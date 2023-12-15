@@ -1,10 +1,20 @@
 "use client";
-export default function page() {
+
+import React, { useState } from "react";
+import MainInformation from "@/components/employee/information/mainInfo";
+import Preview from "@/components/employee/information/preview";
+import Security from "@/components/employee/information/security";
+import "@/css/employee/customForm.css";
+import { Button } from "react-bootstrap";
+
+export default function Page() {
+  const [currentPage, setCurrentPage] = useState("mainInformation");
+
   return (
     <div className="formContainer">
       <form id="form-employee ">
         <div className="row">
-          <h3>Thông tin nhân viên</h3>
+          <h3>Thông tin ca nhan</h3>
         </div>
         <div className="row mt-2">
           <div className="col-md-6">
@@ -115,57 +125,24 @@ export default function page() {
           </div>
         </div>
 
-        <div className="row mt-2">
-          <div className="col">
-            <input
-              className="form-control"
-              id="addressDetail"
-              placeholder="Chi tiết"
-            />
-          </div>
-        </div>
-
-        <div className="row mt-2">
-          <div className="col-md-6">
-            <label htmlFor="role">Vai trò</label>
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              id="role"
+        <div className="col m-0">
+          <div >
+         
+            <Button onClick={() => setCurrentPage("mainInformation")}>
+              Thông tin
+            </Button>
+            <Button
+              onClick={() => setCurrentPage("security")}
+              className="ms-3"
             >
-              <option selected>Chọn vai trò</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+              Bảo mật
+            </Button>
           </div>
-
-          <div className="col-md-6">
-            <label htmlFor="transactionPoint">Địa điểm làm việc</label>
-            <select className="form-select" aria-label="Default select example">
-              <option selected>Địa điểm làm việc</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
+          <div className="row mt-3">
+            {currentPage === "mainInformation" && <MainInformation />}
+            {currentPage === "security" && <Security />}
           </div>
         </div>
-      </form>
-
-      <div className="mt-3 btnContainer">
-        <button
-          onClick={() => {
-            console.log(createEmployee(employee));
-          }}
-          type="button"
-          className="btn btnCreate"
-        >
-          Tạo nhân viên
-        </button>
-
-        <button type="button" className="btn btn-secondary">
-          Xóa
-        </button>
       </div>
     </div>
   );

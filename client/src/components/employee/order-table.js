@@ -9,22 +9,12 @@ export default function OrderTable({ data }) {
           <table className="table table-hover mb-0 ">
             <thead>
               <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Mã đơn hàng</th>
+                <th scope="col">Người gửi</th>
+                <th scope="col">Người nhận</th>
+                <th scope="col">Địa chỉ</th>
                 <th scope="col">
-                  STT
-                </th>
-                <th scope="col" >
-                  Mã đơn hàng
-                </th>
-                <th scope="col" >
-                  Người gửi
-                </th>
-                <th scope="col" >
-                  Người nhận 
-                </th>
-                <th scope="col" >
-                  Địa chỉ
-                </th>
-                <th scope="col" >
                   Trạng thái
                   <select className="state-order">
                     <option value="volvo">Volvo</option>
@@ -36,7 +26,7 @@ export default function OrderTable({ data }) {
               </tr>
             </thead>
             <tbody className="table-group-divider">
-              {data?.map((data,index) => {
+              {data?.map((data, index) => {
                 return (
                   <tr key={data?.employeeID}>
                     <td>{index + 1}</td>

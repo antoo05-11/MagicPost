@@ -19,9 +19,7 @@ export default function Layout({ children }) {
         <Container>
           <SWRConfig
             value={{
-              refreshInterval: 3000,
-              fetcher: (resource, init) =>
-                fetch(resource, init).then((res) => res.json()),
+              fetcher: (resource) => fetch(resource).then((res) => res.json()),
             }}
           >
             {children}
