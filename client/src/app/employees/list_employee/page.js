@@ -3,7 +3,7 @@ import { getEmployee } from "@/api/data";
 import { CreateEmployee } from "@/components/employee/button";
 import Pagination from "@/components/employee/pagination";
 import SearchEmployee from "@/components/employee/search";
-import EmployyeeTable from "@/components/employee/employee-table";
+import EmployyeeTable from "@/components/employee/table/employee-table";
 import "@/css/employee/customTable.css";
 
 const list_employee = ["name", "phone", "address", "role", "email"];

@@ -1,7 +1,8 @@
 "use client";
 import "@/css/employee/table.css";
-import { OrderDetail } from "./button";
+import { OrderDetail } from "../button";
 export default function OrderTable({ data }) {
+  console.log("check data", data);
   return (
     <div className="mt-2 flow-root table">
       <div className="inline-block min-w-full align-middle">
@@ -11,9 +12,8 @@ export default function OrderTable({ data }) {
               <tr>
                 <th scope="col">STT</th>
                 <th scope="col">Mã đơn hàng</th>
-                <th scope="col">Người gửi</th>
-                <th scope="col">Người nhận</th>
-                <th scope="col">Địa chỉ</th>
+                <th scope="col">Dia chi gui</th>
+                <th scope="col">Dia chi nhan</th>
                 <th scope="col">
                   Trạng thái
                   <select className="state-order">
@@ -28,15 +28,14 @@ export default function OrderTable({ data }) {
             <tbody className="table-group-divider">
               {data?.map((data, index) => {
                 return (
-                  <tr key={data?.employeeID}>
+                  <tr key={data?.orderID}>
                     <td>{index + 1}</td>
                     <td>{data?.orderID}</td>
-                    <td>{data?.status}</td>
-                    <td>{data?.senderID}</td>
-                    <td>{data?.receiverID}</td>
-                    <td>{data?.creatorID}</td>
+                    <td>{data?.endTransactionProvince}</td>
+                    <td>{data?.startTransactionProvince}</td>
+                    <td>{data?.goodsStatus}</td>
                     <td>
-                      <OrderDetail id={data?.employeeID} />
+                      <OrderDetail id={data?.orderID} />
                     </td>
                   </tr>
                 );

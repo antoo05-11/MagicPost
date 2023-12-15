@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { EmployeeDetail } from "./button";
+import { EmployeeDetail } from "../button";
 import { getEmployee } from "@/api/data";
-import Pagination from "./pagination";
+import Pagination from "../pagination";
 import { employeeRole } from "@/api/utils";
 export default function EmployyeeTable({ page }) {
   const {
@@ -41,7 +41,7 @@ export default function EmployyeeTable({ page }) {
                       <td>{employee?.fullName}</td>
                       <td>{employee?.phoneNumber}</td>
                       <td>{employee?.fullName}</td>
-                      <td>{employeeRole[employee?.role]}</td>
+                      <td>{employeeRole[employee?.role]?.name}</td>
                       <td>{employee?.email}</td>
                       <td>
                         <EmployeeDetail id={employee?.employeeID} />

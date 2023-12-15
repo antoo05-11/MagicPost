@@ -5,7 +5,7 @@ import Statistic from "@/components/employee/dashboard/Statistic";
 import StatisticGoodsPoint from "@/components/employee/dashboard/StatisticGoodsPoint";
 import StatisticTransPoint from "@/components/employee/dashboard/StatisticTransPoint";
 import { motion } from "framer-motion";
-import EmployyeeTable from "@/components/employee/employee-table";
+import EmployyeeTable from "@/components/employee/table/employee-table";
 export const orderDetails = [
   "nguoi gui",
   "nguoi nhan",

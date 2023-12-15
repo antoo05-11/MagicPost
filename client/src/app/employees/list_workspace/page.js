@@ -1,4 +1,4 @@
-import GoodPointTable from "@/components/employee/goodPoint-table";
+import GoodPointTable from "@/components/employee/table/goodPoint-table";
 
 export default function page() {
   return (

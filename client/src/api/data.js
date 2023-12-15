@@ -50,13 +50,13 @@ export function getEmployeebyID(id) {
 export function getOrder(query) {
   try {
     const { data: data } = useSWR(
-      "https://magicpost-uet.onrender.com/api/order/getall"
+      `https://magicpost-uet.onrender.com/api/order/getall/?page=${query.page}`
     );
-    const dat = [];
-    for (var i in data) {
-      dat.push(data[i]);
-    }
-    return dat;
+    return {
+      data: data?.orders,
+      totalPages: data?.totalPages,
+      limit: data?.limit,
+    };
   } catch (error) {
     console.error("Database Error:", error);
     throw Error("Failed to fetch the latest invoices.");
