@@ -19,7 +19,8 @@ export default class Error {
         no_record_found: 10016,
         repeated_data_update: 10017,
         invalid_data_order: 10018,
-        invalid_process_id: 10019
+        invalid_process_id: 10019,
+        token_expired: 10020
     };
 
     static initErrors() {
@@ -34,6 +35,9 @@ export default class Error {
 
         this.errors.set(this.code.invalid_request,
             new ErrorRes("Invalid request format!"));
+
+        this.errors.set(this.code.token_expired,
+            new ErrorRes("JWT token expired!"));
 
         this.errors.set(this.code.invalid_address,
             new ErrorRes("Invalid Data!",

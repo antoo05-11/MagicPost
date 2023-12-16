@@ -70,7 +70,8 @@
 | 404              | 10016      | No Record Found                                                                                     |
 | 400              | 10017      | New data is repeated                                                                                |
 | 400              | 10018     | Invalid Data Order                                                                                  |
-
+| 400             | 10019     | Invalid Process ID                        |
+| 401             | 10020    | JWT token expired                        |
 ## <samp>API List</samp>
 
 ### <samp>Auth API</samp>
@@ -431,6 +432,7 @@
         "receiverOtherFee": 1000,
         "specialService": "",
         "status": "delivered",
+        "goodsStatus": "forwarded",
         "sentTime": "2023-12-11T23:34:37.000Z",
         "receivedTime": null,
         "startTransactionPoint": {
@@ -706,7 +708,7 @@
 
 | Request Requirement | Content                                                                                            |
 |---------------------|----------------------------------------------------------------------------------------------------|
-| API URL             | https://magicpost-uet.onrender.com/api/transactionPoint/get/ |
+| API URL             | https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/ |
 | Query Params        | provinceID (<i>optional</i>), communeID (<i>optional</i>), districtID (<i>optional</i>)            |
 | HTTP method         | GET                                                                                                |
 | Token Required      | NO                                                                                                 |

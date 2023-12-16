@@ -10,6 +10,9 @@ const Order = db.orders;
 const RoutingPoint = db.routing_points;
 const Process = db.processes;
 
+TransactionPoint.belongsTo(RoutingPoint, { foreignKey: 'transactionPointID' });
+RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
+
 Address.belongsTo(Commune, { foreignKey: 'communeID' });
 Commune.belongsTo(District, { foreignKey: 'districtID' });
 District.belongsTo(Province, { foreignKey: 'provinceID' });
@@ -97,27 +100,30 @@ export const getTransactionPointsByAddressForCustomer = async (req, res) => {
     let addressWhereClause = buildAddressWhereClause(req.query);
 
     const transactions = await TransactionPoint.findAll({
-        attributes: [],
-        include: [{
-            model: Address,
-            required: true,
-            attributes: ['detail'],
-            where: addressWhereClause,
-            include: [{
-                model: Commune,
-                required: true,
-                attributes: ['name']
-            }, {
-                model: District,
-                required: true,
-                attributes: ['name']
-            }, {
-                model: Province,
-                required: true,
-                attributes: ['name']
-            }]
-        }]
+        include: {
+            model: RoutingPoint,
+            include: {
+                model: Address,
+                where: addressWhereClause,
+                attributes: ['detail'],
+                include: [
+                    { model: Commune, attributes: ['name'] },
+                    { model: District, attributes: ['name'] },
+                    { model: Province, attributes: ['name'] }
+                ]
+            },
+            attributes: ['routingPointID'],
+            required: true
+        }
     });
 
-    return res.status(200).json(transactions);
+    const result = []
+    for (let transaction of transactions) {
+        transaction = { ...transaction.get() };
+        transaction.address = buildAddressString(transaction.routing_point.address);
+        delete transaction.routing_point;
+        result.push(transaction);
+    }
+
+    return res.status(200).json(result);
 }
