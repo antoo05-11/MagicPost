@@ -7,11 +7,17 @@ import { signOut } from "next-auth/react";
 import { motion, useAnimate } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-export default function SideBar({ role, open }) {
+import { listUrl, employeeRole } from "@/api/utils";
+import { useSession } from "next-auth/react";
+export default function SideBar() {
   const route = useRouter();
-  const [scope, animate] = useAnimate();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState("true");
+  const rightRole = employeeRole[useSession()?.data?.user?.role]?.right;
+  const rightURL = [];
+  for (var i in rightRole) {
+    rightURL.push(listUrl[rightRole[i]]);
+  }
   const show = {
     opacity: 1,
     display: "block",
@@ -38,7 +44,7 @@ export default function SideBar({ role, open }) {
       </Link>
 
       <hr />
-      {role?.map((roro) => {
+      {rightURL?.map((roro) => {
         return (
           <div
             className={
@@ -55,31 +61,6 @@ export default function SideBar({ role, open }) {
           </div>
         );
       })}
-      <div className="dropdown">
-        <div
-          className={"bar-item button item-bar dropdown-toggle"}
-          onClick={() => {}}
-        >
-          Drop down
-        </div>
-        <ul className="dropdown-menu">
-          <li>
-            <a className="dropdown-item" href="#">
-              Action
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Another action
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Something else here
-            </a>
-          </li>
-        </ul>
-      </div>
 
       <hr />
     </motion.div>

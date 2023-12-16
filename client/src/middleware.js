@@ -1,13 +1,15 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-import { employeeRole } from "./api/utils";
+import { employeeRole, listUrl } from "./api/utils";
 export default withAuth(
   function middleware(req) {
-    const role = req.nextauth.token?.user.role;
-
-    if (req.nextUrl.pathname.startsWith("/dashboard"))
-      return NextResponse.rewrite(new URL("/login?message=You Fail", req.url));
+    const leftURL = employeeRole[req.nextauth.token?.user.role].left;
+    for (var i in leftURL) {
+      if (req.nextUrl.pathname === listUrl[leftURL[i]].url) {
+        return NextResponse.redirect(new URL("/employees", req.url));
+      }
+    }
   },
   {
     callbacks: {

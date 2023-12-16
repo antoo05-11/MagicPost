@@ -41,27 +41,37 @@ export const employeeRole = {
   GOODS_POINT_EMPLOYEE: {
     name: "Nhan vien diem tap ket",
     role: "GOODS_POINT_EMPLOYEE",
-    left: ["manageOrders"],
+    left: ["manageEmployees", "manageGoodsPoint", "managaTransactionPoint"],
+    right: ["homepage", "manageOrders"],
   },
   GOODS_POINT_HEAD: {
     name: "Quan li diem tap ket",
     role: "GOODS_POINT_HEAD",
-    left: ["manageOrders", "manageEmployees"],
+    left: ["manageGoodsPoint", "managaTransactionPoint"],
+    right: ["homepage", "manageOrders", "manageEmployees"],
   },
   MANAGER: {
     name: "Quan li",
     role: "MANAGER",
-    left: ["manageGoodsPoint", "managaTransactionPoint", "manageEmployees"],
+    right: [
+      "homepage",
+      "manageGoodsPoint",
+      "managaTransactionPoint",
+      "manageEmployees",
+    ],
+    left: ["manageOrders"],
   },
   TRANSACTION_POINT_EMPLOYEE: {
     name: "Nhan vien diem giao dich",
     role: "TRANSACTION_POINT_EMPLOYEE",
-    left: ["manageOrders"],
+    left: ["manageGoodsPoint", "managaTransactionPoint", "manageEmployees"],
+    right: ["homepage", "manageOrders"],
   },
   TRANSACTION_POINT_HEAD: {
     name: "Quan li diem giao dich",
     role: "TRANSACTION_POINT_HEAD",
-    left: ["manageOrders", "manageEmployees"],
+    left: ["manageGoodsPoint", "managaTransactionPoint"],
+    right: ["homepage", "manageOrders", "manageEmployees"],
   },
 };
 

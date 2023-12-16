@@ -35,7 +35,7 @@ export default function EmployyeeTable({ page, query }) {
     dataRes: inforEmployees,
     totalPage: totalPage,
     itemPerPage: itemPerPage,
-  } = getEmployee(page, query);
+  } = getEmployee(page || 1, query);
 
   return (
     <div>
@@ -59,7 +59,10 @@ export default function EmployyeeTable({ page, query }) {
                     <input placeholder="Lọc theo mã nhân viên" />
                   </th>
                   <th scope="col">
-                    <input onChange={(e) => handleName(e.target.value)} placeholder="Lọc theo tên" />
+                    <input
+                      onChange={(e) => handleName(e.target.value)}
+                      placeholder="Lọc theo tên"
+                    />
                   </th>
                   <th scope="col">
                     <select>
