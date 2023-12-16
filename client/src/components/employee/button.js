@@ -15,7 +15,7 @@ export function CreateEmployee() {
       }}
       className="btnCreate"
     >
-      <FiUserPlus size={'2em'} />
+      <FiUserPlus size={"2em"} />
       Tạo nhân viên
     </Button>
   );
@@ -29,7 +29,7 @@ export function CreateOrder() {
       }}
       className="btnCreate"
     >
-      <LuPackagePlus size={'2em'} />
+      <LuPackagePlus size={"2em"} />
       Tạo đơn hàng
     </Button>
   );
@@ -41,7 +41,7 @@ export function EmployeeDetail({ id }) {
     <Button
       className=".bg-transparent"
       onClick={() => {
-        route.push(`/employees/list_employee/${id}/edit`);
+        route.push(`/employees/list_employee/${id}/detail`);
         // console.log(id);
       }}
     >
@@ -55,7 +55,7 @@ export function OrderDetail({ id }) {
   return (
     <Button
       onClick={() => {
-        route.push(`/employees/list_ordered/${id}/edit`);
+        route.push(`/employees/list_ordered/${id}/detail`);
         // console.log(id);
       }}
     >
