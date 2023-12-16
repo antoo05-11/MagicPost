@@ -22,7 +22,9 @@
     - [<samp>Update process status with process ID</samp>](#update-process-status-with-process-id)
   - [<samp>Transaction Point API</samp>](#transaction-point-api)
     - [<samp>Get transaction points by address</samp>](#get-transaction-point-by-address)
-    - [<samp>Get all transaction points</samp>](#get-all-transaction-points-with-statistics)
+    - [<samp>Get all transaction points with statictics</samp>](#get-all-transaction-points-with-statistics)
+  - [<samp>Goods Point API</samp>](#goods-point-api)
+    - [<samp>Get all goods points with statistics</samp>](#get-all-goods-points-with-statistics)
   - [<samp>Address API</samp>](#address-api)
     - [<samp>Get all communes/districts/provinces</samp>](#get-all-communesdistrictsprovinces)
     - [<samp>Get all districts by provinceID</samp>](#get-all-districts-by-provinceid)
@@ -579,27 +581,63 @@
 ```json
 {
     "order": {
+        "orderID": "JMY274854066VN",
         "sender": {
-            "fullname": "Hoang Thuy Linh",
+            "fullName": "Hoang Thuy Linh",
             "phoneNumber": "0123456789",
-            "address": { "detail": "39S, Street A", "communeID": "121", "districtID": "9", "provinceID": "1" }
+            "address": "39S, Street A, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
+            "customerID": 53
         },
         "receiver": {
-            "fullname": "Nguyen Huu Minh",
+            "fullName": "Nguyen Huu Minh",
             "phoneNumber": "0123456789",
-            "address": { "detail": "43, Street A", "communeID": "121", "districtID": "9", "provinceID": "1" }
+            "address": "43, Street A, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
+            "customerID": 54
+        },
+        "creator": {
+            "employeeID": 23000013,
+            "fullName": "Bùi Đức Anh"
         },
         "failChoice": "return",
-        "mainPostage": "1000",
-        "addedPostage": "1000",
-        "VATFee": "1000",
-        "otherFee": "1000",
-        "receiverCOD": "1000",
-        "receiverOtherFee": "1000",
-        "specialService": ""
+        "mainPostage": 1000,
+        "addedPostage": 1000,
+        "VATFee": 1000,
+        "otherFee": 1000,
+        "receiverCOD": 1000,
+        "receiverOtherFee": 1000,
+        "specialService": "",
+        "status": "delivering",
+        "goodsStatus": "on_stock",
+        "sentTime": null,
+        "receivedTime": null,
+        "startTransactionPoint": {
+            "name": "Điểm giao dịch QN1",
+            "address": "Số nhà 44, Tổ 2 khu 3B, Phường Giếng Đáy, Thành phố Hạ Long, Tỉnh Quảng Ninh",
+            "zipCode": "13245"
+        },
+        "endTransactionPoint": {
+            "name": "Điểm giao dịch QN1",
+            "address": "Số nhà 44, Tổ 2 khu 3B, Phường Giếng Đáy, Thành phố Hạ Long, Tỉnh Quảng Ninh",
+            "zipCode": "13245"
+        },
+        "createdAt": "2023-12-16T14:39:06.000Z",
+        "processes": [
+            {
+                "processID": 19,
+                "routingPointAddress": "Số nhà 44, Tổ 2 khu 3B, Phường Giếng Đáy, Thành phố Hạ Long, Tỉnh Quảng Ninh",
+                "status": "on_stock",
+                "arrivedTime": null
+            }
+        ]
     },
     "goodsList": [
-        { "realWeight": "100", "convertedWeight": "25", "goodsType": "goods" }
+        {
+            "goodsID": 30,
+            "orderID": "JMY274854066VN",
+            "goodsType": "goods",
+            "realWeight": 100,
+            "convertedWeight": 25
+        }
     ]
 }
 ```
@@ -718,12 +756,11 @@
 ```json
 [
     {
-        "address": {
-            "detail": "Số 1, đường Xuân Thủy",
-            "commune": { "name": "Phường Dịch Vọng Hậu" },
-            "district": { "name": "Quận Cầu Giấy" },
-            "province": { "name": "Thành phố Hà Nội" }
-        }
+        "transactionPointID": 45,
+        "zipCode": "10554",
+        "goodsPointID": 1,
+        "name": "Điểm giao dịch Trung Tâm Thủ Đô",
+        "address": "311 P. Tôn Đức Thắng, Phường Thổ Quan, Quận Đống Đa, Thành phố Hà Nội"
     }
 ]
 ```
@@ -741,21 +778,60 @@
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
-    {
+   {
         "transactionPointID": 45,
         "name": "Điểm giao dịch Trung Tâm Thủ Đô",
-        "zipCode": "10554",
-        "address": "311 P. Tôn Đức Thắng, Phường Thổ Quan, Quận Đống Đa, Thành phố Hà Nội",
+        "address": {
+            "detail": "311 P. Tôn Đức Thắng",
+            "commune": { "name": "Phường Thổ Quan" },
+            "district": { "name": "Quận Đống Đa" },
+            "province": { "name": "Thành phố Hà Nội" }
+        },
+        "startOrders": 2,
         "endOrders": 0,
-        "startOrders": 2
-    },
+        "head": {
+            "fullName": "Ngũ Thành An",
+            "employeeID": 23000000
+        }
+    }
+]
+```
+
+### <samp>Goods Point API<samp>
+#### <samp>Get all goods points with statistics<samp>
+
++ ##### <em><samp>API Information</samp></em>
+| Request Requirement | Content                                                        |
+|---------------------|----------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/goodsPoint/getall       |
+| HTTP method         | GET                                                            |
+| Token Required      | YES                                                            |
+| Roles Authorized    | MANAGER                                                        |
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+[
     {
-        "transactionPointID": 46,
-        "name": "Điểm giao dịch QN1",
-        "zipCode": "13245",
-        "address": "Số nhà 44, Tổ 2 khu 3B, Phường Giếng Đáy, Thành phố Hạ Long, Tỉnh Quảng Ninh",
-        "endOrders": 12,
-        "startOrders": 1
+        "goodsPointID": 1,
+        "onStockOrders": 0,
+        "arrivingOrders": 0,
+        "forwardedOrders": 1,
+        "head": {
+            "fullName": "Bùi Đức Anh",
+            "employeeID": 23000013
+        },
+        "address": {
+            "detail": "105",
+            "commune": {
+                "name": "Phường Láng Hạ"
+            },
+            "district": {
+                "name": "Quận Đống Đa"
+            },
+            "province": {
+                "name": "Thành phố Hà Nội"
+            }
+        }
     }
 ]
 ```

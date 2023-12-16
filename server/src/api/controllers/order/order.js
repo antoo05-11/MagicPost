@@ -269,11 +269,11 @@ export const getOrderByID = async (req, res) => {
     const processes = []
     for (let process of order.processes) {
         process = { ...process.get() }
-        
+
         if (!goodsStatus && process.routingPointID === req.user.workingPointID) {
             goodsStatus = process.status;
         }
-        
+
         process = {
             processID: process.processID,
             routingPointAddress: buildAddressString(process.routing_point.address),
@@ -380,29 +380,22 @@ export const createOrder = async (req, res) => {
             await Goods.create(clone, { transaction: t });
         }
 
-        const process = await Process.create({
+        await Process.create({
             orderID: order.orderID,
             routingPointID: order.startTransactionPointID,
-            status: 'on_stock'
+            status: 'on_stock',
+            arrivedTime: Date.now()
         }, { transaction: t })
 
         await t.commit();
-
-        savePoint.order.orderID = order.orderID;
-        savePoint.order.startTransactionPointID = order.startTransactionPointID;
-        savePoint.order.endTransactionPointID = order.endTransactionPointID;
-        savePoint.order.creatorID = order.creatorID;
-        savePoint.order.createdAt = order.createdAt;
-        savePoint.order.updatedAt = order.updatedAt;
-
-        savePoint.processes = [process];
-
-        return res.status(200).json(savePoint);
     } catch (error) {
         await t.rollback();
         console.error(error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
+
+    req.params.id = order.orderID;
+    await getOrderByID(req, res);
 }
 
 function generateOrderID() {

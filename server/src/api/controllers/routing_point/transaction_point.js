@@ -1,6 +1,6 @@
-import Error from '../../exceptions/error';
 import { Commune, District, Province, buildAddressString, buildAddressWhereClause } from './address';
 import { sequelize } from '../../models';
+import { role } from '../../models/human/role';
 
 const db = require('../../models');
 
@@ -9,9 +9,12 @@ const Address = db.addresses;
 const Order = db.orders;
 const RoutingPoint = db.routing_points;
 const Process = db.processes;
+const Employee = db.employees;
 
 TransactionPoint.belongsTo(RoutingPoint, { foreignKey: 'transactionPointID' });
-RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
+
+Employee.belongsTo(TransactionPoint, { foreignKey: 'workingPointID' });
+TransactionPoint.hasMany(Employee, { foreignKey: 'workingPointID' });
 
 Address.belongsTo(Commune, { foreignKey: 'communeID' });
 Commune.belongsTo(District, { foreignKey: 'districtID' });
@@ -37,7 +40,7 @@ export const getAllTransactionPoints = async (req, res) => {
 
     await TransactionPoint.hasMany(Order, { foreignKey: 'endTransactionPointID' });
     const endTransactionPoints = await TransactionPoint.findAll({
-        attributes: ['transactionPointID', 'name', 'zipCode', [sequelize.fn('COUNT', sequelize.col('orders.orderID')), 'orderCount']],
+        attributes: ['transactionPointID', 'name', [sequelize.fn('COUNT', sequelize.col('orders.orderID')), 'orderCount']],
         include: [
             {
                 model: Order, required: false,
@@ -56,6 +59,12 @@ export const getAllTransactionPoints = async (req, res) => {
                     ]
                 },
                 attributes: ['routingPointID']
+            },
+            {
+                model: Employee,
+                where: { role: role.TRANSACTION_POINT_HEAD },
+                attributes: ['fullName', 'employeeID'],
+                required: false
             }
         ],
         group: ['transaction_points.transactionPointID']
@@ -73,13 +82,19 @@ export const getAllTransactionPoints = async (req, res) => {
     for (let transactionPoint of endTransactionPoints) {
         transactionPoint = { ...transactionPoint.get() };
 
-        transactionPoint.address = buildAddressString(transactionPoint.routing_point.address);
+        transactionPoint.address = transactionPoint.routing_point.address;
         delete transactionPoint.routing_point;
+
+        transactionPoint.startOrders = map.get(transactionPoint.transactionPointID);
 
         transactionPoint.endOrders = transactionPoint.orderCount;
         delete transactionPoint.orderCount;
 
-        transactionPoint.startOrders = map.get(transactionPoint.transactionPointID);
+        if (transactionPoint.employees.length > 0) {
+            transactionPoint.head = transactionPoint.employees[0];
+        }
+        delete transactionPoint.employees;
+
         result.push(transactionPoint)
     }
 
@@ -120,8 +135,10 @@ export const getTransactionPointsByAddressForCustomer = async (req, res) => {
     const result = []
     for (let transaction of transactions) {
         transaction = { ...transaction.get() };
+
         transaction.address = buildAddressString(transaction.routing_point.address);
         delete transaction.routing_point;
+        
         result.push(transaction);
     }
 
