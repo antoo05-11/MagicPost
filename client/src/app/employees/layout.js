@@ -63,29 +63,29 @@ function useMenuAnimation(isOpen) {
   useEffect(() => {
     const menuAnimations = isOpen
       ? [
-        [
-          "#mySidebar",
-          { transform: "translateX(0%)", opacity: 1 },
-          { at: "<" },
-        ],
-        ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
-        // ["#main", { transform: "translateX(0%)" }, { at: "<" }],
-        // [
-        //   "li",
-        //   { transform: "scale(1)", opacity: 1, filter: "blur(0px)" },
-        //   { delay: stagger(0.05), at: "-0.1" },
-        // ],
-      ]
+          [
+            "#mySidebar",
+            { transform: "translateX(0%)", opacity: 1 },
+            { at: "<" },
+          ],
+          ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
+          // ["#main", { transform: "translateX(0%)" }, { at: "<" }],
+          // [
+          //   "li",
+          //   { transform: "scale(1)", opacity: 1, filter: "blur(0px)" },
+          //   { delay: stagger(0.05), at: "-0.1" },
+          // ],
+        ]
       : [
-        // [
-        //   "li",
-        //   { transform: "scale(0.5)", opacity: 0, filter: "blur(10px)" },
-        //   { delay: stagger(0.05, { from: "last" }), at: "<" },
-        // ],
-        ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
-        ["#togle-zone", { transform: "translateX(-15vw)" }, { at: "<" }],
-        // ["#main", { transform: "translateX(-15vw)" }, { at: "<" }],
-      ];
+          // [
+          //   "li",
+          //   { transform: "scale(0.5)", opacity: 0, filter: "blur(10px)" },
+          //   { delay: stagger(0.05, { from: "last" }), at: "<" },
+          // ],
+          ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
+          ["#togle-zone", { transform: "translateX(-15vw)" }, { at: "<" }],
+          // ["#main", { transform: "translateX(-15vw)" }, { at: "<" }],
+        ];
 
     animate([
       // [

@@ -14,7 +14,7 @@ export default async function page({ searchParams: { page } }) {
     <div className="tableContainer">
       <div className="row">
         <div className="col">
-          <h3>Danh sách đơn hàng {typeof totalPages}</h3>
+          <h3>Danh sách đơn hàng</h3>
         </div>
 
         <div className="col btnContainer">

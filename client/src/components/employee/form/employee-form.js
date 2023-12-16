@@ -54,6 +54,7 @@ export default function EmployeeForm({ id, changeData }) {
     employee?.address?.commune?.communeID || employee?.address?.communeID
   );
 
+  const [error, setError] = useState();
   return (
     <div>
       <form id="form-employee ">
@@ -236,9 +237,8 @@ export default function EmployeeForm({ id, changeData }) {
       <div className="mt-3 btnContainer">
         <button
           onClick={() => {
-            createEmployee(employee);
+            setError(createEmployee(employee));
           }}
-          type="button"
           className="btn btnCreate"
         >
           Tạo nhân viên
@@ -247,6 +247,7 @@ export default function EmployeeForm({ id, changeData }) {
         <button type="button" className="btn btn-secondary">
           Xóa
         </button>
+        <div>Error {error}</div>
       </div>
     </div>
   );
