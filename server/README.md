@@ -18,6 +18,8 @@
     - [<samp>Get order by ID</samp>](#get-order-by-id)
     - [<samp>Get order by ID</samp>](#get-order-by-id-for-customer)
     - [<samp>Create new order</samp>](#create-new-order)
+  - [<samp>Order Process API</samp>](#order-process-api)
+    - [<samp>Update process status with process ID</samp>](#update-process-status-with-process-id)
   - [<samp>Transaction Point API</samp>](#transaction-point-api)
     - [<samp>Get transaction point by address</samp>](#get-transaction-point-by-address)
   - [<samp>Address API</samp>](#address-api)
@@ -46,10 +48,8 @@
     "message": "..."
 }
 ```
-
 | HTTP status code | Error code | Description                                                                                         |
 |------------------|------------|-----------------------------------------------------------------------------------------------------|
-|500||Internal Server Error|
 | 400              | 10000      | No credentials sent                                                                                 |
 | 400              | 10001      | Not authorized                                                                                      |
 | 400              | 10002      | Authentication Failed                                                                               |
@@ -67,6 +67,8 @@
 | 404              | 10014      | Invalid Commune ID                                                                                  |
 | 404              | 10015      | Invalid Province ID                                                                                 |
 | 404              | 10016      | No Record Found                                                                                     |
+| 400              | 10017      | New data is repeated                                                                                |
+| 400              | 10018     | Invalid Data Order                                                                                  |
 
 ## <samp>API List</samp>
 
@@ -146,7 +148,7 @@
 | Token Required      | YES                                                                                                                                                                                                    |
 | Roles Authorized    | TRANSACTION_POINT_HEAD, GOODS_POINT_HEAD   
 
-+ ##### <em><samp>Explaination</samp></em>
++ ##### <em><samp>Explanation</samp></em>
     <samp> This API is used for getting all employees working in request sender's working address. Note that only heads of transaction points and goods points are authorized to execute this. </samp>
 
     <samp>All params in query API URL are optional. Attributes `address` and `workingAddress` are both objects, if they are defined, remember to attach it with at least one of three attributes: `communeID`, `districtID`, `provinceID`</samp>.
@@ -637,6 +639,63 @@
         { "realWeight": "100", "convertedWeight": "25", "goodsType": "goods" }
     ]
 }
+```
+### <samp>Order Process API<samp>
+#### <samp>Update process status with process ID</samp>
+
++ ##### <em> <samp> API Information </samp></em>
+
+| Request Requirement | Content                                                                           |
+| ------------------- | --------------------------------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/process/:id/update                         |
+| Query params        | `status` (<i>required</i>, must be one of [<i>on_stock</i>, <i>forwarded</i>])    |
+| HTTP method         | PUT                                                                               |
+| Token Required      | YES                                                                               |
+| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, GOODS_POINT_EMPLOYEE                                  |
+
++ ##### <em> <samp> Explanation </samp></em>
+    <samp>This API is used for updating the process status of order with process ID. Note that, an order can have some processes. Any process of all orders has an unique process ID. So process ID can be used for defining the order. Process status can be: <i>on_stock</i>, <i>forwarded</i> or <i>arriving</i>. <i>arriving</i> cannot be set by user. When the previous routing point confirm the order is forwarded, and then new process with status <i>arriving</i> and next routing point is created automatically.</samp>
+    
+    <samp>The API URL must contain the `status` query param, and its value must be one of [<i>on_stock</i>, <i>forwarded</i>]. If your request URL does not satisfy the above conditions, you should get HTTP response with error code `10003`.</samp>
+
+    <samp>Besides that, you can get HTTP response with error code `10018` if new status of process must match old status. If old status is <i>forwarded</i>, new status cannot be <i>on_stock</i>. And if old status is <i>arriving</i>, new status cannot be <i>forwarded</i>. If new status is similar to old status, you can get error with code `10017`.</samp>
+
+    <samp>When the request is valid properly, you can get all processes of current order with new status as response.</samp>
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+[
+    {
+        "processID": 6,
+        "routingPointAddress": "Tổ 3 Khu 6, Phường Đại Yên, Thành phố Hạ Long, Tỉnh Quảng Ninh",
+        "status": "forwarded",
+        "arrivedTime": "2023-12-16T08:28:14.000Z"
+    },
+    {
+        "processID": 4,
+        "routingPointAddress": "12, đường Lê Hồng Phong, Phường Hưng Bình, Thành phố Vinh, Tỉnh Nghệ An",
+        "status": "forwarded",
+        "arrivedTime": "2023-12-11T20:04:13.000Z"
+    },
+    {
+        "processID": 3,
+        "routingPointAddress": "Tổ 3 Khu 6, Phường Đại Yên, Thành phố Hạ Long, Tỉnh Quảng Ninh",
+        "status": "forwarded",
+        "arrivedTime": "2023-12-11T19:04:09.000Z"
+    },
+    {
+        "processID": 2,
+        "routingPointAddress": "105, Phường Láng Hạ, Quận Đống Đa, Thành phố Hà Nội",
+        "status": "forwarded",
+        "arrivedTime": "2023-12-11T18:04:02.000Z"
+    },
+    {
+        "processID": 1,
+        "routingPointAddress": "34, đường Nguyễn Sỹ Sách, Xã Hưng Lộc, Thành phố Vinh, Tỉnh Nghệ An",
+        "status": "forwarded",
+        "arrivedTime": "2023-12-11T18:00:34.000Z"
+    }
+]
 ```
 
 ### <samp>Transaction Point API<samp>
