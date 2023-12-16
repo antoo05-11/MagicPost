@@ -4,10 +4,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import "@/css/components/pagination.css";
 import Link from "next/link";
 export default function Pagination({ totalPage }) {
+  if (!totalPage) totalPage = 1;
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  // const currentPage = Number(searchParams.get("page"));
-  // const allPages = generatePagination(currentPage, totalPages);
 
   const createPageURL = (pageNumber) => {
     const params = new URLSearchParams(searchParams);
@@ -15,8 +14,7 @@ export default function Pagination({ totalPage }) {
     return `${pathname}?${params.toString()}`;
   };
   const currentPage = Number(searchParams.get("page")) || 1;
-  const allPages = generatePagination(currentPage, totalPage + 1);
-  console.log(allPages);
+  const allPages = generatePagination(currentPage, totalPage);
   return (
     <ul className="pagination d-flex justify-content-center ">
       <li className="page-item">
@@ -37,7 +35,7 @@ export default function Pagination({ totalPage }) {
           </li>
         );
       })}
-      <li className="page-item">
+      <li className="page-item" aria-disabled="false">
         <Link className="page-link" href="#" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
         </Link>

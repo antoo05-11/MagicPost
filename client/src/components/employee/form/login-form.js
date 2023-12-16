@@ -3,7 +3,7 @@ import { LuLock } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import Link from 'next/link';
+import Link from "next/link";
 import {
   Container,
   Row,
@@ -108,7 +108,9 @@ export default function LoginForm() {
               </Col>
 
               <Col className="d-flex justify-content-end">
-                <Link href="/" className="text-light">Quay lại trang chủ</Link>
+                <Link href="/" className="text-light">
+                  Quay lại trang chủ
+                </Link>
               </Col>
             </Row>
 
@@ -118,12 +120,10 @@ export default function LoginForm() {
                 size="lg"
                 className="login-btn"
                 onClick={onSubMit}
-                
               >
                 Đăng nhập
               </Button>
             </Row>
-      
           </Form>
         </Col>
       </Row>

@@ -3,12 +3,37 @@ import { EmployeeDetail } from "../button";
 import { getEmployee } from "@/api/data";
 import Pagination from "../pagination";
 import { employeeRole } from "@/api/utils";
-export default function EmployyeeTable({ page }) {
+import { useDebouncedCallback } from "use-debounce";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+export default function EmployyeeTable({ page, query }) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const handleName = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("name", term);
+    } else {
+      params.delete("name");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+  const handlePhone = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("phone", term);
+    } else {
+      params.delete("phone");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+
   const {
     dataRes: inforEmployees,
     totalPage: totalPage,
     itemPerPage: itemPerPage,
-  } = getEmployee({ page });
+  } = getEmployee(page, query);
+
   return (
     <div>
       <div className="mt-2 flow-root table">
@@ -26,8 +51,12 @@ export default function EmployyeeTable({ page }) {
                 </tr>
                 <tr>
                   <th scope="col"></th>
-                  <th scope="col">Họ và tên</th>
-                  <th scope="col">Số điện thoại</th>
+                  <th scope="col">
+                    <input onChange={(e) => handleName(e.target.value)} />
+                  </th>
+                  <th scope="col">
+                    <input />
+                  </th>
                   <th scope="col">Địa chỉ</th>
                   <th scope="col">Vai trò</th>
                   <th scope="col">Email</th>
@@ -47,24 +76,8 @@ export default function EmployyeeTable({ page }) {
                         <EmployeeDetail id={employee?.employeeID} />
                       </td>
                     </tr>
-                    // <div>{employee?.employeeID}</div>
                   );
                 })}
-                {/* {data?.map((data, index) => {
-                return (
-                  <tr key={data?.employeeID}>
-                    <td>{index + 1}</td>
-                    <td>{data?.fullName}</td>
-                    <td>{data?.phoneNumber}</td>
-                    <td>{data?.address.province}</td>
-                    <td>{data?.role}</td>
-                    <td>{data?.email}</td>
-                    <td>
-                      <EmployeeDetail id={data?.employeeID} />
-                    </td>
-                  </tr>
-                );
-              })} */}
               </tbody>
             </table>
           </div>

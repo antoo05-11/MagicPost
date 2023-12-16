@@ -6,12 +6,11 @@ import Link from "next/link";
 export default function Page({ params }) {
   const id = params.id;
   console.log(id);
-  //   console.log(12312);
   return (
     <main>
       <OrderForm />
       <OrderProgress />
-      <Link href="/test" >Test in hóa đơn </Link>
+      <Link href="/test">Test in hóa đơn </Link>
     </main>
   );
 }
