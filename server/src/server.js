@@ -13,6 +13,7 @@ var server = http.createServer(app);
 // Register middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
 // Error handler
 app.use((err, req, res, next) => {
