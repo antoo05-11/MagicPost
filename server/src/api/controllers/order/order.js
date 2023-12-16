@@ -3,7 +3,6 @@ import { sequelize } from '../../models';
 import Error from '../../exceptions/error';
 import { checkDateFormat, normalizeDate } from '../../../utils';
 import { buildAddressString } from '../routing_point/address';
-const { QueryTypes } = require('sequelize');
 const { Op } = require('sequelize')
 const crypto = require('crypto');
 
@@ -265,9 +264,16 @@ export const getOrderByID = async (req, res) => {
         where: { orderID: order.orderID }
     })
 
+    let goodsStatus = undefined;
+
     const processes = []
     for (let process of order.processes) {
         process = { ...process.get() }
+
+        if (!goodsStatus && process.routingPointID === req.user.workingPointID) {
+            goodsStatus = process.status;
+        }
+
         process = {
             processID: process.processID,
             routingPointAddress: buildAddressString(process.routing_point.address),
@@ -275,6 +281,10 @@ export const getOrderByID = async (req, res) => {
             arrivedTime: process.arrivedTime
         }
         processes.push(process);
+    }
+
+    if (!goodsStatus) {
+        return res.status(400).json(Error.getError(Error.code.not_authorized));
     }
 
     const result = {
@@ -302,6 +312,7 @@ export const getOrderByID = async (req, res) => {
             receiverOtherFee: order.receiverOtherFee,
             specialService: order.specialService,
             status: order.status,
+            goodsStatus: goodsStatus,
             sentTime: order.sentTime,
             receivedTime: order.receivedTime,
             startTransactionPoint: {
@@ -368,21 +379,23 @@ export const createOrder = async (req, res) => {
             clone.orderID = order.dataValues.orderID;
             await Goods.create(clone, { transaction: t });
         }
+
+        await Process.create({
+            orderID: order.orderID,
+            routingPointID: order.startTransactionPointID,
+            status: 'on_stock',
+            arrivedTime: Date.now()
+        }, { transaction: t })
+
         await t.commit();
-
-        savePoint.order.orderID = order.orderID;
-        savePoint.order.startTransactionPointID = order.startTransactionPointID;
-        savePoint.order.endTransactionPointID = order.endTransactionPointID;
-        savePoint.order.creatorID = order.creatorID;
-        savePoint.order.createdAt = order.createdAt;
-        savePoint.order.updatedAt = order.updatedAt;
-
-        return res.status(200).json(savePoint);
     } catch (error) {
         await t.rollback();
         console.error(error);
         return res.status(500).json({ error: 'Internal Server Error' });
     }
+
+    req.params.id = order.orderID;
+    await getOrderByID(req, res);
 }
 
 function generateOrderID() {
@@ -493,7 +506,7 @@ export const getOrderByIDForCustomer = async (req, res) => {
     })
 
     let weight = 0;
-    for(const goods of goodsList) weight += goods.realWeight;
+    for (const goods of goodsList) weight += goods.realWeight;
 
     const processes = []
     for (let process of order.processes) {

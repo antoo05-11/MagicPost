@@ -13,9 +13,6 @@ var server = http.createServer(app);
 // Register middleware
 app.use(express.json());
 app.use(cookieParser());
-
-// Static files
-app.use("/src/public", express.static('./src/public/'));
 app.use(cors());
 
 // Error handler
@@ -35,8 +32,9 @@ server.listen(PORT, () => {
 
 app.get("/", (req, res) => {
     res.status(200).json({
-        success: true,
-        message: "Welcome to MagicPost server!!!"
+        message: "Welcome to MagicPost server!!!",
+        information: "This server is a part of Web Application Development Course in UET, VNU.",
+        project_contributors: "Ngũ Thành An (back-end), Đỗ Đức Anh (front-end), Đỗ Minh Duy (front-end)"
     });
 });
 

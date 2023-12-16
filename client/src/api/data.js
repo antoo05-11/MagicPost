@@ -116,10 +116,11 @@ export function getCommuneByDistrictID(id) {
 }
 
 export function getTransactionPoint(provinceID, districtID, communeID) {
-  let url = `https://magicpost-uet.onrender.com/api/transactionPoint/get/?`;
-  if (provinceID) url = url + `provinceID=${provinceID}`;
-  if (districtID) url = url + `&districtID=${districtID}`;
-  if (communeID) url = url + `&communeID=${communeID}`;
+  let url = `https://magicpost-uet.onrender.com/api/transactionPoint/customerget/?`;
+  if (provinceID != 0) url = url + `provinceID=${provinceID}`;
+  if (districtID != 0) url = url + `&districtID=${districtID}`;
+  if (communeID != 0) url = url + `&communeID=${communeID}`;
+  console.log(url);
   const { data: dataRes, error: loi } = useSWR(url, {
     revalidateIfStale: false,
     revalidateOnFocus: false,

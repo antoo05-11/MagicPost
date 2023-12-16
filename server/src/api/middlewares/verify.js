@@ -17,6 +17,7 @@ export const verifyToken = async (req, res, next) => {
         const secretKey = process.env.JWT_ACCESS_KEY || "";
 
         const decoded = jwt.verify(token, secretKey);
+        
         const user = await Employee.findOne({ where: { employeeID: decoded.employeeID } });
 
         if (!user) {
@@ -26,8 +27,7 @@ export const verifyToken = async (req, res, next) => {
         req.user = user;
         next();
     } catch (e) {
-        e.status = 401;
-        next(e);
+        return res.status(401).json(Error.getError(Error.code.token_expired));
     }
 };
 
