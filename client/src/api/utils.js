@@ -92,3 +92,19 @@ export const employeeWorkIn = {
     icon: <HiOutlineBuildingOffice size={"2em"} />,
   },
 };
+
+export const orderStatus = {
+  forwarded: { now: "Da van chuyen di", next: null },
+  arriving: { now: "Dang van chuyen den", next: "Xac nhan da den" },
+  on_stock: { now: "Trong kho", next: "Xac nhan chuyen tiep" },
+};
+
+export const createError = {
+  10003: "Nội dung không hợp lệ",
+  10004: "Địa chỉ không hợp lệ",
+  10005: "Mã nhân viên không hợp lệ",
+  10007: "Số CCCD trùng lặp (Số CCCD đã được đăng ký trước đó)",
+  10008: "Mã đơn hàng không hợp lệ",
+  10009: "Mật khẩu không hợp lệ",
+  10012: "Ngày tháng không hợp lệ",
+};
