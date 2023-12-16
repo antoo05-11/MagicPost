@@ -1,8 +1,14 @@
 "use client";
 import "@/css/employee/table.css";
 import { OrderDetail } from "../button";
-export default function OrderTable({ data }) {
-  console.log("check data", data);
+import { getOrder } from "@/api/data";
+import Pagination from "../pagination";
+export default function OrderTable({ page }) {
+  const {
+    dataRes: inforOrders,
+    totalPages: totalPage,
+    itemPerPage: itemPerPage,
+  } = getOrder({ page });
   return (
     <div className="mt-2 flow-root table">
       <div className="inline-block min-w-full align-middle">
@@ -26,7 +32,7 @@ export default function OrderTable({ data }) {
               </tr>
             </thead>
             <tbody className="table-group-divider">
-              {data?.map((data, index) => {
+              {inforOrders?.map((data, index) => {
                 return (
                   <tr key={data?.orderID}>
                     <td>{index + 1}</td>
@@ -44,6 +50,7 @@ export default function OrderTable({ data }) {
           </table>
         </div>
       </div>
+      <Pagination totalPage={totalPage} />
     </div>
   );
 }

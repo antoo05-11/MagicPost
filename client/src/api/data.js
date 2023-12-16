@@ -1,11 +1,13 @@
 "use client";
 import useSWR from "swr";
 
-export function getEmployee(query) {
+export function getEmployee(page, query) {
+  let url = `https://magicpost-uet.onrender.com/api/employee/get/?page=${page}`;
+  if (query) {
+    if (query.name) url = url + `&fullName=${query.name}`;
+  }
   try {
-    const { data: data } = useSWR(
-      `https://magicpost-uet.onrender.com/api/employee/get/?page=${query?.page}`
-    );
+    const { data: data } = useSWR(url);
     const dataRes = [];
     for (var i in data?.employees) {
       dataRes.push(data?.employees[i]);
@@ -53,7 +55,7 @@ export function getOrder(query) {
       `https://magicpost-uet.onrender.com/api/order/getall/?page=${query.page}`
     );
     return {
-      data: data?.orders,
+      dataRes: data?.orders,
       totalPages: data?.totalPages,
       limit: data?.limit,
     };
@@ -64,9 +66,6 @@ export function getOrder(query) {
 }
 
 export function findOrder(orderID) {}
-
-export function getOrderById(id) {}
-// export const icon = {};
 
 export function getAllProvince() {
   const { data: dataRes } = useSWR(
@@ -117,14 +116,15 @@ export function getCommuneByDistrictID(id) {
 }
 
 export function getTransactionPoint(provinceID, districtID, communeID) {
-  const { data: dataRes, error: loi } = useSWR(
-    `https://magicpost-uet.onrender.com/api/transactionPoint/get/?provinceID=${1}&districtID=${1}&communeID=${1}`,
-    {
-      revalidateIfStale: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  );
+  let url = `https://magicpost-uet.onrender.com/api/transactionPoint/get/?`;
+  if (provinceID) url = url + `provinceID=${provinceID}`;
+  if (districtID) url = url + `&districtID=${districtID}`;
+  if (communeID) url = url + `&communeID=${communeID}`;
+  const { data: dataRes, error: loi } = useSWR(url, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
   const data = [];
   for (var i in dataRes) {
     data.push(dataRes[i]);
@@ -141,4 +141,12 @@ export function getOrderTracking(orderID) {
       revalidateOnReconnect: false,
     }
   );
+}
+
+export function getOrderById(id) {
+  return useSWR(`https://magicpost-uet.onrender.com/api/order/get/${id}`, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
 }

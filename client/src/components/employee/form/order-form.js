@@ -8,7 +8,41 @@ import {
   getCommuneByDistrictID,
   getAllProvince,
 } from "@/api/data";
+import { createOrder } from "@/api/action";
 
+const order = {
+  order: {
+    sender: {
+      fullname: "Hoang Thuy Linh",
+      phoneNumber: "0123556789",
+      address: {
+        detail: "39S, Street A",
+        communeID: "121",
+        districtID: "9",
+        provinceID: "1",
+      },
+    },
+    receiver: {
+      fullname: "Nguyen Huu Minh",
+      phoneNumber: "0123456789",
+      address: {
+        detail: "43, Street A",
+        communeID: "121",
+        districtID: "9",
+        provinceID: "1",
+      },
+    },
+    failChoice: "return",
+    mainPostage: "1000",
+    addedPostage: "1000",
+    VATFee: "1000",
+    otherFee: "1000",
+    receiverCOD: "1000",
+    receiverOtherFee: "1000",
+    specialService: "",
+  },
+  goodsList: [{ realWeight: "100", convertedWeight: "25", goodsType: "goods" }],
+};
 export default function OrderForm() {
   const provinceData = getAllProvince();
 
@@ -40,45 +74,7 @@ export default function OrderForm() {
   });
   const [receiverCommune, setreceiverCommune] = useState();
 
-  const order = {
-    order: {
-      sender: {
-        fullname: "Hoang Thuy Linh",
-        phoneNumber: "0123456789",
-        address: {
-          detail: "39S, Street A",
-          communeID: "121",
-          districtID: "9",
-          provinceID: "1",
-        },
-      },
-      receiver: {
-        fullname: "Nguyen Huu Minh",
-        phoneNumber: "0123456789",
-        address: {
-          detail: "43, Street A",
-          communeID: "121",
-          districtID: "9",
-          provinceID: "1",
-        },
-      },
-      failChoice: "return",
-      mainPostage: "1000",
-      addedPostage: "1000",
-      VATFee: "1000",
-      otherFee: "1000",
-      receiverCOD: "1000",
-      receiverOtherFee: "1000",
-      specialService: "",
-    },
-    goodsList: [
-      {
-        realWeight: "100",
-        convertedWeight: "25",
-        goodsType: "goods",
-      },
-    ],
-  };
+  const [addGoods, setAddGoods] = useState(false);
   return (
     <div className="container">
       <form>
@@ -127,6 +123,9 @@ export default function OrderForm() {
                 id="province"
                 onChange={(e) => {
                   setsenderProvince(e.target.value);
+                  order.order.sender.address.provinceID = e.target.value;
+                  setsenderDistrict(0);
+                  setsenderCommune(0);
                 }}
               >
                 <option sender>Chọn Tỉnh / TP</option>
@@ -147,6 +146,8 @@ export default function OrderForm() {
                 aria-label="Default select example"
                 onChange={(e) => {
                   setsenderDistrict(e.target.value);
+                  setsenderCommune(0);
+                  order.order.sender.address.districtID = e.target.value;
                 }}
               >
                 {districtDataSender.map((district) => (
@@ -166,6 +167,7 @@ export default function OrderForm() {
                 aria-label="Default select example"
                 onChange={(e) => {
                   setsenderCommune(e.target.value);
+                  order.order.sender.address.communeID = e.target.value;
                 }}
               >
                 {communeDataSender.map((commune) => (
@@ -236,7 +238,12 @@ export default function OrderForm() {
                   className="form-select"
                   aria-label="Default select example"
                   id="province"
-                  onChange={(e) => setreceiverProvince(e.target.value)}
+                  onChange={(e) => {
+                    setreceiverProvince(e.target.value);
+                    order.order.receiver.address.provinceID = e.target.value;
+                    setreceiverDistrict(0);
+                    setreceiverCommune(0);
+                  }}
                 >
                   <option sender>Chọn Tỉnh / TP</option>
                   {provinceData.map((province) => (
@@ -254,9 +261,12 @@ export default function OrderForm() {
                 <select
                   className="form-select"
                   aria-label="Default select example"
-                  onChange={(e) => setreceiverDistrict(e.target.value)}
+                  onChange={(e) => {
+                    setreceiverDistrict(e.target.value);
+                    order.order.receiver.address.districtID = e.target.value;
+                    setreceiverCommune(0);
+                  }}
                 >
-                  <option sender>Chọn Xã / Phường</option>
                   {districtDataReceiver.map((district) => (
                     <option
                       key={district.districtID}
@@ -272,9 +282,11 @@ export default function OrderForm() {
                 <select
                   className="form-select"
                   aria-label="Default select example"
-                  onChange={(e) => setreceiverCommune(e.target.value)}
+                  onChange={(e) => {
+                    setreceiverCommune(e.target.value);
+                    order.order.receiver.address.communeID = e.target.value;
+                  }}
                 >
-                  <option sender>Chọn Quận / Huyện</option>
                   {communeDataReceiver.map((commune) => (
                     <option key={commune.communeID} value={commune.communeID}>
                       {commune.name}
@@ -312,6 +324,9 @@ export default function OrderForm() {
                 className="btn btn-primary btnCreate"
                 data-bs-toggle="modal"
                 data-bs-target="#staticBackdrop"
+                onClick={() => {
+                  setAddGoods(true);
+                }}
               >
                 Them hang hoa
               </button>
@@ -368,24 +383,48 @@ export default function OrderForm() {
                   <th scope="col">Sửa, xóa = 1 nút</th>
                 </tr>
               </thead>
-              <tbody id="goodsTableBody"></tbody>
+              <tbody id="goodsTableBody">
+                {addGoods && (
+                  <tr>
+                    <td scope="col">1 </td>
+                    <td scope="col">
+                      <input />
+                    </td>
+                    <td scope="col">
+                      <input />
+                    </td>
+                    <td scope="col">
+                      <input />
+                    </td>
+                    <td scope="col">
+                      <input />
+                    </td>
+                    <td scope="col">
+                      <button>xoa sua tum lum</button>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
             </table>
-          </div>
-          <div className="btnContainer">
-            <button
-              type="button"
-              className="btn btn-primary btnCreate"
-              data-bs-toggle="modal"
-              data-bs-target="#staticBackdrop"
-            >
-              Tao don hang
-            </button>
-            <button type="button" className="btn btn-secondary">
-              Xóa
-            </button>
           </div>
         </div>
       </form>
+      <div className="btnContainer">
+        <button
+          type="button"
+          className="btn btn-primary btnCreate"
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+          onClick={() => {
+            createOrder(order);
+          }}
+        >
+          Tao don hang
+        </button>
+        <button type="button" className="btn btn-secondary">
+          Xóa
+        </button>
+      </div>
     </div>
   );
 }

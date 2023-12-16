@@ -9,13 +9,12 @@ import "@/css/employee/customTable.css";
 import OrderProgress from "@/components/employee/table/order-progress";
 
 export default async function page({ searchParams: { page } }) {
-  const { data: data } = getOrder({ page: 1 });
-  console.log(data);
+  const currentPage = Number(page) || 1;
   return (
     <div className="tableContainer">
       <div className="row">
         <div className="col">
-          <h3>Danh sách đơn hàng</h3>
+          <h3>Danh sách đơn hàng {typeof totalPages}</h3>
         </div>
 
         <div className="col btnContainer">
@@ -24,9 +23,8 @@ export default async function page({ searchParams: { page } }) {
       </div>
 
       <div className="row">
-        <OrderTable data={data}></OrderTable>
+        <OrderTable page={currentPage}></OrderTable>
         <OrderProgress></OrderProgress>
-        {/* <Pagination totalPage={totalPage} /> */}
       </div>
     </div>
   );

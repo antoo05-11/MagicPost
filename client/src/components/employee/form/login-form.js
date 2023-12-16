@@ -3,6 +3,7 @@ import { LuLock } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import Link from "next/link";
 import {
   Container,
   Row,
@@ -32,9 +33,10 @@ export default function LoginForm() {
       <Row className="d-flex justify-content-center align-items-center h-100">
         <Col md={9} lg={6} xl={5}>
           <Image
-            src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+            src="/login.png"
             fluid
             alt="Sample image"
+            className="w-100 h-100"
           />
         </Col>
         <Col md={6} lg={6} xl={4} offset-xl-1>
@@ -94,21 +96,25 @@ export default function LoginForm() {
                 </InputGroup>
               </Form.Group>
             </Row>
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="mb-0">
+
+            <Row>
+              <Col>
                 <Form.Check
                   type="checkbox"
                   id="form2Example3"
                   label="Ghi nhớ"
                   className="text-light"
                 />
-              </div>
-              <a href="#!" className="text-body">
-                Quên mật khẩu
-              </a>
-            </div>
+              </Col>
 
-            <div className="text-center text-lg-start mt-4 pt-2 w-100">
+              <Col className="d-flex justify-content-end">
+                <Link href="/" className="text-light">
+                  Quay lại trang chủ
+                </Link>
+              </Col>
+            </Row>
+
+            <Row className="m-1">
               <Button
                 variant="primary"
                 size="lg"
@@ -117,11 +123,7 @@ export default function LoginForm() {
               >
                 Đăng nhập
               </Button>
-
-              <Button variant="primary" size="lg" className="login-btn">
-                Đăng nhập
-              </Button>
-            </div>
+            </Row>
           </Form>
         </Col>
       </Row>

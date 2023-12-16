@@ -5,6 +5,7 @@ import { createEmployee } from "@/api/action";
 import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 import { useRouter } from "next/navigation";
+import { employeeRole } from "@/api/utils";
 import {
   getEmployee,
   getDistrictByProvinceID,
@@ -14,9 +15,23 @@ import {
   getAllProvince,
 } from "@/api/data";
 import "@/css/employee/customForm.css";
-
-export default function EmployeeForm({ id, isEdit }) {
-  const employee = getEmployeebyID(id);
+const employee = {
+  identifier: "",
+  phoneNumber: "",
+  fullName: "",
+  address: {
+    detail: "",
+    communeID: "",
+    districtID: "",
+    provinceID: "",
+  },
+  gender: "",
+  birthDate: "",
+  workingPointID: null,
+  email: "",
+  role: null,
+};
+export default function EmployeeForm({ id, changeData }) {
   const provinceData = getAllProvince();
 
   const [selectedProvince, setSelectedProvince] = useState(
@@ -39,10 +54,8 @@ export default function EmployeeForm({ id, isEdit }) {
     employee?.address?.commune?.communeID || employee?.address?.communeID
   );
 
-  // console.log(selectedProvince, selectedDistrict, selectedCommune);
-  // console.log(employee?.address.province.provinceID);
   return (
-    <div className="formContainer">
+    <div>
       <form id="form-employee ">
         <div className="row">
           <h3>Thông tin nhân viên</h3>
@@ -130,8 +143,9 @@ export default function EmployeeForm({ id, isEdit }) {
               defaultValue={1}
               onChange={(e) => {
                 setSelectedProvince(e.target.value);
-                setSelectedDistrict(0);
-                setSelectedCommune(0);
+                employee.address.provinceID = e.target.value;
+                employee.address.districtID = 0;
+                employee.address.communeID = 0;
               }}
             >
               <option selected>Chọn Tỉnh / TP</option>
@@ -149,7 +163,8 @@ export default function EmployeeForm({ id, isEdit }) {
               aria-label="Default select example"
               onChange={(e) => {
                 setSelectedDistrict(e.target.value);
-                setSelectedCommune(0);
+                employee.address.districtID = e.target.value;
+                employee.address.communeID = 0;
               }}
             >
               {districtData.map((district) => (
@@ -166,6 +181,7 @@ export default function EmployeeForm({ id, isEdit }) {
               aria-label="Default select example"
               onChange={(e) => {
                 setSelectedCommune(e.target.value);
+                employee.address.communeID = e.target.value;
               }}
             >
               {communeData.map((commune) => (
@@ -217,14 +233,10 @@ export default function EmployeeForm({ id, isEdit }) {
           </div>
         </div>
       </form>
-
       <div className="mt-3 btnContainer">
         <button
           onClick={() => {
-            employee.address.districtID = selectedDistrict;
-            employee.address.communeID = selectedCommune;
-            employee.address.provinceID = selectedProvince;
-            console.log(createEmployee(employee));
+            createEmployee(employee);
           }}
           type="button"
           className="btn btnCreate"
