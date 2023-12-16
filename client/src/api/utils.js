@@ -39,28 +39,33 @@ export const generatePagination = (currentPage, totalPages) => {
 
 export const employeeRole = {
   GOODS_POINT_EMPLOYEE: {
-    name: "Nhân viên điểm tập kết",
-    right: [],
+    name: "Nhan vien diem tap ket",
+    role: "GOODS_POINT_EMPLOYEE",
+    left: ["manageOrders"],
   },
   GOODS_POINT_HEAD: {
-    name: "Quản lí điểm điểm tập kết",
-    right: [],
+    name: "Quan li diem tap ket",
+    role: "GOODS_POINT_HEAD",
+    left: ["manageOrders", "manageEmployees"],
   },
   MANAGER: {
-    name: "Quản lí",
-    right: [],
+    name: "Quan li",
+    role: "MANAGER",
+    left: ["manageGoodsPoint", "managaTransactionPoint", "manageEmployees"],
   },
   TRANSACTION_POINT_EMPLOYEE: {
-    name: "Nhân viên điểm giao dịch",
-    right: [],
+    name: "Nhan vien diem giao dich",
+    role: "TRANSACTION_POINT_EMPLOYEE",
+    left: ["manageOrders"],
   },
   TRANSACTION_POINT_HEAD: {
-    name: "Quản lí điểm giao dịch",
-    right: [],
+    name: "Quan li diem giao dich",
+    role: "TRANSACTION_POINT_HEAD",
+    left: ["manageOrders", "manageEmployees"],
   },
 };
 
-export const employeeWorkIn = {
+export const listUrl = {
   homepage: {
     url: "/employees",
     name: "Trang chính",

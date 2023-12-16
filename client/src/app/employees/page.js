@@ -6,13 +6,7 @@ import StatisticGoodsPoint from "@/components/employee/dashboard/StatisticGoodsP
 import StatisticTransPoint from "@/components/employee/dashboard/StatisticTransPoint";
 import { motion } from "framer-motion";
 import EmployyeeTable from "@/components/employee/table/employee-table";
-export const orderDetails = [
-  "nguoi gui",
-  "nguoi nhan",
-  "dia chi nguoi nhan",
-  "Ten don hang",
-  "Phi van chuyen",
-];
+
 export default function AdminPage() {
   return (
     <motion.div layout>
