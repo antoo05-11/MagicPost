@@ -65,7 +65,7 @@ export function getOrder(query) {
   }
 }
 
-export function findOrder(orderID) {}
+export function findOrder(orderID) { }
 
 export function getAllProvince() {
   const { data: dataRes } = useSWR(
@@ -149,4 +149,36 @@ export function getOrderById(id) {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
+}
+
+export function getAllTransactionPoint() {
+  const { data: dataRes } = useSWR(
+    `https://magicpost-uet.onrender.com/api/transactionPoint/getall`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
+  }
+  return data;
+}
+
+export function getAllGoodPoint() {
+  const { data: dataRes } = useSWR(
+    `https://magicpost-uet.onrender.com/api/goodsPoint/getall`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
+  }
+  return data;
 }

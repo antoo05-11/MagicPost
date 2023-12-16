@@ -39,23 +39,23 @@ export const generatePagination = (currentPage, totalPages) => {
 
 export const employeeRole = {
   GOODS_POINT_EMPLOYEE: {
-    name: "Nhan vien diem tap ket",
+    name: "Nhân viên điểm tập kết",
     right: [],
   },
   GOODS_POINT_HEAD: {
-    name: "Quan li diem tap ket",
+    name: "Quản lí điểm điểm tập kết",
     right: [],
   },
   MANAGER: {
-    name: "Quan li",
+    name: "Quản lí",
     right: [],
   },
   TRANSACTION_POINT_EMPLOYEE: {
-    name: "Nhan vien diem giao dich",
+    name: "Nhân viên điểm giao dịch",
     right: [],
   },
   TRANSACTION_POINT_HEAD: {
-    name: "Quan li diem giao dich",
+    name: "Quản lí điểm giao dịch",
     right: [],
   },
 };
