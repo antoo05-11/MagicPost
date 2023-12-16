@@ -29,7 +29,7 @@
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  box-shadow: 0 2px 15px rgba(64, 64, 64, .7);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, .7);
   border-radius: 12px 12px 0 0;
   overflow: hidden;
 }
@@ -52,7 +52,7 @@ tr:nth-child(even) {
 }
 
 .filter input,
-select {
+.filter select {
   display: block;
   outline: none;
   border: none;
@@ -137,7 +137,7 @@ select {
 
 /* === Transaction Table === */
 .transactionTable th {
-  width: 210px;
+  width: 300px;
 }
 
 .transactionTable input,
@@ -161,7 +161,7 @@ select {
 
 /* === Goods Table === */
 .goodPointTable th {
-  width: 210px;
+  width: 300px;
 }
 
 .goodPointTable input,

@@ -1,4 +1,3 @@
-"use client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Script from "next/script";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +8,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { listUrl, employeeRole } from "@/api/utils";
 import { useSession } from "next-auth/react";
+import "@/css/employee/sidebar.css"
+import { Row, Image, Col } from "react-bootstrap";
+
 export default function SideBar() {
   const route = useRouter();
   const pathname = usePathname();
@@ -18,6 +20,7 @@ export default function SideBar() {
   for (var i in rightRole) {
     rightURL.push(listUrl[rightRole[i]]);
   }
+
   const show = {
     opacity: 1,
     display: "block",
@@ -29,6 +32,9 @@ export default function SideBar() {
       display: "none",
     },
   };
+
+  const isActive = (pathname === "/" || pathname.includes("/employees"));
+
   return (
     <motion.div
       // initial={false}
@@ -39,16 +45,16 @@ export default function SideBar() {
       id="mySidebar"
       exit={{ opacity: 0 }}
     >
-      <Link href="/employees" id="app-name">
-        Magic Post
-      </Link>
 
-      <hr />
+      <Link href="/employees" className="appName">
+        MAGIC POST
+      </Link>
+      
       {rightURL?.map((roro) => {
         return (
           <div
             className={
-              pathname.includes(roro?.url)
+              pathname === roro?.url
                 ? "bar-item button item-bar active"
                 : "bar-item button item-bar"
             }
@@ -61,8 +67,6 @@ export default function SideBar() {
           </div>
         );
       })}
-
-      <hr />
     </motion.div>
   );
 }

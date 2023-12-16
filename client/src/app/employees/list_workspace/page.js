@@ -10,7 +10,7 @@ export default async function page({ searchParams: { query, page } }) {
     <div className="tableContainer">
       <div className="row ">
         <div className="col">
-          <h3>Danh sách điểm giao dịch</h3>
+          <h3>Danh sách điểm tập kết</h3>
         </div>
       </div>
       <div className="row">
