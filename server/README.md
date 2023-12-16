@@ -21,7 +21,8 @@
   - [<samp>Order Process API</samp>](#order-process-api)
     - [<samp>Update process status with process ID</samp>](#update-process-status-with-process-id)
   - [<samp>Transaction Point API</samp>](#transaction-point-api)
-    - [<samp>Get transaction point by address</samp>](#get-transaction-point-by-address)
+    - [<samp>Get transaction points by address</samp>](#get-transaction-point-by-address)
+    - [<samp>Get all transaction points</samp>](#get-all-transaction-points-with-statistics)
   - [<samp>Address API</samp>](#address-api)
     - [<samp>Get all communes/districts/provinces</samp>](#get-all-communesdistrictsprovinces)
     - [<samp>Get all districts by provinceID</samp>](#get-all-districts-by-provinceid)
@@ -703,12 +704,13 @@
 
 + ##### <em> <samp> API Information </samp></em>
 
-| Request Requirement | Content                                                                                                                      |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| API URL             | https://magicpost-uet.onrender.com/api/transactionPoint/get/?provinceID=?&districtID=?&communeID=? |
-| HTTP method         | GET                                                                                                                          |
-| Token Required      | NO                                                                                                                           |
-| Roles Authorized    | NONE                                                                                                                         |
+| Request Requirement | Content                                                                                            |
+|---------------------|----------------------------------------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/transactionPoint/get/ |
+| Query Params        | provinceID (<i>optional</i>), communeID (<i>optional</i>), districtID (<i>optional</i>)            |
+| HTTP method         | GET                                                                                                |
+| Token Required      | NO                                                                                                 |
+| Roles Authorized    | NONE                                                                                               |
 
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
@@ -720,6 +722,38 @@
             "district": { "name": "Quận Cầu Giấy" },
             "province": { "name": "Thành phố Hà Nội" }
         }
+    }
+]
+```
+
+#### <samp>Get all transaction points with statistics</samp>
+
++ ##### <em><samp>API Information</samp></em>
+| Request Requirement | Content                                                        |
+|---------------------|----------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/transactionPoint/getall |
+| HTTP method         | GET                                                            |
+| Token Required      | YES                                                            |
+| Roles Authorized    | MANAGER                                                        |
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+[
+    {
+        "transactionPointID": 45,
+        "name": "Điểm giao dịch Trung Tâm Thủ Đô",
+        "zipCode": "10554",
+        "address": "311 P. Tôn Đức Thắng, Phường Thổ Quan, Quận Đống Đa, Thành phố Hà Nội",
+        "endOrders": 0,
+        "startOrders": 2
+    },
+    {
+        "transactionPointID": 46,
+        "name": "Điểm giao dịch QN1",
+        "zipCode": "13245",
+        "address": "Số nhà 44, Tổ 2 khu 3B, Phường Giếng Đáy, Thành phố Hạ Long, Tỉnh Quảng Ninh",
+        "endOrders": 12,
+        "startOrders": 1
     }
 ]
 ```

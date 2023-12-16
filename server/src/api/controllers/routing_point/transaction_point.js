@@ -1,5 +1,6 @@
 import Error from '../../exceptions/error';
-import { Commune, District, Province, buildAddressWhereClause } from './address';
+import { Commune, District, Province, buildAddressString, buildAddressWhereClause } from './address';
+import { sequelize } from '../../models';
 
 const db = require('../../models');
 
@@ -9,40 +10,77 @@ const Order = db.orders;
 const RoutingPoint = db.routing_points;
 const Process = db.processes;
 
-Process.belongsTo(TransactionPoint, { foreignKey: 'routingPointID'});
+Address.belongsTo(Commune, { foreignKey: 'communeID' });
+Commune.belongsTo(District, { foreignKey: 'districtID' });
+District.belongsTo(Province, { foreignKey: 'provinceID' });
+RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
+Order.hasMany(Process, { foreignKey: 'orderID' });
+
+Process.belongsTo(TransactionPoint, { foreignKey: 'routingPointID' });
+TransactionPoint.hasMany(Process, { foreignKey: 'routingPointID' });
 
 export const getAllTransactionPoints = async (req, res) => {
-    // let transactionPoints = await TransactionPoint.findAll({
-    //     attributes: ['transactionPointID', 'addressID'],
-    //     include: [{
-    //         model: Address,
-    //         required: true,
-    //         attributes: ['detail'],
-    //         include: [{
-    //             model: Commune,
-    //             required: true,
-    //             attributes: ['name']
-    //         }, {
-    //             model: District,
-    //             required: true,
-    //             attributes: ['name']
-    //         }, {
-    //             model: Province,
-    //             required: true,
-    //             attributes: ['name']
-    //         }]
-    //     }]
-    // });
 
-    const processes = Process.findAll({
+    await TransactionPoint.hasMany(Order, { foreignKey: 'startTransactionPointID' });
+    const startTransactionPoints = await TransactionPoint.findAll({
+        attributes: ['transactionPointID', [sequelize.fn('COUNT', sequelize.col('orders.orderID')), 'orderCount']],
+        include: [{
+            model: Order, required: false,
+            attributes: [],
+            foreignKey: 'startTransactionPointID'
+        }],
+        group: ['transaction_points.transactionPointID']
+    });
+
+    await TransactionPoint.hasMany(Order, { foreignKey: 'endTransactionPointID' });
+    const endTransactionPoints = await TransactionPoint.findAll({
+        attributes: ['transactionPointID', 'name', 'zipCode', [sequelize.fn('COUNT', sequelize.col('orders.orderID')), 'orderCount']],
         include: [
             {
-                model: TransactionPoint,
-                required: true
+                model: Order, required: false,
+                attributes: [],
+                foreignKey: 'endTransactionPointID'
+            },
+            {
+                model: RoutingPoint,
+                include: {
+                    model: Address,
+                    attributes: ['detail'],
+                    include: [
+                        { model: Commune, attributes: ['name'] },
+                        { model: District, attributes: ['name'] },
+                        { model: Province, attributes: ['name'] }
+                    ]
+                },
+                attributes: ['routingPointID']
             }
-        ]
-    })
-    return res.status(200).json(processes);
+        ],
+        group: ['transaction_points.transactionPointID']
+    });
+
+    const map = new Map();
+
+    let result = [];
+
+    for (let transactionPoint of startTransactionPoints) {
+        transactionPoint = { ...transactionPoint.get() };
+        map.set(transactionPoint.transactionPointID, transactionPoint.orderCount);
+    }
+
+    for (let transactionPoint of endTransactionPoints) {
+        transactionPoint = { ...transactionPoint.get() };
+
+        transactionPoint.address = buildAddressString(transactionPoint.routing_point.address);
+        delete transactionPoint.routing_point;
+
+        transactionPoint.endOrders = transactionPoint.orderCount;
+        delete transactionPoint.orderCount;
+
+        transactionPoint.startOrders = map.get(transactionPoint.transactionPointID);
+        result.push(transactionPoint)
+    }
+
+    return res.status(200).json(result);
 };
 
 
