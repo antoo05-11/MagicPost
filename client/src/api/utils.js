@@ -101,6 +101,26 @@ export const listUrl = {
     name: "Điểm giao dịch",
     icon: <HiOutlineBuildingOffice size={"2em"} />,
   },
+  createEmployee: {
+    url: "/employees/list_employee/create",
+    name: "Tạo tài khoản nhân viên",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
+  createOrder: {
+    url: "/employees/list_ordered/create",
+    name: "Tạo đơn hàng",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
+  detailEmployee: {
+    url: "/employees/list_employee/[id]/detail",
+    name: "Thông tin nhân viên",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
+  detailOrder: {
+    url: "/employees/list_ordered/[id]/detail",
+    name: "Chi tiết đơn hàng",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
 };
 
 export const orderStatus = {
