@@ -1,10 +1,10 @@
+"use client";
 import { getEmployee } from "@/api/data";
 import EmployeeForm from "@/components/employee/form/employee-form";
-// import "@/css/list_employee.css";
+import { useState } from "react";
 export default async function Page() {
   return (
-    <main className="formContainer">
-      {/* <h2>Tao tai khoan nhan vien moi</h2> */}
+    <main>
       <EmployeeForm />
       <div className="mt-3 btnContainer">
         <button
@@ -13,7 +13,7 @@ export default async function Page() {
           //   employee.address.communeID = selectedCommune;
           //   employee.address.provinceID = selectedProvince;
           //   console.log(createEmployee(employee));
-          // }} 
+          // }}
           // type="button"
           className="btn btnCreate"
         >

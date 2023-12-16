@@ -1,49 +1,9 @@
 "use server";
-export async function login() {
-  const data = {
-    employeeID: "23000014",
-    password: "password",
-  };
-  // const data = {
-  //   employeeID: formData.get("employeeID"),
-  //   password: formData.get("password"),
-  // };
-
-  const url = "https://magicpost-uet.onrender.com/api/auth/login";
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (res.ok) {
-    const responseData = await res.json();
-    return responseData.accessToken;
-  } else {
-    console.error(res.status);
-  }
-}
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth.config";
 
 export async function createEmployee(infoEmployee) {
-  const data = {
-    identifier: "091978238391",
-    phoneNumber: "0123457589",
-    fullName: "Do Minh Duy",
-    address: {
-      detail: "Số 100, đường 19/4",
-      communeID: "5355",
-      districtID: "302",
-      provinceID: "27",
-    },
-    transactionPointID: null,
-    goodPointID: null,
-    email: "linhhoang@yahoo.com",
-    role: null,
-  };
-  const token = await login();
-  // console.log(JSON.stringify(data));
+  const session = await getServerSession(authOptions);
   const url = "https://magicpost-uet.onrender.com/api/employee/add";
   try {
     const res = await fetch(url, {
@@ -51,15 +11,44 @@ export async function createEmployee(infoEmployee) {
       headers: {
         "Content-Type": "application/json",
 
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${session.accessToken}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(infoEmployee),
     });
-    // const data1 = await res.json();
-    // console.log(data1);
+    console.log(res);
     if (res.ok) {
+      console.log("thanh cong");
       return true;
-    } else return false;
+    } else {
+      console.log("that bai");
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createOrder(infoOrder) {
+  const session = await getServerSession(authOptions);
+
+  const url = "https://magicpost-uet.onrender.com/api/order/create";
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      body: JSON.stringify(infoOrder),
+    });
+    console.log(res);
+    if (res.ok) {
+      console.log("thanh cong");
+      return true;
+    } else {
+      console.log("that bai");
+      return false;
+    }
   } catch (error) {
     console.log(error);
   }

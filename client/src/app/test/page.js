@@ -11,4 +11,6 @@ export const orderDetails = [
   "Phi van chuyen",
 ];
 import { mutate } from "swr";
-export default function AdminPage() {}
+export default function AdminPage() {
+  return <div>Test Page</div>;
+}

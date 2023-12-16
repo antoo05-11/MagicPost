@@ -85,21 +85,24 @@ import { useState } from "react";
 // import useFormstate
 import { useFormState } from "react-dom";
 
-export function TestTestTest(changeData) {
+export function TestTestTest({ changeData }) {
   // const formdata = FormData();
   // const formData = new FormData();
-  const setData = (formdata) => {
-    console.log(formdata);
-  };
+  // const setData = (formdata) => {
+  //   console.log(formdata);
+  // };
+  const hihi = changeData;
+  // hihi(123);
   return (
     <div>
-      <form action={setData}>
+      {/* <form action={setData}>
         <input placeholder="hihi" name="hihi" />
         <input placeholder="haha" name="haha" />
         <input placeholder="huhu" name="huhu" />
         <button type="submit">onSubMit</button>
-      </form>
-      {/* <div>{data}</div> */}
+      </form> */}
+      <div>{typeof changeData}</div>
+      <input onChange={(e) => hihi(e.target.value)} />
     </div>
   );
 }
