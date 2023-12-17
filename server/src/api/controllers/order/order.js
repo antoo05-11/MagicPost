@@ -1,7 +1,7 @@
 import { sequelize } from '../../models';
 import Error from '../../exceptions/error';
 import { checkDateFormat, normalizeDate } from '../../../utils';
-import { buildAddressString } from '../routing_point/address';
+import { buildAddressString, buildAddressWhereClause } from '../routing_point/address';
 import { Address, Commune, Customer, District, Employee, Goods, Order, Process, Province, RoutingPoint, TransactionPoint } from '../../models/model-export';
 
 const { Op } = require('sequelize')
@@ -21,9 +21,13 @@ const limitRecordsNum = 8;
 export const getOrdersByWorkingRouteID = async (req, res) => {
     const currentRoutingPointID = req.user.workingPointID;
 
-    console.log(currentRoutingPointID);
+    const orderID = req.query.orderID || '';
+    const startAddress = req.query.startAddress || '';
+    const endAddress = req.query.endAddress || '';
+    const status = req.query.status || '';
 
-    const orderID = req.query.orderID;
+    const startAddressWhereClause = buildAddressWhereClause(startAddress);
+    const endAddressWhereClause = buildAddressWhereClause(endAddress);
 
     const page = req.query.page || 1;
     const limit = req.query.limit || limitRecordsNum;
@@ -41,17 +45,51 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
         subQuery: false,
         where: {
             orderID: {
-                [Op.in]: sequelize.literal(`
-                (SELECT DISTINCT orderID
-                FROM processes
-                WHERE routingPointID = ${currentRoutingPointID})`)
+                [Op.and]: [
+                    {
+                        [Op.in]: sequelize.literal(`(SELECT DISTINCT orderID 
+                    FROM processes WHERE routingPointID = ${currentRoutingPointID})`)
+                    },
+                    { [Op.like]: `%${orderID}%` }
+                ]
+
             },
             createdAt: {
                 [Op.between]: [
                     minCreatedAt, maxCreatedAt
                 ]
             }
-        }
+        },
+        include: [
+            {
+                model: TransactionPoint,
+                as: 'startTransactionPoint',
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        attributes: ['addressID'],
+                        where: startAddressWhereClause
+                    },
+                    attributes: ['routingPointID']
+                },
+                attributes: ['transactionPointID']
+            },
+            {
+                model: TransactionPoint,
+                as: 'endTransactionPoint',
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        where: endAddressWhereClause,
+                        attributes: ['addressID']
+                    },
+                    attributes: ['routingPointID']
+                },
+                attributes: ['transactionPointID']
+            }
+        ]
     });
     totalPages = Math.ceil(totalPages / limit);
     if (totalPages == 0) return res.status(200).json([]);
@@ -62,10 +100,13 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
         subQuery: false,
         where: {
             orderID: {
-                [Op.in]: sequelize.literal(`
-                (SELECT DISTINCT orderID
-                    FROM processes
-                    WHERE routingPointID = ${currentRoutingPointID})`)
+                [Op.and]: [
+                    {
+                        [Op.in]: sequelize.literal(`(SELECT DISTINCT orderID 
+                    FROM processes WHERE routingPointID = ${currentRoutingPointID})`)
+                    },
+                    { [Op.like]: `%${orderID}%` }
+                ]
             },
             createdAt: {
                 [Op.between]: [minCreatedAt, maxCreatedAt]
@@ -74,7 +115,7 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
         include: [
             {
                 model: Process,
-                order: [['processID', 'DESC']],
+                order: [['processID', 'ASC']],
                 limit: 1,
                 attributes: ['status']
             },
@@ -86,7 +127,8 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                     include: {
                         model: Address,
                         include: { model: Province, attributes: ['name'] },
-                        attributes: ['addressID']
+                        attributes: ['addressID'],
+                        where: startAddressWhereClause
                     },
                     attributes: ['routingPointID']
                 },
@@ -100,7 +142,8 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                     include: {
                         model: Address,
                         include: { model: Province, attributes: ['name'] },
-                        attributes: ['addressID']
+                        attributes: ['addressID'],
+                        where: endAddressWhereClause
                     },
                     attributes: ['routingPointID']
                 },
@@ -537,6 +580,12 @@ export const getOrderByIDForCustomer = async (req, res) => {
     return res.status(200).json(result);
 }
 
+/**
+ * The function calculates the cost of an order based on various factors such as the sender and
+ * receiver's province, the weight of the goods, and additional fees.
+ * @returns an object with the following properties: mainPostage, addedPostage, VATFee, otherFee,
+ * receiverCOD, and receiverOtherFee.
+ */
 export const getOrderCost = async (req, res) => {
     const order = JSON.parse(JSON.stringify(req.body.order));
     const result = {
