@@ -5,33 +5,47 @@ import MainInformation from "@/components/employee/information/mainInfo";
 import Preview from "@/components/employee/information/preview";
 import Security from "@/components/employee/information/security";
 import "@/css/employee/customForm.css";
-import { Button } from "react-bootstrap";
+import { Button, Container, Row, Col } from "react-bootstrap";
+import { useSession } from "next-auth/react";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState("mainInformation");
-
+  const dataInfo = useSession()?.data.user;
+  
+  const handleButtonClick = (page) => {
+    setCurrentPage(page);
+  };
+  console.log();
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-4">
-          <Preview />
-        </div>
+    <Container>
+      <Row>
+        <Col xs="4">
+          <Preview data={dataInfo} />
+        </Col>
 
-        <div className="col m-0">
+        <Col>
           <div>
-            <Button onClick={() => setCurrentPage("mainInformation")}>
+            <button
+              type="button"
+              className={`btn btn-outline-primary ${currentPage === "mainInformation" ? "active" : ""}`}
+              onClick={() => handleButtonClick("mainInformation")}
+            >
               Thông tin
-            </Button>
-            <Button onClick={() => setCurrentPage("security")} className="ms-3">
+            </button>
+            <button
+              type="button"
+              className={`btn btn-outline-primary ms-2 ${currentPage === "security" ? "active" : ""}`}
+              onClick={() => handleButtonClick("security")}
+            >
               Bảo mật
-            </Button>
+            </button>
           </div>
           <div className="row mt-3">
-            {currentPage === "mainInformation" && <MainInformation />}
-            {currentPage === "security" && <Security />}
+            {currentPage === "mainInformation" && <MainInformation data={dataInfo} />}
+            {currentPage === "security" && <Security data={dataInfo} />}
           </div>
-        </div>
-      </div>
-    </div>
+        </Col >
+      </Row>
+    </Container >
   );
 }

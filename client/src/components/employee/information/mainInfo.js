@@ -1,137 +1,143 @@
-export default function MainInformation() {
+import { Form, Row, Col, Container, InputGroup } from 'react-bootstrap';
+import { FaRegUserCircle } from "react-icons/fa";
+import { FaRegCalendar } from "react-icons/fa";
+import { MdAlternateEmail } from "react-icons/md";
+import { IoMdPhonePortrait } from "react-icons/io";
+import { CiCreditCard2 } from "react-icons/ci";
+import { BsGenderAmbiguous } from "react-icons/bs";
+import { TiLocationArrowOutline } from "react-icons/ti";
+import { GrMapLocation } from "react-icons/gr";
+import { IoLocationOutline } from "react-icons/io5";
+import { TbCurrentLocation } from "react-icons/tb";
+
+export default function MainInformation(data) {
     return (
         <div className="formContainer">
-            <form id="form-employee ">
-                <div className="row">
-                    <h3>Thông tin nhân viên</h3>
-                </div>
-                <div className="row mt-2">
-                    <div className="col-md-6">
-                        <label htmlFor="fullName">Họ và tên</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="fullName"
-                            placeholder="Họ và tên"
-                        />
-                    </div>
+            <Row>
+                <h3>Thông tin nhân viên</h3>
+            </Row>
+            <Row className="mt-2">
+                <Col md={6}>
+                    <Form.Group controlId="fullName">
+                        <Form.Label>Họ và tên</Form.Label>
+                        <InputGroup>
+                            <InputGroup.Text className='bg-light'>
+                                <FaRegUserCircle />
+                            </InputGroup.Text>
+                            <Form.Control type="text" value={data.data.fullName} disabled />
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
 
-                    <div className="col-md-6">
-                        <label htmlFor="dob">Ngày sinh</label>
-                        <input type="date" className="form-control" id="dob" />
-                    </div>
-                </div>
+                <Col md={6}>
+                    <Form.Group controlId="dob">
+                        <Form.Label>Ngày sinh</Form.Label>
+                        <InputGroup>
+                            <InputGroup.Text className='bg-light'>
+                                <FaRegCalendar />
+                            </InputGroup.Text>
+                            <Form.Control type="date" value={data.data.birthDate} disabled />
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
+            </Row>
 
-                <div className="row mt-2">
-                    <div className="col-md-6">
-                        <label htmlFor="email">Địa chỉ Email</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            id="email"
-                            placeholder="Địa chỉ email"
-                        />
-                    </div>
+            <Row className="mt-2">
+                <Col md={6}>
+                    <Form.Group controlId="email">
+                        <Form.Label>Địa chỉ Email</Form.Label>
+                        <InputGroup>
+                            <InputGroup.Text className='bg-light'>
+                                <MdAlternateEmail />
+                            </InputGroup.Text>
+                            <Form.Control type="email" value={data.data.email} disabled />
+                        </InputGroup>
 
-                    <div className="col-md-6">
-                        <label htmlFor="phoneNumber">Số điện thoại</label>
-                        <input
-                            type="tel"
-                            className="form-control"
-                            id="phoneNumber"
-                            placeholder="Số điện thoại"
-                        />
-                    </div>
-                </div>
+                    </Form.Group>
+                </Col>
 
-                <div className="row mt-2">
-                    <div className="col">
-                        <label htmlFor="phoneNumber">CCCD</label>
-                        <input
-                            type="tel"
-                            className="form-control"
-                            id="phoneNumber"
-                            placeholder="CCCD"
-                        />
-                    </div>
-                </div>
+                <Col md={6}>
+                    <Form.Group controlId="phoneNumber">
+                        <Form.Label>Số điện thoại</Form.Label>
+                        <InputGroup>
+                            <InputGroup.Text className='bg-light'>
+                                <IoMdPhonePortrait />
+                            </InputGroup.Text>
+                            <Form.Control type="tel" value={data.data.phoneNumber} disabled />
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
+            </Row>
 
-                <div className="row mt-2">
-                    <div>Giới tính</div>
-                </div>
+            <Row className="mt-2">
+                <Col md={6}>
+                    <Form.Group controlId="identifer">
+                        <Form.Label>CCCD</Form.Label>
+                        <InputGroup>
+                            <InputGroup.Text className='bg-light'>
+                                <CiCreditCard2 />
+                            </InputGroup.Text>
+                            <Form.Control type="text" value={data.data.identifier} disabled />
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
 
-                <div className="row mt-2">
-                    <label htmlFor="province" className="col-sm-12 col-form-label">
-                        Địa chỉ
-                    </label>
-                    <div className="col-md-4">
-                        <select
-                            className="form-select"
-                            aria-label="Default select example"
-                            id="province"
-                        >
-                            {/* <option selected>Chọn Tỉnh / TP</option>
-              {provinceData.map((province) => (
-                <option
-                  key={province.provinceID}
-                  data-key={province.provinceID}
-                  value={province.provinceID}
-                >
-                  {province.name}
-                </option>
-              ))} */}
-                        </select>
-                    </div>
+                <Col md={6}>
+                    <Form.Group controlId="gender">
+                        <Form.Label>Giới tính</Form.Label>
+                        <InputGroup>
+                            <InputGroup.Text className='bg-light'>
+                                <BsGenderAmbiguous />
+                            </InputGroup.Text>
+                            <Form.Control type="text" value={data.data.gender} disabled />
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
 
-                    <div className="col-md-4">
-                        <select className="form-select" aria-label="Default select example">
-                            {/* <option selected>Chọn Xã / Phường</option>
-              {districtData.map((district) => (
-                <option
-                  key={district.districtID}
-                  data-key={district.districtID}
-                  value={district.districtID}
-                >
-                  {district.name}
-                </option>
-              ))} */}
-                        </select>
-                    </div>
+            </Row>
 
-                    <div className="col-md-4">
-                        <select className="form-select" aria-label="Default select example">
-                            {/* <option selected>Chọn Quận / Huyện</option>
-              {communeData.map((commune) => (
-                <option
-                  key={commune.communeID}
-                  data-key={commune.communeID}
-                  value={commune.communeID}
-                >
-                  {commune.name}
-                </option>
-              ))} */}
-                        </select>
-                    </div>
-                </div>
+            <Row className="mt-2">
+                <Form.Label className="col-sm-12 col-form-label">Địa chỉ</Form.Label>
+                <Col md={4}>
+                    <Form.Group controlId="commune">
+                        <InputGroup>
+                            <InputGroup.Text className='bg-light'>
+                                <TiLocationArrowOutline />
+                            </InputGroup.Text>
+                            <Form.Control type="text" placeholder="Xã" disabled />
+                        </InputGroup>
+                    </Form.Group>
+                </Col>
 
-                <div className="row mt-2">
-                    <div className="col">
-                        <input
-                            className="form-control"
-                            id="addressDetail"
-                            placeholder="Chi tiết"
-                        />
-                    </div>
-                </div>
+                <Col md={4}>
+                    <InputGroup>
+                        <InputGroup.Text className='bg-light'>
+                            <GrMapLocation />
+                        </InputGroup.Text>
+                        <Form.Control type="text" placeholder="Quận" disabled />
+                    </InputGroup>
+                </Col>
 
-            </form>
+                <Col md={4}>
+                    <InputGroup>
+                        <InputGroup.Text className='bg-light'>
+                            <IoLocationOutline />
+                        </InputGroup.Text>
+                        <Form.Control type="text" placeholder="Tỉnh" disabled />
+                    </InputGroup>
+                </Col>
+            </Row>
 
-            <div className="mt-3 btnContainer">
-                <button type="button" className="btn btnCreate">
-                    Xác nhận
-                </button>
-
-            </div>
+            <Row className="mt-2">
+                <Col>
+                    <InputGroup>
+                        <InputGroup.Text className='bg-light'>
+                            <TbCurrentLocation />
+                        </InputGroup.Text>
+                        <Form.Control type="text" placeholder="Chi tiết" disabled />
+                    </InputGroup>
+                </Col>
+            </Row>
         </div>
     );
 }

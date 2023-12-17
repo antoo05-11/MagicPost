@@ -29,7 +29,7 @@
 table {
   border-collapse: collapse;
   border-spacing: 0;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, .7);
+  /* box-shadow: 0 2px 15px rgba(0, 0, 0, .7); */
   border-radius: 12px 12px 0 0;
   overflow: hidden;
 }
@@ -181,4 +181,36 @@ tr:nth-child(even) {
 .goodPointTable td:nth-child(5),
 .goodPointTable td:nth-child(6) {
   text-align: center;
+}
+
+/* === createOrderTable ===*/
+.createOrderTable input,
+.createOrderTable select {
+  display: block;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 1px;
+  border-bottom: 1px solid #333;
+  background-color: transparent;
+  width: 300px;
+}
+
+.createOrderTable th, .createOrderTable td {
+  width: 300px;
+}
+
+.createOrderTable select, .createOrderTable input {
+  text-align: center;
+}
+
+.createOrderTable th:nth-child(1),
+.createOrderTable td:nth-child(1) {
+  width: 50px;
+  text-align: center;
+}
+
+.createOrderTable th:nth-child(5),
+.createOrderTable td:nth-child(5) {
+  width: 50px;
 }
