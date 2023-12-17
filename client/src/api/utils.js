@@ -41,13 +41,13 @@ export const employeeRole = {
   GOODS_POINT_EMPLOYEE: {
     name: "Nhan vien diem tap ket",
     role: "GOODS_POINT_EMPLOYEE",
-    left: ["manageEmployees", "manageGoodsPoint", "managaTransactionPoint"],
+    left: ["manageEmployees", "manageGoodsPoint", "manageTransactionPoint"],
     right: ["homepage", "manageOrders"],
   },
   GOODS_POINT_HEAD: {
     name: "Quan li diem tap ket",
     role: "GOODS_POINT_HEAD",
-    left: ["manageGoodsPoint", "managaTransactionPoint"],
+    left: ["manageGoodsPoint", "manageTransactionPoint"],
     right: ["homepage", "manageOrders", "manageEmployees"],
   },
   MANAGER: {
@@ -56,7 +56,7 @@ export const employeeRole = {
     right: [
       "homepage",
       "manageGoodsPoint",
-      "managaTransactionPoint",
+      "manageTransactionPoint",
       "manageEmployees",
     ],
     left: ["manageOrders"],
@@ -64,13 +64,13 @@ export const employeeRole = {
   TRANSACTION_POINT_EMPLOYEE: {
     name: "Nhan vien diem giao dich",
     role: "TRANSACTION_POINT_EMPLOYEE",
-    left: ["manageGoodsPoint", "managaTransactionPoint", "manageEmployees"],
+    left: ["manageGoodsPoint", "manageTransactionPoint", "manageEmployees"],
     right: ["homepage", "manageOrders"],
   },
   TRANSACTION_POINT_HEAD: {
     name: "Quan li diem giao dich",
     role: "TRANSACTION_POINT_HEAD",
-    left: ["manageGoodsPoint", "managaTransactionPoint"],
+    left: ["manageGoodsPoint", "manageTransactionPoint"],
     right: ["homepage", "manageOrders", "manageEmployees"],
   },
 };
@@ -96,7 +96,7 @@ export const listUrl = {
     name: "Điểm tập kết",
     icon: <RiRoadMapLine size={"2em"} />,
   },
-  managaTransactionPoint: {
+  manageTransactionPoint: {
     url: "/employees/list_transaction",
     name: "Điểm giao dịch",
     icon: <HiOutlineBuildingOffice size={"2em"} />,

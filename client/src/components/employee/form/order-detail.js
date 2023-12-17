@@ -4,10 +4,10 @@ import "@/css/employee/customForm.css";
 
 import { createOrder } from "@/api/action";
 import { getOrderById } from "@/api/data";
+import OrderProgress from "../table/order-progress";
 
 export default function OrderDetail({ id }) {
   const { data: order } = getOrderById(id);
-  console.log(order?.order);
   return (
     <div className="container">
       <form>
@@ -153,64 +153,37 @@ export default function OrderDetail({ id }) {
             <div className="col">
               <h3>Thông tin hàng hóa</h3>
             </div>
-
-            <div
-              className="modal fade"
-              id="staticBackdrop"
-              data-bs-backdrop="static"
-              data-bs-keyboard="false"
-              tabindex="-1"
-              aria-labelledby="staticBackdropLabel"
-              aria-hidden="true"
-            >
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                      Modal title
-                    </h1>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div className="modal-body">...</div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" className="btn btn-primary">
-                      Understood
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div className="row p-2 table-responsive">
-            <table className="table">
+            <table className="createOrderTable">
               <thead>
                 <tr>
                   <th scope="col">STT</th>
-                  <th scope="col">Nội dung</th>
                   <th scope="col">Loại hàng hóa</th>
-                  <th scope="col">Đính kèm</th>
-                  <th scope="col">Giá trị</th>
-                  <th scope="col">Sửa, xóa = 1 nút</th>
+                  <th scope="col">Khối lượng thực</th>
+                  <th scope="col">Khối lượng chuyển đổi</th>
                 </tr>
               </thead>
-              <tbody id="goodsTableBody"></tbody>
+              <tbody>
+                {order?.goodsList?.map((e) => {
+                  return (
+                    <tr>
+                      <td></td>
+                      <td>{e?.goodsType}</td>
+                      <td>{e?.realWeight}</td>
+                      <td>{e?.convertedWeight}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
             </table>
           </div>
         </div>
       </form>
+      <div className="formContainer">
+        <OrderProgress orderProcesses={order?.order?.processes} />
+      </div>
     </div>
   );
 }

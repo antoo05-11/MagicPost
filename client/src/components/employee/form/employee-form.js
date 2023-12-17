@@ -14,6 +14,7 @@ import {
 } from "@/api/data";
 import "@/css/employee/customForm.css";
 import { useSession } from "next-auth/react";
+import PopUp from "../popup";
 const employee = {
   identifier: "",
   phoneNumber: "",
@@ -31,6 +32,7 @@ const employee = {
   role: null,
 };
 export default function EmployeeForm() {
+  const userRole = useSession()?.data?.user?.role;
   const provinceData = getAllProvince();
 
   const [selectedProvince, setSelectedProvince] = useState("");
@@ -49,11 +51,17 @@ export default function EmployeeForm() {
 
   const [error, setError] = useState(false);
 
-  const listRole = [];
-  for (var i in employeeRole) {
-    listRole.push(employeeRole[i]);
-  }
+  const listRole = [
+    employeeRole["TRANSACTION_POINT_HEAD"],
+    employeeRole["GOODS_POINT_HEAD"],
+  ];
   employee.workingPointID = useSession()?.data?.user?.workingPointID;
+  if (userRole === "TRANSACTION_POINT_HEAD")
+    employee.role = "TRANSACTION_POINT_EMPLOYEE";
+  else if (userRole === "GOODS_POINT_HEAD")
+    employee.role = "GOODS_POINT_EMPLOYEE";
+
+  const [popup, setPopup] = useState(false);
   return (
     <div className="formContainer">
       <form id="form-employee ">
@@ -222,32 +230,38 @@ export default function EmployeeForm() {
         </div>
 
         <div className="row mt-2">
-          <div className="col-md-6">
-            <label htmlFor="role">Vai trò</label>
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              id="role"
-              onChange={(e) => {
-                employee.role = e.target.value;
-              }}
-            >
-              <option selected>Chọn vai trò</option>
-              {listRole.map((e) => {
-                return <option value={e?.role}>{e?.name}</option>;
-              })}
-            </select>
-          </div>
-
-          <div className="col-md-6">
-            <label htmlFor="transactionPoint">Địa điểm làm việc</label>
-            <select className="form-select" aria-label="Default select example">
-              <option selected>Địa điểm làm việc</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
+          {userRole && userRole === "MANAGER" && (
+            <div className="col-md-6">
+              <label htmlFor="role">Vai trò</label>
+              <select
+                className="form-select"
+                aria-label="Default select example"
+                id="role"
+                onChange={(e) => {
+                  employee.role = e.target.value;
+                }}
+              >
+                <option selected>Chọn vai trò</option>
+                {listRole.map((e) => {
+                  return <option value={e?.role}>{e?.name}</option>;
+                })}
+              </select>
+            </div>
+          )}
+          {userRole && userRole === "MANAGER" && (
+            <div className="col-md-6">
+              <label htmlFor="transactionPoint">Địa điểm làm việc</label>
+              <select
+                className="form-select"
+                aria-label="Default select example"
+              >
+                <option selected>Địa điểm làm việc</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+          )}
         </div>
       </form>
       <div className="mt-3 btnContainer">
@@ -266,13 +280,13 @@ export default function EmployeeForm() {
         <button
           className="btn btn-secondary"
           onClick={() => {
-            console.log(employee);
+            setPopup(!popup);
           }}
         >
           Xóa
         </button>
-        <div>{createError[error]}</div>
       </div>
+      <PopUp isOpen={popup} setIsOpen={setPopup} />
     </div>
   );
 }

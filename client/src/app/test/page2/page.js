@@ -1,13 +1,13 @@
 "use client";
-import { TestTestTest } from "@/components/skeleton";
+import PopUp from "@/components/employee/popup";
 import { useState } from "react";
-
+import { motion } from "framer-motion";
 export default function page() {
-  const [employee, setEmploye] = useState("Do Minh Duy");
+  const [open, setOpen] = useState(true);
   return (
-    <div>
-      <TestTestTest changeData={setEmploye} />
-      <div>employee: {employee}</div>
-    </div>
+    <motion.div layout>
+      <PopUp isOpen={open} setIsOpen={setOpen} />
+      <button onClick={() => setOpen(!open)}>Hihi</button>
+    </motion.div>
   );
 }

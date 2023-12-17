@@ -8,9 +8,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { listUrl, employeeRole } from "@/api/utils";
 import { useSession } from "next-auth/react";
-import "@/css/employee/sidebar.css"
+import "@/css/employee/sidebar.css";
 import { Row, Image, Col } from "react-bootstrap";
-
+let pagenow = 1;
+let pagepre = 1;
 export default function SideBar() {
   const route = useRouter();
   const pathname = usePathname();
@@ -18,7 +19,8 @@ export default function SideBar() {
   const rightRole = employeeRole[useSession()?.data?.user?.role]?.right;
   const rightURL = [];
   for (var i in rightRole) {
-    rightURL.push(listUrl[rightRole[i]]);
+    rightURL.push({ url: listUrl[rightRole[i]], active: i });
+    if (pathname.includes(listUrl[rightRole[i]]?.url)) pagenow = i;
   }
 
   const show = {
@@ -33,8 +35,6 @@ export default function SideBar() {
     },
   };
 
-  const isActive = (pathname === "/" || pathname.includes("/employees"));
-
   return (
     <motion.div
       // initial={false}
@@ -45,25 +45,25 @@ export default function SideBar() {
       id="mySidebar"
       exit={{ opacity: 0 }}
     >
-
       <Link href="/employees" className="appName">
         MAGIC POST
       </Link>
-      
+
       {rightURL?.map((roro) => {
         return (
           <div
             className={
-              pathname === roro?.url
+              pagenow == roro?.active
                 ? "bar-item button item-bar active"
                 : "bar-item button item-bar"
             }
             onClick={() => {
-              route.push(roro?.url);
+              pagenow = roro.active;
+              route.push(roro?.url?.url);
             }}
           >
-            {roro?.icon}
-            {roro?.name}
+            {roro?.url?.icon}
+            {roro?.url?.name}
           </div>
         );
       })}

@@ -8,7 +8,6 @@ export default function Page({ params }) {
   return (
     <main>
       <OrderDetail id={id} />
-      <OrderProgress />
     </main>
   );
 }
