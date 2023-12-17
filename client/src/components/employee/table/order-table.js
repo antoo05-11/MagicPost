@@ -4,7 +4,7 @@ import { OrderDetail } from "../button";
 import { getOrder } from "@/api/data";
 import Pagination from "../pagination";
 import { getAllProvince } from "@/api/data";
-
+import { orderStatus } from "@/api/utils";
 export default function OrderTable({ page }) {
   const provinceData = getAllProvince();
   const {
@@ -12,6 +12,7 @@ export default function OrderTable({ page }) {
     totalPages: totalPage,
     itemPerPage: itemPerPage,
   } = getOrder({ page });
+  const listStatus = ["forwarded", "arriving", "on_stock"];
   return (
     <div className="mt-2 flow-root table">
       <div className="inline-block min-w-full align-middle d-flex justify-content-center">
@@ -30,7 +31,7 @@ export default function OrderTable({ page }) {
               <tr className="filter">
                 <th scope="col"></th>
                 <th scope="col">
-                  <input onChange={(e) => handleName(e.target.value)} placeholder="Lọc theo tên" />
+                  <input placeholder="Lọc theo mã đơn hàng" />
                 </th>
                 <th scope="col">
                   <select>
@@ -44,7 +45,6 @@ export default function OrderTable({ page }) {
                       </option>
                     ))}
                   </select>
-
                 </th>
                 <th scope="col">
                   <select>
@@ -61,9 +61,10 @@ export default function OrderTable({ page }) {
                 </th>
                 <th scope="col">
                   <select placeholder="Chọn">
-                    <option value="1">Audi</option>
-                    <option value="2">BMW</option>
-                    <option value="3">Citroen</option>
+                    <option>Trạng thái</option>
+                    {listStatus.map((e) => {
+                      return <option value={e}>{orderStatus[e]?.now}</option>;
+                    })}
                   </select>
                 </th>
                 <th scope="col"></th>
@@ -77,7 +78,7 @@ export default function OrderTable({ page }) {
                     <td>{data?.orderID}</td>
                     <td>{data?.endTransactionProvince}</td>
                     <td>{data?.startTransactionProvince}</td>
-                    <td>{data?.goodsStatus}</td>
+                    <td>{orderStatus[data?.goodsStatus]?.now}</td>
                     <td className="d-flex justify-content-center">
                       <OrderDetail id={data?.orderID} />
                     </td>

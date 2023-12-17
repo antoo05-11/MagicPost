@@ -138,3 +138,7 @@ export const createError = {
   10009: "Mật khẩu không hợp lệ",
   10012: "Ngày tháng không hợp lệ",
 };
+
+export const employeeStatus = {
+  ACTIVE: "Đang làm việc",
+};

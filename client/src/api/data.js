@@ -5,6 +5,9 @@ export function getEmployee(page, query) {
   let url = `https://magicpost-uet.onrender.com/api/employee/get/?page=${page}`;
   if (query) {
     if (query.name) url = url + `&fullName=${query.name}`;
+    // if (query.address) url = url + `&fullName=${query.address}`;
+    // if (query.emID) url = url + `&fullName=${query.emID}`;
+    if (query.role) url = url + `&role=${query.role}`;
   }
   try {
     const { data: data } = useSWR(url);
@@ -65,7 +68,7 @@ export function getOrder(query) {
   }
 }
 
-export function findOrder(orderID) { }
+export function findOrder(orderID) {}
 
 export function getAllProvince() {
   const { data: dataRes } = useSWR(
