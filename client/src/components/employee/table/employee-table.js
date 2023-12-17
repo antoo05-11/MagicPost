@@ -144,10 +144,6 @@ export default function EmployyeeTable({ page, query }) {
                         </span>
                       </td>
                       <td>{employee?.phoneNumber}</td>
-                      <td>{employee?.fullName}</td>
-                      <td>{employee?.fullName}</td>
-                      <td>{employeeRole[employee?.role]?.name}</td>
-                      <td>{employee?.email}</td>
                       <td className="d-flex justify-content-center">
                         <EmployeeDetail id={employee?.employeeID} />
                       </td>

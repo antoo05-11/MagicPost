@@ -72,9 +72,11 @@ export default function OrderTable({ page }) {
                 <th scope="col">
                   <select placeholder="Chọn">
                     <option>Trạng thái</option>
-                    {listStatus.map((e) => {
-                      return <option value={e}>{orderStatus[e]?.now}</option>;
-                    })}
+                    {Object.keys(orderStatus).map((statusKey) => (
+                      <option key={statusKey} value={statusKey}>
+                        {orderStatus[statusKey].now}
+                      </option>
+                    ))}
                   </select>
                 </th>
                 <th scope="col"></th>
