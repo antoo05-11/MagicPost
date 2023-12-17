@@ -13,6 +13,7 @@ export default function page({
     address: address,
     status: status,
   };
+
   const currentPage = Number(page) || 1;
   return (
     <div className="tableContainer">
@@ -20,6 +21,7 @@ export default function page({
         <div className="col">
           <h3>Danh sách nhân viên</h3>
         </div>
+
         <div className="col btnContainer">
           <CreateEmployee />
         </div>

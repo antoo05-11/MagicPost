@@ -9,41 +9,41 @@ import {
   getCommuneByDistrictID,
   getAllProvince,
 } from "@/api/data";
-import { createOrder } from "@/api/action";
+import { createOrder, estimateFee } from "@/api/action";
 import { FaTrash } from "react-icons/fa";
 
 const order = {
   order: {
     sender: {
-      fullname: "Hoang Thuy Linh",
-      phoneNumber: "0123556789",
+      fullname: "",
+      phoneNumber: "",
       address: {
-        detail: "39S, Street A",
-        communeID: "121",
-        districtID: "9",
-        provinceID: "1",
+        detail: "",
+        communeID: "",
+        districtID: "",
+        provinceID: "",
       },
     },
     receiver: {
-      fullname: "Nguyen Huu Minh",
-      phoneNumber: "0123456789",
+      fullname: "",
+      phoneNumber: "",
       address: {
-        detail: "43, Street A",
-        communeID: "121",
-        districtID: "9",
-        provinceID: "1",
+        detail: "",
+        communeID: "",
+        districtID: "",
+        provinceID: "",
       },
     },
-    failChoice: "return",
-    mainPostage: "1000",
-    addedPostage: "1000",
-    VATFee: "1000",
-    otherFee: "1000",
-    receiverCOD: "1000",
-    receiverOtherFee: "1000",
+    failChoice: "",
     specialService: "",
   },
-  goodsList: [{ realWeight: "100", convertedWeight: "25", goodsType: "goods" }],
+  goodsList: [
+    {
+      realWeight: "",
+      convertedWeight: "",
+      goodsType: "",
+    },
+  ],
 };
 export default function OrderForm() {
   const provinceData = getAllProvince();
@@ -96,6 +96,9 @@ export default function OrderForm() {
     const updatedGoodsList = goodsList.filter((row) => row.id !== id);
     setGoodsList(updatedGoodsList);
   };
+
+  // const feeEstimate = getFeeEstimate();
+
   return (
     <div className="container">
       <form>
@@ -332,121 +335,156 @@ export default function OrderForm() {
             </div>
           </div>
         </div>
-        {/* Thong tin hang hoa */}
+
         <div className="formContainer">
           <div className="row">
+            <h3>Các thông tin khác</h3>
+          </div>
+          <div className="row">
             <div className="col">
-              <h3>Thông tin hàng hóa</h3>
-            </div>
-
-            <div className="col btnContainer">
-              <button
-                type="button"
-                className="btn btn-primary btnCreate"
-                data-bs-toggle="modal"
-                data-bs-target="#staticBackdrop"
-                onClick={() => {
-                  setAddGoods(true);
-                  addRow();
+              <label>Trường hợp vận chuyển thất bại</label>
+              <select
+                className="form-select"
+                onChange={(e) => {
+                  order.order.failChoice = e.target.value;
                 }}
               >
-                Thêm hàng hóa
-              </button>
+                <option value={"default"}>Hoàn trả</option>
+              </select>
+            </div>
+            <div className="col">
+              <label>Dịch vụ đặc biệt</label>
+              <input
+                placeholder="Dịch vụ đặc biệt"
+                className="form-control"
+                onChange={(e) => (order.order.specialService = e.target.value)}
+              ></input>
             </div>
           </div>
+        </div>
+      </form>{" "}
+      {/* Thong tin hang hoa */}
+      <div className="formContainer">
+        <div className="row">
+          <div className="col">
+            <h3>Thông tin hàng hóa</h3>
+          </div>
 
-          <div className="row p-2 table-responsive">
-            <table className="createOrderTable">
-              <thead>
-                <tr>
-                  <th scope="col">STT</th>
-                  <th scope="col">Loại hàng hóa</th>
-                  <th scope="col">Nội dung</th>
-                  <th scope="col">Số lượng</th>
-                  <th scope="col">Khối lượng thực</th>
-                  <th scope="col">Khối lượng chuyển đổi</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {goodsList.map((goods, index) => (
-                  <tr key={goods.id}>
-                    <td scope="col">{index + 1}</td>
-                    <td scope="col">
-                      <select
-                        value={goods.goodsType}
-                        onChange={(e) => {
-                          const updatedGoodsList = [...goodsList];
-                          updatedGoodsList[index].goodsType = e.target.value;
-                          setGoodsList(updatedGoodsList);
-                        }}
-                      >
-                        <option value="goods">Hàng hóa</option>
-                        <option value="document">Tài liệu</option>
-                      </select>
-                    </td>
-                    <td scope="col">
-                      <input
-                        type="number"
-                        value={goods.realWeight}
-                        onChange={(e) => {
-                          const updatedGoodsList = [...goodsList];
-                          updatedGoodsList[index].realWeight = e.target.value;
-                          setGoodsList(updatedGoodsList);
-                        }}
-                      />
-                    </td>
-                    <td scope="col">
-                      <input
-                        type="number"
-                        value={goods.convertedWeight}
-                        onChange={(e) => {
-                          const updatedGoodsList = [...goodsList];
-                          updatedGoodsList[index].convertedWeight =
-                            e.target.value;
-                          setGoodsList(updatedGoodsList);
-                        }}
-                      />
-                    </td>{" "}
-                    <td scope="col">
-                      <input
-                        type="number"
-                        value={goods.convertedWeight}
-                        onChange={(e) => {
-                          const updatedGoodsList = [...goodsList];
-                          updatedGoodsList[index].convertedWeight =
-                            e.target.value;
-                          setGoodsList(updatedGoodsList);
-                        }}
-                      />
-                    </td>
-                    <td scope="col">
-                      <input
-                        type="number"
-                        value={goods.convertedWeight}
-                        onChange={(e) => {
-                          const updatedGoodsList = [...goodsList];
-                          updatedGoodsList[index].convertedWeight =
-                            e.target.value;
-                          setGoodsList(updatedGoodsList);
-                        }}
-                      />
-                    </td>
-                    <td scope="col">
-                      <button
-                        onClick={() => removeRow(goods.id)}
-                        className="btn"
-                      >
-                        <FaTrash className="text-danger" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="col btnContainer">
+            <button
+              type="button"
+              className="btn btn-primary btnCreate"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+              onClick={() => {
+                setAddGoods(true);
+                addRow();
+              }}
+            >
+              Thêm hàng hóa
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary btnCreate"
+              data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop"
+              onClick={async () => {
+                console.log(await estimateFee(order));
+              }}
+            >
+              Ước tính chi phí
+            </button>
           </div>
         </div>
-      </form>
+
+        <div className="row p-2 table-responsive">
+          <table className="createOrderTable">
+            <thead>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Loại hàng hóa</th>
+                <th scope="col">Nội dung</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Khối lượng thực</th>
+                <th scope="col">Khối lượng chuyển đổi</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {goodsList.map((goods, index) => (
+                <tr key={goods.id}>
+                  <td scope="col">{index + 1}</td>
+                  <td scope="col">
+                    <select
+                      value={goods.goodsType}
+                      onChange={(e) => {
+                        const updatedGoodsList = [...goodsList];
+                        updatedGoodsList[index].goodsType = e.target.value;
+                        setGoodsList(updatedGoodsList);
+                      }}
+                    >
+                      <option value="goods">Hàng hóa</option>
+                      <option value="document">Tài liệu</option>
+                    </select>
+                  </td>
+                  <td scope="col">
+                    <input
+                      type="number"
+                      value={goods.realWeight}
+                      onChange={(e) => {
+                        const updatedGoodsList = [...goodsList];
+                        updatedGoodsList[index].realWeight = e.target.value;
+                        setGoodsList(updatedGoodsList);
+                      }}
+                    />
+                  </td>
+                  <td scope="col">
+                    <input
+                      type="number"
+                      value={goods.convertedWeight}
+                      onChange={(e) => {
+                        const updatedGoodsList = [...goodsList];
+                        updatedGoodsList[index].convertedWeight =
+                          e.target.value;
+                        setGoodsList(updatedGoodsList);
+                      }}
+                    />
+                  </td>{" "}
+                  <td scope="col">
+                    <input
+                      type="number"
+                      value={goods.convertedWeight}
+                      onChange={(e) => {
+                        const updatedGoodsList = [...goodsList];
+                        updatedGoodsList[index].convertedWeight =
+                          e.target.value;
+                        setGoodsList(updatedGoodsList);
+                      }}
+                    />
+                  </td>
+                  <td scope="col">
+                    <input
+                      type="number"
+                      value={goods.convertedWeight}
+                      onChange={(e) => {
+                        const updatedGoodsList = [...goodsList];
+                        updatedGoodsList[index].convertedWeight =
+                          e.target.value;
+                        setGoodsList(updatedGoodsList);
+                      }}
+                    />
+                  </td>
+                  <td scope="col">
+                    <button onClick={() => removeRow(goods.id)} className="btn">
+                      <FaTrash className="text-danger" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
       <div className="btnContainer">
         <button
           type="button"
@@ -454,7 +492,7 @@ export default function OrderForm() {
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
           onClick={() => {
-            createOrder(order);
+            console.log(order);
           }}
         >
           Tao don hang

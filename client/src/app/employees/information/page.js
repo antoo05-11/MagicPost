@@ -21,7 +21,9 @@ export default function Page() {
   return (
     <Container>
       <Row>
-        <Col xs="4">{/* <Preview data={dataInfo} /> */}</Col>
+        <Col xs="4">
+          <Preview data={dataInfo} />
+        </Col>
 
         <Col>
           <div>
@@ -45,8 +47,10 @@ export default function Page() {
             </button>
           </div>
           <div className="row mt-3">
-            {/* {currentPage === "mainInformation" && <MainInformation data={dataInfo} />} */}
-            {/* {currentPage === "security" && <Security data={dataInfo} />} */}
+            {currentPage === "mainInformation" && (
+              <MainInformation data={dataInfo} />
+            )}
+            {currentPage === "security" && <Security data={dataInfo} />}
           </div>
         </Col>
       </Row>

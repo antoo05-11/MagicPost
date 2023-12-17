@@ -4,7 +4,7 @@ import "bootstrap/js/src/dropdown.js";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import BreadCrumb from "./breadcrumd";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { FaRegBell } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Container, Row, Col, Button } from "react-bootstrap";
@@ -24,6 +24,8 @@ export default function TopBar() {
   const route = useRouter();
   const [profile, setProfile] = useState();
   const profileRef = useRef();
+  const userName = useSession()?.data?.user?.fullName;
+  // console.log(useSession()?.data?.user);
   useEffect(() => {
     const closeProfile = (e) => {
       // if (e.path[0] !== profileRef.currents) {
@@ -55,7 +57,7 @@ export default function TopBar() {
               <Container ref={profileRef} onClick={() => setProfile(!profile)}>
                 <Row>
                   <Col xs="auto" className="userName">
-                    Đỗ Minh Duy
+                    {userName}
                   </Col>
                   <Col xs="auto">
                     <FaRegUserCircle size={"2em"} />
