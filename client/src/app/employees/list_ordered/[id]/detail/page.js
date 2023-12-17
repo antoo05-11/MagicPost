@@ -1,6 +1,6 @@
 "use client";
 // import Form from "@/components/employee/employee-form";
-import OrderProgress from "@/components/employee/table/order-progress";
+import OrderProgress from "@/components/customer/order-progress";
 import Link from "next/link";
 import OrderDetail from "@/components/employee/form/order-detail";
 export default function Page({ params }) {

@@ -1,5 +1,5 @@
 "use client";
-import OrderProgress from "@/components/employee/table/order-progress";
+import OrderProgress from "@/components/customer/order-progress";
 import LookUpBanner from "@/components/customer/lookUpBanner";
 import LookUpOrder from "@/components/customer/lookUpOrder";
 import { useState } from "react";

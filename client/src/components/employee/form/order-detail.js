@@ -4,7 +4,7 @@ import "@/css/employee/customForm.css";
 
 import { createOrder } from "@/api/action";
 import { getOrderById } from "@/api/data";
-import OrderProgress from "../table/order-progress";
+import OrderProgress from "../../customer/order-progress";
 
 export default function OrderDetail({ id }) {
   const { data: order } = getOrderById(id);
