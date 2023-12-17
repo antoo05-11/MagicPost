@@ -310,7 +310,13 @@ export const getOrderByID = async (req, res) => {
  */
 export const createOrder = async (req, res) => {
     let order = JSON.parse(JSON.stringify(req.body.order));
-    let savePoint = JSON.parse(JSON.stringify(req.body));
+
+    order.mainPostage = 1000;
+    order.addedPostage = 1000;
+    order.VATFee = 1000;
+    order.otherFee = 1000;
+    order.receiverCOD = 1000;
+    order.receiverOtherFee = 1000;
 
     let goodsList = req.body.goodsList;
 
