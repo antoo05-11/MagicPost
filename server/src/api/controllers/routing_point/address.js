@@ -179,7 +179,6 @@ export const buildAddressWhereClause = (address) => {
 /**
  * The function `buildAddressString` takes an address object and returns a formatted string containing
  * the address details, district name, and province name.
- * @param address - {
  * @returns a string that represents the address. The string includes the address detail, district
  * name, district name again, and province name.
  */

@@ -80,7 +80,7 @@ module.exports = (sequelize, DataTypes) => {
         status: {
             type: DataTypes.ENUM('delivering', 'delivered'),
             allowNull: true,
-            default: 'delivering'
+            defaultValue: 'delivering'
         }
     }, {
         id: false
