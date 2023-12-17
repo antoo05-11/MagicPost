@@ -1,25 +1,5 @@
 import { role } from '../../models/human/role';
-import { Commune, District, Province } from './address';
-
-const db = require('../../models');
-
-const GoodsPoint = db.goods_points;
-const Address = db.addresses;
-const Process = db.processes;
-const Employee = db.employees;
-const RoutingPoint = db.routing_points;
-
-Process.belongsTo(GoodsPoint, { foreignKey: 'routingPointID' });
-GoodsPoint.hasMany(Process, { foreignKey: 'routingPointID' });
-
-Employee.belongsTo(GoodsPoint, { foreignKey: 'workingPointID' });
-GoodsPoint.hasMany(Employee, { foreignKey: 'workingPointID' });
-
-GoodsPoint.belongsTo(RoutingPoint, { foreignKey: 'goodsPointID' });
-Address.belongsTo(Commune, { foreignKey: 'communeID' });
-Commune.belongsTo(District, { foreignKey: 'districtID' });
-District.belongsTo(Province, { foreignKey: 'provinceID' });
-RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
+import { Address, Commune, District, Employee, GoodsPoint, Process, Province, RoutingPoint } from '../../models/model-export';
 
 export const getAllGoodsPointWithStatistics = async (req, res) => {
     let goodsPoints = await GoodsPoint.findAll({

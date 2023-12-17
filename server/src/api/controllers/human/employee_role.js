@@ -1,5 +1,4 @@
-const db = require('../../models');
-const EmployeeRole = db.employee_roles;
+import { EmployeeRole } from '../../models/model-export';
 
 export const getAllEmployeeRoles = async (req, res) => {
     let result = [];

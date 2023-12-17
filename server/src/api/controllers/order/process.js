@@ -1,22 +1,8 @@
 import Error from '../../exceptions/error';
 import { sequelize } from '../../models';
+import { Address, Commune, District, Order, Process, Province, RoutingPoint } from '../../models/model-export';
 import { buildAddressString } from '../routing_point/address';
 import { findNextRoutingPoint } from '../routing_point/routing_point';
-
-const db = require('../../models');
-const Order = db.orders;
-const Address = db.addresses;
-const Process = db.processes;
-const RoutingPoint = db.routing_points;
-const Commune = db.communes;
-const District = db.districts;
-const Province = db.provinces;
-
-Process.belongsTo(RoutingPoint, { foreignKey: 'routingPointID' });
-RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
-Address.belongsTo(Commune, { foreignKey: 'communeID' });
-Commune.belongsTo(District, { foreignKey: 'districtID' });
-District.belongsTo(Province, { foreignKey: 'provinceID' });
 
 /**
  * The `updateProcess` function updates the status of a process and performs additional actions based

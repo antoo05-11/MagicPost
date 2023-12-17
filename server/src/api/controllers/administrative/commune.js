@@ -1,5 +1,4 @@
-const db = require('../../models')
-export const Commune = db.communes;
+import { Commune } from "../../models/model-export";
 
 export const getAllCommunes = async (req, res) => {
     const communes = await Commune.findAll();

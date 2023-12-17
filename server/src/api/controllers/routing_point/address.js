@@ -1,20 +1,14 @@
 import { Op } from 'sequelize';
-
-const db = require('../../models');
-export const Address = db.addresses;
-export const Commune = db.communes;
-export const District = db.districts;
-export const Province = db.provinces;
-export const Route = db.routes;
-
-Address.belongsTo(Commune, { foreignKey: 'communeID' });
-Address.belongsTo(District, { foreignKey: 'districtID' });
-Address.belongsTo(Province, { foreignKey: 'provinceID' });
-District.belongsTo(Province, { foreignKey: 'provinceID' });
+import { Address, Commune, District, Province } from '../../models/model-export';
 
 const request = require('request');
 const parseString = require('xml2js').parseString;
 
+/**
+ * The function `getAddress` retrieves an address by its ID, builds a string representation of the
+ * address, and returns it as a JSON response.
+ * @returns a response with a status code of 200 and a JSON object containing the address string.
+ */
 export const getAddress = async (req, res) => {
     let address = await getAddressByID(req.params.id);
     return res.status(200).json(buildAddressString(address));
