@@ -21,6 +21,10 @@ const limitRecordsNum = 8;
 export const getOrdersByWorkingRouteID = async (req, res) => {
     const currentRoutingPointID = req.user.workingPointID;
 
+    console.log(currentRoutingPointID);
+
+    const orderID = req.query.orderID;
+
     const page = req.query.page || 1;
     const limit = req.query.limit || limitRecordsNum;
 
@@ -31,7 +35,7 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
         return res.status(400).json(Error.getError(Error.code.invalid_date_param_format));
 
     if (!minCreatedAt) minCreatedAt = normalizeDate('1/1/1970');
-    if (!maxCreatedAt) maxCreatedAt = normalizeDate(new Date(Date.now()).toLocaleDateString());
+    if (!maxCreatedAt) maxCreatedAt = Date.now();
 
     let totalPages = await Order.count({
         subQuery: false,

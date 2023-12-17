@@ -25,7 +25,7 @@ orderRoute.post("/create", verifyToken,
     (req, res, next) => authorize(req, res, next, [role.TRANSACTION_POINT_EMPLOYEE]),
     catchAsync(createOrder));
 
-orderRoute.get("/getOrderCost", verifyToken,
+orderRoute.post("/getOrderCost", verifyToken,
     (req, res, next) => authorize(req, res, next, [role.TRANSACTION_POINT_EMPLOYEE]),
     catchAsync(getOrderCost));
 
