@@ -1,5 +1,4 @@
-const db = require('../../models')
-export const Province = db.provinces;
+import { Province } from "../../models/model-export";
 
 export const getAllProvinces = async (req, res) => {
     const provinces = await Province.findAll();

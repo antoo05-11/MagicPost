@@ -1,10 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Error from "../exceptions/error";
-const Crypto = require('node-crypt');
-
-const db = require('../models');
-const Employee = db.employees;
+import { Employee } from "../models/model-export";
 
 const genToken = (user, expiresIn = "7d") => {
     return jwt.sign({
@@ -28,29 +25,13 @@ const genRefreshToken = (user, expiresIn = "365d") => {
 
 const refreshTokens = [];
 
-const crypto = new Crypto({
-    key: 'b95d8cb128734ff8821ea634dc34334535afe438524a782152d11a5248e71b01',
-    hmacKey: 'dcf8cd2a90b1856c74a9f914abbb5f467c38252b611b138d8eedbe2abb4434fc'
-});
-
 export const login = async (req, res) => {
-    const user = await Employee.findOne({
-        where: { employeeID: req.body.employeeID }
+    let user = await Employee.findOne({
+        where: { employeeID: req.body.employeeID },
+        attributes: ['employeeID', 'fullName', 'role', 'status', 'password']
     });
     if (!user)
         return res.status(404).json(Error.getError(Error.code.invalid_employee_id));
-
-    //const encrypted = await crypto.encrypt("password");
-    //console.log(encrypted);
-
-    // let passwordInput = "";
-    // try {
-    //     passwordInput = await crypto.decrypt(req.body.password);
-    // } catch (err) {
-    //     throw new HttpException(400, "Incorrect password");
-    // }
-
-    // **Not decrypt input password.
 
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch)
@@ -67,19 +48,20 @@ export const login = async (req, res) => {
         path: "/",
     });
 
-    let clone = { ...user.get() };
-    delete clone.password;
+    user = { ...user.get() };
+    if (user.status == 'INACTIVE')
+        return res.status(400).json(Error.getError(Error.code.inactive_account));
+
+    delete user.password;
 
     return res.status(200).json({
-        user: clone,
+        user: user,
         accessToken: accessToken
     });
 };
 
 export const requestRefreshToken = async (req, res) => {
-    const {
-        refreshToken
-    } = req.cookies;
+    const { refreshToken } = req.cookies;
 
     if (!refreshToken)
         return res.status(401).json(Error.getError(Error.code.no_refresh_token));

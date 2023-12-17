@@ -1,28 +1,11 @@
-const db = require('../../models');
-
-const Employee = db.employees;
-const Address = db.addresses;
-const Commune = db.communes;
-const District = db.districts;
-const Province = db.provinces;
-const RoutingPoint = db.routing_points;
-const TransactionPoint = db.transaction_points;
-const GoodsPoint = db.goods_points;
-
-Employee.belongsTo(Address, { foreignKey: 'addressID', as: 'address' });
-Address.belongsTo(Commune, { foreignKey: 'communeID' });
-Commune.belongsTo(District, { foreignKey: 'districtID' });
-District.belongsTo(Province, { foreignKey: 'provinceID' });
-RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
-Employee.belongsTo(RoutingPoint, { foreignKey: 'workingPointID', as: 'workingPoint' });
-
 import bcrypt from "bcryptjs";
-import { buildAddressWhereClause, checkAddress, getAddressByID } from "../routing_point/address";
-import { generateRandomPassword, normalizeDate, normalizeName } from "../../../utils";
+import { generateRandomPassword, normalizeName } from "../../../utils";
 import { sequelize } from '../../models';
 import { role } from "../../models/human/role";
 import Error from "../../exceptions/error";
 import { Op } from "sequelize";
+import { Address, Commune, District, Employee, GoodsPoint, Province, RoutingPoint, TransactionPoint } from "../../models/model-export";
+import { buildAddressWhereClause, checkAddress, getAddressByID } from "../routing_point/address";
 
 const defaultPageLimit = 8;
 
@@ -186,10 +169,11 @@ export const addNewEmployee = async (req, res) => {
         console.error(error);
         return res.status(500);
     }
-    const cloneNewUser = newUser.dataValues;
-    cloneNewUser.address = await getAddressByID(cloneNewUser.addressID);
-    cloneNewUser.password = password;
-    return res.status(200).json(cloneNewUser);
+
+    newUser = { ...newUser.get() };
+    newUser.address = await getAddressByID(newUser.addressID);
+    newUser.password = password;
+    return res.status(200).json(newUser);
 }
 
 export const editEmployeeInfo = async (req, res) => {

@@ -24,7 +24,6 @@ export default async function page({ searchParams: { page } }) {
 
       <div className="row">
         <OrderTable page={currentPage}></OrderTable>
-        <OrderProgress></OrderProgress>
       </div>
     </div>
   );

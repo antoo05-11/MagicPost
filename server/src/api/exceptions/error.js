@@ -3,6 +3,7 @@ export default class Error {
         no_credentials_sent: 10000,
         not_authorized: 10001,
         authentication_failed: 10002,
+        inactive_account: 10021,
         invalid_request: 10003,
         invalid_address: 10004,
         invalid_employee_id: 10005,
@@ -36,8 +37,11 @@ export default class Error {
         this.errors.set(this.code.invalid_request,
             new ErrorRes("Invalid request format!"));
 
+        this.errors.set(this.code.inactive_account,
+            new ErrorRes("This account is inactive! Contact with the head of your working point to active it."));
+
         this.errors.set(this.code.token_expired,
-            new ErrorRes("JWT token expired!"));
+            new ErrorRes("JWT token is invalid or expired!"));
 
         this.errors.set(this.code.invalid_address,
             new ErrorRes("Invalid Data!",

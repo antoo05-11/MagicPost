@@ -4,6 +4,7 @@
 - [<samp>Server Information</samp>](#server-information)
 - [<samp>Install and run</samp>](#install-and-run)
 - [<samp>Error Response JSON Sample and Error codes<samp>](#error-response-json-sample-and-error-codes)
+- [<samp>Accounts For Testing</samp>](#accounts-for-testing)
 - [<samp>API List</samp>](#api-list)
   - [<samp>Auth API</samp>](#auth-api)
     - [<samp>Log in</samp>](#log-in)
@@ -20,6 +21,11 @@
     - [<samp>Create new order</samp>](#create-new-order)
   - [<samp>Order Process API</samp>](#order-process-api)
     - [<samp>Update process status with process ID</samp>](#update-process-status-with-process-id)
+  - [<samp>Routing Point API</samp>](#routing-point-api)
+    - [<samp>Get all routing points</samp>](#get-all-routing-points)
+    - [<samp>Get all routing point provinces</samp>](#get-all-routing-point-provinces)
+    - [<samp>Get all routing point districts</samp>](#get-all-routing-point-districts)
+    - [<samp>Get all routing point communes</samp>](#get-all-routing-point-communes)
   - [<samp>Transaction Point API</samp>](#transaction-point-api)
     - [<samp>Get transaction points by address</samp>](#get-transaction-point-by-address)
     - [<samp>Get all transaction points with statictics</samp>](#get-all-transaction-points-with-statistics)
@@ -36,7 +42,7 @@
 + <samp> This project is a part of Web Application Development course in UET, VNU. </samp>
 + <samp>This Node.js application is hosted on <a href="https://dashboard.render.com/"><samp>Render.com<samp></a> with URL <a href = "https://magicpost-uet.onrender.com/"><samp>magicpost-uet.onrender.com</samp></a>.</samp>
 + <samp>The database is hosted on <a href="https://console.clever-cloud.com" target="_blank"><samp>Clever Cloud Console</samp></a>.</samp>
-+ <samp>Last Updated: 2023/12/15</samp>
++ <samp>Last Updated: 2023/12/16</samp>
   
 ## <samp>Install and run</samp>
 
@@ -74,6 +80,21 @@
 | 400              | 10018     | Invalid Data Order                                                                                  |
 | 400             | 10019     | Invalid Process ID                        |
 | 401             | 10020    | JWT token expired                        |
+
+## <samp>Accounts for testing</samp>
+
+| Role                       | Employee ID | Password |
+|----------------------------|-------------|----------|
+| Manager                    | 23000015    | password |
+| Transaction point employee | 23000013    | password |
+| Goods point employee       | 23000016    | password |
+| Transaction point head     | 23000000    | password |
+| Goods point head           | 23000021    | password |
+
+    
+<samp>To test features of all roles, use this account: <br></samp>
+<samp> `21000022` as <i>employee ID</i> and `password` as <i>password</i>.
+
 ## <samp>API List</samp>
 
 ### <samp>Auth API</samp>
@@ -99,18 +120,13 @@
 ```
 
 + ##### <em><samp>Response JSON Sample</samp></em>
-
 ```json
 {
     "user": {
         "employeeID": 23000014,
-        "identifier": "010203090730",
-        "phoneNumber": "0123457789",
-        "fullName": "Nguyễn Thị Hòa",
-        "addressID": 91,
-        "role": "TRANSACTION_POINT_EMPLOYEE",
-        "email": "email@email.com",
-        "workingPointID": 47
+        "fullName": "Dương Nguyễn Việt Anh",
+        "role": "TRANSACTION_POINT_HEAD",
+        "status": "ACTIVE"
     },
     "accessToken": "sample-token"
 }
@@ -581,22 +597,60 @@
 ```json
 {
     "order": {
-        "orderID": "JMY274854066VN",
+        "sender": {
+            "fullname": "Hoang Thuy Linh",
+            "phoneNumber": "0123456789",
+            "address": {
+                "detail": "39S, Street A",
+                "communeID": "121",
+                "districtID": "9",
+                "provinceID": "1"
+            }
+        },
+        "receiver": {
+            "fullname": "Nguyen Huu Minh",
+            "phoneNumber": "0123456789",
+            "address": {
+                "detail": "43, Street A",
+                "communeID": "121",
+                "districtID": "9",
+                "provinceID": "1"
+            }
+        },
+        "failChoice": "return",
+        "specialService": "Some special services"
+    },
+    "goodsList": [
+        {
+            "realWeight": "100",
+            "convertedWeight": "25",
+            "goodsType": "goods"
+        }
+    ]
+}
+```
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+
+```json
+{
+    "order": {
+        "orderID": "TNJ945334140VN",
         "sender": {
             "fullName": "Hoang Thuy Linh",
             "phoneNumber": "0123456789",
             "address": "39S, Street A, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
-            "customerID": 53
+            "customerID": 63
         },
         "receiver": {
             "fullName": "Nguyen Huu Minh",
             "phoneNumber": "0123456789",
             "address": "43, Street A, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
-            "customerID": 54
+            "customerID": 64
         },
         "creator": {
             "employeeID": 23000013,
-            "fullName": "Bùi Đức Anh"
+            "fullName": "Hoàng Văn Anh"
         },
         "failChoice": "return",
         "mainPostage": 1000,
@@ -620,64 +674,24 @@
             "address": "Số nhà 44, Tổ 2 khu 3B, Phường Giếng Đáy, Thành phố Hạ Long, Tỉnh Quảng Ninh",
             "zipCode": "13245"
         },
-        "createdAt": "2023-12-16T14:39:06.000Z",
+        "createdAt": "2023-12-17T12:02:07.000Z",
         "processes": [
             {
-                "processID": 19,
+                "processID": 24,
                 "routingPointAddress": "Số nhà 44, Tổ 2 khu 3B, Phường Giếng Đáy, Thành phố Hạ Long, Tỉnh Quảng Ninh",
                 "status": "on_stock",
-                "arrivedTime": null
+                "arrivedTime": "2023-12-17T12:02:08.000Z"
             }
         ]
     },
     "goodsList": [
         {
-            "goodsID": 30,
-            "orderID": "JMY274854066VN",
+            "goodsID": 35,
+            "orderID": "TNJ945334140VN",
             "goodsType": "goods",
             "realWeight": 100,
             "convertedWeight": 25
         }
-    ]
-}
-```
-
-+ ##### <em><samp>Response JSON Sample</samp></em>
-
-```json
-{
-    "order": {
-        "sender": {
-            "fullname": "Hoang Thuy Linh",
-            "phoneNumber": "0123456789",
-            "address": {
-                "detail": "39S, Street A", "communeID": "121", "districtID": "9", "provinceID": "1"
-            }
-        },
-        "receiver": {
-            "fullname": "Nguyen Huu Minh",
-            "phoneNumber": "0123456789",
-            "address": {
-                "detail": "43, Street A", "communeID": "121", "districtID": "9", "provinceID": "1"
-            }
-        },
-        "failChoice": "return",
-        "mainPostage": "1000",
-        "addedPostage": "1000",
-        "VATFee": "1000",
-        "otherFee": "1000",
-        "receiverCOD": "1000",
-        "receiverOtherFee": "1000",
-        "specialService": "",
-        "orderID": "UAO124368446VN",
-        "startTransactionPointID": 47,
-        "endTransactionPointID": "46",
-        "creatorID": 23000014,
-        "createdAt": "2023-11-30T13:39:12.787Z",
-        "updatedAt": "2023-11-30T13:39:12.787Z"
-    },
-    "goodsList": [
-        { "realWeight": "100", "convertedWeight": "25", "goodsType": "goods" }
     ]
 }
 ```
@@ -735,6 +749,105 @@
         "routingPointAddress": "34, đường Nguyễn Sỹ Sách, Xã Hưng Lộc, Thành phố Vinh, Tỉnh Nghệ An",
         "status": "forwarded",
         "arrivedTime": "2023-12-11T18:00:34.000Z"
+    }
+]
+```
+
+### <samp>Routing Point API<samp>
+#### <samp>Get all routing points<samp>
++ ##### <em> <samp> API Information </samp></em>
+| Request Requirement | Content                                                            |
+|---------------------|--------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/routingPoint/getall/        |
+| Query Params        | provinceID (optional), communeID (optional), districtID (optional) |
+| HTTP method         | GET                                                                |
+| Token Required      | YES                                                                |
+| Roles Authorized    | MANAGER                                                            |
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+[
+    {
+        "name": "Điểm giao dịch Trung Tâm Thủ Đô",
+        "routingPointID": 45,
+        "address": {
+            "communeID": 70,
+            "districtID": 6,
+            "provinceID": 1
+        }
+    },
+    {
+        "name": "Điểm giao dịch QN1",
+        "routingPointID": 46,
+        "address": {
+            "communeID": 2401,
+            "districtID": 142,
+            "provinceID": 14
+        }
+    }
+]
+```
+
+
+#### <samp>Get all routing point provinces<samp>
++ ##### <em> <samp> API Information </samp></em>
+| Request Requirement | Content                                                            |
+|---------------------|--------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/routingPoint/getallprovinces/        |
+| HTTP method         | GET                                                                |
+| Token Required      | YES                                                                |
+| Roles Authorized    | MANAGER                                                            |
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+[
+    {
+        "name": "Thành phố Hà Nội",
+        "provinceID": 1
+    },
+    {
+        "name": "Tỉnh Quảng Ninh",
+        "provinceID": 14
+    }
+]
+```
+
+#### <samp>Get all routing point districts<samp>
++ ##### <em> <samp> API Information </samp></em>
+| Request Requirement | Content                                                            |
+|---------------------|--------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/routingPoint/getalldistricts/:provinceID        |
+| HTTP method         | GET                                                                |
+| Token Required      | YES                                                                |
+| Roles Authorized    | MANAGER                                                            |
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+[
+    {
+        "name": "Quận Đống Đa",
+        "districtID": 6,
+        "provinceID": 1
+    },
+    {
+        "name": "Quận Thanh Xuân",
+        "districtID": 9,
+        "provinceID": 1
+    }
+]
+```
+
+#### <samp>Get all routing point communes<samp>
++ ##### <em> <samp> API Information </samp></em>
+| Request Requirement | Content                                                            |
+|---------------------|--------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/routingPoint/getallcommunes/:districtID        |
+| HTTP method         | GET                                                                |
+| Token Required      | YES                                                                |
+| Roles Authorized    | MANAGER                                                            |
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+[
+    {
+        "communeID": 68,
+        "name": "Phường Láng Hạ"
     }
 ]
 ```

@@ -24,6 +24,10 @@ export default function BreadCrumb() {
     } else if (pathname.includes("detail")) {
       listItem.push("detailEmployee");
     }
+  } else if (pathname.includes("list_transaction")) {
+    listItem.push("manageTransactionPoint");
+  } else if (pathname.includes("list_workspace")) {
+    listItem.push("manageGoodsPoint");
   }
   const route = useRouter();
   return (

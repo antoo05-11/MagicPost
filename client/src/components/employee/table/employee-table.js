@@ -22,12 +22,39 @@ export default function EmployyeeTable({ page, query }) {
     }
     replace(`${pathname}?${params.toString()}`);
   }, 300);
-  const handlePhone = useDebouncedCallback((term) => {
+  const handleEmID = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
-      params.set("phone", term);
+      params.set("emID", term);
     } else {
-      params.delete("phone");
+      params.delete("emID");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+  const handleAddress = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("address", term);
+    } else {
+      params.delete("address");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+  const handleRole = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("role", term);
+    } else {
+      params.delete("role");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+  const handleStatus = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("status", term);
+    } else {
+      params.delete("status");
     }
     replace(`${pathname}?${params.toString()}`);
   }, 300);
@@ -58,7 +85,10 @@ export default function EmployyeeTable({ page, query }) {
                 <tr className="filter">
                   <th scope="col"></th>
                   <th scope="col">
-                    <input placeholder="Lọc theo mã nhân viên" />
+                    <input
+                      onChange={(e) => handleEmID(e.target.value)}
+                      placeholder="Lọc theo mã nhân viên"
+                    />
                   </th>
                   <th scope="col">
                     <input
@@ -67,7 +97,7 @@ export default function EmployyeeTable({ page, query }) {
                     />
                   </th>
                   <th scope="col">
-                    <select>
+                    <select onChange={(e) => handleAddress(e.target.value)}>
                       <option value="">Chọn tỉnh/ thành phố</option>
                       {provinceData.map((province) => (
                         <option
@@ -114,6 +144,10 @@ export default function EmployyeeTable({ page, query }) {
                         </span>
                       </td>
                       <td>{employee?.phoneNumber}</td>
+                      <td>{employee?.fullName}</td>
+                      <td>{employee?.fullName}</td>
+                      <td>{employeeRole[employee?.role]?.name}</td>
+                      <td>{employee?.email}</td>
                       <td className="d-flex justify-content-center">
                         <EmployeeDetail id={employee?.employeeID} />
                       </td>

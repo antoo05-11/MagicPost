@@ -3,43 +3,12 @@ import { sequelize } from '../../models';
 import Error from '../../exceptions/error';
 import { checkDateFormat, normalizeDate } from '../../../utils';
 import { buildAddressString } from '../routing_point/address';
+import { Address, Commune, Customer, District, Employee, Goods, Order, Process, Province, RoutingPoint, TransactionPoint } from '../../models/model-export';
+
 const { Op } = require('sequelize')
 const crypto = require('crypto');
-
-const db = require('../../models');
-const Order = db.orders;
-const Goods = db.goods;
-const Customer = db.customers;
-const Address = db.addresses;
-const Process = db.processes;
-const RoutingPoint = db.routing_points;
-const Commune = db.communes;
-const District = db.districts;
-const Province = db.provinces;
-const TransactionPoint = db.transaction_points;
-const GoodsPoint = db.goods_points;
-const Employee = db.employees;
-
-Order.belongsTo(TransactionPoint, { foreignKey: 'startTransactionPointID', as: 'startTransactionPoint' });
-Order.belongsTo(TransactionPoint, { foreignKey: 'endTransactionPointID', as: 'endTransactionPoint' });
-TransactionPoint.belongsTo(RoutingPoint, { foreignKey: 'transactionPointID' });
-
-Process.belongsTo(Order, { foreignKey: 'orderID' });
-Process.belongsTo(RoutingPoint, { foreignKey: 'routingPointID' });
-
-Address.belongsTo(Commune, { foreignKey: 'communeID' });
-Commune.belongsTo(District, { foreignKey: 'districtID' });
-District.belongsTo(Province, { foreignKey: 'provinceID' });
-RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
-Order.hasMany(Process, { foreignKey: 'orderID' });
-
-Order.belongsTo(Customer, { foreignKey: 'senderID', as: 'sender' });
-Order.belongsTo(Customer, { foreignKey: 'receiverID', as: 'receiver' });
-Customer.belongsTo(Address, { foreignKey: 'addressID' });
-
-Order.belongsTo(Employee, { foreignKey: 'creatorID' });
-
 const fs = require('fs');
+
 const limitRecordsNum = 8;
 
 const getOrderByIDForCustomerQueryPath = path.join(__dirname, '../../../queries/orders/orderForCustomer.select.sql');
@@ -341,7 +310,13 @@ export const getOrderByID = async (req, res) => {
  */
 export const createOrder = async (req, res) => {
     let order = JSON.parse(JSON.stringify(req.body.order));
-    let savePoint = JSON.parse(JSON.stringify(req.body));
+
+    order.mainPostage = 1000;
+    order.addedPostage = 1000;
+    order.VATFee = 1000;
+    order.otherFee = 1000;
+    order.receiverCOD = 1000;
+    order.receiverOtherFee = 1000;
 
     let goodsList = req.body.goodsList;
 

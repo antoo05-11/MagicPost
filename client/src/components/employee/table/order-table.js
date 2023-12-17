@@ -33,7 +33,7 @@ export default function OrderTable({ page }) {
               <tr className="filter">
                 <th scope="col"></th>
                 <th scope="col">
-                  <input onChange={(e) => handleName(e.target.value)} placeholder="Lọc theo tên" />
+                  <input placeholder="Lọc theo mã đơn hàng" />
                 </th>
                 <th scope="col">
                   <select>
@@ -47,7 +47,6 @@ export default function OrderTable({ page }) {
                       </option>
                     ))}
                   </select>
-
                 </th>
                 <th scope="col">
                   <select>
@@ -72,9 +71,10 @@ export default function OrderTable({ page }) {
                 </th>
                 <th scope="col">
                   <select placeholder="Chọn">
-                    <option value="1">Audi</option>
-                    <option value="2">BMW</option>
-                    <option value="3">Citroen</option>
+                    <option>Trạng thái</option>
+                    {listStatus.map((e) => {
+                      return <option value={e}>{orderStatus[e]?.now}</option>;
+                    })}
                   </select>
                 </th>
                 <th scope="col"></th>

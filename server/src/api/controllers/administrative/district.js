@@ -1,10 +1,4 @@
-const db = require('../../models')
-export const District = db.districts;
-
-export const Province = db.provinces;
-export const Route = db.routes;
-
-District.belongsTo(Province, { foreignKey: 'provinceID' });
+import { District } from "../../models/model-export";
 
 export const getAllDistricts = async (req, res) => {
     const districts = await District.findAll();

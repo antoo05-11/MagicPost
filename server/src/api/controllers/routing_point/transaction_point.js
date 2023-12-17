@@ -1,32 +1,9 @@
-import { Commune, District, Province, buildAddressString, buildAddressWhereClause } from './address';
+import { buildAddressString, buildAddressWhereClause } from './address';
 import { sequelize } from '../../models';
 import { role } from '../../models/human/role';
-
-const db = require('../../models');
-
-const TransactionPoint = db.transaction_points;
-const Address = db.addresses;
-const Order = db.orders;
-const RoutingPoint = db.routing_points;
-const Process = db.processes;
-const Employee = db.employees;
-
-TransactionPoint.belongsTo(RoutingPoint, { foreignKey: 'transactionPointID' });
-
-Employee.belongsTo(TransactionPoint, { foreignKey: 'workingPointID' });
-TransactionPoint.hasMany(Employee, { foreignKey: 'workingPointID' });
-
-Address.belongsTo(Commune, { foreignKey: 'communeID' });
-Commune.belongsTo(District, { foreignKey: 'districtID' });
-District.belongsTo(Province, { foreignKey: 'provinceID' });
-RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
-Order.hasMany(Process, { foreignKey: 'orderID' });
-
-Process.belongsTo(TransactionPoint, { foreignKey: 'routingPointID' });
-TransactionPoint.hasMany(Process, { foreignKey: 'routingPointID' });
+import { Address, Commune, District, Employee, Order, Process, Province, RoutingPoint, TransactionPoint } from '../../models/model-export';
 
 export const getAllTransactionPoints = async (req, res) => {
-
     await TransactionPoint.hasMany(Order, { foreignKey: 'startTransactionPointID' });
     const startTransactionPoints = await TransactionPoint.findAll({
         attributes: ['transactionPointID', [sequelize.fn('COUNT', sequelize.col('orders.orderID')), 'orderCount']],
