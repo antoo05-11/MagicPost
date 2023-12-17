@@ -79,10 +79,7 @@ export const getAllRoutingPointCommunes = async (req, res) => {
         include: {
             model: Address,
             where: addressWhereClause,
-            include: {
-                model: Commune,
-                attributes: ['communeID', 'name']
-            }
+            include: [Commune]
         }
     });
     let communes = new Set();

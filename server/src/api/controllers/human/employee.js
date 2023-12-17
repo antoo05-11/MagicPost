@@ -5,7 +5,7 @@ import { role } from "../../models/human/role";
 import Error from "../../exceptions/error";
 import { Op } from "sequelize";
 import { Address, Commune, District, Employee, GoodsPoint, Province, RoutingPoint, TransactionPoint } from "../../models/model-export";
-import { buildAddressWhereClause } from "../routing_point/address";
+import { buildAddressWhereClause, checkAddress, getAddressByID } from "../routing_point/address";
 
 const defaultPageLimit = 8;
 

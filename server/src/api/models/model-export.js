@@ -28,7 +28,7 @@ Address.belongsTo(District, { foreignKey: 'districtID' });
 Address.belongsTo(Province, { foreignKey: 'provinceID' });
 
 District.belongsTo(Province, { foreignKey: 'provinceID' });
-Commune.belongsTo(District, { foreignKey: 'provinceID' });
+Commune.belongsTo(District, { foreignKey: 'districtID' });
 
 RoutingPoint.belongsTo(Address, { foreignKey: 'addressID' });
 
