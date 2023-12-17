@@ -1,7 +1,6 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/js/src/dropdown.js";
-import "@/css/employee/topbar.css";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import BreadCrumb from "./breadcrumd";
@@ -10,6 +9,7 @@ import { FaRegBell } from "react-icons/fa";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
+import "@/css/employee/topbar.css";
 
 const itemVariants = {
   open: {

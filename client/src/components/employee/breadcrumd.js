@@ -1,45 +1,47 @@
+"use client";
 import { redirect, usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-const funtrole = {
-  employees: {
-    url: "/employees",
-    name: "Trang chinh",
-  },
-  list_employee: {
-    url: "/employees/list_employee",
-    name: "Quan li nhan vien",
-  },
-  list_ordered: {
-    url: "/employees/list_ordered",
-    name: "Quan li don hang",
-  },
-};
-const url = {
-  "/employees": "Trang Chính",
-  "/employees/list_employee": "Nhân viên",
-  "/employees/list_ordered": "Đơn hàng",
-  "/employees/list_ordered/create": "Tạo đơn hàng",
-  "/employees/list_employee/create": "Tạo nhân viên",
-};
+import { listUrl } from "@/api/utils";
+import { useEffect } from "react";
+import { BreadcrumbItem } from "react-bootstrap";
+
+// const listItem = ["hihi"];
 export default function BreadCrumb() {
-  const pathname = usePathname().split("/");
-  const listItem = [""];
-  for (var i = 1; i < pathname.length; i++) {
-    listItem.push(listItem[listItem.length - 1] + "/" + pathname[i]);
+  const pathname = usePathname();
+  const listItem = ["homepage"];
+  if (pathname.includes("list_ordered")) {
+    listItem.push("manageOrders");
+    if (pathname.includes("create")) {
+      listItem.push("createOrder");
+    } else if (pathname.includes("detail")) {
+      listItem.push("detailOrder");
+    }
+  } else if (pathname.includes("list_employee")) {
+    listItem.push("manageEmployees");
+    if (pathname.includes("create")) {
+      listItem.push("createEmployee");
+    } else if (pathname.includes("detail")) {
+      listItem.push("detailEmployee");
+    }
+  } else if (pathname.includes("list_transaction")) {
+    listItem.push("manageTransactionPoint");
+  } else if (pathname.includes("list_workspace")) {
+    listItem.push("manageGoodsPoint");
   }
-  // console.log(listItem);
   const route = useRouter();
   return (
     <Breadcrumb>
-      {listItem.map((item) => {
-        if (item != "") {
-          return (
-            <Breadcrumb.Item onClick={() => route.push(item)}>
-              {url[item]}
-            </Breadcrumb.Item>
-          );
-        }
+      {listItem.map((e) => {
+        return (
+          <BreadcrumbItem
+            onClick={() => {
+              route.push(listUrl[e]?.url);
+            }}
+          >
+            {listUrl[e]?.name}
+          </BreadcrumbItem>
+        );
       })}
     </Breadcrumb>
   );

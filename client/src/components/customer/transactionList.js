@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function TransactionList({ provinceID, districtID, communeID }) {
   const data = getTransactionPoint(provinceID, districtID, communeID);
-  console.log(data);
+  console.log(provinceID, districtID, communeID);
   return (
     <Container
       className="lookUpContainer"
@@ -20,10 +20,10 @@ export default function TransactionList({ provinceID, districtID, communeID }) {
           </Row>
           <Row>
             <Col>
-              <p>Địa chỉ: {item.address.detail}</p>
-              <p>Commune: {item.address.commune.name}</p>
-              <p>District: {item.address.district.name}</p>
-              <p>Province: {item.address.province.name}</p>
+              <p>Địa chỉ: {item?.address?.detail}</p>
+              <p>Commune: {item?.address?.commune?.name}</p>
+              <p>District: {item?.address?.district?.name}</p>
+              <p>Province: {item?.address?.province?.name}</p>
             </Col>
           </Row>
         </Row>

@@ -5,6 +5,9 @@ export function getEmployee(page, query) {
   let url = `https://magicpost-uet.onrender.com/api/employee/get/?page=${page}`;
   if (query) {
     if (query.name) url = url + `&fullName=${query.name}`;
+    // if (query.address) url = url + `&fullName=${query.address}`;
+    // if (query.emID) url = url + `&fullName=${query.emID}`;
+    if (query.role) url = url + `&role=${query.role}`;
   }
   try {
     const { data: data } = useSWR(url);
@@ -116,10 +119,11 @@ export function getCommuneByDistrictID(id) {
 }
 
 export function getTransactionPoint(provinceID, districtID, communeID) {
-  let url = `https://magicpost-uet.onrender.com/api/transactionPoint/get/?`;
-  if (provinceID) url = url + `provinceID=${provinceID}`;
-  if (districtID) url = url + `&districtID=${districtID}`;
-  if (communeID) url = url + `&communeID=${communeID}`;
+  let url = `https://magicpost-uet.onrender.com/api/transactionPoint/customerget/?`;
+  if (provinceID != 0) url = url + `provinceID=${provinceID}`;
+  if (districtID != 0) url = url + `&districtID=${districtID}`;
+  if (communeID != 0) url = url + `&communeID=${communeID}`;
+  console.log(url);
   const { data: dataRes, error: loi } = useSWR(url, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
@@ -149,4 +153,36 @@ export function getOrderById(id) {
     revalidateOnFocus: false,
     revalidateOnReconnect: false,
   });
+}
+
+export function getAllTransactionPoint() {
+  const { data: dataRes } = useSWR(
+    `https://magicpost-uet.onrender.com/api/transactionPoint/getall`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
+  }
+  return data;
+}
+
+export function getAllGoodPoint() {
+  const { data: dataRes } = useSWR(
+    `https://magicpost-uet.onrender.com/api/goodsPoint/getall`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  const data = [];
+  for (var i in dataRes) {
+    data.push(dataRes[i]);
+  }
+  return data;
 }

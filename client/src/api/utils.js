@@ -40,27 +40,42 @@ export const generatePagination = (currentPage, totalPages) => {
 export const employeeRole = {
   GOODS_POINT_EMPLOYEE: {
     name: "Nhan vien diem tap ket",
-    right: [],
+    role: "GOODS_POINT_EMPLOYEE",
+    left: ["manageEmployees", "manageGoodsPoint", "manageTransactionPoint"],
+    right: ["homepage", "manageOrders"],
   },
   GOODS_POINT_HEAD: {
     name: "Quan li diem tap ket",
-    right: [],
+    role: "GOODS_POINT_HEAD",
+    left: ["manageGoodsPoint", "manageTransactionPoint"],
+    right: ["homepage", "manageOrders", "manageEmployees"],
   },
   MANAGER: {
     name: "Quan li",
-    right: [],
+    role: "MANAGER",
+    right: [
+      "homepage",
+      "manageGoodsPoint",
+      "manageTransactionPoint",
+      "manageEmployees",
+    ],
+    left: ["manageOrders"],
   },
   TRANSACTION_POINT_EMPLOYEE: {
     name: "Nhan vien diem giao dich",
-    right: [],
+    role: "TRANSACTION_POINT_EMPLOYEE",
+    left: ["manageGoodsPoint", "manageTransactionPoint", "manageEmployees"],
+    right: ["homepage", "manageOrders"],
   },
   TRANSACTION_POINT_HEAD: {
     name: "Quan li diem giao dich",
-    right: [],
+    role: "TRANSACTION_POINT_HEAD",
+    left: ["manageGoodsPoint", "manageTransactionPoint"],
+    right: ["homepage", "manageOrders", "manageEmployees"],
   },
 };
 
-export const employeeWorkIn = {
+export const listUrl = {
   homepage: {
     url: "/employees",
     name: "Trang chính",
@@ -81,9 +96,49 @@ export const employeeWorkIn = {
     name: "Điểm tập kết",
     icon: <RiRoadMapLine size={"2em"} />,
   },
-  managaTransactionPoint: {
+  manageTransactionPoint: {
     url: "/employees/list_transaction",
     name: "Điểm giao dịch",
     icon: <HiOutlineBuildingOffice size={"2em"} />,
   },
+  createEmployee: {
+    url: "/employees/list_employee/create",
+    name: "Tạo tài khoản nhân viên",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
+  createOrder: {
+    url: "/employees/list_ordered/create",
+    name: "Tạo đơn hàng",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
+  detailEmployee: {
+    url: "/employees/list_employee/[id]/detail",
+    name: "Thông tin nhân viên",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
+  detailOrder: {
+    url: "/employees/list_ordered/[id]/detail",
+    name: "Chi tiết đơn hàng",
+    icon: <HiOutlineBuildingOffice size={"2em"} />,
+  },
+};
+
+export const orderStatus = {
+  forwarded: { now: "Da van chuyen di", next: null },
+  arriving: { now: "Dang van chuyen den", next: "Xac nhan da den" },
+  on_stock: { now: "Trong kho", next: "Xac nhan chuyen tiep" },
+};
+
+export const createError = {
+  10003: "Nội dung không hợp lệ",
+  10004: "Địa chỉ không hợp lệ",
+  10005: "Mã nhân viên không hợp lệ",
+  10007: "Số CCCD trùng lặp (Số CCCD đã được đăng ký trước đó)",
+  10008: "Mã đơn hàng không hợp lệ",
+  10009: "Mật khẩu không hợp lệ",
+  10012: "Ngày tháng không hợp lệ",
+};
+
+export const employeeStatus = {
+  ACTIVE: "Đang làm việc",
 };

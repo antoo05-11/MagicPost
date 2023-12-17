@@ -1,20 +1,17 @@
 "use client";
-import { getEmployee } from "@/api/data";
 import { CreateEmployee } from "@/components/employee/button";
-import Pagination from "@/components/employee/pagination";
-import SearchEmployee from "@/components/employee/search";
 import EmployyeeTable from "@/components/employee/table/employee-table";
 import "@/css/employee/customTable.css";
 
 export default function page({
-  searchParams: { name, role, phone, email, address, page },
+  searchParams: { name, role, emID, status, address, page },
 }) {
   const query = {
     name: name,
-    phone: phone,
+    emID: emID,
     role: role,
     address: address,
-    email: email,
+    status: status,
   };
   const currentPage = Number(page) || 1;
   return (

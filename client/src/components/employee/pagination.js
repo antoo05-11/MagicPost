@@ -15,12 +15,19 @@ export default function Pagination({ totalPage }) {
   };
   const currentPage = Number(searchParams.get("page")) || 1;
   const allPages = generatePagination(currentPage, totalPage);
+  const nextPage = () => {};
+  const prevPage = () => {};
   return (
-    <ul className="pagination d-flex justify-content-center ">
+    <ul className="pagination d-flex justify-content-center">
       <li className="page-item">
-        <a className="page-link" href="#" aria-label="Previous">
+        <Link
+          className="page-link"
+          href={currentPage > 1 ? createPageURL(currentPage - 1) : ""}
+          aria-label="Next"
+          style={{ cursor: "pointer" }}
+        >
           <span aria-hidden="true">&laquo;</span>
-        </a>
+        </Link>
       </li>
       {allPages.map((page) => {
         return (
@@ -36,7 +43,12 @@ export default function Pagination({ totalPage }) {
         );
       })}
       <li className="page-item" aria-disabled="false">
-        <Link className="page-link" href="#" aria-label="Next">
+        <Link
+          href={currentPage < totalPage ? createPageURL(currentPage + 1) : ""}
+          className="page-link"
+          aria-label="Next"
+          style={{ cursor: "pointer" }}
+        >
           <span aria-hidden="true">&raquo;</span>
         </Link>
       </li>

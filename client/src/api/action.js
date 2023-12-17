@@ -14,8 +14,9 @@ export async function createEmployee(infoEmployee) {
         Authorization: `Bearer ${session.accessToken}`,
       },
       body: JSON.stringify(infoEmployee),
-    });
-    console.log(res);
+    }).then((res) => res.json());
+    return res?.code;
+    // console.log(res);
     if (res.ok) {
       console.log("thanh cong");
       return true;

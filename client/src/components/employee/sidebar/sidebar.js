@@ -1,4 +1,3 @@
-"use client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Script from "next/script";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,11 +6,23 @@ import { signOut } from "next-auth/react";
 import { motion, useAnimate } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-export default function SideBar({ role, open }) {
+import { listUrl, employeeRole } from "@/api/utils";
+import { useSession } from "next-auth/react";
+import "@/css/employee/sidebar.css";
+import { Row, Image, Col } from "react-bootstrap";
+let pagenow = 1;
+let pagepre = 1;
+export default function SideBar() {
   const route = useRouter();
-  const [scope, animate] = useAnimate();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState("true");
+  const rightRole = employeeRole[useSession()?.data?.user?.role]?.right;
+  const rightURL = [];
+  for (var i in rightRole) {
+    rightURL.push({ url: listUrl[rightRole[i]], active: i });
+    if (pathname.includes(listUrl[rightRole[i]]?.url)) pagenow = i;
+  }
+
   const show = {
     opacity: 1,
     display: "block",
@@ -23,6 +34,7 @@ export default function SideBar({ role, open }) {
       display: "none",
     },
   };
+
   return (
     <motion.div
       // initial={false}
@@ -33,55 +45,28 @@ export default function SideBar({ role, open }) {
       id="mySidebar"
       exit={{ opacity: 0 }}
     >
-      <Link href="/employees" id="app-name">
-        Magic Post
+      <Link href="/employees" className="appName">
+        MAGIC POST
       </Link>
 
-      <hr />
-      {role?.map((roro) => {
+      {rightURL?.map((roro) => {
         return (
           <div
             className={
-              pathname.includes(roro?.url)
+              pagenow == roro?.active
                 ? "bar-item button item-bar active"
                 : "bar-item button item-bar"
             }
             onClick={() => {
-              route.push(roro?.url);
+              pagenow = roro.active;
+              route.push(roro?.url?.url);
             }}
           >
-            {roro?.icon}
-            {roro?.name}
+            {roro?.url?.icon}
+            {roro?.url?.name}
           </div>
         );
       })}
-      <div className="dropdown">
-        <div
-          className={"bar-item button item-bar dropdown-toggle"}
-          onClick={() => {}}
-        >
-          Drop down
-        </div>
-        <ul className="dropdown-menu">
-          <li>
-            <a className="dropdown-item" href="#">
-              Action
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Another action
-            </a>
-          </li>
-          <li>
-            <a className="dropdown-item" href="#">
-              Something else here
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <hr />
     </motion.div>
   );
 }

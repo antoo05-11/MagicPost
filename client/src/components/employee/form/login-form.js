@@ -22,7 +22,7 @@ export default function LoginForm() {
 
   const onSubMit = async () => {
     const result = await signIn("credentials", {
-      username: "23000014",
+      username: "23000015",
       password: "password",
       redirect: true,
       callbackUrl: "/employees",
@@ -46,14 +46,6 @@ export default function LoginForm() {
             </Row>
             <Row>
               <Form.Group className="mb-3">
-                {/* <Form.Label htmlFor="form3Example3">Tài khoản</Form.Label>
-                <Form.Control
-                  type="email"
-                  id="form3Example3"
-                  placeholder="Enter a valid email address"
-                  onChange={(e) => setusername(e.target.value)}
-                  className={style.inputField}
-                /> */}
                 <Form.Label htmlFor="form3Example3" className="text-light">
                   Tài khoản
                 </Form.Label>
@@ -73,13 +65,6 @@ export default function LoginForm() {
 
             <Row>
               <Form.Group className="mb-3">
-                {/* <Form.Label htmlFor="form3Example4">Mật khẩu</Form.Label>
-                <Form.Control
-                  type="password"
-                  id="form3Example4"
-                  placeholder="Enter password"
-                  onChange={(e) => setpass(e.target.value)}
-                /> */}
                 <Form.Label htmlFor="form3Example4" className="text-light">
                   Mật khẩu
                 </Form.Label>

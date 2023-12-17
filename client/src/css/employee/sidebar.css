@@ -1,0 +1,87 @@
+/* sidebar css */
+
+.sidebar {
+    height: 100%;
+    width: 15%;
+    background-color: #fff;
+    position: fixed !important;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dee2e6;
+    box-shadow: rgba(58, 53, 65, 0.42) 0px 4px 8px -4px;
+    /* display: none; */
+    padding-right: 10px;
+}
+
+.sidebar[data-isOpen="false"] {
+    display: none;
+}
+
+.appName {
+    display: block;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    color: orange;
+}
+
+
+@keyframes animateleft {
+    from {
+        left: -300px;
+        opacity: 0;
+    }
+
+    to {
+        left: 0;
+        opacity: 1;
+    }
+}
+
+.sidebar .bar-item {
+    margin-top: 8px;
+    display: block;
+    padding: 8px 16px;
+    text-align: left;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    cursor: pointer;
+}
+
+.sidebar .bar-item svg{
+    margin-right: 8px;
+}
+
+.bar-item:hover {
+    background-color: #f5f5f5;
+}
+
+.bar-item.active {
+    color: white !important;
+    background-image: linear-gradient(98deg, rgb(153, 214, 255), var(--background-color) 95%);
+    box-shadow: rgba(58, 53, 65, 0.42) 0px 4px 8px -4px;
+}
+
+#menuTogle {
+    outline: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    width: 7px !important;
+    height: 40px;
+    border-radius: 20px;
+    background: gray;
+}
+
+#menuTogle path {
+    fill: var(--background);
+}
+
+#togle-zone {
+    position: fixed;
+    left: 15%;
+}

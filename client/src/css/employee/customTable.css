@@ -24,3 +24,193 @@
 .btnContainer .btnCreate {
   background-color: #3db2ff;
 }
+
+/* === All table === */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  /* box-shadow: 0 2px 15px rgba(0, 0, 0, .7); */
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+}
+
+th {
+  padding: 10px 5px;
+  text-align: center;
+  background-color: var(--highlight-color);
+  color: #fafafa;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+td {
+  padding: 10px 5px;
+}
+
+tr:nth-child(even) {
+  background-color: #eeeeee;
+}
+
+.filter input,
+.filter select {
+  display: block;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 1px;
+  border-bottom: 1px solid #333;
+  background-color: transparent;
+}
+
+.filter input:focus {
+  border-bottom: 1px solid white;
+  box-shadow: 0 1px 0 0 white;
+  color: white;
+  text-align: center;
+}
+
+.filter ::placeholder {
+  text-align: center;
+  color: black;
+}
+
+.filter select {
+  text-align: center;
+}
+
+/* === Employee Table === */
+.employeeTable th {
+  width: 210px;
+}
+
+.employeeTable input,
+.employeeTable select {
+  width: 210px;
+  height: 2em;
+}
+
+.employeeTable th:nth-child(1),
+.employeeTable td:nth-child(1) {
+  width: 30px;
+}
+
+.employeeTable th:nth-child(7),
+.employeeTable td:nth-child(7),
+.employeeTable td:nth-child(7) button {
+  width: 50px;
+}
+
+.employeeTable td:nth-child(1),
+.employeeTable td:nth-child(2),
+.employeeTable td:nth-child(4),
+.employeeTable td:nth-child(5),
+.employeeTable td:nth-child(6) {
+  text-align: center;
+}
+
+/* === Order Table === */
+.orderTable th {
+  width: 265px;
+}
+
+.orderTable td {
+  text-align: center;
+}
+
+.orderTable input,
+.orderTable select {
+  width: 265px;
+  height: 2em;
+}
+
+.orderTable th:nth-child(1),
+.orderTable td:nth-child(1) {
+  width: 30px;
+}
+
+.orderTable th:nth-child(6),
+.orderTable td:nth-child(6),
+.orderTable td:nth-child(6) button {
+  width: 50px;
+}
+
+
+/* === Transaction Table === */
+.transactionTable th {
+  width: 300px;
+}
+
+.transactionTable input,
+.transactionTable select {
+  width: 210px;
+  height: 2em;
+}
+
+.transactionTable th:nth-child(1),
+.transactionTable td:nth-child(1) {
+  width: 50px;
+}
+
+.transactionTable td:nth-child(1),
+.transactionTable td:nth-child(2),
+.transactionTable td:nth-child(3),
+.transactionTable td:nth-child(5),
+.transactionTable td:nth-child(6) {
+  text-align: center;
+}
+
+/* === Goods Table === */
+.goodPointTable th {
+  width: 300px;
+}
+
+.goodPointTable input,
+.goodPointTable select {
+  width: 210px;
+  height: 2em;
+}
+
+.goodPointTable th:nth-child(1),
+.goodPointTable td:nth-child(1) {
+  width: 50px;
+}
+
+.goodPointTable td:nth-child(1),
+.goodPointTable td:nth-child(2),
+.goodPointTable td:nth-child(4),
+.goodPointTable td:nth-child(5),
+.goodPointTable td:nth-child(6) {
+  text-align: center;
+}
+
+/* === createOrderTable ===*/
+.createOrderTable input,
+.createOrderTable select {
+  display: block;
+  outline: none;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 1px;
+  border-bottom: 1px solid #333;
+  background-color: transparent;
+  width: 300px;
+}
+
+.createOrderTable th, .createOrderTable td {
+  width: 300px;
+}
+
+.createOrderTable select, .createOrderTable input {
+  text-align: center;
+}
+
+.createOrderTable th:nth-child(1),
+.createOrderTable td:nth-child(1) {
+  width: 50px;
+  text-align: center;
+}
+
+.createOrderTable th:nth-child(5),
+.createOrderTable td:nth-child(5) {
+  width: 50px;
+}

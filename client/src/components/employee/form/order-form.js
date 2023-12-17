@@ -1,6 +1,7 @@
 "use client";
 
 import "@/css/employee/customForm.css";
+import "@/css/employee/customTable.css";
 import { useEffect, useState } from "react";
 import {
   getDistrictByProvinceID,
@@ -9,6 +10,7 @@ import {
   getAllProvince,
 } from "@/api/data";
 import { createOrder } from "@/api/action";
+import { FaTrash } from "react-icons/fa";
 
 const order = {
   order: {
@@ -75,6 +77,20 @@ export default function OrderForm() {
   const [receiverCommune, setreceiverCommune] = useState();
 
   const [addGoods, setAddGoods] = useState(false);
+
+  const [goodsList, setGoodsList] = useState([
+    { id: 1, goodsType: "", realWeight: "", convertedWeight: "" },
+  ]);
+
+  const addRow = () => {
+    const newRow = { id: goodsList.length + 1, goodsType: "", realWeight: "", convertedWeight: "" };
+    setGoodsList([...goodsList, newRow]);
+  };
+
+  const removeRow = (id) => {
+    const updatedGoodsList = goodsList.filter((row) => row.id !== id);
+    setGoodsList(updatedGoodsList);
+  };
   return (
     <div className="container">
       <form>
@@ -326,20 +342,20 @@ export default function OrderForm() {
                 data-bs-target="#staticBackdrop"
                 onClick={() => {
                   setAddGoods(true);
+                  addRow();
                 }}
               >
-                Them hang hoa
+                Thêm hàng hóa
               </button>
             </div>
-            <div
+            {/* <div
               className="modal fade"
               id="staticBackdrop"
               data-bs-backdrop="static"
               data-bs-keyboard="false"
               tabindex="-1"
               aria-labelledby="staticBackdropLabel"
-              aria-hidden="true"
-            >
+              aria-hidden="true">
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">
@@ -368,42 +384,66 @@ export default function OrderForm() {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className="row p-2 table-responsive">
-            <table className="table">
+            <table className="createOrderTable">
               <thead>
                 <tr>
                   <th scope="col">STT</th>
-                  <th scope="col">Nội dung</th>
                   <th scope="col">Loại hàng hóa</th>
-                  <th scope="col">Đính kèm</th>
-                  <th scope="col">Giá trị</th>
-                  <th scope="col">Sửa, xóa = 1 nút</th>
+                  <th scope="col">Khối lượng thực</th>
+                  <th scope="col">Khối lượng chuyển đổi</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
-              <tbody id="goodsTableBody">
-                {addGoods && (
-                  <tr>
-                    <td scope="col">1 </td>
+              <tbody>
+                {goodsList.map((goods, index) => (
+                  <tr key={goods.id}>
+                    <td scope="col">{index + 1}</td>
                     <td scope="col">
-                      <input />
+                      <select
+                        value={goods.goodsType}
+                        onChange={(e) => {
+                          const updatedGoodsList = [...goodsList];
+                          updatedGoodsList[index].goodsType = e.target.value;
+                          setGoodsList(updatedGoodsList);
+                        }}
+                      >
+                        <option value="goods">Hàng hóa</option>
+                        <option value="document">Tài liệu</option>
+                      </select>
                     </td>
                     <td scope="col">
-                      <input />
+                      <input
+                        type="number"
+                        value={goods.realWeight}
+                        onChange={(e) => {
+                          const updatedGoodsList = [...goodsList];
+                          updatedGoodsList[index].realWeight = e.target.value;
+                          setGoodsList(updatedGoodsList);
+                        }}
+                      />
                     </td>
                     <td scope="col">
-                      <input />
+                      <input
+                        type="number"
+                        value={goods.convertedWeight}
+                        onChange={(e) => {
+                          const updatedGoodsList = [...goodsList];
+                          updatedGoodsList[index].convertedWeight = e.target.value;
+                          setGoodsList(updatedGoodsList);
+                        }}
+                      />
                     </td>
                     <td scope="col">
-                      <input />
-                    </td>
-                    <td scope="col">
-                      <button>xoa sua tum lum</button>
+                      <button onClick={() => removeRow(goods.id)} className="btn">
+                        <FaTrash className="text-danger"/>
+                      </button>
                     </td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </table>
           </div>
