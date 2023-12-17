@@ -24,7 +24,7 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
     const orderID = req.query.orderID || '';
     const startAddress = req.query.startAddress || '';
     const endAddress = req.query.endAddress || '';
-    const status = req.query.status || '';
+    const goodsStatus = req.query.goodsStatus || '';
 
     const startAddressWhereClause = buildAddressWhereClause(startAddress);
     const endAddressWhereClause = buildAddressWhereClause(endAddress);
@@ -41,62 +41,7 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
     if (!minCreatedAt) minCreatedAt = normalizeDate('1/1/1970');
     if (!maxCreatedAt) maxCreatedAt = Date.now();
 
-    let totalPages = await Order.count({
-        subQuery: false,
-        where: {
-            orderID: {
-                [Op.and]: [
-                    {
-                        [Op.in]: sequelize.literal(`(SELECT DISTINCT orderID 
-                    FROM processes WHERE routingPointID = ${currentRoutingPointID})`)
-                    },
-                    { [Op.like]: `%${orderID}%` }
-                ]
-
-            },
-            createdAt: {
-                [Op.between]: [
-                    minCreatedAt, maxCreatedAt
-                ]
-            }
-        },
-        include: [
-            {
-                model: TransactionPoint,
-                as: 'startTransactionPoint',
-                include: {
-                    model: RoutingPoint,
-                    include: {
-                        model: Address,
-                        attributes: ['addressID'],
-                        where: startAddressWhereClause
-                    },
-                    attributes: ['routingPointID']
-                },
-                attributes: ['transactionPointID']
-            },
-            {
-                model: TransactionPoint,
-                as: 'endTransactionPoint',
-                include: {
-                    model: RoutingPoint,
-                    include: {
-                        model: Address,
-                        where: endAddressWhereClause,
-                        attributes: ['addressID']
-                    },
-                    attributes: ['routingPointID']
-                },
-                attributes: ['transactionPointID']
-            }
-        ]
-    });
-    totalPages = Math.ceil(totalPages / limit);
-    if (totalPages == 0) return res.status(200).json([]);
-
-    const orders = await Order.findAll({
-        offset: ((page - 1) * limit),
-        limit: limit,
+    let orders = await Order.findAll({
         subQuery: false,
         where: {
             orderID: {
@@ -128,10 +73,13 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                         model: Address,
                         include: { model: Province, attributes: ['name'] },
                         attributes: ['addressID'],
-                        where: startAddressWhereClause
+                        where: startAddressWhereClause,
+                        required: true,
                     },
+                    required: true,
                     attributes: ['routingPointID']
                 },
+                required: true,
                 attributes: ['transactionPointID']
             },
             {
@@ -143,11 +91,85 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                         model: Address,
                         include: { model: Province, attributes: ['name'] },
                         attributes: ['addressID'],
-                        where: endAddressWhereClause
+                        where: endAddressWhereClause,
+                        required: true,
                     },
+                    attributes: ['routingPointID'],
+                    required: true,
+                },
+                attributes: ['transactionPointID'],
+                required: true
+            }
+        ],
+        attributes: ['orderID', 'createdAt']
+    });
+    let totalPages = 0;
+    for (const order of orders) {
+        if (order.processes[0].status.toString().includes(goodsStatus)) totalPages++;
+    }
+    totalPages = Math.ceil(totalPages / limit);
+    if (totalPages == 0) return res.status(200).json([]);
+
+    orders = await Order.findAll({
+        offset: ((page - 1) * limit),
+        limit: limit,
+        subQuery: false,
+        where: {
+            orderID: {
+                [Op.and]: [
+                    {
+                        [Op.in]: sequelize.literal(`(SELECT DISTINCT orderID 
+                    FROM processes WHERE routingPointID = ${currentRoutingPointID})`)
+                    },
+                    { [Op.like]: `%${orderID}%` }
+                ]
+            },
+            createdAt: {
+                [Op.between]: [minCreatedAt, maxCreatedAt]
+            }
+        },
+        include: [
+            {
+                model: Process,
+                order: [['processID', 'ASC']],
+                limit: 1,
+                attributes: ['status'],
+            },
+            {
+                model: TransactionPoint,
+                as: 'startTransactionPoint',
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        include: { model: Province, attributes: ['name'] },
+                        attributes: ['addressID'],
+                        where: startAddressWhereClause,
+                        required: true,
+                    },
+                    required: true,
                     attributes: ['routingPointID']
                 },
+                required: true,
                 attributes: ['transactionPointID']
+            },
+            {
+                model: TransactionPoint,
+                as: 'endTransactionPoint',
+                include: {
+                    model: RoutingPoint,
+                    include: {
+                        model: Address,
+                        include: { model: Province, attributes: ['name'] },
+                        attributes: ['addressID'],
+                        where: endAddressWhereClause,
+                        required: true,
+                    },
+                    attributes: ['routingPointID'],
+                    required: true,
+                },
+                attributes: ['transactionPointID'],
+                required: true
             }
         ],
         attributes: ['orderID', 'createdAt']
@@ -560,11 +582,11 @@ export const getOrderByIDForCustomer = async (req, res) => {
             orderID: order.orderID,
             sender: {
                 fullName: order.sender.fullname,
-                address: buildAddressString(order.sender.address, false),
+                provinceName: order.sender.address.province,
             },
             receiver: {
                 fullName: order.receiver.fullname,
-                address: buildAddressString(order.receiver.address, false),
+                provinceName: order.receiver.address.province,
             },
             creator: order.employee,
             status: order.status,
