@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { createOrder, getOrdersByWorkingRouteID, getOrderByID, getOrderByIDForCustomer } from "../../controllers/order/order";
+import { createOrder, getOrdersByWorkingRouteID, getOrderByID, getOrderByIDForCustomer, getOrderCost } from "../../controllers/order/order";
 import catchAsync from "../../exceptions/catch-async";
 import { verifyToken } from "../../middlewares/verify";
 import { role } from "../../models/human/role";
@@ -24,6 +24,10 @@ orderRoute.get("/get/:id", verifyToken,
 orderRoute.post("/create", verifyToken,
     (req, res, next) => authorize(req, res, next, [role.TRANSACTION_POINT_EMPLOYEE]),
     catchAsync(createOrder));
+
+orderRoute.get("/getOrderCost", verifyToken,
+    (req, res, next) => authorize(req, res, next, [role.TRANSACTION_POINT_EMPLOYEE]),
+    catchAsync(getOrderCost));
 
 orderRoute.get("/customerGet/:id",
     catchAsync(getOrderByIDForCustomer));

@@ -60,6 +60,10 @@ export const login = async (req, res) => {
     });
 };
 
+export const changePassword = async (req, res) => {
+    
+}
+
 export const requestRefreshToken = async (req, res) => {
     const { refreshToken } = req.cookies;
 

@@ -1,4 +1,3 @@
-import path from 'path';
 import { sequelize } from '../../models';
 import Error from '../../exceptions/error';
 import { checkDateFormat, normalizeDate } from '../../../utils';
@@ -10,14 +9,6 @@ const crypto = require('crypto');
 const fs = require('fs');
 
 const limitRecordsNum = 8;
-
-const getOrderByIDForCustomerQueryPath = path.join(__dirname, '../../../queries/orders/orderForCustomer.select.sql');
-let getOrderByIDForCustomerQuery = ''
-try {
-    getOrderByIDForCustomerQuery = fs.readFileSync(getOrderByIDForCustomerQueryPath, 'utf8');
-} catch (error) {
-    console.error("Error reading file:", error);
-}
 
 /**
  * The function `getOrdersByWorkingRouteID` retrieves orders based on the working route ID of the user
@@ -311,12 +302,22 @@ export const getOrderByID = async (req, res) => {
 export const createOrder = async (req, res) => {
     let order = JSON.parse(JSON.stringify(req.body.order));
 
-    order.mainPostage = 1000;
-    order.addedPostage = 1000;
-    order.VATFee = 1000;
-    order.otherFee = 1000;
-    order.receiverCOD = 1000;
-    order.receiverOtherFee = 1000;
+    let postage = await getOrderCost(req);
+
+    if ((order.mainPostage && postage.mainPostage != order.mainPostage) ||
+        (order.addedPostage && postage.addedPostage != order.addedPostage) ||
+        (order.VATFee && postage.VATFee != order.VATFee) ||
+        (order.otherFee && postage.otherFee != order.otherFee) ||
+        (order.receiverCOD && postage.receiverCOD != order.receiverCOD) ||
+        (order.receiverOtherFee && postage.receiverOtherFee != order.receiverOtherFee))
+        return res.status(400).json(Error.getError(Error.code.invalid_postage))
+
+    order.mainPostage = postage.mainPostage;
+    order.addedPostage = postage.addedPostage;
+    order.VATFee = postage.VATFee;
+    order.otherFee = postage.otherFee;
+    order.receiverCOD = postage.receiverCOD;
+    order.receiverOtherFee = postage.receiverOtherFee;
 
     let goodsList = req.body.goodsList;
 
@@ -373,6 +374,11 @@ export const createOrder = async (req, res) => {
     await getOrderByID(req, res);
 }
 
+/**
+ * The function generates a unique order ID consisting of three random letters from the alphabet and a
+ * random 9-digit number followed by "VN".
+ * @returns a randomly generated order ID.
+ */
 function generateOrderID() {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const randomIndexes = crypto.randomBytes(3);
@@ -383,6 +389,13 @@ function generateOrderID() {
     return orderID;
 }
 
+/**
+ * The function `getOrderByIDForCustomer` retrieves an order and its associated data from the database
+ * and returns it as a JSON response.
+ * @returns a JSON response with the order details, including the order ID, sender and receiver
+ * information, creator, status, sent and received times, weight, estimated delivery date, creation
+ * date, and a list of processes associated with the order.
+ */
 export const getOrderByIDForCustomer = async (req, res) => {
     const order = await Order.findOne({
         where: { orderID: req.params.id },
@@ -518,4 +531,37 @@ export const getOrderByIDForCustomer = async (req, res) => {
     };
 
     return res.status(200).json(result);
+}
+
+export const getOrderCost = async (req, res) => {
+    const order = JSON.parse(JSON.stringify(req.body.order));
+    const result = {
+        mainPostage: 0,
+        addedPostage: 0,
+        VATFee: 0,
+        otherFee: 0,
+        receiverCOD: 0,
+        receiverOtherFee: 0
+    };
+
+    if (order.sender.provinceID != order.receiver.provinceID) {
+        result.mainPostage = 15000;
+    } else result.mainPostage = 10000;
+
+    let sumRealWeight = 0;
+    let sumConvertedWeight = 0;
+
+    for (const goods of JSON.parse(JSON.stringify(req.body.goodsList))) {
+        sumRealWeight += goods.realWeight;
+        sumConvertedWeight += goods.convertedWeight;
+    }
+
+    result.addedPostage = (0.3 * sumRealWeight + 0.7 * sumConvertedWeight) * 10000;
+
+    if (sumConvertedWeight > 10.0) result.otherFee = 10000;
+
+    result.VATFee = 0.08 * (result.mainPostage + result.addedPostage);
+
+    if (res) return res.status(200).json(result);
+    return result;
 }

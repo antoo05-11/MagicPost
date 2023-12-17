@@ -19,12 +19,23 @@ module.exports = (sequelize, DataTypes) => {
         },
         realWeight: {
             type: DataTypes.DOUBLE,
-            allowNull: true
+            allowNull: false,
+            defaultValue: 0
         },
         convertedWeight: {
             type: DataTypes.DOUBLE,
+            allowNull: false,
+            defaultValue: 0
+        },
+        quantity: {
+            type: DataTypes.DOUBLE,
+            allowNull: false,
+            defaultValue: 1
+        },
+        attached: {
+            type: DataTypes.STRING,
             allowNull: true
-        }
+        },
     }, {
         id: false,
         timestamps: false,

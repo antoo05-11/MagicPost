@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
         },
         mainPostage: {
             type: DataTypes.INTEGER,
-            allowNull: false
+            allowNull: false,
+            default: 0
         },
         addedPostage: {
             type: DataTypes.INTEGER,

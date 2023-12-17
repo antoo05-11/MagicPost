@@ -18,6 +18,7 @@
     - [<samp>Get all orders (with current working address)</samp>](#get-all-orders-with-current-working-address)
     - [<samp>Get order by ID</samp>](#get-order-by-id)
     - [<samp>Get order by ID</samp>](#get-order-by-id-for-customer)
+    - [<samp>Get order cost estimation</samp>](#get-order-cost-estimation)
     - [<samp>Create new order</samp>](#create-new-order)
   - [<samp>Order Process API</samp>](#order-process-api)
     - [<samp>Update process status with process ID</samp>](#update-process-status-with-process-id)
@@ -577,6 +578,30 @@
             }
         ]
     }
+}
+```
+
+#### <samp>Get order cost estimation<samp>
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                             |
+| ------------------- | --------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/order/getordercost |
+| HTTP method         | GET                                                |
+| Token Required      | YES                                                 |
+| Roles Authorized    | TRANSACTION_POINT_EMPLOYEE                          |
+
++ ##### <em><samp>Request JSON Sample</samp></em>
+<samp>The request body for this API is the same as request body for [Create new order API](#create-new-order), except for not including the attributes appearring in following response.</samp>
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+{
+    "mainPostage": 10000,
+    "addedPostage": 475000,
+    "VATFee": 38800,
+    "otherFee": 10000,
+    "receiverCOD": 0,
+    "receiverOtherFee": 0
 }
 ```
 
