@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Table } from 'react-bootstrap';
+import OrderProgress from './order-progress';
 
 export default function OrderTracking({ data }) {
     console.log(data);
@@ -56,28 +57,29 @@ export default function OrderTracking({ data }) {
 
             <Row>
                 <Col>
-                    <Table hover className='mt-3'>
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Vị trí hiện tại</th>
-                                <th>Điểm tiếp theo</th>
-                                <th>Ngày</th>
-                                <th>Trạng thái</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                            {data.processes?.map((process, index) => (
-                                <tr key={index}>
-                                    <td>{process?.processID}</td>
-                                    <td>{process?.currentRoutingPoint?.address?.detail}</td>
-                                    <td>{process?.nextRoutingPoint?.address?.detail}</td>
-                                    <td>{formatDate(process?.arrivedTime)}</td>
-                                    <td>{convertStatus(process?.status)}</td>
+                        {/* <Table hover className='mt-3'>
+                            <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Vị trí hiện tại</th>
+                                    <th>Điểm tiếp theo</th>
+                                    <th>Ngày</th>
+                                    <th>Trạng thái</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                {data.processes?.map((process, index) => (
+                                    <tr key={index}>
+                                        <td>{process?.processID}</td>
+                                        <td>{process?.currentRoutingPoint?.address?.detail}</td>
+                                        <td>{process?.nextRoutingPoint?.address?.detail}</td>
+                                        <td>{formatDate(process?.arrivedTime)}</td>
+                                        <td>{convertStatus(process?.status)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </Table> */}
+                    <OrderProgress orderProcesses={data}/>
                 </Col>
             </Row>
         </Container>

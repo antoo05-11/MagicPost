@@ -124,7 +124,7 @@ export const listUrl = {
 };
 
 export const orderStatus = {
-  forwarded: { now: "Đã vận chuyển đi", next: null, color: "success" },
+  forwarded: { now: "Đã vận chuyển", next: null, color: "success" },
   arriving: {
     now: "Đang vận chuyển đến",
     next: "Xác nhận đã đến",
