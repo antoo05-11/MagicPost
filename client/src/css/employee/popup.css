@@ -7,9 +7,9 @@
   top: 5%;
   height: 24vh;
   width: 25vw;
-  border: 2px solid;
+  border: none;
   border-radius: 10px;
-  background-color: red;
+  background-color: white;
   z-index: 10001;
 }
 .popup[data-isOpen="false"] {
@@ -23,6 +23,8 @@
   bottom: 0;
   left: 0;
   z-index: 10000;
+  background-color: black;
+  opacity: 0.5;
 }
 
 .disClick[data-isOpen="false"] {

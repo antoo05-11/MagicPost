@@ -1,7 +1,7 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/js/src/dropdown.js";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import BreadCrumb from "./breadcrumd";
 import { signOut } from "next-auth/react";
@@ -23,6 +23,16 @@ const itemVariants = {
 export default function TopBar() {
   const route = useRouter();
   const [profile, setProfile] = useState();
+  const profileRef = useRef();
+  useEffect(() => {
+    const closeProfile = (e) => {
+      // if (e.path[0] !== profileRef.currents) {
+      setProfile(false);
+      // }
+    };
+    document.body.addEventListener("click", closeProfile);
+    return () => document.body.removeEventListener("click", closeProfile);
+  });
   return (
     <motion.nav layout className="nav topbar">
       <Container className="navBar">
@@ -42,7 +52,7 @@ export default function TopBar() {
               initial={false}
               animate={profile ? "open" : "closed"}
             >
-              <Container onClick={() => setProfile(!profile)}>
+              <Container ref={profileRef} onClick={() => setProfile(!profile)}>
                 <Row>
                   <Col xs="auto" className="userName">
                     Đỗ Minh Duy
@@ -83,13 +93,11 @@ export default function TopBar() {
                   className="acc-list"
                   variants={itemVariants}
                   onClick={() => {
+                    setProfile(!profile);
                     route.push("/employees/information");
                   }}
                 >
                   Information
-                </motion.li>
-                <motion.li className="acc-list" variants={itemVariants}>
-                  Setting
                 </motion.li>
                 <motion.li
                   className="acc-list"

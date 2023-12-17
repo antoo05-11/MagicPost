@@ -17,7 +17,7 @@ import {
 import "@/css/employee/customForm.css";
 export default function EmployeeInformation({ id }) {
   const employee = getEmployeebyID(id);
-  console.log(employee?.role);
+  console.log(employee);
   const listRole = [];
   for (var i in employeeRole) {
     if (employeeRole[i].name !== "quan li") {

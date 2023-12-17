@@ -6,7 +6,7 @@ export function getEmployee(page, query) {
   if (query) {
     if (query.name) url = url + `&fullName=${query.name}`;
     // if (query.address) url = url + `&fullName=${query.address}`;
-    // if (query.emID) url = url + `&fullName=${query.emID}`;
+    if (query.emID) url = url + `&employeeID=${query.emID}`;
     if (query.role) url = url + `&role=${query.role}`;
   }
   try {
@@ -119,7 +119,7 @@ export function getCommuneByDistrictID(id) {
 }
 
 export function getTransactionPoint(provinceID, districtID, communeID) {
-  let url = `https://magicpost-uet.onrender.com/api/transactionPoint/customerget/?`;
+  let url = `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?`;
   if (provinceID != 0) url = url + `provinceID=${provinceID}`;
   if (districtID != 0) url = url + `&districtID=${districtID}`;
   if (communeID != 0) url = url + `&communeID=${communeID}`;

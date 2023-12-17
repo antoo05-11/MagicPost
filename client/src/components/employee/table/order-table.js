@@ -13,7 +13,7 @@ export default function OrderTable({ page }) {
     totalPages: totalPage,
     itemPerPage: itemPerPage,
   } = getOrder({ page });
-  console.log(inforOrders)
+  const listStatus = ["forwarded", "arriving", "on_stock"];
   return (
     <div className="mt-2 flow-root table">
       <div className="inline-block min-w-full align-middle d-flex justify-content-center">
@@ -62,12 +62,11 @@ export default function OrderTable({ page }) {
                   </select>
                 </th>
                 <th scope="col">
-                  <div style={{ display: 'flex', gap: '10px', width: "255px" }}>
+                  <div style={{ display: "flex", gap: "10px", width: "255px" }}>
                     <input type="date" className="w-50" />
                     -
                     <input type="date" className="w-50" />
                   </div>
-
                 </th>
                 <th scope="col">
                   <select placeholder="Chọn">
@@ -94,7 +93,9 @@ export default function OrderTable({ page }) {
                     <td>{data?.startTransactionProvince}</td>
                     <td>{data?.createdAt}</td>
                     <td>
-                      <span className={`badge rounded-pill bg-${badgeColor} p-2`}>
+                      <span
+                        className={`badge rounded-pill bg-${badgeColor} p-2`}
+                      >
                         {statusInfo.now}
                       </span>
                     </td>

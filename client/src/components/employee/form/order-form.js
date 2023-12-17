@@ -83,7 +83,12 @@ export default function OrderForm() {
   ]);
 
   const addRow = () => {
-    const newRow = { id: goodsList.length + 1, goodsType: "", realWeight: "", convertedWeight: "" };
+    const newRow = {
+      id: goodsList.length + 1,
+      goodsType: "",
+      realWeight: "",
+      convertedWeight: "",
+    };
     setGoodsList([...goodsList, newRow]);
   };
 
@@ -348,43 +353,6 @@ export default function OrderForm() {
                 Thêm hàng hóa
               </button>
             </div>
-            {/* <div
-              className="modal fade"
-              id="staticBackdrop"
-              data-bs-backdrop="static"
-              data-bs-keyboard="false"
-              tabindex="-1"
-              aria-labelledby="staticBackdropLabel"
-              aria-hidden="true">
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <h1 className="modal-title fs-5" id="staticBackdropLabel">
-                      Modal title
-                    </h1>
-                    <button
-                      type="button"
-                      className="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div className="modal-body">...</div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button type="button" className="btn btn-primary">
-                      Understood
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
 
           <div className="row p-2 table-responsive">
@@ -393,6 +361,8 @@ export default function OrderForm() {
                 <tr>
                   <th scope="col">STT</th>
                   <th scope="col">Loại hàng hóa</th>
+                  <th scope="col">Nội dung</th>
+                  <th scope="col">Số lượng</th>
                   <th scope="col">Khối lượng thực</th>
                   <th scope="col">Khối lượng chuyển đổi</th>
                   <th scope="col"></th>
@@ -432,14 +402,42 @@ export default function OrderForm() {
                         value={goods.convertedWeight}
                         onChange={(e) => {
                           const updatedGoodsList = [...goodsList];
-                          updatedGoodsList[index].convertedWeight = e.target.value;
+                          updatedGoodsList[index].convertedWeight =
+                            e.target.value;
+                          setGoodsList(updatedGoodsList);
+                        }}
+                      />
+                    </td>{" "}
+                    <td scope="col">
+                      <input
+                        type="number"
+                        value={goods.convertedWeight}
+                        onChange={(e) => {
+                          const updatedGoodsList = [...goodsList];
+                          updatedGoodsList[index].convertedWeight =
+                            e.target.value;
                           setGoodsList(updatedGoodsList);
                         }}
                       />
                     </td>
                     <td scope="col">
-                      <button onClick={() => removeRow(goods.id)} className="btn">
-                        <FaTrash className="text-danger"/>
+                      <input
+                        type="number"
+                        value={goods.convertedWeight}
+                        onChange={(e) => {
+                          const updatedGoodsList = [...goodsList];
+                          updatedGoodsList[index].convertedWeight =
+                            e.target.value;
+                          setGoodsList(updatedGoodsList);
+                        }}
+                      />
+                    </td>
+                    <td scope="col">
+                      <button
+                        onClick={() => removeRow(goods.id)}
+                        className="btn"
+                      >
+                        <FaTrash className="text-danger" />
                       </button>
                     </td>
                   </tr>
