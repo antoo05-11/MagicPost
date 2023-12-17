@@ -1,4 +1,4 @@
-import { Form, Row, Col, Container, InputGroup } from 'react-bootstrap';
+import { Form, Row, Col, Container, InputGroup } from "react-bootstrap";
 import { FaRegUserCircle } from "react-icons/fa";
 import { FaRegCalendar } from "react-icons/fa";
 import { MdAlternateEmail } from "react-icons/md";
@@ -11,133 +11,143 @@ import { IoLocationOutline } from "react-icons/io5";
 import { TbCurrentLocation } from "react-icons/tb";
 
 export default function MainInformation(data) {
-    return (
-        <div className="formContainer">
-            <Row>
-                <h3>Thông tin nhân viên</h3>
-            </Row>
-            <Row className="mt-2">
-                <Col md={6}>
-                    <Form.Group controlId="fullName">
-                        <Form.Label>Họ và tên</Form.Label>
-                        <InputGroup>
-                            <InputGroup.Text className='bg-light'>
-                                <FaRegUserCircle />
-                            </InputGroup.Text>
-                            <Form.Control type="text" value={data.data.fullName} disabled />
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
+  return (
+    <div className="formContainer">
+      <Row>
+        <h3>Thông tin nhân viên</h3>
+      </Row>
+      <Row className="mt-2">
+        <Col md={6}>
+          <Form.Group controlId="fullName">
+            <Form.Label>Họ và tên</Form.Label>
+            <InputGroup>
+              <InputGroup.Text className="bg-light">
+                <FaRegUserCircle />
+              </InputGroup.Text>
+              <Form.Control type="text" value={data?.data?.fullName} disabled />
+            </InputGroup>
+          </Form.Group>
+        </Col>
 
-                <Col md={6}>
-                    <Form.Group controlId="dob">
-                        <Form.Label>Ngày sinh</Form.Label>
-                        <InputGroup>
-                            <InputGroup.Text className='bg-light'>
-                                <FaRegCalendar />
-                            </InputGroup.Text>
-                            <Form.Control type="date" value={data.data.birthDate} disabled />
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
-            </Row>
+        <Col md={6}>
+          <Form.Group controlId="dob">
+            <Form.Label>Ngày sinh</Form.Label>
+            <InputGroup>
+              <InputGroup.Text className="bg-light">
+                <FaRegCalendar />
+              </InputGroup.Text>
+              <Form.Control
+                type="date"
+                value={data?.data?.birthDate}
+                disabled
+              />
+            </InputGroup>
+          </Form.Group>
+        </Col>
+      </Row>
 
-            <Row className="mt-2">
-                <Col md={6}>
-                    <Form.Group controlId="email">
-                        <Form.Label>Địa chỉ Email</Form.Label>
-                        <InputGroup>
-                            <InputGroup.Text className='bg-light'>
-                                <MdAlternateEmail />
-                            </InputGroup.Text>
-                            <Form.Control type="email" value={data.data.email} disabled />
-                        </InputGroup>
+      <Row className="mt-2">
+        <Col md={6}>
+          <Form.Group controlId="email">
+            <Form.Label>Địa chỉ Email</Form.Label>
+            <InputGroup>
+              <InputGroup.Text className="bg-light">
+                <MdAlternateEmail />
+              </InputGroup.Text>
+              <Form.Control type="email" value={data?.data?.email} disabled />
+            </InputGroup>
+          </Form.Group>
+        </Col>
 
-                    </Form.Group>
-                </Col>
+        <Col md={6}>
+          <Form.Group controlId="phoneNumber">
+            <Form.Label>Số điện thoại</Form.Label>
+            <InputGroup>
+              <InputGroup.Text className="bg-light">
+                <IoMdPhonePortrait />
+              </InputGroup.Text>
+              <Form.Control
+                type="tel"
+                value={data?.data?.phoneNumber}
+                disabled
+              />
+            </InputGroup>
+          </Form.Group>
+        </Col>
+      </Row>
 
-                <Col md={6}>
-                    <Form.Group controlId="phoneNumber">
-                        <Form.Label>Số điện thoại</Form.Label>
-                        <InputGroup>
-                            <InputGroup.Text className='bg-light'>
-                                <IoMdPhonePortrait />
-                            </InputGroup.Text>
-                            <Form.Control type="tel" value={data.data.phoneNumber} disabled />
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
-            </Row>
+      <Row className="mt-2">
+        <Col md={6}>
+          <Form.Group controlId="identifer">
+            <Form.Label>CCCD</Form.Label>
+            <InputGroup>
+              <InputGroup.Text className="bg-light">
+                <CiCreditCard2 />
+              </InputGroup.Text>
+              <Form.Control
+                type="text"
+                value={data?.data?.identifier}
+                disabled
+              />
+            </InputGroup>
+          </Form.Group>
+        </Col>
 
-            <Row className="mt-2">
-                <Col md={6}>
-                    <Form.Group controlId="identifer">
-                        <Form.Label>CCCD</Form.Label>
-                        <InputGroup>
-                            <InputGroup.Text className='bg-light'>
-                                <CiCreditCard2 />
-                            </InputGroup.Text>
-                            <Form.Control type="text" value={data.data.identifier} disabled />
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
+        <Col md={6}>
+          <Form.Group controlId="gender">
+            <Form.Label>Giới tính</Form.Label>
+            <InputGroup>
+              <InputGroup.Text className="bg-light">
+                <BsGenderAmbiguous />
+              </InputGroup.Text>
+              <Form.Control type="text" value={data?.data?.gender} disabled />
+            </InputGroup>
+          </Form.Group>
+        </Col>
+      </Row>
 
-                <Col md={6}>
-                    <Form.Group controlId="gender">
-                        <Form.Label>Giới tính</Form.Label>
-                        <InputGroup>
-                            <InputGroup.Text className='bg-light'>
-                                <BsGenderAmbiguous />
-                            </InputGroup.Text>
-                            <Form.Control type="text" value={data.data.gender} disabled />
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
+      <Row className="mt-2">
+        <Form.Label className="col-sm-12 col-form-label">Địa chỉ</Form.Label>
+        <Col md={4}>
+          <Form.Group controlId="commune">
+            <InputGroup>
+              <InputGroup.Text className="bg-light">
+                <TiLocationArrowOutline />
+              </InputGroup.Text>
+              <Form.Control type="text" placeholder="Xã" disabled />
+            </InputGroup>
+          </Form.Group>
+        </Col>
 
-            </Row>
+        <Col md={4}>
+          <InputGroup>
+            <InputGroup.Text className="bg-light">
+              <GrMapLocation />
+            </InputGroup.Text>
+            <Form.Control type="text" placeholder="Quận" disabled />
+          </InputGroup>
+        </Col>
 
-            <Row className="mt-2">
-                <Form.Label className="col-sm-12 col-form-label">Địa chỉ</Form.Label>
-                <Col md={4}>
-                    <Form.Group controlId="commune">
-                        <InputGroup>
-                            <InputGroup.Text className='bg-light'>
-                                <TiLocationArrowOutline />
-                            </InputGroup.Text>
-                            <Form.Control type="text" placeholder="Xã" disabled />
-                        </InputGroup>
-                    </Form.Group>
-                </Col>
+        <Col md={4}>
+          <InputGroup>
+            <InputGroup.Text className="bg-light">
+              <IoLocationOutline />
+            </InputGroup.Text>
+            <Form.Control type="text" placeholder="Tỉnh" disabled />
+          </InputGroup>
+        </Col>
+      </Row>
 
-                <Col md={4}>
-                    <InputGroup>
-                        <InputGroup.Text className='bg-light'>
-                            <GrMapLocation />
-                        </InputGroup.Text>
-                        <Form.Control type="text" placeholder="Quận" disabled />
-                    </InputGroup>
-                </Col>
-
-                <Col md={4}>
-                    <InputGroup>
-                        <InputGroup.Text className='bg-light'>
-                            <IoLocationOutline />
-                        </InputGroup.Text>
-                        <Form.Control type="text" placeholder="Tỉnh" disabled />
-                    </InputGroup>
-                </Col>
-            </Row>
-
-            <Row className="mt-2">
-                <Col>
-                    <InputGroup>
-                        <InputGroup.Text className='bg-light'>
-                            <TbCurrentLocation />
-                        </InputGroup.Text>
-                        <Form.Control type="text" placeholder="Chi tiết" disabled />
-                    </InputGroup>
-                </Col>
-            </Row>
-        </div>
-    );
+      <Row className="mt-2">
+        <Col>
+          <InputGroup>
+            <InputGroup.Text className="bg-light">
+              <TbCurrentLocation />
+            </InputGroup.Text>
+            <Form.Control type="text" placeholder="Chi tiết" disabled />
+          </InputGroup>
+        </Col>
+      </Row>
+    </div>
+  );
 }

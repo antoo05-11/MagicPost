@@ -13,6 +13,7 @@ export default function OrderTable({ page }) {
     totalPages: totalPage,
     itemPerPage: itemPerPage,
   } = getOrder({ page });
+  console.log(inforOrders);
   const listStatus = ["forwarded", "arriving", "on_stock"];
   return (
     <div className="mt-2 flow-root table">
