@@ -4,6 +4,7 @@ import { OrderDetail } from "../button";
 import { getOrder } from "@/api/data";
 import Pagination from "../pagination";
 import { getAllProvince } from "@/api/data";
+import { orderStatus } from "@/api/utils";
 
 export default function OrderTable({ page }) {
   const provinceData = getAllProvince();
@@ -12,6 +13,7 @@ export default function OrderTable({ page }) {
     totalPages: totalPage,
     itemPerPage: itemPerPage,
   } = getOrder({ page });
+  console.log(inforOrders)
   return (
     <div className="mt-2 flow-root table">
       <div className="inline-block min-w-full align-middle d-flex justify-content-center">
@@ -23,6 +25,7 @@ export default function OrderTable({ page }) {
                 <th scope="col">Mã đơn hàng</th>
                 <th scope="col">Địa chỉ gửi</th>
                 <th scope="col">Địa chỉ nhận</th>
+                <th scope="col">Ngày tạo</th>
                 <th scope="col">Trạng thái</th>
                 <th scope="col"></th>
               </tr>
@@ -60,6 +63,14 @@ export default function OrderTable({ page }) {
                   </select>
                 </th>
                 <th scope="col">
+                  <div style={{ display: 'flex', gap: '10px', width: "255px" }}>
+                    <input type="date" className="w-50" />
+                    -
+                    <input type="date" className="w-50" />
+                  </div>
+
+                </th>
+                <th scope="col">
                   <select placeholder="Chọn">
                     <option value="1">Audi</option>
                     <option value="2">BMW</option>
@@ -71,13 +82,20 @@ export default function OrderTable({ page }) {
             </thead>
             <tbody className="table-group-divider">
               {inforOrders?.map((data, index) => {
+                const statusInfo = orderStatus[data?.goodsStatus] || {};
+                const badgeColor = statusInfo.color || "secondary";
                 return (
                   <tr key={data?.orderID}>
                     <td>{index + 1}</td>
                     <td>{data?.orderID}</td>
                     <td>{data?.endTransactionProvince}</td>
                     <td>{data?.startTransactionProvince}</td>
-                    <td>{data?.goodsStatus}</td>
+                    <td>{data?.createdAt}</td>
+                    <td>
+                      <span className={`badge rounded-pill bg-${badgeColor} p-2`}>
+                        {statusInfo.now}
+                      </span>
+                    </td>
                     <td className="d-flex justify-content-center">
                       <OrderDetail id={data?.orderID} />
                     </td>

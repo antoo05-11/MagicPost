@@ -2,10 +2,11 @@ import Image from "next/image";
 import { EmployeeDetail } from "../button";
 import { getEmployee } from "@/api/data";
 import Pagination from "../pagination";
-import { employeeRole } from "@/api/utils";
+import { employeeRole, employeeStatus } from "@/api/utils";
 import { useDebouncedCallback } from "use-debounce";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getAllProvince } from "@/api/data";
+
 export default function EmployyeeTable({ page, query }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -37,6 +38,7 @@ export default function EmployyeeTable({ page, query }) {
     itemPerPage: itemPerPage,
   } = getEmployee(page || 1, query);
 
+  console.log(inforEmployees);
   return (
     <div>
       <div className="mt-2 flow-root table">
@@ -49,9 +51,9 @@ export default function EmployyeeTable({ page, query }) {
                   <th scope="col">Mã nhân viên</th>
                   <th scope="col">Họ và tên</th>
                   <th scope="col">Địa chỉ</th>
-                  <th scope="col">Vai trò</th>
                   <th scope="col">Trạng thái</th>
-                  <th scope="col">#</th>
+                  <th scope="col">Số điện thoại</th>
+                  <th scope="col"></th>
                 </tr>
                 <tr className="filter">
                   <th scope="col"></th>
@@ -79,37 +81,39 @@ export default function EmployyeeTable({ page, query }) {
                   </th>
                   <th scope="col">
                     <select>
-                      <option value="">Chọn vai trò</option>
-                      {Object.keys(employeeRole).map((roleKey) => (
-                        <option key={roleKey} value={roleKey}>
-                          {employeeRole[roleKey].name}
+                      <option value="">Chọn trạng thái</option>
+                      {Object.keys(employeeStatus).map((statusKey) => (
+                        <option key={statusKey} value={statusKey}>
+                          {employeeStatus[statusKey].name}
                         </option>
                       ))}
                     </select>
                   </th>
                   <th scope="col">
-                    <select>
-                      <option value="">Chọn trạng thái</option>
-                      {Object.keys(employeeRole).map((roleKey) => (
-                        <option key={roleKey} value={roleKey}>
-                          {employeeRole[roleKey].name}
-                        </option>
-                      ))}
-                    </select>
+                    <input
+                      placeholder="Lọc theo sdt"
+                    />
                   </th>
                   <th scope="col"></th>
                 </tr>
               </thead>
-              <tbody class="table-group-divider">
+              <tbody className="table-group-divider">
                 {inforEmployees.map((employee, index) => {
+                  const statusInfo = employeeStatus[employee?.status] || {};
+                  const badgeColor = statusInfo.color || "secondary";
+
                   return (
                     <tr key={employee?.employeeID}>
                       <td>{index + 1}</td>
+                      <td>{employee?.employeeID}</td>
+                      <td>{employee?.fullName}</td>
+                      <td>{employee?.address?.province?.name}</td>
+                      <td>
+                        <span className={`badge rounded-pill bg-${badgeColor} p-2`}>
+                          {statusInfo.name}
+                        </span>
+                      </td>
                       <td>{employee?.phoneNumber}</td>
-                      <td>{employee?.fullName}</td>
-                      <td>{employee?.fullName}</td>
-                      <td>{employeeRole[employee?.role]?.name}</td>
-                      <td>{employee?.email}</td>
                       <td className="d-flex justify-content-center">
                         <EmployeeDetail id={employee?.employeeID} />
                       </td>

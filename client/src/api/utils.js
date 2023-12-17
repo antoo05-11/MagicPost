@@ -124,10 +124,20 @@ export const listUrl = {
 };
 
 export const orderStatus = {
-  forwarded: { now: "Da van chuyen di", next: null },
-  arriving: { now: "Dang van chuyen den", next: "Xac nhan da den" },
-  on_stock: { now: "Trong kho", next: "Xac nhan chuyen tiep" },
+  forwarded: { now: "Đã vận chuyển đi", next: null, color: "success" },
+  arriving: { now: "Đang vận chuyển đến", next: "Xác nhận đã đến", color: "warning" },
+  on_stock: { now: "Trong kho", next: "Xác nhận chuyển tiếp", color: "danger" },
 };
+
+export const goodStatus = {
+  delivered: { now: "Đã giao", color: "success" },
+  delivering: { now: "Đang vận chuyển", color: "warning" },
+}
+
+export const employeeStatus = {
+  ACTIVE: {name: "Hoạt động", color: "success"},
+  INACTIVE: {name: "Đã nghỉ", color: "secondary"},
+}
 
 export const createError = {
   10003: "Nội dung không hợp lệ",

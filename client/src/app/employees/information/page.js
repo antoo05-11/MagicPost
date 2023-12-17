@@ -7,11 +7,11 @@ import Security from "@/components/employee/information/security";
 import "@/css/employee/customForm.css";
 import { Button, Container, Row, Col } from "react-bootstrap";
 import { useSession } from "next-auth/react";
+import { getEmployeebyID } from "@/api/data";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState("mainInformation");
-  const dataInfo = useSession()?.data.user;
-  
+  // const dataInfo = getEmployeebyID(useSession().data?.user.employeeID);
   const handleButtonClick = (page) => {
     setCurrentPage(page);
   };
@@ -20,7 +20,7 @@ export default function Page() {
     <Container>
       <Row>
         <Col xs="4">
-          <Preview data={dataInfo} />
+          {/* <Preview data={dataInfo} /> */}
         </Col>
 
         <Col>
@@ -41,8 +41,8 @@ export default function Page() {
             </button>
           </div>
           <div className="row mt-3">
-            {currentPage === "mainInformation" && <MainInformation data={dataInfo} />}
-            {currentPage === "security" && <Security data={dataInfo} />}
+            {/* {currentPage === "mainInformation" && <MainInformation data={dataInfo} />} */}
+            {/* {currentPage === "security" && <Security data={dataInfo} />} */}
           </div>
         </Col >
       </Row>
