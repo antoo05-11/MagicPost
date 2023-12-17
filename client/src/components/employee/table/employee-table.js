@@ -40,12 +40,12 @@ export default function EmployyeeTable({ page, query }) {
     }
     replace(`${pathname}?${params.toString()}`);
   }, 300);
-  const handleRole = useDebouncedCallback((term) => {
+  const handlePhone = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
-      params.set("role", term);
+      params.set("phone", term);
     } else {
-      params.delete("role");
+      params.delete("phone");
     }
     replace(`${pathname}?${params.toString()}`);
   }, 300);
@@ -65,7 +65,6 @@ export default function EmployyeeTable({ page, query }) {
     itemPerPage: itemPerPage,
   } = getEmployee(page || 1, query);
 
-  console.log(inforEmployees);
   return (
     <div>
       <div className="mt-2 flow-root table">
@@ -110,7 +109,7 @@ export default function EmployyeeTable({ page, query }) {
                     </select>
                   </th>
                   <th scope="col">
-                    <select>
+                    <select onChange={(e) => handleStatus(e.target.value)}>
                       <option value="">Chọn trạng thái</option>
                       {Object.keys(employeeStatus).map((statusKey) => (
                         <option key={statusKey} value={statusKey}>
@@ -122,6 +121,7 @@ export default function EmployyeeTable({ page, query }) {
                   <th scope="col">
                     <input
                       placeholder="Lọc theo sdt"
+                      onChange={(e) => handlePhone(e.target.value)}
                     />
                   </th>
                   <th scope="col"></th>
@@ -139,7 +139,9 @@ export default function EmployyeeTable({ page, query }) {
                       <td>{employee?.fullName}</td>
                       <td>{employee?.address?.province?.name}</td>
                       <td>
-                        <span className={`badge rounded-pill bg-${badgeColor} p-2`}>
+                        <span
+                          className={`badge rounded-pill bg-${badgeColor} p-2`}
+                        >
                           {statusInfo.name}
                         </span>
                       </td>

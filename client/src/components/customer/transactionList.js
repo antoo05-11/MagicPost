@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function TransactionList({ provinceID, districtID, communeID }) {
   const data = getTransactionPoint(provinceID, districtID, communeID);
-  console.log(provinceID, districtID, communeID);
+  console.log(data);
   return (
     <Container
       className="lookUpContainer"
@@ -13,7 +13,7 @@ export default function TransactionList({ provinceID, districtID, communeID }) {
       <Row>
         <Col>{/* <h3>Số lượng bưu cục: {postOfficeCount}</h3> */}</Col>
       </Row>
-      {data.slice(0, 3).map((item, index) => (
+      {data.map((item, index) => (
         <Row key={index} className="border-bottom mt-2">
           <Row>
             <h3>Transaction Details</h3>

@@ -11,7 +11,9 @@ import { getEmployeebyID } from "@/api/data";
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState("mainInformation");
-  // const dataInfo = getEmployeebyID(useSession().data?.user.employeeID);
+  const userID = useSession().data?.user?.employeeID;
+  const dataInfo = getEmployeebyID(userID || 1);
+  console.log(dataInfo);
   const handleButtonClick = (page) => {
     setCurrentPage(page);
   };
@@ -19,22 +21,24 @@ export default function Page() {
   return (
     <Container>
       <Row>
-        <Col xs="4">
-          {/* <Preview data={dataInfo} /> */}
-        </Col>
+        <Col xs="4">{/* <Preview data={dataInfo} /> */}</Col>
 
         <Col>
           <div>
             <button
               type="button"
-              className={`btn btn-outline-primary ${currentPage === "mainInformation" ? "active" : ""}`}
+              className={`btn btn-outline-primary ${
+                currentPage === "mainInformation" ? "active" : ""
+              }`}
               onClick={() => handleButtonClick("mainInformation")}
             >
               Thông tin
             </button>
             <button
               type="button"
-              className={`btn btn-outline-primary ms-2 ${currentPage === "security" ? "active" : ""}`}
+              className={`btn btn-outline-primary ms-2 ${
+                currentPage === "security" ? "active" : ""
+              }`}
               onClick={() => handleButtonClick("security")}
             >
               Bảo mật
@@ -44,8 +48,8 @@ export default function Page() {
             {/* {currentPage === "mainInformation" && <MainInformation data={dataInfo} />} */}
             {/* {currentPage === "security" && <Security data={dataInfo} />} */}
           </div>
-        </Col >
+        </Col>
       </Row>
-    </Container >
+    </Container>
   );
 }

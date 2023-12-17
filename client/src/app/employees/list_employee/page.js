@@ -4,12 +4,12 @@ import EmployyeeTable from "@/components/employee/table/employee-table";
 import "@/css/employee/customTable.css";
 
 export default function page({
-  searchParams: { name, role, emID, status, address, page },
+  searchParams: { name, phone, emID, status, address, page },
 }) {
   const query = {
     name: name,
     emID: emID,
-    role: role,
+    phone: phone,
     address: address,
     status: status,
   };

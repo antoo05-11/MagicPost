@@ -106,6 +106,7 @@ export default function EmployeeForm() {
               onChange={(e) => {
                 employee.email = e.target.value;
               }}
+              required
             />
           </div>
 
@@ -271,22 +272,16 @@ export default function EmployeeForm() {
             employee.address.districtID = selectedDistrict;
             employee.address.communeID = selectedCommune;
             setError(await createEmployee(employee));
+            setPopup(!popup);
           }}
           className="btn btnCreate"
         >
           Tạo nhân viên
         </button>
 
-        <button
-          className="btn btn-secondary"
-          onClick={() => {
-            setPopup(!popup);
-          }}
-        >
-          Xóa
-        </button>
+        <button className="btn btn-secondary">Xóa</button>
       </div>
-      <PopUp isOpen={popup} setIsOpen={setPopup} />
+      <PopUp isOpen={popup} setIsOpen={setPopup} infor={{ code: error }} />
     </div>
   );
 }

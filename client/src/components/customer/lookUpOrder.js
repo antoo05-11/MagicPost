@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import OrderTracking from "./trackingOrder";
 import { getOrderTracking } from "@/api/data";
-
+let orID;
 export default function LookUpOrder() {
   // AEX451934145VN
   const pathname = usePathname();
@@ -14,7 +14,6 @@ export default function LookUpOrder() {
 
   const [orderID, setOrderID] = useState(searchParams.get("query") || "");
   const { data: data, error: error } = getOrderTracking(orderID);
-  console.log(error);
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -44,22 +43,19 @@ export default function LookUpOrder() {
                   <Form.Control
                     className="rounded border"
                     required
-                    onChange={(e) => setOrderID(e.target.value)}
+                    onChange={(e) => (orID = e.target.value)}
                   />
                 </Col>
 
                 <Col>
-                  <Button
-                    className="w-100"
-                    onClick={() => handleSearch(orderID)}
-                  >
+                  <Button className="w-100" onClick={() => handleSearch(orID)}>
                     Tra cứu
                   </Button>
                 </Col>
               </Row>
 
               <Row>
-                {error && (
+                {data?.error && (
                   <p className="text-danger  m-0">Không tìm thấy bưu gửi</p>
                 )}
               </Row>
