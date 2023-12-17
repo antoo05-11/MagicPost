@@ -582,11 +582,11 @@ export const getOrderByIDForCustomer = async (req, res) => {
             orderID: order.orderID,
             sender: {
                 fullName: order.sender.fullname,
-                provinceName: order.sender.address.province,
+                provinceName: order.sender.address.province.name,
             },
             receiver: {
                 fullName: order.receiver.fullname,
-                provinceName: order.receiver.address.province,
+                provinceName: order.receiver.address.province.name,
             },
             creator: order.employee,
             status: order.status,
