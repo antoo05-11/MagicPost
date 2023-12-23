@@ -63,6 +63,7 @@ tr:nth-child(even) {
   margin-bottom: 1px;
   border-bottom: 1px solid #333;
   background-color: transparent;
+  text-align: center;
 }
 
 .filter input:focus {
@@ -201,6 +202,7 @@ tr:nth-child(even) {
 
 .createOrderTable th, .createOrderTable td {
   width: 300px;
+  text-align: center;
 }
 
 .createOrderTable select, .createOrderTable input {

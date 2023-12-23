@@ -5,12 +5,17 @@
     border-radius: 15px;
 }
 
-.title{
+.itemContainer svg {
+    width: 2em;
+    height: 2em;
+}
+
+.title {
     color: #757493;
     font-size: 16px;
 }
 
-.statisticNumber h5{
+.statisticNumber h5 {
     font-weight: 700;
 }
 
@@ -42,6 +47,6 @@
     background-color: #feedf3;
 }
 
-.goodPoint svg{
+.goodPoint svg {
     color: #f7679b;
 }

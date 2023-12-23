@@ -1,218 +1,212 @@
-"use client";
+import React from 'react';
+import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
+import { getOrderById } from '@/api/data';
+import { orderStatus } from '@/api/utils';
+import { updateProcessesOrder } from '@/api/action';
 
-import "@/css/employee/customForm.css";
-
-import { getOrderById } from "@/api/data";
-import OrderProgress from "../table/order-progress";
-import { orderStatus } from "@/api/utils";
-import { updateProcessesOrder } from "@/api/action";
+import '@/css/employee/customForm.css';
+import '@/css/employee/customTable.css';
 
 export default function OrderDetail({ id }) {
   const { data: order } = getOrderById(id);
-  console.log(order);
-  return (
-    <div className="container">
-      {/* Thong tin don hang  */}
-      <div className="formContainer">
-        <div className="row">
-          <h3>Thông tin don hang</h3>
-        </div>
-        <div className="row">
-          <label>Ma don hang</label>
-          <input
-            type="text"
-            className="form-control"
-            value={id}
-            disabled="true"
-          />
-        </div>
 
-        <div className="row">
-          <label>Phi van chuyen</label>
-          <input
-            type="text"
-            className="form-control"
-            //   value={}
-            disabled="true"
-          />
-        </div>
-        <div className="row mt-2">
-          <div className="col">
-            <label htmlFor="creator">Nhân viên tạo đơn</label>
-            <input
-              id="creator"
+  const formatDateTime = (dateTimeString) => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    const formattedDateTime = new Date(dateTimeString).toLocaleDateString('en-US', options);
+    return formattedDateTime;
+  };
+
+  return (
+    <Container>
+      {/* === Thông tin đơn hàng === */}
+      <div className="formContainer">
+        <Row>
+          <h3>Thông tin đơn hàng</h3>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group>
+              <Form.Label>Mã đơn hàng</Form.Label>
+              <Form.Control type="text" value={id} disabled />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group>
+              <Form.Label>Phí vận chuyển</Form.Label>
+              <Form.Control type="text" disabled />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row className='mt-2'>
+          <Col>
+            <Form.Group controlId="creator" >
+              <Form.Label>Nhân viên tạo đơn</Form.Label>
+              <Form.Control type="text" value={order?.order?.creator?.fullName} disabled />
+            </Form.Group>
+          </Col>
+          <Col>
+            <Form.Group controlId="timeCreate">
+              <Form.Label>Thời gian tạo</Form.Label>
+              <Form.Control type="text" value={formatDateTime(order?.order?.createdAt)} disabled />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row className='mt-2'>
+          <Form.Group>
+            <Form.Label>Trạng thái</Form.Label>
+            <Form.Control
               type="text"
-              className="form-control"
-              value={order?.order?.creator?.fullName}
-              disabled="true"
+              value={orderStatus[order?.order?.goodsStatus]?.now}
+              disabled
             />
-          </div>
-          <div className="col">
-            <label htmlFor="timeCreate">Thời gian tạo</label>
-            <input
-              type="text"
-              id="timeCreate"
-              className="form-control"
-              value={order?.order?.createdAt}
-              disabled="true"
-            />
-          </div>
-        </div>
-        <div className="row">
-          <label>Trang thai</label>
-          <input
-            type="text"
-            className="form-control"
-            value={orderStatus[order?.order?.goodsStatus]?.now}
-            disabled="true"
-          />
-        </div>
-        {orderStatus[order?.order?.goodsStatus]?.next && (
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              updateProcessesOrder(
-                order?.order?.processes?.pop()?.processID,
-                "forwarded"
-              );
-            }}
-          >
-            {orderStatus[order?.order?.goodsStatus]?.next}
-          </button>
-        )}
+          </Form.Group>
+        </Row>
+
+        <Row>
+          <Col>
+            {orderStatus[order?.order?.goodsStatus]?.next && (
+              <Button
+                variant="warning"
+                className='w-100 mt-3'
+                onClick={() => {
+                  updateProcessesOrder(
+                    order?.order?.processes?.pop()?.processID,
+                    'forwarded'
+                  );
+                }}
+              >
+                {orderStatus[order?.order?.goodsStatus]?.next}
+              </Button>
+            )}
+          </Col>
+        </Row>
+
       </div>
+
       {/* Thong tin nguoi gui */}
       <div className="formContainer">
-        <div className="row">
+        <Row>
           <h3>Thông tin người gửi</h3>
-        </div>
+        </Row>
         {/* Thong tin co ban */}
-        <div className="row mt-2">
-          <div className="col">
-            <label htmlFor="senderName">Họ và tên</label>
-            <input
-              type="text"
-              className="form-control"
-              id="senderName"
-              placeholder="Họ và tên"
-              value={order?.order?.sender?.fullName}
-              disabled="true"
-            />
-          </div>
+        <Row>
+          <Col>
+            <Form.Group controlId="senderName">
+              <Form.Label>Họ và tên</Form.Label>
+              <Form.Control
+                type="text"
+                value={order?.order?.sender?.fullName}
+                disabled
+              />
+            </Form.Group>
+          </Col>
 
-          <div className="col">
-            <label htmlFor="senderPhoneNumber">Số điện thoại</label>
-            <input
-              type="text"
-              className="form-control"
-              id="senderPhoneNumber"
-              placeholder="Số điện thoại"
-              defaultValue={order?.order?.sender?.phoneNumber}
-              disabled="true"
-            />
-          </div>
-        </div>
+          <Col>
+            <Form.Group controlId="senderPhoneNumber">
+              <Form.Label>Số điện thoại</Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={order?.order?.sender?.phoneNumber}
+                disabled
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
         {/* Dia chi chi tiet */}
-        <div className="row mt-2">
-          <div className="col">
-            <label htmlFor="addressDetail">Dia chi</label>
-            <input
-              className="form-control"
-              id="addressDetail"
-              placeholder="Chi tiết"
-              defaultValue={order?.order?.sender?.address}
-              disabled="true"
-            />
-          </div>
-        </div>
+        <Row className="mt-2">
+          <Col>
+            <Form.Group controlId="addressDetail">
+              <Form.Label>Địa chỉ</Form.Label>
+              <Form.Control
+                type="text"
+                defaultValue={order?.order?.sender?.address}
+                disabled
+              />
+            </Form.Group>
+          </Col>
+        </Row>
       </div>
+
       {/* Thong tin nguoi nhan */}
       <div className="formContainer">
-        <div className="row">
+        <Row>
           <h3>Thông tin người nhận</h3>
-        </div>
+        </Row>
         {/* Thong tin co ban */}
 
-        <div className="row mt-2">
-          <div className="col">
-            <label htmlFor="receiverName">Họ và tên</label>
-            <input
-              type="text"
-              className="form-control"
-              id="receiverName"
-              placeholder="Họ và tên"
-              value={order?.order?.receiver?.fullName}
-              disabled="true"
-            />
-          </div>
+        <Row>
+          <Col>
+            <Form.Group controlId="receiverName">
+              <Form.Label>Họ và tên</Form.Label>
+              <Form.Control
+                type="text"
+                value={order?.order?.receiver?.fullName}
+                disabled
+              />
+            </Form.Group>
+          </Col>
 
-          <div className="col">
-            <label htmlFor="receiverPhoneNumber">Số điện thoại</label>
-            <input
-              type="text"
-              className="form-control"
-              id="receiverPhoneNumber"
-              placeholder="Số điện thoại"
-              value={order?.order?.receiver?.phoneNumber}
-              disabled="true"
-            />
-          </div>
-        </div>
+          <Col>
+            <Form.Group controlId="receiverPhoneNumber">
+              <Form.Label>Số điện thoại</Form.Label>
+              <Form.Control
+                type="text"
+                value={order?.order?.receiver?.phoneNumber}
+                disabled
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
         {/* Dia chi chi tiet */}
-
-        <div className="row mt-2">
-          <div className="col">
-            <label htmlFor="addressDetail">Dia chi</label>
-            <input
-              className="form-control"
-              id="addressDetail"
-              placeholder="Chi tiết"
-              value={order?.order?.receiver?.address}
-              disabled="true"
-            />
-          </div>
-        </div>
+        <Row className="mt-2">
+          <Col>
+            <Form.Group controlId="addressDetail">
+              <Form.Label>Địa chỉ</Form.Label>
+              <Form.Control
+                type="text"
+                value={order?.order?.receiver?.address}
+                disabled
+              />
+            </Form.Group>
+          </Col>
+        </Row>
       </div>
+
       {/* Thong tin hang hoa */}
       <div className="formContainer">
-        <div className="row">
-          <div className="col">
+        <Row>
+          <Col>
             <h3>Thông tin hàng hóa</h3>
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row p-2 table-responsive">
-          <table className="createOrderTable">
+        <Row className="p-2 table-responsive">
+          <table striped bordered hover className='createOrderTable'>
             <thead>
               <tr>
-                <th scope="col">STT</th>
-                <th scope="col">Loại hàng hóa</th>
-                <th scope="col">Khối lượng thực</th>
-                <th scope="col">Khối lượng chuyển đổi</th>
+                <th>STT</th>
+                <th>Loại hàng hóa</th>
+                <th>Khối lượng thực</th>
+                <th>Khối lượng chuyển đổi</th>
               </tr>
             </thead>
             <tbody>
-              {order?.goodsList?.map((e) => {
-                return (
-                  <tr>
-                    <td></td>
-                    <td>{e?.goodsType}</td>
-                    <td>{e?.realWeight}</td>
-                    <td>{e?.convertedWeight}</td>
-                  </tr>
-                );
-              })}
+              {order?.goodsList?.map((e, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{e?.goodsType}</td>
+                  <td>{e?.realWeight}</td>
+                  <td>{e?.convertedWeight}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
-        </div>
+        </Row>
       </div>
-      <div className="formContainer">
-        <OrderProgress orderProcesses={order?.order?.processes} />
-      </div>
-    </div>
+    </Container>
   );
 }
-
-// function createGoods() {
-//   return ()
-// }

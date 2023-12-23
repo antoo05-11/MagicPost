@@ -6,7 +6,6 @@ import SearchEmployee from "@/components/employee/search";
 import OrderTable from "@/components/employee/table/order-table";
 import SearchBox from "@/components/employee/search";
 import "@/css/employee/customTable.css";
-import OrderProgress from "@/components/employee/table/order-progress";
 import { useSession } from "next-auth/react";
 
 export default async function page({ searchParams: { page } }) {

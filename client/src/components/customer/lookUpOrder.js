@@ -44,6 +44,7 @@ export default function LookUpOrder() {
                     className="rounded border"
                     required
                     onChange={(e) => (orID = e.target.value)}
+                    defaultValue={searchParams.get("query")}
                   />
                 </Col>
 

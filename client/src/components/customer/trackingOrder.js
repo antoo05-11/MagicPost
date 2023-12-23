@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import OrderProgress from './order-progress';
+import { goodStatus } from '@/api/utils';
 
 export default function OrderTracking({ data }) {
     console.log(data);
@@ -13,51 +14,46 @@ export default function OrderTracking({ data }) {
         return new Date(dateTimeString).toLocaleDateString('en-US', options);
     };
 
-    const convertStatus = (status) => {
-        switch (status) {
-            case 'arrived':
-                return 'Đã chuyển';
-            case 'on_way':
-                return 'Đang chuyển';
-
-            default:
-                return status;
-        }
-    };
+    const status = goodStatus[data.status] || {};
 
     return (
         <Container className="lookUpContainer">
             <Row>
-                <Col>
+                <Col className='text-center'>
                     <Row><strong>Số hiệu bưu gửi</strong> </Row>
                     <Row><p className='m-0'>{data.orderID}</p></Row>
                 </Col>
 
-                <Col>
+                <Col className='text-center'>
                     <Row><strong>Địa chỉ gửi</strong> </Row>
-                    <Row><p className='m-0'>{data.sender?.address?.province?.name}</p></Row>
+                    <Row><p className='m-0'>{data.sender?.provinceName}</p></Row>
                 </Col>
 
-                <Col>
+                <Col className='text-center'>
                     <Row><strong>Địa chỉ nhận</strong> </Row>
-                    <Row><p className='m-0'>{data.receiver?.address?.province?.name}</p></Row>
+                    <Row><p className='m-0'>{data.receiver?.provinceName}</p></Row>
                 </Col>
 
-                <Col>
+                <Col className='text-center'>
                     <Row><strong>Khối lượng</strong> </Row>
-                    <Row><p className='m-0'>{data.goodsList?.[0]?.realWeight}</p></Row>
+                    <Row><p className='m-0'>{data.weight}</p></Row>
                 </Col>
 
-                <Col>
+                <Col className='text-center'>
                     <Row><strong>Trạng thái</strong> </Row>
-                    <Row><p className='m-0'>{convertStatus(data.processes?.[0]?.status)}</p></Row>
+                    <Row><p className='m-0'>
+                        <span
+                            className={`badge rounded-pill bg-${status.color} p-2`}
+                        >
+                            {status.now}</span>
+                    </p></Row>
                 </Col>
 
             </Row>
 
             <Row>
                 <Col>
-                        {/* <Table hover className='mt-3'>
+                    {/* <Table hover className='mt-3'>
                             <thead>
                                 <tr>
                                     <th>STT</th>
@@ -79,7 +75,7 @@ export default function OrderTracking({ data }) {
                                 ))}
                             </tbody>
                         </Table> */}
-                    <OrderProgress orderProcesses={data}/>
+                    <OrderProgress orderProcesses={data} />
                 </Col>
             </Row>
         </Container>

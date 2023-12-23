@@ -13,6 +13,13 @@ export default function OrderTable({ page }) {
     totalPages: totalPage,
     itemPerPage: itemPerPage,
   } = getOrder({ page });
+
+  const formatDateTime = (dateTimeString) => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    const formattedDateTime = new Date(dateTimeString).toLocaleDateString('en-US', options);
+    return formattedDateTime;
+  };
+
   console.log(inforOrders);
   const listStatus = ["forwarded", "arriving", "on_stock"];
   return (
@@ -62,12 +69,8 @@ export default function OrderTable({ page }) {
                     ))}
                   </select>
                 </th>
-                <th scope="col">
-                  <div style={{ display: "flex", gap: "10px", width: "255px" }}>
-                    <input type="date" className="w-50" />
-                    -
-                    <input type="date" className="w-50" />
-                  </div>
+                <th scope="col">                 
+                    <input type="date" />
                 </th>
                 <th scope="col">
                   <select placeholder="Chọn">
@@ -92,7 +95,7 @@ export default function OrderTable({ page }) {
                     <td>{data?.orderID}</td>
                     <td>{data?.endTransactionProvince}</td>
                     <td>{data?.startTransactionProvince}</td>
-                    <td>{data?.createdAt}</td>
+                    <td>{formatDateTime(data?.createdAt)}</td>
                     <td>
                       <span
                         className={`badge rounded-pill bg-${badgeColor} p-2`}

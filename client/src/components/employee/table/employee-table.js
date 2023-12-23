@@ -6,6 +6,7 @@ import { employeeRole, employeeStatus } from "@/api/utils";
 import { useDebouncedCallback } from "use-debounce";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getAllProvince } from "@/api/data";
+import "@/css/employee/customTable.css";
 
 export default function EmployyeeTable({ page, query }) {
   const searchParams = useSearchParams();
@@ -68,9 +69,9 @@ export default function EmployyeeTable({ page, query }) {
   return (
     <div>
       <div className="mt-2 flow-root table">
-        <div className="inline-block min-w-full align-middle d-flex justify-content-center">
+        <div className="inline-block min-w-full align-middle">
           <div className="rounded-lg bg-gray-50 md:pt-0 table-responsive ">
-            <table className="employeeTable">
+            <table className="employeeTable w-100">
               <thead>
                 <tr>
                   <th scope="col">STT</th>
