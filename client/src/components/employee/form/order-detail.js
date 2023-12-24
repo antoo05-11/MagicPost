@@ -82,96 +82,94 @@ export default function OrderDetail({ id }) {
             )}
           </Col>
         </Row>
-
       </div>
 
-      {/* Thong tin nguoi gui */}
-      <div className="formContainer">
+      <div>
         <Row>
-          <h3>Thông tin người gửi</h3>
-        </Row>
-        {/* Thong tin co ban */}
-        <Row>
-          <Col>
-            <Form.Group controlId="senderName">
-              <Form.Label>Họ và tên</Form.Label>
-              <Form.Control
-                type="text"
-                value={order?.order?.sender?.fullName}
-                disabled
-              />
-            </Form.Group>
+          <Col xs="6">
+            <div className="formContainer">
+              <Row>
+                <h3>Thông tin người gửi</h3>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Group controlId="senderName">
+                    <Form.Label>Họ và tên</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={order?.order?.sender?.fullName}
+                      disabled
+                    />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="senderPhoneNumber">
+                    <Form.Label>Số điện thoại</Form.Label>
+                    <Form.Control
+                      type="text"
+                      defaultValue={order?.order?.sender?.phoneNumber}
+                      disabled
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row className="mt-2">
+                <Col>
+                  <Form.Group controlId="addressDetail">
+                    <Form.Label>Địa chỉ</Form.Label>
+                    <Form.Control
+                      type="text"
+                      defaultValue={order?.order?.sender?.address}
+                      disabled
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </div>
           </Col>
+          <Col xs="6">
+            <div className="formContainer">
+              <Row>
+                <h3>Thông tin người nhận</h3>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Group controlId="receiverName">
+                    <Form.Label>Họ và tên</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={order?.order?.receiver?.fullName}
+                      disabled
+                    />
+                  </Form.Group>
+                </Col>
 
-          <Col>
-            <Form.Group controlId="senderPhoneNumber">
-              <Form.Label>Số điện thoại</Form.Label>
-              <Form.Control
-                type="text"
-                defaultValue={order?.order?.sender?.phoneNumber}
-                disabled
-              />
-            </Form.Group>
-          </Col>
-        </Row>
+                <Col>
+                  <Form.Group controlId="receiverPhoneNumber">
+                    <Form.Label>Số điện thoại</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={order?.order?.receiver?.phoneNumber}
+                      disabled
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-        {/* Dia chi chi tiet */}
-        <Row className="mt-2">
-          <Col>
-            <Form.Group controlId="addressDetail">
-              <Form.Label>Địa chỉ</Form.Label>
-              <Form.Control
-                type="text"
-                defaultValue={order?.order?.sender?.address}
-                disabled
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-      </div>
-
-      {/* Thong tin nguoi nhan */}
-      <div className="formContainer">
-        <Row>
-          <h3>Thông tin người nhận</h3>
-        </Row>
-        {/* Thong tin co ban */}
-
-        <Row>
-          <Col>
-            <Form.Group controlId="receiverName">
-              <Form.Label>Họ và tên</Form.Label>
-              <Form.Control
-                type="text"
-                value={order?.order?.receiver?.fullName}
-                disabled
-              />
-            </Form.Group>
-          </Col>
-
-          <Col>
-            <Form.Group controlId="receiverPhoneNumber">
-              <Form.Label>Số điện thoại</Form.Label>
-              <Form.Control
-                type="text"
-                value={order?.order?.receiver?.phoneNumber}
-                disabled
-              />
-            </Form.Group>
-          </Col>
-        </Row>
-
-        {/* Dia chi chi tiet */}
-        <Row className="mt-2">
-          <Col>
-            <Form.Group controlId="addressDetail">
-              <Form.Label>Địa chỉ</Form.Label>
-              <Form.Control
-                type="text"
-                value={order?.order?.receiver?.address}
-                disabled
-              />
-            </Form.Group>
+              {/* Dia chi chi tiet */}
+              <Row className="mt-2">
+                <Col>
+                  <Form.Group controlId="addressDetail">
+                    <Form.Label>Địa chỉ</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={order?.order?.receiver?.address}
+                      disabled
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </div>
           </Col>
         </Row>
       </div>
@@ -190,6 +188,7 @@ export default function OrderDetail({ id }) {
               <tr>
                 <th>STT</th>
                 <th>Loại hàng hóa</th>
+                <th>Số lượng</th>
                 <th>Khối lượng thực</th>
                 <th>Khối lượng chuyển đổi</th>
               </tr>
@@ -199,6 +198,7 @@ export default function OrderDetail({ id }) {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{e?.goodsType}</td>
+                  <td></td>
                   <td>{e?.realWeight}</td>
                   <td>{e?.convertedWeight}</td>
                 </tr>

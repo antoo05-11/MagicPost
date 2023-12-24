@@ -1,7 +1,6 @@
 .topbar {
   background-color: #fff !important;
   z-index: 1;
-  border-bottom: 1px solid #dee2e6;
   padding: 5px;
 }
 
@@ -16,7 +15,7 @@
   margin: 0;
 }
 
-.breadcrumb a{
+.breadcrumb a {
   text-decoration: none;
 }
 

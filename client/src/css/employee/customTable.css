@@ -51,9 +51,10 @@ tr:nth-child(even) {
   background-color: #eeeeee;
 }
 
-.filter th{
+.filter th {
   padding: 0 5px 10px 5px;
 }
+
 .filter input,
 .filter select {
   display: block;
@@ -197,15 +198,17 @@ tr:nth-child(even) {
   margin-bottom: 1px;
   border-bottom: 1px solid #333;
   background-color: transparent;
-  width: 300px;
+  width: 200px;
 }
 
-.createOrderTable th, .createOrderTable td {
-  width: 300px;
+.createOrderTable th,
+.createOrderTable td {
+  width: 200px;
   text-align: center;
 }
 
-.createOrderTable select, .createOrderTable input {
+.createOrderTable select,
+.createOrderTable input {
   text-align: center;
 }
 
@@ -215,7 +218,8 @@ tr:nth-child(even) {
   text-align: center;
 }
 
-.createOrderTable th:nth-child(5),
-.createOrderTable td:nth-child(5) {
+.createOrderTable th:nth-child(7),
+.createOrderTable td:nth-child(7) {
   width: 50px;
+  text-align: center;
 }

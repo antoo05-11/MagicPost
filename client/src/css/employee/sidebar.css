@@ -7,7 +7,6 @@
     position: fixed !important;
     justify-content: center;
     align-items: center;
-    border: 1px solid #dee2e6;
     box-shadow: rgba(58, 53, 65, 0.42) 0px 4px 8px -4px;
     /* display: none; */
     padding-right: 10px;
@@ -52,7 +51,7 @@
     cursor: pointer;
 }
 
-.sidebar .bar-item svg{
+.sidebar .bar-item svg {
     margin-right: 8px;
 }
 
