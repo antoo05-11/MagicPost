@@ -110,6 +110,7 @@
     color: black;
     font-size: 0.875rem;
     font-size: clamp(0.875rem, 0.7321428571428572rem + 0.2976190476190476vw, 1rem);
+    text-align: justify;
 }
 
 .serviceItem {

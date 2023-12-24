@@ -98,50 +98,43 @@ export default function HomePage() {
         </Row>
 
         <Row className={style.serviceContainer}>
-          <Col xs={6} md={3}>
+          <Col xs={6} lg={3} className="mb-3">
             <div className={style.serviceItem}>
               <h4>MAGICPOST DOC</h4>
               <FaRegFile size={"5em"} />
               <p>
-                EMS Tài liệu là dịch vụ nhận gửi, vận chuyển và phát các loại
-                thư, tài liệu trong nước theo chỉ tiêu thời gian tiêu chuẩn được
-                Tổng công ty EMS công bố.
+                Magic Post Tài Liệu là dịch vụ nhận gửi, vận chuyển và phát các loại thư, tài liệu trong nước theo
+                chỉ tiêu thời gian tiêu chuẩn được công bố bởi Magic Post.
               </p>
             </div>
           </Col>
-          <Col xs={6} md={3}>
+          <Col xs={6} lg={3} className="mb-3">
             <div className={style.serviceItem}>
               <h4>MAGICPOST FAST</h4>
               <GoRocket size={"5em"} />
               <p>
-                EMS Hỏa tốc là là dịch vụ chất lượng cao có chỉ tiêu thời gian
-                toàn trình rút ngắn so với dịch vụ EMS Tài liệu/Hàng hóa nhanh,
-                trong đó bưu gửi được ưu tiên chuyển phát đến người nhận trong
-                khung thời gian cam kết theo tuyến hành trình cụ thể.
+                Magic Post Hỏa Tốc là dịch vụ chất lượng cao với chỉ tiêu thời gian toàn trình rút ngắn
+                so với dịch vụ Magic Post Chuyển Phát Nhanh, trong đó bưu gửi được ưu tiên chuyển phát
+                đến người nhận trong khung thời gian cam kết theo tuyến hành trình cụ thể.
               </p>
             </div>
           </Col>
-          <Col xs={6} md={3}>
+          <Col xs={6} lg={3} className="mb-3">
             <div className={style.serviceItem}>
               <h4>MAGICPOST GIFT</h4>
               <IoGiftOutline size={"5em"} />
               <p>
-                EMS Hỏa tốc là là dịch vụ chất lượng cao có chỉ tiêu thời gian
-                toàn trình rút ngắn so với dịch vụ EMS Tài liệu/Hàng hóa nhanh,
-                trong đó bưu gửi được ưu tiên chuyển phát đến người nhận trong
-                khung thời gian cam kết theo tuyến hành trình cụ thể.
+                MagicPost Gift - dịch vụ đặc biệt của Magic Post, chuyên gửi quà tặng nhanh chóng và an toàn.
+                Gửi quà cho người thân, bạn bè hay đối tác kinh doanh trở nên dễ dàng và ý nghĩa với dịch vụ này.
               </p>
             </div>
           </Col>
-          <Col xs={6} md={3}>
+          <Col xs={6} lg={3} className="mb-3">
             <div className={style.serviceItem}>
               <h4>MAGICPOST CARE</h4>
               <CiMedicalCase size={"5em"} />
               <p>
-                EMS Hỏa tốc là là dịch vụ chất lượng cao có chỉ tiêu thời gian
-                toàn trình rút ngắn so với dịch vụ EMS Tài liệu/Hàng hóa nhanh,
-                trong đó bưu gửi được ưu tiên chuyển phát đến người nhận trong
-                khung thời gian cam kết theo tuyến hành trình cụ thể.
+                MagicPost Care là dịch vụ hàng hóa chăm sóc cao cấp của Magic Post, mang đến sự an toàn và chăm sóc tối đa cho các bưu phẩm. Với chất lượng vận chuyển hàng đầu, MagicPost Care cam kết đảm bảo mọi gói hàng được gửi đi và đến nơi một cách an toàn và đúng hẹn.
               </p>
             </div>
           </Col>
