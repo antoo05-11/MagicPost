@@ -8,23 +8,22 @@ export default function TransactionList({ provinceID, districtID, communeID }) {
   return (
     <Container
       className="lookUpContainer"
-      style={{ maxHeight: "300px", overflowY: "auto" }}
-    >
+      style={{ maxHeight: "300px", overflowY: "auto" }}>
       <Row>
-        <Col>{/* <h3>Số lượng bưu cục: {postOfficeCount}</h3> */}</Col>
+        <Col><h3>Số lượng bưu cục: {data.length}</h3></Col>
       </Row>
       {data.map((item, index) => (
         <Row key={index} className="border-bottom mt-2">
           <Row>
-            <h3>Transaction Details</h3>
+            <h3>Tên: {item?.name}</h3>
           </Row>
           <Row>
-            <Col>
-              <p>Địa chỉ: {item?.address?.detail}</p>
+           
+              <p>Địa chỉ: {item?.address}</p>
               <p>Commune: {item?.address?.commune?.name}</p>
               <p>District: {item?.address?.district?.name}</p>
               <p>Province: {item?.address?.province?.name}</p>
-            </Col>
+            
           </Row>
         </Row>
       ))}

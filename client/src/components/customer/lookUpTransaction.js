@@ -35,88 +35,82 @@ export default function LookUpTransaction() {
     <div>
       <Container className="lookUpContainer">
         <Row>
-          <Col>
-            <Container>
+          <Col xs="12" md="6" className="mt-2">
+            <Form>
               <Row>
-                <Col>
-                  <Form>
-                    <Row>
-                      <Form.Select
-                        aria-label="Chọn Tỉnh/ TP"
-                        className="selectContainer"
-                        onChange={(e) => {
-                          setSelectedProvince(e.target.value);
-                          setSelectedDistrict(0);
-                          setSelectedCommune(0);
-                        }}
-                        required
-                      >
-                        <option value={0}>Chọn Tỉnh/ TP</option>
-                        {provinceData.map((province) => (
-                          <option
-                            key={province.provinceID}
-                            value={province.provinceID}
-                          >
-                            {province.name}
-                          </option>
-                        ))}
-                      </Form.Select>
+                <Form.Select
+                  aria-label="Chọn Tỉnh/ TP"
+                  className="selectContainer"
+                  onChange={(e) => {
+                    setSelectedProvince(e.target.value);
+                    setSelectedDistrict(0);
+                    setSelectedCommune(0);
+                  }}
+                  required
+                >
+                  <option value={0}>Chọn Tỉnh/ TP</option>
+                  {provinceData.map((province) => (
+                    <option
+                      key={province.provinceID}
+                      value={province.provinceID}
+                    >
+                      {province.name}
+                    </option>
+                  ))}
+                </Form.Select>
 
-                      <Form.Select
-                        onChange={(e) => {
-                          setSelectedDistrict(e.target.value);
-                          setSelectedCommune(0);
-                        }}
-                        required
-                        className="selectContainer"
-                      >
-                        {districtData?.map((district) => (
-                          <option
-                            key={district.districtID}
-                            value={district.districtID}
-                          >
-                            {district.name}
-                          </option>
-                        ))}
-                      </Form.Select>
+                <Form.Select
+                  onChange={(e) => {
+                    setSelectedDistrict(e.target.value);
+                    setSelectedCommune(0);
+                  }}
+                  required
+                  className="selectContainer"
+                >
+                  {districtData?.map((district) => (
+                    <option
+                      key={district.districtID}
+                      value={district.districtID}
+                    >
+                      {district.name}
+                    </option>
+                  ))}
+                </Form.Select>
 
-                      <Form.Select
-                        aria-label="Chọn Xã/ Phường"
-                        className="selectContainer"
-                        onChange={(e) => {
-                          setSelectedCommune(e.target.value);
-                        }}
-                        required
-                      >
-                        {communeData.map((commune) => (
-                          <option
-                            key={commune.communeID}
-                            value={commune.communeID}
-                          >
-                            {commune.name}
-                          </option>
-                        ))}
-                      </Form.Select>
+                <Form.Select
+                  aria-label="Chọn Xã/ Phường"
+                  className="selectContainer"
+                  onChange={(e) => {
+                    setSelectedCommune(e.target.value);
+                  }}
+                  required
+                >
+                  {communeData.map((commune) => (
+                    <option
+                      key={commune.communeID}
+                      value={commune.communeID}
+                    >
+                      {commune.name}
+                    </option>
+                  ))}
+                </Form.Select>
 
-                      <Button
-                        className="submitButton"
-                        onClick={() => {
-                          setShowTransactionList(true);
-                        }}
-                      >
-                        TRA CỨU
-                      </Button>
-                    </Row>
-                  </Form>
-                </Col>
+                <Button
+                  className="submitButton"
+                  onClick={() => {
+                    setShowTransactionList(true);
+                  }}
+                >
+                  TRA CỨU
+                </Button>
               </Row>
-            </Container>
+            </Form>
           </Col>
 
-          <Col className="mapContainer">
+          <Col className="mapContainer mt-2" md="6" xs="12">
             <iframe
               src="https://www.google.com/maps/d/u/0/embed?mid=1VCEMjR_Ldo68vk5FiAWGf_7oV5r9PE8&ehbc=2E312F"
-              width="640"
+              width="630"
               height="350"
               className="map"
             ></iframe>
