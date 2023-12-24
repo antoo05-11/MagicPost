@@ -44,6 +44,7 @@
 .submitButton {
     margin-top: 20px;
     background-color: var(--highlight-color);
+    width: 100%;
 }
 
 .mapContainer {

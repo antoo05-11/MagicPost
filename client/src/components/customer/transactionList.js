@@ -18,12 +18,10 @@ export default function TransactionList({ provinceID, districtID, communeID }) {
             <h3>Tên: {item?.name}</h3>
           </Row>
           <Row>
-           
-              <p>Địa chỉ: {item?.address}</p>
-              <p>Commune: {item?.address?.commune?.name}</p>
-              <p>District: {item?.address?.district?.name}</p>
-              <p>Province: {item?.address?.province?.name}</p>
-            
+            <p>Địa chỉ: {item?.address}</p>
+            <p>Commune: {item?.address?.commune?.name}</p>
+            <p>District: {item?.address?.district?.name}</p>
+            <p>Province: {item?.address?.province?.name}</p>
           </Row>
         </Row>
       ))}

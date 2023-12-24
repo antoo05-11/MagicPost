@@ -7,7 +7,7 @@ export default function Cost() {
     return (
         <div>
             <LookUpBanner title={"ƯỚC TÍNH CƯỚC PHÍ"} />
-            <EstimateCost / >
+            <EstimateCost />
         </div>
     );
 }
