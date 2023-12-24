@@ -75,7 +75,7 @@ export default function HomePage() {
               </Form>
             </Col>
             <Col xs={6} md={2} className={`${style.lookupItem} text-center mt-3 mt-md-0`}>
-              <Link href={"/customer/LockupOrders"}>
+              <Link href={"/customer/LockupTransaction"}>
                 <LiaMapMarkedAltSolid size={'4em'} />
                 <p>Tìm kiếm bưu cục</p>
               </Link>

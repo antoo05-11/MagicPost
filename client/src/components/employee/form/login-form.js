@@ -31,7 +31,7 @@ export default function LoginForm() {
   return (
     <Container fluid className={style.container}>
       <Row className="d-flex justify-content-center align-items-center h-100">
-        <Col md={9} lg={6} xl={5}>
+        <Col md={12} lg={6} xl={5} className={style.image}>
           <Image
             src="/login.png"
             fluid
@@ -39,7 +39,7 @@ export default function LoginForm() {
             className="w-100 h-100"
           />
         </Col>
-        <Col md={6} lg={6} xl={4} offset-xl-1>
+        <Col md={12} lg={6} xl={4} offset-xl-1>
           <Form>
             <Row className="text-center text-light">
               <h3>ĐĂNG NHẬP</h3>

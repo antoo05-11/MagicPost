@@ -31,7 +31,7 @@ export default function LookUpOrder() {
         <Row>
           <Col>
             <HiOutlineDocumentSearch size={"2rem"} />
-            <p>Nhập mã bưu gửi (VD: EB125966888VN)</p>
+            <p>Nhập mã bưu gửi (VD:AEX451934145VN)</p>
           </Col>
         </Row>
 
@@ -39,7 +39,7 @@ export default function LookUpOrder() {
           <Container>
             <Form>
               <Row>
-                <Col xs="9">
+                <Col xs="12" md="9" className="mb-2">
                   <Form.Control
                     className="rounded border"
                     required
@@ -48,7 +48,7 @@ export default function LookUpOrder() {
                   />
                 </Col>
 
-                <Col>
+                <Col xs="12" md="3">
                   <Button className="w-100" onClick={() => handleSearch(orID)}>
                     Tra cứu
                   </Button>

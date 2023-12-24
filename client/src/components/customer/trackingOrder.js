@@ -18,63 +18,41 @@ export default function OrderTracking({ data }) {
 
     return (
         <Container className="lookUpContainer">
-            <Row>
-                <Col className='text-center'>
+            <Row className='d-flex justify-content-between'>
+                <Col className='text-center mt-3' xs="12" md="auto">
                     <Row><strong>Số hiệu bưu gửi</strong> </Row>
                     <Row><p className='m-0'>{data.orderID}</p></Row>
                 </Col>
 
-                <Col className='text-center'>
+                <Col className='text-center  mt-3' xs="6" md="auto">
                     <Row><strong>Địa chỉ gửi</strong> </Row>
                     <Row><p className='m-0'>{data.sender?.provinceName}</p></Row>
                 </Col>
 
-                <Col className='text-center'>
+                <Col className='text-center  mt-3' xs="6" md="auto">
                     <Row><strong>Địa chỉ nhận</strong> </Row>
                     <Row><p className='m-0'>{data.receiver?.provinceName}</p></Row>
                 </Col>
 
-                <Col className='text-center'>
+                <Col className='text-center  mt-3' xs="6" md="auto">
                     <Row><strong>Khối lượng</strong> </Row>
-                    <Row><p className='m-0'>{data.weight}</p></Row>
+                    <Row><p className='m-0'>{data.weight}g</p></Row>
                 </Col>
 
-                <Col className='text-center'>
+                <Col className='text-center  mt-3' xs="6" md="auto">
                     <Row><strong>Trạng thái</strong> </Row>
-                    <Row><p className='m-0'>
-                        <span
-                            className={`badge rounded-pill bg-${status.color} p-2`}
-                        >
-                            {status.now}</span>
-                    </p></Row>
+                    <Row>
+                        <p>
+                            <span className={`badge rounded-pill bg-${status.color} p-2`} >
+                                {status.now}
+                            </span>
+                        </p>
+                    </Row>
                 </Col>
 
             </Row>
-
             <Row>
                 <Col>
-                    {/* <Table hover className='mt-3'>
-                            <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Vị trí hiện tại</th>
-                                    <th>Điểm tiếp theo</th>
-                                    <th>Ngày</th>
-                                    <th>Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider">
-                                {data.processes?.map((process, index) => (
-                                    <tr key={index}>
-                                        <td>{process?.processID}</td>
-                                        <td>{process?.currentRoutingPoint?.address?.detail}</td>
-                                        <td>{process?.nextRoutingPoint?.address?.detail}</td>
-                                        <td>{formatDate(process?.arrivedTime)}</td>
-                                        <td>{convertStatus(process?.status)}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table> */}
                     <OrderProgress orderProcesses={data} />
                 </Col>
             </Row>

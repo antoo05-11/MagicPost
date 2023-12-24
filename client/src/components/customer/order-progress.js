@@ -1,5 +1,5 @@
 import { orderStatus } from "@/api/utils";
-import { Container } from "react-bootstrap";
+import { Container, Col } from "react-bootstrap";
 import "@/css/customer/timeline.css"
 import { TbTruckDelivery } from "react-icons/tb";
 import { IoLocationOutline } from "react-icons/io5";
@@ -27,25 +27,29 @@ export default function OrderProgress({ orderProcesses }) {
 
   return (
     <Container>
-      <div class="wrapper">
-        <div class="center-line">
+      <div className="wrapper">
+        <div className="center-line">
         </div>
-        <div class="row">
-          {data.map((process) => {
+        <div className="row">
+          {data.map((process, index) => {
             const status = orderStatus[process.status] || {}
             const { formattedTime, formattedDate } = formatDateTime(process.arrivedTime);
             return (
-              <section>
+              <section key={index}>
                 <TbTruckDelivery className="icon" />
-                <div class="details">
-                  <span class="title"> <IoLocationOutline size={'2em'} />{process.routingPointAddress}</span>
-                  <span>{formattedDate} {formattedTime}</span>
+                <div className="details">
+                  <Col xs="10" className="me-2 text-justify">
+                    <span className="title"> <IoLocationOutline size={'2em'} />{process.routingPointAddress}</span>
+                  </Col>
+                  <Col>
+                    <span className="time">{formattedDate} {formattedTime}</span>
+                  </Col>
                 </div>
-                <p><span
-                  className={`badge rounded-pill bg-${status.color} p-2`}
-                >
-                  {status.now}
-                </span></p>
+                <p>
+                  <span className={`badge rounded-pill bg-${status.color} p-2`}>
+                    {status.now}
+                  </span>
+                </p>
               </section>
             );
           })}
