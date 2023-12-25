@@ -83,4 +83,20 @@
 #togle-zone {
     position: fixed;
     left: 15%;
+    z-index: 100;
+}
+
+@media screen and (max-width: 769px) {
+    .sidebar {
+        position: absolute;
+        top: 0;
+        width: 50%;
+        z-index: 100;
+    }
+
+    #togle-zone {
+        position: fixed;
+        left: 55%;
+    }
+
 }

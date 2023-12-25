@@ -1,13 +1,13 @@
 "use client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import "bootstrap/js/src/dropdown.js";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import BreadCrumb from "./breadcrumd";
 import { signOut, useSession } from "next-auth/react";
-import { FaRegBell } from "react-icons/fa";
-import { FaRegUserCircle } from "react-icons/fa";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { FaUserCircle } from "react-icons/fa";
+
+import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import "@/css/employee/topbar.css";
 
@@ -43,11 +43,6 @@ export default function TopBar() {
         </Row>
 
         <Row>
-          <Col xs="auto">
-            <motion.button layout type="button" class="btn btn-light notiBtn">
-              <FaRegBell />
-            </motion.button>
-          </Col>
           <Col xs="auto" className="avatarContainer">
             <motion.nav
               layout
@@ -55,12 +50,12 @@ export default function TopBar() {
               animate={profile ? "open" : "closed"}
             >
               <Container ref={profileRef} onClick={() => setProfile(!profile)}>
-                <Row>
+                <Row className="usernameContainer">
                   <Col xs="auto" className="userName">
                     {userName}
                   </Col>
                   <Col xs="auto">
-                    <FaRegUserCircle size={"2em"} />
+                    <FaUserCircle size={"2em"} />
                   </Col>
                 </Row>
               </Container>
