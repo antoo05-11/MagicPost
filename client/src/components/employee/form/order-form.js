@@ -5,7 +5,6 @@ import "@/css/employee/customTable.css";
 import { useEffect, useState } from "react";
 import {
   getDistrictByProvinceID,
-  getProvinceInfo,
   getCommuneByDistrictID,
   getAllProvince,
 } from "@/api/data";
@@ -107,7 +106,7 @@ export default function OrderForm() {
             <h3>Thông tin người gửi</h3>
           </Row>
           <Row>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group controlId="senderName">
                 <Form.Label>Họ và tên</Form.Label>
                 <Form.Control
@@ -118,7 +117,7 @@ export default function OrderForm() {
                   }} />
               </Form.Group>
             </Col>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group controlId="senderPhoneNumber">
                 <Form.Label>Số điện thoại</Form.Label>
                 <Form.Control
@@ -134,7 +133,7 @@ export default function OrderForm() {
             <Form.Group controlId="senderAddress">
               <Form.Label>Địa chỉ</Form.Label>
               <Row>
-                <Col xs="4">
+                <Col xs={12} md={4}>
                   <Form.Select
                     onChange={(e) => {
                       setsenderProvince(e.target.value);
@@ -150,7 +149,7 @@ export default function OrderForm() {
                     ))}
                   </Form.Select>
                 </Col>
-                <Col xs="4">
+                <Col xs={12} md={4}>
                   <Form.Select
                     onChange={(e) => {
                       setsenderDistrict(e.target.value);
@@ -164,7 +163,7 @@ export default function OrderForm() {
                     ))}
                   </Form.Select>
                 </Col>
-                <Col xs="4">
+                <Col xs={12} md={4}>
                   <Form.Select
                     onChange={(e) => {
                       setsenderCommune(e.target.value);
@@ -198,7 +197,7 @@ export default function OrderForm() {
             <h3>Thông tin người nhận</h3>
           </Row>
           <Row>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group controlId="receiverName">
                 <Form.Label>Họ và tên</Form.Label>
                 <Form.Control
@@ -209,7 +208,7 @@ export default function OrderForm() {
                   }} />
               </Form.Group>
             </Col>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group controlId="receiverPhoneNumber">
                 <Form.Label>Số điện thoại</Form.Label>
                 <Form.Control
@@ -226,7 +225,7 @@ export default function OrderForm() {
             <Form.Group controlId="receiverAddress">
               <Form.Label>Địa chỉ</Form.Label>
               <Row>
-                <Col xs="4">
+                <Col xs={12} md={4}>
                   <Form.Select
                     onChange={(e) => {
                       setreceiverProvince(e.target.value);
@@ -243,7 +242,7 @@ export default function OrderForm() {
                   </Form.Select>
                 </Col>
 
-                <Col xs="4">
+                <Col xs={12} md={4}>
                   <Form.Select
                     onChange={(e) => {
                       setreceiverDistrict(e.target.value);
@@ -258,7 +257,7 @@ export default function OrderForm() {
                   </Form.Select>
                 </Col>
 
-                <Col xs="4">
+                <Col xs={12} md={4}>
                   <Form.Select
                     onChange={(e) => {
                       setreceiverCommune(e.target.value);
@@ -290,7 +289,7 @@ export default function OrderForm() {
             <h3>Các thông tin khác</h3>
           </Row>
           <Row>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Trường hợp vận chuyển thất bại</Form.Label>
                 <Form.Select
@@ -301,7 +300,7 @@ export default function OrderForm() {
                 </Form.Select>
               </Form.Group>
             </Col>
-            <Col>
+            <Col xs={12} md={6}>
               <Form.Group>
                 <Form.Label>Dịch vụ đặc biệt</Form.Label>
                 <Form.Control
@@ -319,7 +318,7 @@ export default function OrderForm() {
                   <h3>Cước</h3>
                 </Row>
                 <Row>
-                  <Col xs="6">
+                  <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>Cước chính</Form.Label>
                       <Form.Control
@@ -328,7 +327,7 @@ export default function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs="6">
+                  <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>Phụ phí</Form.Label>
                       <Form.Control
@@ -339,7 +338,7 @@ export default function OrderForm() {
                   </Col>
                 </Row>
                 <Row className="mt-2">
-                  <Col xs="6">
+                  <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>Cước GTGT</Form.Label>
                       <Form.Control
@@ -348,7 +347,7 @@ export default function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs="6">
+                  <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>Tổng cước</Form.Label>
                       <Form.Control
@@ -359,7 +358,7 @@ export default function OrderForm() {
                   </Col>
                 </Row>
                 <Row className="mt-2">
-                  <Col xs="6">
+                  <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>Thu khác</Form.Label>
                       <Form.Control
@@ -368,7 +367,7 @@ export default function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs="6">
+                  <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>Tổng thu</Form.Label>
                       <Form.Control
@@ -386,7 +385,7 @@ export default function OrderForm() {
                   <h3>Thu của người nhận</h3>
                 </Row>
                 <Row>
-                  <Col xs="6">
+                  <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>COD</Form.Label>
                       <Form.Control
@@ -395,7 +394,7 @@ export default function OrderForm() {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs="6">
+                  <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>Thu khác</Form.Label>
                       <Form.Control

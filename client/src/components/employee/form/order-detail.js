@@ -24,13 +24,13 @@ export default function OrderDetail({ id }) {
           <h3>Thông tin đơn hàng</h3>
         </Row>
         <Row>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group>
               <Form.Label>Mã đơn hàng</Form.Label>
               <Form.Control type="text" value={id} disabled />
             </Form.Group>
           </Col>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group>
               <Form.Label>Phí vận chuyển</Form.Label>
               <Form.Control type="text" disabled />
@@ -39,13 +39,13 @@ export default function OrderDetail({ id }) {
         </Row>
 
         <Row className='mt-2'>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group controlId="creator" >
               <Form.Label>Nhân viên tạo đơn</Form.Label>
               <Form.Control type="text" value={order?.order?.creator?.fullName} disabled />
             </Form.Group>
           </Col>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group controlId="timeCreate">
               <Form.Label>Thời gian tạo</Form.Label>
               <Form.Control type="text" value={formatDateTime(order?.order?.createdAt)} disabled />
@@ -86,13 +86,13 @@ export default function OrderDetail({ id }) {
 
       <div>
         <Row>
-          <Col xs="6">
+          <Col xs={12} md={6}>
             <div className="formContainer">
               <Row>
                 <h3>Thông tin người gửi</h3>
               </Row>
               <Row>
-                <Col>
+                <Col xs={12} md={6}>
                   <Form.Group controlId="senderName">
                     <Form.Label>Họ và tên</Form.Label>
                     <Form.Control
@@ -102,7 +102,7 @@ export default function OrderDetail({ id }) {
                     />
                   </Form.Group>
                 </Col>
-                <Col>
+                <Col xs={12} md={6}>
                   <Form.Group controlId="senderPhoneNumber">
                     <Form.Label>Số điện thoại</Form.Label>
                     <Form.Control
@@ -127,13 +127,13 @@ export default function OrderDetail({ id }) {
               </Row>
             </div>
           </Col>
-          <Col xs="6">
+          <Col xs={12} md={6}>
             <div className="formContainer">
               <Row>
                 <h3>Thông tin người nhận</h3>
               </Row>
               <Row>
-                <Col>
+                <Col xs={12} md={6}>
                   <Form.Group controlId="receiverName">
                     <Form.Label>Họ và tên</Form.Label>
                     <Form.Control
@@ -144,7 +144,7 @@ export default function OrderDetail({ id }) {
                   </Form.Group>
                 </Col>
 
-                <Col>
+                <Col xs={12} md={6}>
                   <Form.Group controlId="receiverPhoneNumber">
                     <Form.Label>Số điện thoại</Form.Label>
                     <Form.Control

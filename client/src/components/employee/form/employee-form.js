@@ -15,6 +15,7 @@ import {
 import "@/css/employee/customForm.css";
 import { useSession } from "next-auth/react";
 import PopUp from "../popup";
+import { Container, Row, Col, Form } from "react-bootstrap";
 const employee = {
   identifier: "",
   phoneNumber: "",
@@ -64,43 +65,42 @@ export default function EmployeeForm() {
   const [popup, setPopup] = useState(false);
   return (
     <div className="formContainer">
-      <form id="form-employee ">
-        <div className="row">
+      <Form>
+        <Row>
           <h3>Thông tin nhân viên</h3>
-        </div>
-        <div className="row mt-2">
-          <div className="col-md-6">
-            <label htmlFor="fullName">Họ và tên</label>
-            <input
-              type="text"
-              className="form-control"
-              id="fullName"
-              placeholder="Họ và tên"
-              onChange={(e) => {
-                employee.fullName = e.target.value;
-              }}
-            />
-          </div>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Group>
+              <Form.Label>Họ và tên</Form.Label>
+              <Form.Control
+                type="text"
+                id="fullName"
+                placeholder="Họ và tên"
+                onChange={(e) => {
+                  employee.fullName = e.target.value;
+                }}
+              />
+            </Form.Group>
+          </Col>
 
-          <div className="col-md-6">
-            <label htmlFor="dob">Ngày sinh</label>
-            <input
+          <Col>
+            <Form.Group htmlFor="dob">Ngày sinh</Form.Group>
+            <Form.Control
               type="date"
-              className="form-control"
               id="dob"
               onChange={(e) => {
                 employee.birthDate = e.target.value;
               }}
             />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row mt-2">
-          <div className="col-md-6">
-            <label htmlFor="email">Địa chỉ Email</label>
-            <input
+        <Row>
+          <Col>
+            <Form.Group >Địa chỉ Email</Form.Group>
+            <Form.Control
               type="email"
-              className="form-control"
               id="email"
               placeholder="Địa chỉ email"
               onChange={(e) => {
@@ -108,28 +108,26 @@ export default function EmployeeForm() {
               }}
               required
             />
-          </div>
+          </Col>
 
-          <div className="col-md-6">
-            <label htmlFor="phoneNumber">Số điện thoại</label>
-            <input
+          <Col>
+            <Form.Group>Số điện thoại</Form.Group>
+            <Form.Control
               type="tel"
-              className="form-control"
               id="phoneNumber"
               placeholder="Số điện thoại"
               onChange={(e) => {
                 employee.phoneNumber = e.target.value;
               }}
             />
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row mt-2">
+        <Row>
           <div className="col">
-            <label htmlFor="phoneNumber">CCCD</label>
-            <input
+            <Form.Group>CCCD</Form.Group>
+            <Form.Control
               type="tel"
-              className="form-control"
               id="phoneNumber"
               placeholder="CCCD"
               onChange={(e) => {
@@ -137,9 +135,9 @@ export default function EmployeeForm() {
               }}
             />
           </div>
-        </div>
+        </Row>
 
-        <div className="row ">
+        <Row>
           <div>Giới tính</div>
           <div className="col">
             <select
@@ -154,16 +152,15 @@ export default function EmployeeForm() {
               <option value={"MALE"}>Nam</option>
             </select>
           </div>
-        </div>
+        </Row>
 
-        <div className="row mt-2">
-          <label htmlFor="province" className="col-sm-12 col-form-label">
+        <Row>
+          <Form.Group htmlFor="province" className="col-sm-12 col-form-Form.Group">
             Địa chỉ
-          </label>
-          <div className="col-md-4">
+          </Form.Group>
+          <Col>
             <select
               className="form-select"
-              aria-label="Default select example"
               id="province"
               onChange={(e) => {
                 setSelectedProvince(e.target.value);
@@ -179,12 +176,12 @@ export default function EmployeeForm() {
                 </option>
               ))}
             </select>
-          </div>
+          </Col>
 
-          <div className="col-md-4">
+          <Col>
             <select
               className="form-select"
-              aria-label="Default select example"
+
               onChange={(e) => {
                 setSelectedDistrict(e.target.value);
                 employee.address.districtID = e.target.value;
@@ -197,12 +194,12 @@ export default function EmployeeForm() {
                 </option>
               ))}
             </select>
-          </div>
+          </Col>
 
-          <div className="col-md-4">
+          <Col>
             <select
               className="form-select"
-              aria-label="Default select example"
+
               onChange={(e) => {
                 setSelectedCommune(e.target.value);
                 employee.address.communeID = e.target.value;
@@ -214,13 +211,12 @@ export default function EmployeeForm() {
                 </option>
               ))}
             </select>
-          </div>
-        </div>
+          </Col>
+        </Row>
 
-        <div className="row mt-2">
+        <Row>
           <div className="col">
-            <input
-              className="form-control"
+            <Form.Control
               id="addressDetail"
               placeholder="Chi tiết"
               onChange={(e) => {
@@ -228,15 +224,15 @@ export default function EmployeeForm() {
               }}
             />
           </div>
-        </div>
+        </Row>
 
-        <div className="row mt-2">
+        <Row>
           {userRole && userRole === "MANAGER" && (
-            <div className="col-md-6">
-              <label htmlFor="role">Vai trò</label>
+            <Col>
+              <Form.Group htmlFor="role">Vai trò</Form.Group>
               <select
                 className="form-select"
-                aria-label="Default select example"
+
                 id="role"
                 onChange={(e) => {
                   employee.role = e.target.value;
@@ -247,24 +243,24 @@ export default function EmployeeForm() {
                   return <option value={e?.role}>{e?.name}</option>;
                 })}
               </select>
-            </div>
+            </Col>
           )}
           {userRole && userRole === "MANAGER" && (
-            <div className="col-md-6">
-              <label htmlFor="transactionPoint">Địa điểm làm việc</label>
+            <Col>
+              <Form.Group htmlFor="transactionPoint">Địa điểm làm việc</Form.Group>
               <select
                 className="form-select"
-                aria-label="Default select example"
+
               >
                 <option selected>Địa điểm làm việc</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
                 <option value="3">Three</option>
               </select>
-            </div>
+            </Col>
           )}
-        </div>
-      </form>
+        </Row>
+      </Form>
       <div className="mt-3 btnContainer">
         <button
           onClick={async () => {
