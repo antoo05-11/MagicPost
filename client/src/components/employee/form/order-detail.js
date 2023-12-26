@@ -1,18 +1,28 @@
-import React from 'react';
-import { Container, Row, Col, Form, Button, Table } from 'react-bootstrap';
-import { getOrderById } from '@/api/data';
-import { orderStatus } from '@/api/utils';
-import { updateProcessesOrder } from '@/api/action';
+import React from "react";
+import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
+import { getOrderById } from "@/api/data";
+import { orderStatus } from "@/api/utils";
+import { updateProcessesOrder } from "@/api/action";
 
-import '@/css/employee/customForm.css';
-import '@/css/employee/customTable.css';
+import "@/css/employee/customForm.css";
+import "@/css/employee/customTable.css";
 
 export default function OrderDetail({ id }) {
   const { data: order } = getOrderById(id);
 
   const formatDateTime = (dateTimeString) => {
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-    const formattedDateTime = new Date(dateTimeString).toLocaleDateString('en-US', options);
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    const formattedDateTime = new Date(dateTimeString).toLocaleDateString(
+      "en-US",
+      options
+    );
     return formattedDateTime;
   };
 
@@ -38,22 +48,30 @@ export default function OrderDetail({ id }) {
           </Col>
         </Row>
 
-        <Row className='mt-2'>
+        <Row className="mt-2">
           <Col xs={12} md={6}>
-            <Form.Group controlId="creator" >
+            <Form.Group controlId="creator">
               <Form.Label>Nhân viên tạo đơn</Form.Label>
-              <Form.Control type="text" value={order?.order?.creator?.fullName} disabled />
+              <Form.Control
+                type="text"
+                value={order?.order?.creator?.fullName}
+                disabled
+              />
             </Form.Group>
           </Col>
           <Col xs={12} md={6}>
             <Form.Group controlId="timeCreate">
               <Form.Label>Thời gian tạo</Form.Label>
-              <Form.Control type="text" value={formatDateTime(order?.order?.createdAt)} disabled />
+              <Form.Control
+                type="text"
+                value={formatDateTime(order?.order?.createdAt)}
+                disabled
+              />
             </Form.Group>
           </Col>
         </Row>
 
-        <Row className='mt-2'>
+        <Row className="mt-2">
           <Form.Group>
             <Form.Label>Trạng thái</Form.Label>
             <Form.Control
@@ -69,11 +87,11 @@ export default function OrderDetail({ id }) {
             {orderStatus[order?.order?.goodsStatus]?.next && (
               <Button
                 variant="warning"
-                className='w-100 mt-3'
+                className="w-100 mt-3"
                 onClick={() => {
                   updateProcessesOrder(
                     order?.order?.processes?.pop()?.processID,
-                    'forwarded'
+                    "forwarded"
                   );
                 }}
               >
@@ -183,7 +201,7 @@ export default function OrderDetail({ id }) {
         </Row>
 
         <Row className="p-2 table-responsive">
-          <table striped bordered hover className='createOrderTable'>
+          <table striped bordered hover className="createOrderTable">
             <thead>
               <tr>
                 <th>STT</th>
