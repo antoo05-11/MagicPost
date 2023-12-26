@@ -22,7 +22,9 @@ export default class Error {
         invalid_data_order: 10018,
         invalid_process_id: 10019,
         token_expired: 10020,
-        invalid_postage: 10021
+        invalid_postage: 10021,
+        invalid_employee_role_adding: 10022,
+        duplicated_password: 10023
     };
 
     static initErrors() {
@@ -101,12 +103,19 @@ export default class Error {
 
         this.errors.set(this.code.invalid_password,
             new ErrorRes("Invalid Data!",
-                "Wrong Password"));
+                "Wrong Password."));
+
+        this.errors.set(this.code.duplicated_password,
+            new ErrorRes("Invalid Password!",
+                "New password is similar to your current password."));
 
         this.errors.set(this.code.invalid_postage,
             new ErrorRes("Invalid Data!",
                 "Postage does not match with estimation!"));
 
+        this.errors.set(this.code.invalid_employee_role_adding,
+            new ErrorRes("Invalid Employee Role!",
+                "Check if the employee role in your request match with your role!"));
 
         this.errors.set(this.code.invalid_refresh_token,
             new ErrorRes("Invalid refresh token"));

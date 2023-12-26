@@ -14,7 +14,8 @@ const employeeRoute = new Router();
 employeeRoute.get("/get", verifyToken,
     (req, res, next) => authorize(req, res, next,
         [role.GOODS_POINT_HEAD,
-        role.TRANSACTION_POINT_HEAD]),
+        role.TRANSACTION_POINT_HEAD,
+        role.MANAGER]),
     (req, res, next) => validate(req.query, res, next, employee_filter_schema),
     catchAsync(getAllEmployees));
 

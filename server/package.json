@@ -44,6 +44,7 @@
         "mysql": "^2.18.1",
         "mysql2": "^3.0.0",
         "node-crypt": "^2.0.0",
+        "nodemailer": "^6.9.7",
         "opencage-api-client": "^1.0.2",
         "passport": "^0.6.0",
         "passport-jwt": "^4.0.1",

@@ -6,6 +6,7 @@ import Error from "../../exceptions/error";
 import { Op } from "sequelize";
 import { Address, Commune, District, Employee, GoodsPoint, Province, RoutingPoint, TransactionPoint } from "../../models/model-export";
 import { buildAddressWhereClause, checkAddress, getAddressByID } from "../routing_point/address";
+import { sendPasswordToNewUserMail } from "../../../utils/mailsender";
 
 const defaultPageLimit = 8;
 
@@ -25,7 +26,7 @@ export const getAllEmployees = async (req, res) => {
     const identifier = req.query.identifier || '';
     const phoneNumber = req.query.phoneNumber || '';
     const fullName = req.query.fullName || '';
-    const role = req.query.role;
+    const roleFilter = req.query.role;
     const status = req.query.status || '';
     const email = req.query.email || '';
     const address = req.query.address;
@@ -34,7 +35,6 @@ export const getAllEmployees = async (req, res) => {
     // Where-clause to use for employees filter.
     const employeeWhereClause = {
         [Op.and]: [
-            { workingPointID: req.user.workingPointID },
             { employeeID: { [Op.like]: `%${employeeID}%` } },
             { identifier: { [Op.like]: `%${identifier}%` } },
             { phoneNumber: { [Op.like]: `%${phoneNumber}%` } },
@@ -43,8 +43,17 @@ export const getAllEmployees = async (req, res) => {
             { status: { [Op.like]: `%${status}%` } }
         ]
     };
-    if (role) {
-        employeeWhereClause[Op.and].push({ role: { [Op.like]: `%${role}%` } });
+
+    if (req.user.role != role.MANAGER) {
+        employeeWhereClause[Op.and].push({ workingPointID: req.user.workingPointID });
+        if (roleFilter && ![role.TRANSACTION_POINT_EMPLOYEE, role.GOODS_POINT_EMPLOYEE].includes(roleFilter))
+            return res.status(200).json([]);
+        employeeWhereClause[Op.and].push({ role: { [Op.like]: "%EMPLOYEE" } });
+    }
+    else {
+        if (roleFilter && ![role.TRANSACTION_POINT_HEAD, role.GOODS_POINT_HEAD].includes(roleFilter))
+            return res.status(200).json([]);
+        employeeWhereClause[Op.and].push({ role: { [Op.like]: "%HEAD" } });
     }
 
     // Where-clause to use for address and working address filter.
@@ -125,18 +134,44 @@ export const getAllEmployees = async (req, res) => {
     return res.status(200).json(result);
 }
 
+
+/**
+ * The function `addNewEmployee` is used to add a new employee to the system, performing various checks
+ * and validations before creating the employee record.
+ * @returns a response with the status code and the newly created employee object in JSON format.
+ */
 export const addNewEmployee = async (req, res) => {
+
+    // Check if new employee role match with request sender role.
+    let senderRole = req.user.role;
+    let newRole = req.body.role;
+    if (newRole) {
+        if (senderRole == role.MANAGER) {
+            if (![role.GOODS_POINT_HEAD, role.TRANSACTION_POINT_HEAD].includes(newRole))
+                return res.status(400).json(Error.getError(Error.code.invalid_employee_role_adding));
+        }
+        else if (senderRole == role.TRANSACTION_POINT_HEAD) {
+            if (newRole != role.TRANSACTION_POINT_EMPLOYEE)
+                return res.status(400).json(Error.getError(Error.code.invalid_employee_role_adding));
+        }
+        else if (senderRole == role.GOODS_POINT_HEAD) {
+            if (newRole != role.GOODS_POINT_EMPLOYEE)
+                return res.status(400).json(Error.getError(Error.code.invalid_employee_role_adding));
+        }
+    }
+
+    // Check if the identifier is registered before.
     let employee = await Employee.findOne({ where: { identifier: req.body.identifier } });
     if (employee)
         return res.status(409).json(Error.getError(Error.code.duplicated_identifier));
 
+    // Check if new address info is valid.
     let newAddress = {
         detail: req.body.address.detail,
         communeID: req.body.address.communeID,
         districtID: req.body.address.districtID,
         provinceID: req.body.address.provinceID
     }
-
     if (!(await checkAddress(newAddress, true)))
         return res.status(400).json(Error.getError(Error.code.invalid_address));
 
@@ -144,7 +179,8 @@ export const addNewEmployee = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     let newUser = {}
 
-    const t = await sequelize.transaction()
+    // Start adding new employee transaction.
+    const t = await sequelize.transaction();
     try {
         newAddress = await Address.create(newAddress, { transaction: t });
 
@@ -162,8 +198,9 @@ export const addNewEmployee = async (req, res) => {
         }
 
         newUser = await Employee.create(newUser, { transaction: t });
-
-        await t.commit()
+        await sendPasswordToNewUserMail(newUser.email, password)
+        
+        await t.commit({transaction: t})
     } catch (error) {
         await t.rollback();
         console.error(error);
@@ -172,7 +209,6 @@ export const addNewEmployee = async (req, res) => {
 
     newUser = { ...newUser.get() };
     newUser.address = await getAddressByID(newUser.addressID);
-    newUser.password = password;
     return res.status(200).json(newUser);
 }
 

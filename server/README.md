@@ -8,6 +8,7 @@
 - [<samp>API List</samp>](#api-list)
   - [<samp>Auth API</samp>](#auth-api)
     - [<samp>Log in</samp>](#log-in)
+    - [<samp>Change password</samp>](#change-password)
   - [<samp>Employee API</samp>](#employee-api)
     - [<samp>Get all employee roles</samp>](#get-all-employee-roles)
     - [<samp>Get all employees</samp>](#get-all-employees)
@@ -130,6 +131,34 @@
         "status": "ACTIVE"
     },
     "accessToken": "sample-token"
+}
+```
+
+#### <samp>Change Password</samp>
+
++ ##### <em><samp>API Information</samp></em>
+  
+| Request Requirement | Content                                           |
+|---------------------|---------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/auth/changePassword |
+| Query params            | `verifiedCode` |
+| HTTP method         | PUT                                              |
+| Token Required      | YES                                                |
+| Roles Authorized    | NONE                                              |
+
++ ##### <em><samp>Explanation</samp></em>
+
+    <samp>To use change password API, you must follow these steps:</samp>
+    
+    <samp><strong>Step 1:</strong> Use API without `verifiedCode` query param. HTTP response with `200` status code is sended to you, and check mail content into user mail box. Then, use the code for the second step. </samp>
+    
+    <samp><strong>Step 2:</strong> Use the same API URL but add `verifiedCode` with value got from above step. The body of the request must the same as the first one. You will get a response with `200` HTTP code if everything is fine.</samp>
+
++ ##### <em><samp>Request JSON Sample</samp></em>
+
+```json
+{
+    "newPassword": "password"
 }
 ```
 

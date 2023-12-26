@@ -31,11 +31,11 @@ export const employee_adding_schema = Joi.object({
 
     email: Joi.string().email().required(),
 
-    role: Joi.string().allow(null).valid(role.GOODS_POINT_EMPLOYEE,
+    role: Joi.string().valid(role.GOODS_POINT_EMPLOYEE,
         role.GOODS_POINT_HEAD,
         role.MANAGER,
         role.TRANSACTION_POINT_EMPLOYEE,
-        role.TRANSACTION_POINT_HEAD).optional()
+        role.TRANSACTION_POINT_HEAD).required()
 });
 
 export const employee_editting_schema = Joi.object({

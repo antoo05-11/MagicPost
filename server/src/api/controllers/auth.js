@@ -2,6 +2,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Error from "../exceptions/error";
 import { Employee } from "../models/model-export";
+import { sendMailVerifiedCode } from "../../utils/mailsender";
+import { sequelize } from '../models';
 
 const genToken = (user, expiresIn = "7d") => {
     return jwt.sign({
@@ -60,8 +62,41 @@ export const login = async (req, res) => {
     });
 };
 
+const verifiedCodeMap = []
+
 export const changePassword = async (req, res) => {
+    const userID = req.user.employeeID;
+    const newPassword = req.body.newPassword;
+
+    if (req.query.verifiedCode) {
+        if (req.query.verifiedCode == verifiedCodeMap[userID].code) {
+            const t = await sequelize.transaction();
+            try {
+                const employee = await Employee.findByPk(userID, {transaction: t});
+                employee.password = await bcrypt.hash(newPassword, 10);
+
+                await employee.save({transaction: t});
+                await t.commit({transaction: t});
+
+                return res.status(200);
+            } catch (error) {
+                console.log(error);
+                await t.rollback();
+            }
+        }
+    }
+
+    if (await bcrypt.compare(newPassword, req.user.password)) {
+        return res.status(400).json(Error.getError(Error.code.duplicated_password));
+    }
     
+    const verifiedCode = Math.floor(Math.random() * (99999 - 10000 + 1)) + 10000;
+    if (!verifiedCodeMap[userID]) verifiedCodeMap[userID] = {};
+    verifiedCodeMap[userID].code = verifiedCode;
+    verifiedCodeMap[userID].password = newPassword;
+    
+    await sendMailVerifiedCode(req.user.email, verifiedCode);
+    return res.status(200);
 }
 
 export const requestRefreshToken = async (req, res) => {
