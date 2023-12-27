@@ -1084,5 +1084,5 @@
 
 # <samp>Database Design<samp>
 
-## <samp>Relation Schema<samp>
+## <samp>Relational Schema<samp>
 ![Alt text](drawSQL-magicpost-export-2023-11-15.png)
