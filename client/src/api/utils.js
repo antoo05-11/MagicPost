@@ -47,7 +47,7 @@ export const employeeRole = {
   GOODS_POINT_HEAD: {
     name: "Quan li diem tap ket",
     role: "GOODS_POINT_HEAD",
-    left: ["manageGoodsPoint", "manageTransactionPoint"],
+    left: ["manageGoodsPoint", "manageTransactionPoint", "createOrder"],
     right: ["homepage", "manageOrders", "manageEmployees"],
   },
   MANAGER: {
@@ -59,7 +59,7 @@ export const employeeRole = {
       "manageTransactionPoint",
       "manageEmployees",
     ],
-    left: ["manageOrders"],
+    left: ["manageOrders", "createOrder"],
   },
   TRANSACTION_POINT_EMPLOYEE: {
     name: "Nhan vien diem giao dich",
@@ -70,7 +70,7 @@ export const employeeRole = {
   TRANSACTION_POINT_HEAD: {
     name: "Quan li diem giao dich",
     role: "TRANSACTION_POINT_HEAD",
-    left: ["manageGoodsPoint", "manageTransactionPoint"],
+    left: ["manageGoodsPoint", "manageTransactionPoint", "createOrder"],
     right: ["homepage", "manageOrders", "manageEmployees"],
   },
 };

@@ -86,7 +86,9 @@ export default function EmployeesLayout({ children }) {
                       "Content-Type": "application/json",
                       Authorization: `Bearer ${token}`,
                     }),
-                  }).then((res) => res.json()),
+                  }).then((res) => {
+                    return res.json();
+                  }),
               }}
             >
               {children}

@@ -14,8 +14,10 @@ export async function createEmployee(infoEmployee) {
         Authorization: `Bearer ${session.accessToken}`,
       },
       body: JSON.stringify(infoEmployee),
-    }).then((res) => res.json());
-    return res?.code;
+    });
+    const json = await res.json();
+    const status = res.status;
+    return { data: json, success: status == 200 };
   } catch (error) {
     console.log(error);
   }
@@ -34,14 +36,9 @@ export async function createOrder(infoOrder) {
       },
       body: JSON.stringify(infoOrder),
     });
-    console.log(res);
-    if (res.ok) {
-      console.log("thanh cong");
-      return true;
-    } else {
-      console.log("that bai");
-      return false;
-    }
+    const json = await res.json();
+    const status = res.status;
+    return { data: json, success: status == 200 };
   } catch (error) {
     console.log(error);
   }
@@ -82,11 +79,10 @@ export async function estimateFee(infoOrder) {
     ],
   };
   const session = await getServerSession(authOptions);
-  console.log(session?.accessToken);
   const url = "https://magicpost-uet.onrender.com/api/order/getordercost";
   try {
     const res = await fetch(url, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
 
@@ -95,7 +91,9 @@ export async function estimateFee(infoOrder) {
       body: JSON.stringify(infoOrder),
     }).then((res) => res.json());
     // const data = await res.json();
+    console.log(123);
     console.log(res);
+    return res;
     return false;
   } catch (error) {
     console.log(error);

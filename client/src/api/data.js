@@ -25,22 +25,6 @@ export function getEmployee(page, query) {
 }
 
 export function getEmployeebyID(id) {
-  if (!id)
-    return {
-      identifier: "",
-      phoneNumber: "",
-      fullName: "",
-      address: {
-        detail: "",
-        communeID: "",
-        districtID: "",
-        provinceID: "",
-      },
-      transactionPointID: "",
-      goodPointID: "",
-      email: "",
-      role: null,
-    };
   try {
     const { data: data } = useSWR(
       `https://magicpost-uet.onrender.com/api/employee/${id}/get`
@@ -148,11 +132,15 @@ export function getOrderTracking(orderID) {
 }
 
 export function getOrderById(id) {
-  return useSWR(`https://magicpost-uet.onrender.com/api/order/get/${id}`, {
-    revalidateIfStale: false,
-    revalidateOnFocus: false,
-    revalidateOnReconnect: false,
-  });
+  try {
+    const { data: data } = useSWR(
+      `https://magicpost-uet.onrender.com/api/order/get/${id}`
+    );
+    return data;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw Error("Failed to fetch the latest invoices.");
+  }
 }
 
 export function getAllTransactionPoint() {

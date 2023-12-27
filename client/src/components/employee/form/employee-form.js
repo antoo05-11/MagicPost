@@ -98,7 +98,7 @@ export default function EmployeeForm() {
 
         <Row>
           <Col>
-            <Form.Group >Địa chỉ Email</Form.Group>
+            <Form.Group>Địa chỉ Email</Form.Group>
             <Form.Control
               type="email"
               id="email"
@@ -155,7 +155,10 @@ export default function EmployeeForm() {
         </Row>
 
         <Row>
-          <Form.Group htmlFor="province" className="col-sm-12 col-form-Form.Group">
+          <Form.Group
+            htmlFor="province"
+            className="col-sm-12 col-form-Form.Group"
+          >
             Địa chỉ
           </Form.Group>
           <Col>
@@ -181,7 +184,6 @@ export default function EmployeeForm() {
           <Col>
             <select
               className="form-select"
-
               onChange={(e) => {
                 setSelectedDistrict(e.target.value);
                 employee.address.districtID = e.target.value;
@@ -199,7 +201,6 @@ export default function EmployeeForm() {
           <Col>
             <select
               className="form-select"
-
               onChange={(e) => {
                 setSelectedCommune(e.target.value);
                 employee.address.communeID = e.target.value;
@@ -232,7 +233,6 @@ export default function EmployeeForm() {
               <Form.Group htmlFor="role">Vai trò</Form.Group>
               <select
                 className="form-select"
-
                 id="role"
                 onChange={(e) => {
                   employee.role = e.target.value;
@@ -247,11 +247,10 @@ export default function EmployeeForm() {
           )}
           {userRole && userRole === "MANAGER" && (
             <Col>
-              <Form.Group htmlFor="transactionPoint">Địa điểm làm việc</Form.Group>
-              <select
-                className="form-select"
-
-              >
+              <Form.Group htmlFor="transactionPoint">
+                Địa điểm làm việc
+              </Form.Group>
+              <select className="form-select">
                 <option selected>Địa điểm làm việc</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
@@ -267,7 +266,6 @@ export default function EmployeeForm() {
             employee.address.provinceID = selectedProvince;
             employee.address.districtID = selectedDistrict;
             employee.address.communeID = selectedCommune;
-            setError(await createEmployee(employee));
             setPopup(!popup);
           }}
           className="btn btnCreate"
@@ -277,7 +275,12 @@ export default function EmployeeForm() {
 
         <button className="btn btn-secondary">Xóa</button>
       </div>
-      <PopUp isOpen={popup} setIsOpen={setPopup} infor={{ code: error }} />
+      <PopUp
+        isOpen={popup}
+        setIsOpen={setPopup}
+        functionCreate={createEmployee}
+        dataCreate={employee}
+      />
     </div>
   );
 }

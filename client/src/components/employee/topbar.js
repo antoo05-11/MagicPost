@@ -19,7 +19,24 @@ const itemVariants = {
   },
   closed: { opacity: 0, y: 20, transition: { duration: 0.2 } },
 };
-
+function useOutsideAlerter(ref) {
+  useEffect(() => {
+    /**
+     * Alert if clicked on outside of element
+     */
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        alert("You clicked outside of me!");
+      }
+    }
+    // Bind the event listener
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      // Unbind the event listener on clean up
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+}
 export default function TopBar() {
   const route = useRouter();
   const [profile, setProfile] = useState();
@@ -31,10 +48,16 @@ export default function TopBar() {
       // if (e.path[0] !== profileRef.currents) {
       setProfile(false);
       // }
+      // if (profileRef.current && !profileRef.current.contains(event.target)) {
+      //   alert("You clicked outside of me!");
+      // }
+      console.log(1);
     };
-    document.body.addEventListener("click", closeProfile);
+    if (profile) {
+      document.body.addEventListener("click", closeProfile);
+    } else document.body.removeEventListener("click", closeProfile);
     return () => document.body.removeEventListener("click", closeProfile);
-  });
+  }, [profile]);
   return (
     <motion.nav layout className="nav topbar">
       <Container className="navBar">
@@ -49,7 +72,13 @@ export default function TopBar() {
               initial={false}
               animate={profile ? "open" : "closed"}
             >
-              <Container ref={profileRef} onClick={() => setProfile(!profile)}>
+              <Container
+                ref={profileRef}
+                onClick={() => {
+                  console.log(profile);
+                  setProfile(!profile);
+                }}
+              >
                 <Row className="usernameContainer">
                   <Col xs="auto" className="userName">
                     {userName}
