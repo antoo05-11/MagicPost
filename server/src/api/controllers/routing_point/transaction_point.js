@@ -1,7 +1,8 @@
-import { buildAddressString, buildAddressWhereClause } from './address';
+import { buildAddressString, buildAddressWhereClause, findDistance } from './address';
 import { sequelize } from '../../models';
 import { role } from '../../models/human/role';
 import { Address, Commune, District, Employee, Order, Process, Province, RoutingPoint, TransactionPoint } from '../../models/model-export';
+import Error from '../../exceptions/error';
 
 export const getAllTransactionPoints = async (req, res) => {
     await TransactionPoint.hasMany(Order, { foreignKey: 'startTransactionPointID' });
@@ -115,9 +116,77 @@ export const getTransactionPointsByAddressForCustomer = async (req, res) => {
 
         transaction.address = buildAddressString(transaction.routing_point.address);
         delete transaction.routing_point;
-        
+
         result.push(transaction);
     }
 
     return res.status(200).json(result);
 }
+
+/**
+ * The function `findNearestTransactionPoint` finds the nearest transaction point based on a given
+ * address.
+ * @param address - The `address` parameter is an object that represents a customer's address. It has
+ * the following properties: detail, communeID, districtID, provinceID.
+ * @returns the ID of the nearest transaction point based on the given address.
+ */
+export const findNearestTransactionPoint = async (address) => {
+    try {
+        const transactionPoints = await TransactionPoint.findAll({
+            include: {
+                model: RoutingPoint,
+                required: true,
+                include: {
+                    model: Address,
+                    where: { provinceID: address.provinceID },
+                    required: true,
+                    attributes: ['detail'],
+                    include: [
+                        { model: Commune, attributes: ['name'] },
+                        { model: District, attributes: ['name'] },
+                        { model: Province, attributes: ['name'] }
+                    ]
+                },
+                attributes: ['routingPointID']
+            }
+        });
+
+        if (transactionPoints.length === 0) return null;
+
+        const customerProvince = await Province.findByPk(address.provinceID);
+        const customerDistrict = await District.findByPk(address.districtID);
+        const customerCommune = await Commune.findByPk(address.communeID);
+
+        const customerAddress = {
+            detail: address.detail,
+            commune: customerCommune.name,
+            district: customerDistrict.name,
+            province: customerProvince.name,
+        };
+
+        let minDistance = 99999;
+        let nearestTransactionPointID;
+
+        for (const transactionPoint of transactionPoints) {
+            const routingPointAddress = transactionPoint.routing_point.address;
+            const transactionPointAddress = {
+                detail: routingPointAddress.detail,
+                commune: routingPointAddress.commune.name,
+                district: routingPointAddress.district.name,
+                province: routingPointAddress.province.name,
+            };
+
+            const t = await findDistance(customerAddress, transactionPointAddress);
+
+            if (t < minDistance) {
+                minDistance = t;
+                nearestTransactionPointID = transactionPoint.transactionPointID;
+            }
+        }
+
+        return nearestTransactionPointID;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};

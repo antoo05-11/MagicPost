@@ -86,7 +86,6 @@ export const findDistance = (originJSON, destinationJSON) => {
         destination = destination.replaceAll('Thành phố', '');
 
         const url = encodeURI(`http://dev.virtualearth.net/REST/V1/Routes/Driving?o=xml&wp.0=${origin}&wp.1=${destination}&key=${process.env.BING_MAP_API_KEY}`);
-        console.log(url);
         request(url, (error, response, body) => {
             if (!error && response.statusCode == 200) {
                 parseString(body, (err, result) => {

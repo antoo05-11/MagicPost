@@ -24,7 +24,8 @@ export default class Error {
         token_expired: 10020,
         invalid_postage: 10021,
         invalid_employee_role_adding: 10022,
-        duplicated_password: 10023
+        duplicated_password: 10023,
+        unsupported_region: 10024
     };
 
     static initErrors() {
@@ -77,6 +78,10 @@ export default class Error {
         this.errors.set(this.code.invalid_province_id,
             new ErrorRes("Invalid Data!",
                 "Province ID not found!"));
+
+        this.errors.set(this.code.unsupported_region,
+            new ErrorRes("Invalid Data!",
+                "Customer region is not supported!"));
 
         this.errors.set(this.code.no_return_in_root_process,
             new ErrorRes("Update unsuccessfully!",

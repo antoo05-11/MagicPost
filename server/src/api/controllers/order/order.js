@@ -1,8 +1,9 @@
 import { sequelize } from '../../models';
 import Error from '../../exceptions/error';
 import { checkDateFormat, normalizeDate } from '../../../utils';
-import { buildAddressString, buildAddressWhereClause } from '../routing_point/address';
+import { buildAddressString, buildAddressWhereClause, findDistance } from '../routing_point/address';
 import { Address, Commune, Customer, District, Employee, Goods, Order, Process, Province, RoutingPoint, TransactionPoint } from '../../models/model-export';
+import { findNearestTransactionPoint } from '../routing_point/transaction_point';
 
 const { Op } = require('sequelize')
 const crypto = require('crypto');
@@ -376,17 +377,13 @@ export const createOrder = async (req, res) => {
     if ((order.mainPostage && postage.mainPostage != order.mainPostage) ||
         (order.addedPostage && postage.addedPostage != order.addedPostage) ||
         (order.VATFee && postage.VATFee != order.VATFee) ||
-        (order.otherFee && postage.otherFee != order.otherFee) ||
-        (order.receiverCOD && postage.receiverCOD != order.receiverCOD) ||
-        (order.receiverOtherFee && postage.receiverOtherFee != order.receiverOtherFee))
+        (order.otherFee && postage.otherFee != order.otherFee))
         return res.status(400).json(Error.getError(Error.code.invalid_postage))
 
     order.mainPostage = postage.mainPostage;
     order.addedPostage = postage.addedPostage;
     order.VATFee = postage.VATFee;
     order.otherFee = postage.otherFee;
-    order.receiverCOD = postage.receiverCOD;
-    order.receiverOtherFee = postage.receiverOtherFee;
 
     let goodsList = req.body.goodsList;
 
@@ -394,8 +391,10 @@ export const createOrder = async (req, res) => {
     order.creatorID = req.user.employeeID;
 
     order.startTransactionPointID = req.user.workingPointID;
-    order.endTransactionPointID = "46"
 
+    order.endTransactionPointID = await findNearestTransactionPoint(req.body.order.receiver.address, res);
+    if (!order.endTransactionPointID) return res.status(400).json(Error.getError(Error.code.unsupported_region));
+    
     const t = await sequelize.transaction();
     try {
         let senderAddress = await Address.create(req.body.order.sender.address, { transaction: t });
@@ -419,10 +418,10 @@ export const createOrder = async (req, res) => {
         delete order.receiver;
 
         order = await Order.create(order, { transaction: t });
-        for (const goods of goodsList) {
-            let clone = JSON.parse(JSON.stringify(goods));
-            clone.orderID = order.dataValues.orderID;
-            await Goods.create(clone, { transaction: t });
+        for (let goods of goodsList) {
+            goods = JSON.parse(JSON.stringify(goods));
+            goods.orderID = order.dataValues.orderID;
+            await Goods.create(goods, { transaction: t });
         }
 
         await Process.create({

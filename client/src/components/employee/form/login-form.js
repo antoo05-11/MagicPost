@@ -22,7 +22,7 @@ export default function LoginForm() {
 
   const onSubMit = async () => {
     const result = await signIn("credentials", {
-      username: "23000054",
+      username: "23000014",
       password: "password",
       redirect: true,
       callbackUrl: "/employees",

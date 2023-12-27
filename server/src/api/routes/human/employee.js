@@ -34,6 +34,6 @@ employeeRoute.put("/:id/edit",
     (req, res, next) => validate(req.body, res, next, employee_editting_schema),
     catchAsync(editEmployeeInfo));
 
-employeeRoute.get("/getAllRoles", catchAsync(getAllEmployeeRoles))
+employeeRoute.get("/getAllRoles", verifyToken, catchAsync(getAllEmployeeRoles))
 
 export default employeeRoute;

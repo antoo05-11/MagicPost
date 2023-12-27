@@ -30,7 +30,7 @@ const refreshTokens = [];
 export const login = async (req, res) => {
     let user = await Employee.findOne({
         where: { employeeID: req.body.employeeID },
-        attributes: ['employeeID', 'fullName', 'role', 'status', 'password']
+        attributes: ['employeeID', 'fullName', 'role', 'status', 'password', 'workingPointID']
     });
     if (!user)
         return res.status(404).json(Error.getError(Error.code.invalid_employee_id));

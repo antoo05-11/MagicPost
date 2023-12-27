@@ -288,7 +288,7 @@ export const editEmployeeInfo = async (req, res) => {
         }
 
         await employee.save({ transaction: t });
-        await t.commit()
+        await t.commit({ transaction: t })
     } catch (error) {
         await t.rollback();
         console.error(error);

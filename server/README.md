@@ -44,7 +44,7 @@
 + <samp> This project is a part of Web Application Development course in UET, VNU. </samp>
 + <samp>This Node.js application is hosted on <a href="https://dashboard.render.com/"><samp>Render.com<samp></a> with URL <a href = "https://magicpost-uet.onrender.com/"><samp>magicpost-uet.onrender.com</samp></a>.</samp>
 + <samp>The database is hosted on <a href="https://console.clever-cloud.com" target="_blank"><samp>Clever Cloud Console</samp></a>.</samp>
-+ <samp>Last Updated: 2023/12/16</samp>
++ <samp>Last Updated: 2023/12/27</samp>
   
 ## <samp>Install and run</samp>
 
