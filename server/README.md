@@ -428,6 +428,9 @@
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, TRANSACTION_POINT_HEADER, GOODS_POINT_EMPLOYEE, GOODS_POINT_HEADER |
 
 + ##### <em><samp>Response JSON Sample</samp></em>
+Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
+`startAddress[provinceID]`...
+
 ```json
 {
     "totalPages": 1,
@@ -677,7 +680,9 @@
             }
         },
         "failChoice": "return",
-        "specialService": "Some special services"
+        "specialService": "Some special services",
+        "receiverCOD": 0,
+        "receiverOtherFee": 0
     },
     "goodsList": [
         {
