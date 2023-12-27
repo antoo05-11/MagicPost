@@ -613,9 +613,7 @@ export const getOrderCost = async (req, res) => {
         mainPostage: 0,
         addedPostage: 0,
         VATFee: 0,
-        otherFee: 0,
-        receiverCOD: 0,
-        receiverOtherFee: 0
+        otherFee: 0
     };
 
     if (order.sender.provinceID != order.receiver.provinceID) {
@@ -630,7 +628,7 @@ export const getOrderCost = async (req, res) => {
         sumConvertedWeight += goods.convertedWeight;
     }
 
-    result.addedPostage = (0.3 * sumRealWeight + 0.7 * sumConvertedWeight) * 10000;
+    result.addedPostage = (0.3 * sumRealWeight + 0.7 * sumConvertedWeight) * 1000;
 
     if (sumConvertedWeight > 10.0) result.otherFee = 10000;
 

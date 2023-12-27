@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import { Address, Commune, District, Province } from '../../models/model-export';
+import Error from '../../exceptions/error';
 
 const request = require('request');
 const parseString = require('xml2js').parseString;
@@ -188,4 +189,33 @@ export const buildAddressString = (address, detailContained) => {
         result = address.detail + ', ' + result;
     }
     return result;
+}
+
+/**
+ * The function calculates the cost estimation for shipping based on the start and end province IDs and
+ * the weight of the package.
+ * @returns a JSON object with the property "cost" which contains the calculated cost estimation.
+ */
+export const getCostEstimation = async (req, res) => {
+    let { startProvinceID, endProvinceID, weight } = req.body;
+    if (!weight) weight = 1;
+
+    const provinces = await Province.findAll({
+        where: { provinceID: { [Op.in]: [startProvinceID, endProvinceID] } }
+    });
+
+    const isSameProvince = startProvinceID === endProvinceID;
+
+    if ((provinces.length !== 2 && !isSameProvince) || (provinces.length !== 1 && isSameProvince)) {
+        return res.status(400).json(Error.getError(Error.code.invalid_province_id));
+    }
+
+    let cost = isSameProvince ? 10000 : 15000;
+    cost += weight * 1000;
+
+    if (weight > 10) {
+        cost += weight * 0.7 * 2000;
+    }
+
+    return res.status(200).json({ cost });
 }

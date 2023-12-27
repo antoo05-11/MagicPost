@@ -153,15 +153,26 @@ export const findNearestTransactionPoint = async (address) => {
 
         if (transactionPoints.length === 0) return null;
 
-        const customerProvince = await Province.findByPk(address.provinceID);
-        const customerDistrict = await District.findByPk(address.districtID);
-        const customerCommune = await Commune.findByPk(address.communeID);
+        let customerAddress = await Commune.findOne({
+            where: {
+                communeID: address.communeID
+            },
+            include: [{
+                model: District,
+                attributes: ['name'],
+                include: [{
+                    model: Province,
+                    attributes: ['name']
+                }]
+            }],
+            attributes: ['communeID']
+        });
 
-        const customerAddress = {
+        customerAddress = {
             detail: address.detail,
-            commune: customerCommune.name,
-            district: customerDistrict.name,
-            province: customerProvince.name,
+            commune: customerAddress.name,
+            district: customerAddress.district.name,
+            province: customerAddress.district.province.name,
         };
 
         let minDistance = 99999;

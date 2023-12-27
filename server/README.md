@@ -37,6 +37,7 @@
     - [<samp>Get all communes/districts/provinces</samp>](#get-all-communesdistrictsprovinces)
     - [<samp>Get all districts by provinceID</samp>](#get-all-districts-by-provinceid)
     - [<samp>Get all communes by districtID</samp>](#get-all-communes-by-districtid)
+    - [<samp>Get cost estimation for customer</samp>](#get-cost-estimation-for-customer)
 - [<samp>Database Design</samp>](#database-design)
   - [<samp>Relation Schema</samp>](#relation-schema)
 
@@ -678,7 +679,9 @@
         {
             "realWeight": "100",
             "convertedWeight": "25",
-            "goodsType": "goods"
+            "goodsType": "goods",
+            "quantity": "23",
+            "attached": "This is attached file"
         }
     ]
 }
@@ -744,7 +747,9 @@
             "orderID": "TNJ945334140VN",
             "goodsType": "goods",
             "realWeight": 100,
-            "convertedWeight": 25
+            "convertedWeight": 25,
+            "quantity": "23",
+            "attached": "This is attached file"
         }
     ]
 }
@@ -1052,6 +1057,31 @@
     { "name":"Phường Phúc Xá", "communeID":1, "districtID":1 }
 ]
 ```
+#### <samp>Get cost estimation for customer<samp>
+
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                                                         |
+| ------------------- | ------------------------------------------------------------------------------- |
+| API URL             | https://magicpost-uet.onrender.com/api/address/getCostEstimation |
+| HTTP method         | GET                                                                             |
+| Token Required      | NO                                                                             |
+| Roles Authorized    | NONE                                                                            |
++ ##### <em><samp>Request JSON Sample</samp></em>
+```json
+{
+    "startProvinceID": 0,
+    "endProvinceID": 0,
+    "weight": 0
+}
+```
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+{
+    "cost": 16000
+}
+```
+
 # <samp>Database Design<samp>
 
 ## <samp>Relation Schema<samp>
