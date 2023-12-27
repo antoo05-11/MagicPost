@@ -21,6 +21,10 @@
     - [<samp>Get order by ID</samp>](#get-order-by-id-for-customer)
     - [<samp>Get order cost estimation</samp>](#get-order-cost-estimation)
     - [<samp>Create new order</samp>](#create-new-order)
+  - [<samp>Statistic API</samp>](#statistic-api)
+    - [<samp>Get profit statistic</samp>](#get-profit-statistic)
+    - [<samp>Get transaction points statistic</samp>](#get-transaction-points-statistic)
+    - [<samp>Get goods points statistic</samp>](#get-goods-points-statistic)
   - [<samp>Order Process API</samp>](#order-process-api)
     - [<samp>Update process status with process ID</samp>](#update-process-status-with-process-id)
   - [<samp>Routing Point API</samp>](#routing-point-api)
@@ -754,6 +758,11 @@
     ]
 }
 ```
+### <samp>Statistic API<samp>
+#### <samp>Get profit statistic API</samp>
+    request body nếu không cho biến nào thì gửi hết lợi nhuận 365 ngày gần nhất, có thể cho 2 biến minDate, maxDate dạng YYYYMMDD.
+    Trả về mảng  có độ dài bằng khoảng thời gian minDate, maxDate, nếu không có thì mặc định 365. Lợi nhuận của mindate là giá trị tại 0 của mảng.
+
 ### <samp>Order Process API<samp>
 #### <samp>Update process status with process ID</samp>
 

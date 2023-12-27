@@ -25,7 +25,8 @@ export default class Error {
         invalid_postage: 10021,
         invalid_employee_role_adding: 10022,
         duplicated_password: 10023,
-        unsupported_region: 10024
+        unsupported_region: 10024,
+        year_range_exceeded: 10025
     };
 
     static initErrors() {
@@ -113,6 +114,10 @@ export default class Error {
         this.errors.set(this.code.duplicated_password,
             new ErrorRes("Invalid Password!",
                 "New password is similar to your current password."));
+
+        this.errors.set(this.code.year_range_exceeded,
+            new ErrorRes("Invalid Data!",
+                "Time range must be under 1 year"));
 
         this.errors.set(this.code.invalid_postage,
             new ErrorRes("Invalid Data!",

@@ -37,3 +37,14 @@ export function checkDateFormat(date) {
     if (parseInt(day) > 31 || parseInt(day) < 0) return false;
     return true;
 }
+
+export function calculateDaysDifference(dateString1, dateString2) {
+    const date1 = new Date(dateString1.substring(0, 4), dateString1.substring(4, 6) - 1, dateString1.substring(6, 8));
+    const date2 = new Date(dateString2.substring(0, 4), dateString2.substring(4, 6) - 1, dateString2.substring(6, 8));
+
+    const timeDifference = date2.getTime() - date1.getTime();
+
+    const daysDifference = Math.round(timeDifference / (24 * 60 * 60 * 1000));
+
+    return daysDifference;
+}
