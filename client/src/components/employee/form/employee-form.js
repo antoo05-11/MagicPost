@@ -170,8 +170,8 @@ export default function EmployeeForm() {
                 employee.gender = e.target.value;
               }}
             >
-              <option value={"default"}>Gioi tinh</option>
-              <option value={"FEMALE"}>Nu</option>
+              <option value={"default"}>Giới tính</option>
+              <option value={"FEMALE"}>Nữ</option>
               <option value={"MALE"}>Nam</option>
             </select>
           </div>

@@ -72,6 +72,22 @@ export default function StatisticGoodsPoint() {
     const [extend, isExtend] = useState(false);
     const chartHeight = extend ? 440 : 205;
     const options = extend ? extendOptions : defaultOptions;
+
+    options.responsive = [
+        {
+            breakpoint: 768,
+            options: {
+                chart: {
+                    height: 300,
+                },
+
+                xaxis: {
+                    labels: { show: true },
+                },
+
+            },
+        },
+    ];
     return (
         <motion.div>
             <Card title={"Điểm tập kết"} extend={extend}>

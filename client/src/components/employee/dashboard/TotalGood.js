@@ -71,6 +71,22 @@ export default function TotalGood() {
   const [extend, isExtend] = useState();
   const chartHeight = extend ? 440 : 205;
   const options = extend ? extendOptions : defaultOptions;
+
+  options.responsive = [
+    {
+      breakpoint: 768,
+      options: {
+        chart: {
+          height: 300,
+        },
+
+        xaxis: {
+          labels: { show: true },
+        },
+
+      },
+    },
+  ];
   return (
 
     <motion.div>

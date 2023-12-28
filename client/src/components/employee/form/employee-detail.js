@@ -47,7 +47,7 @@ export default function EmployeeInformation({ id }) {
   );
   const { data: transactionPoint } = useSWR(urlWorkingPoint);
   return (
-    <div>
+    <div className="formContainer">
       <form id="form-employee ">
         <div className="row">
           <h3>Thông tin nhân viên</h3>

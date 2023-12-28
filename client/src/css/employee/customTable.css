@@ -85,12 +85,12 @@ tr:nth-child(even) {
 
 /* === Employee Table === */
 .employeeTable th {
-  width: 210px;
+  width: 200px;
 }
 
 .employeeTable input,
 .employeeTable select {
-  width: 210px;
+  width: 200px;
   height: 2em;
 }
 

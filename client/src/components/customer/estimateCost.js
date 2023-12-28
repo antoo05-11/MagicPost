@@ -1,8 +1,15 @@
 import { getAllProvince } from '@/api/data';
 import { Container, Form, Row, Col, Button, Table } from 'react-bootstrap';
 
+const estimateCost = {
+    startProvinceID: "",
+    endProvinceID: "",
+    weight: ""
+};
+
 export default function EstimateCost() {
     const provinceData = getAllProvince();
+
     return (
         <>
             <Container className="lookUpContainer">
@@ -11,10 +18,13 @@ export default function EstimateCost() {
                         <Col xs="12" md="6">
                             <Form.Group>
                                 <Form.Label>Gửi từ (*)</Form.Label>
-                                <Form.Select aria-label="Chọn Tỉnh/ TP" required>
+                                <Form.Select aria-label="Chọn Tỉnh/ TP" required
+                                    onChange={(e) => {
+                                        estimateCost.startProvinceID = e.target.value;
+                                    }}>
                                     <option>Chọn Tỉnh/ TP</option>
                                     {provinceData.map((province) => (
-                                        <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
+                                        <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID} >
                                             {province.name}
                                         </option>
                                     ))}
@@ -24,7 +34,10 @@ export default function EstimateCost() {
                         <Col xs="12" md="6">
                             <Form.Group>
                                 <Form.Label>Gửi đến (*)</Form.Label>
-                                <Form.Select aria-label="Chọn Tỉnh/ TP" required>
+                                <Form.Select aria-label="Chọn Tỉnh/ TP" required
+                                    onChange={(e) => {
+                                        estimateCost.endProvinceID = e.target.value;
+                                    }}>
                                     <option>Chọn Tỉnh/ TP</option>
                                     {provinceData.map((province) => (
                                         <option key={province.provinceID} data-key={province.provinceID} value={province.provinceID}>
@@ -39,7 +52,10 @@ export default function EstimateCost() {
                         <Col>
                             <Form.Group>
                                 <Form.Label>Khối lượng</Form.Label>
-                                <Form.Control type="number" required />
+                                <Form.Control type="number" required
+                                    onChange={(e) => {
+                                        estimateCost.weight = e.target.value;
+                                    }} />
                             </Form.Group>
                         </Col>
                     </Row>
