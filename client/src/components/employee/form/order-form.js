@@ -37,14 +37,10 @@ const order = {
     },
     failChoice: "",
     specialService: "",
+    receiverCOD: 0,
+    receiverOtherFee: 0,
   },
-  goodsList: [
-    {
-      realWeight: "",
-      convertedWeight: "",
-      goodsType: "",
-    },
-  ],
+  goodsList: [],
 };
 export default function OrderForm() {
   const provinceData = getAllProvince();
@@ -80,7 +76,14 @@ export default function OrderForm() {
   const [addGoods, setAddGoods] = useState(false);
 
   const [goodsList, setGoodsList] = useState([
-    { id: 1, goodsType: "", realWeight: "", convertedWeight: "" },
+    {
+      id: 1,
+      goodsType: "",
+      realWeight: "",
+      convertedWeight: "",
+      quantity: "",
+      attached: "",
+    },
   ]);
 
   const addRow = () => {
@@ -89,6 +92,8 @@ export default function OrderForm() {
       goodsType: "",
       realWeight: "",
       convertedWeight: "",
+      quantity: "",
+      attached: "",
     };
     setGoodsList([...goodsList, newRow]);
   };
@@ -104,6 +109,10 @@ export default function OrderForm() {
     if (taodon) console.log(123);
   }, [taodon]);
   const [estimateCost, setEstimateCost] = useState();
+  const [receiverFee, setReceiverFee] = useState({
+    receiverCOD: 0,
+    receiverOtherFee: 0,
+  });
   return (
     <>
       <div className="conta iner">
@@ -324,11 +333,12 @@ export default function OrderForm() {
               <Form.Group>
                 <Form.Label>Trường hợp vận chuyển thất bại</Form.Label>
                 <Form.Select
+                  defaultValue={"return"}
                   onChange={(e) => {
                     order.order.failChoice = e.target.value;
                   }}
                 >
-                  <option value={"default"}>Hoàn trả</option>
+                  <option value={"return"}>Hoàn trả</option>
                 </Form.Select>
               </Form.Group>
             </Col>
@@ -435,13 +445,35 @@ export default function OrderForm() {
                   <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>COD</Form.Label>
-                      <Form.Control type="text" placeholder="COD" />
+                      <Form.Control
+                        type="number"
+                        required
+                        placeholder="COD"
+                        onChange={(e) => {
+                          order.order.receiverCOD = e.target.value;
+                          setReceiverFee({
+                            receiverCOD: e.target.value,
+                            receiverOtherFee: receiverFee.receiverOtherFee,
+                          });
+                        }}
+                      />
                     </Form.Group>
                   </Col>
                   <Col xs={12} md={6}>
                     <Form.Group>
                       <Form.Label>Thu khác</Form.Label>
-                      <Form.Control type="text" placeholder="Thu khác" />
+                      <Form.Control
+                        type="number"
+                        required
+                        placeholder="Thu khác"
+                        onChange={(e) => {
+                          order.order.receiverOtherFee = e.target.value;
+                          setReceiverFee({
+                            receiverCOD: receiverFee.receiverCOD,
+                            receiverOtherFee: e.target.value,
+                          });
+                        }}
+                      />
                     </Form.Group>
                   </Col>
                 </Row>
@@ -449,7 +481,15 @@ export default function OrderForm() {
                   <Col>
                     <Form.Group>
                       <Form.Label>Tổng thu</Form.Label>
-                      <Form.Control type="text" placeholder="Tổng thu" />
+                      <Form.Control
+                        type="text"
+                        placeholder="Tổng thu"
+                        value={
+                          Number(receiverFee.receiverCOD) +
+                          Number(receiverFee.receiverOtherFee)
+                        }
+                        disabled
+                      />
                     </Form.Group>
                   </Col>
                 </Row>
@@ -531,11 +571,11 @@ export default function OrderForm() {
                       </td>
                       <td scope="col">
                         <input
-                          type="number"
-                          value={goods.realWeight}
+                          // type="number"
+                          value={goods.attached}
                           onChange={(e) => {
                             const updatedGoodsList = [...goodsList];
-                            updatedGoodsList[index].realWeight = e.target.value;
+                            updatedGoodsList[index].attached = e.target.value;
                             setGoodsList(updatedGoodsList);
                           }}
                         />
@@ -543,11 +583,10 @@ export default function OrderForm() {
                       <td scope="col">
                         <input
                           type="number"
-                          value={goods.convertedWeight}
+                          value={goods.quantity}
                           onChange={(e) => {
                             const updatedGoodsList = [...goodsList];
-                            updatedGoodsList[index].convertedWeight =
-                              e.target.value;
+                            updatedGoodsList[index].quantity = e.target.value;
                             setGoodsList(updatedGoodsList);
                           }}
                         />
@@ -555,11 +594,10 @@ export default function OrderForm() {
                       <td scope="col">
                         <input
                           type="number"
-                          value={goods.convertedWeight}
+                          value={goods.realWeight}
                           onChange={(e) => {
                             const updatedGoodsList = [...goodsList];
-                            updatedGoodsList[index].convertedWeight =
-                              e.target.value;
+                            updatedGoodsList[index].realWeight = e.target.value;
                             setGoodsList(updatedGoodsList);
                           }}
                         />
@@ -598,8 +636,12 @@ export default function OrderForm() {
             data-bs-toggle="modal"
             data-bs-target="#staticBackdrop"
             onClick={() => {
-              console.log(popup);
+              // console.log(popup);
               setPopup(!popup);
+              order.goodsList = goodsList;
+              order.goodsList.map((item) => {
+                delete item?.id;
+              });
             }}
           >
             Tạo đơn hàng

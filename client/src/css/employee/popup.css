@@ -11,6 +11,10 @@
   border-radius: 10px;
   background-color: white;
   z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .popup[data-isOpen="false"] {
   top: -100%;
@@ -29,4 +33,28 @@
 
 .disClick[data-isOpen="false"] {
   display: none;
+}
+
+.popupContent {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* align-items: center; */
+  /* bottom: 0; */
+}
+
+.pupu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.btn-popup {
+  /* width: 50px; */
+  margin-left: 10px;
+  margin-right: 10px;
+  top: 30%;
 }

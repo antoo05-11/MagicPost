@@ -4,15 +4,16 @@ import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
 import { getOrderById } from "@/api/data";
 import { orderStatus } from "@/api/utils";
 import { updateProcessesOrder } from "@/api/action";
+import { mutate } from "swr";
 
 import "@/css/employee/customForm.css";
 import "@/css/employee/customTable.css";
-import { useRouter } from "next/router";
-// import { useRouter } from "next/navigation  ";
+// import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function OrderDetail({ id }) {
+  const page = useSearchParams().get("page");
   const order = getOrderById(id);
-  console.log("check", order);
   const router = useRouter();
   const formatDateTime = (dateTimeString) => {
     const options = {
@@ -106,6 +107,10 @@ export default function OrderDetail({ id }) {
                     order?.order?.processes?.pop()?.processID,
                     "forwarded"
                   );
+                  mutate(
+                    `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
+                  );
+                  router.push("/employees/list_ordered");
                 }}
               >
                 {orderStatus[order?.order?.goodsStatus]?.next}

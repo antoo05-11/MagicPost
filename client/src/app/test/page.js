@@ -11,6 +11,7 @@ export const orderDetails = [
   "Phi van chuyen",
 ];
 import { mutate } from "swr";
+import Loading from "@/components/loading";
 export default function AdminPage() {
-  return <div>Test Page</div>;
+  return <Loading />;
 }

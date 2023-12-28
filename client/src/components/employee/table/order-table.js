@@ -4,24 +4,84 @@ import { OrderDetail } from "../button";
 import { getOrder } from "@/api/data";
 import Pagination from "../pagination";
 import { getAllProvince } from "@/api/data";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { orderStatus } from "@/api/utils";
+import { useDebouncedCallback } from "use-debounce";
 
-export default function OrderTable({ page }) {
+export default function OrderTable({ page, query }) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
   const provinceData = getAllProvince();
   const {
     dataRes: inforOrders,
     totalPages: totalPage,
     itemPerPage: itemPerPage,
-  } = getOrder({ page });
+  } = getOrder(page, query);
+
+  const handleID = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("orderID", term);
+    } else {
+      params.delete("orderID");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+  const handleStartAd = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("startAddress", term);
+    } else {
+      params.delete("startAddress");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+  const handleEndAd = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("endAddress", term);
+    } else {
+      params.delete("endAddress");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+
+  const handleTimeCreate = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("timeCreate", term);
+    } else {
+      params.delete("timeCreate");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+  const handleStatus = useDebouncedCallback((term) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set("status", term);
+    } else {
+      params.delete("status");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
 
   const formatDateTime = (dateTimeString) => {
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
-    const formattedDateTime = new Date(dateTimeString).toLocaleDateString('en-US', options);
+    const options = {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    const formattedDateTime = new Date(dateTimeString).toLocaleDateString(
+      "en-US",
+      options
+    );
     return formattedDateTime;
   };
 
-  console.log(inforOrders);
-  const listStatus = ["forwarded", "arriving", "on_stock"];
   return (
     <div className="mt-2 flow-root table">
       <div className="inline-block min-w-full align-middle d-flex justify-content-center">
@@ -41,10 +101,13 @@ export default function OrderTable({ page }) {
               <tr className="filter">
                 <th scope="col"></th>
                 <th scope="col">
-                  <input placeholder="Lọc theo mã đơn hàng" />
+                  <input
+                    placeholder="Lọc theo mã đơn hàng"
+                    onChange={(e) => handleID(e.target.value)}
+                  />
                 </th>
                 <th scope="col">
-                  <select>
+                  <select onChange={(e) => handleStartAd(e.target.value)}>
                     <option>Chọn tỉnh/ thành phố</option>
                     {provinceData.map((province) => (
                       <option
@@ -57,7 +120,7 @@ export default function OrderTable({ page }) {
                   </select>
                 </th>
                 <th scope="col">
-                  <select>
+                  <select onChange={(e) => handleEndAd(e.target.value)}>
                     <option>Chọn tỉnh/ thành phố</option>
                     {provinceData.map((province) => (
                       <option
@@ -69,11 +132,17 @@ export default function OrderTable({ page }) {
                     ))}
                   </select>
                 </th>
-                <th scope="col">                 
-                    <input type="date" />
+                <th scope="col">
+                  <input
+                    type="date"
+                    onChange={(e) => handleTimeCreate(e.target.value)}
+                  />
                 </th>
                 <th scope="col">
-                  <select placeholder="Chọn">
+                  <select
+                    placeholder="Chọn"
+                    onChange={(e) => handleStatus(e.target.value)}
+                  >
                     <option>Trạng thái</option>
                     {Object.keys(orderStatus).map((statusKey) => (
                       <option key={statusKey} value={statusKey}>
@@ -104,7 +173,7 @@ export default function OrderTable({ page }) {
                       </span>
                     </td>
                     <td className="d-flex justify-content-center">
-                      <OrderDetail id={data?.orderID} />
+                      <OrderDetail id={data?.orderID} page={page} />
                     </td>
                   </tr>
                 );

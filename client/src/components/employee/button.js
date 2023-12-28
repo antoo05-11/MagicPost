@@ -49,13 +49,13 @@ export function EmployeeDetail({ id }) {
     </Button>
   );
 }
-export function OrderDetail({ id }) {
+export function OrderDetail({ id, page }) {
   const route = useRouter();
 
   return (
     <Button
       onClick={() => {
-        route.push(`/employees/list_ordered/${id}/detail`);
+        route.push(`/employees/list_ordered/${id}/detail?page=${page}`);
         // console.log(id);
       }}
     >

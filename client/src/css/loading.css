@@ -1,0 +1,27 @@
+#loading {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  bottom: 0;
+}
+
+.containerer {
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  height: 100%;
+  background-color: var(--highlight-color);
+}
+
+.text {
+  margin: 21px;
+  color: white;
+  white-space: nowrap;
+  mix-blend-mode: difference;
+}

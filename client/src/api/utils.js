@@ -151,4 +151,5 @@ export const createError = {
   10008: "Mã đơn hàng không hợp lệ",
   10009: "Mật khẩu không hợp lệ",
   10012: "Ngày tháng không hợp lệ",
+  10024: "Địa chỉ khách hàng chưa được hỗ trợ",
 };

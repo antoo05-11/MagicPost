@@ -1,13 +1,13 @@
 "use client";
 import useSWR from "swr";
-
 export function getEmployee(page, query) {
   let url = `https://magicpost-uet.onrender.com/api/employee/get/?page=${page}`;
   if (query) {
     if (query.name) url = url + `&fullName=${query.name}`;
-    // if (query.address) url = url + `&fullName=${query.address}`;
+    if (query.address) url = url + `&address[province]=${query.address}`;
     if (query.emID) url = url + `&employeeID=${query.emID}`;
-    if (query.role) url = url + `&role=${query.role}`;
+    if (query.status) url = url + `&status=${query.status}`;
+    if (query.phone) url = url + `&phoneNumber=${query.phone}`;
   }
   try {
     const { data: data } = useSWR(url);
@@ -36,11 +36,21 @@ export function getEmployeebyID(id) {
   }
 }
 
-export function getOrder(query) {
+export function getOrder(page, query) {
+  let url = `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`;
+  if (query) {
+    if (query.startAddress) url = url + `&startAddress=${query.startAddress}`;
+    if (query.endAddress) url = url + `&endAddress=${query.endAddress}`;
+    if (query.orderID) url = url + `&orderID=${query.orderID}`;
+    if (query.status) url = url + `&goodsStatus=${query.status}`;
+    if (query.timeCreate) url = url + `&createdAt=${query.timeCreate}`;
+  }
   try {
-    const { data: data } = useSWR(
-      `https://magicpost-uet.onrender.com/api/order/getall/?page=${query.page}`
-    );
+    const { data: data } = useSWR(url, {
+      revalidateIfStale: true,
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+    });
     return {
       dataRes: data?.orders,
       totalPages: data?.totalPages,

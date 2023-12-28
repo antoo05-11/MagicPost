@@ -25,7 +25,43 @@ export async function createEmployee(infoEmployee) {
 
 export async function createOrder(infoOrder) {
   const session = await getServerSession(authOptions);
-
+  // infoOrder = {
+  //   order: {
+  //     sender: {
+  //       fullname: "Hoang Thuy Linh",
+  //       phoneNumber: "0123456789",
+  //       address: {
+  //         detail: "39S, Street A",
+  //         communeID: "121",
+  //         districtID: "9",
+  //         provinceID: "1",
+  //       },
+  //     },
+  //     receiver: {
+  //       fullname: "Nguyen Huu Minh",
+  //       phoneNumber: "0123456789",
+  //       address: {
+  //         detail: "43, Street A",
+  //         communeID: "121",
+  //         districtID: "9",
+  //         provinceID: "1",
+  //       },
+  //     },
+  //     failChoice: "return",
+  //     specialService: "Some special services",
+  //     receiverCOD: 0,
+  //     receiverOtherFee: 0,
+  //   },
+  //   goodsList: [
+  //     {
+  //       realWeight: "100",
+  //       convertedWeight: "25",
+  //       goodsType: "goods",
+  //       quantity: "23",
+  //       attached: "This is attached file",
+  //     },
+  //   ],
+  // };
   const url = "https://magicpost-uet.onrender.com/api/order/create";
   try {
     const res = await fetch(url, {
@@ -36,7 +72,9 @@ export async function createOrder(infoOrder) {
       },
       body: JSON.stringify(infoOrder),
     });
+
     const json = await res.json();
+    console.log(json);
     const status = res.status;
     return { data: json, success: status == 200 };
   } catch (error) {
@@ -120,6 +158,29 @@ export async function updateProcessesOrder(id, status) {
       console.log("that bai");
       return false;
     }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function changePassword({ newPass, verifiedCode }) {
+  try {
+    console.log(345);
+    const session = await getServerSession(authOptions);
+    const url = verifiedCode
+      ? `https://magicpost-uet.onrender.com/api/auth/changePassword?verifiedCode=${verifiedCode}`
+      : `https://magicpost-uet.onrender.com/api/auth/changePassword`;
+
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      body: JSON.stringify({ newPassword: newPass }),
+    }).then((res) => console.log(123));
+    // console.log(res.status);
+    // return res.status;
   } catch (error) {
     console.log(error);
   }

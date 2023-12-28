@@ -50,7 +50,7 @@ export default function Page() {
             {currentPage === "mainInformation" && (
               <MainInformation data={dataInfo} />
             )}
-            {currentPage === "security" && <Security data={dataInfo} />}
+            {currentPage === "security" && <Security />}
           </div>
         </Col>
       </Row>
