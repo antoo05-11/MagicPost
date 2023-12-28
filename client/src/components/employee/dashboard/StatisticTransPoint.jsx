@@ -2,7 +2,8 @@ import React from 'react';
 import Card from "@/components/employee/dashboard/card";
 import Chart from 'react-apexcharts';
 import { Button } from 'react-bootstrap';
-
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 const data = {
     series: [{
         name: 'Hàng gửi',
@@ -50,13 +51,17 @@ const options = {
 };
 
 export default function StatisticTransPoint() {
+    const [extend, isExtend] = useState(true);
     return (
-        <Card title={"Điểm giao dịch"}>
+        <motion.div>
+            <Card title={"Điểm giao dịch"} extend={extend}>
             <Chart type='area' options={options} height={205} series={data.series} />
             <p>
                 Your sales performance is 45% 😎 better compared to last month
             </p>
-            <Button>Chi tiết</Button>
+                <Button onClick={() => { isExtend(!extend);  console.log(extend)}}>Chi tiết</Button>
         </Card>
+        </motion.div>
+        
     );
 }

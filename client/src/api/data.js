@@ -39,11 +39,13 @@ export function getEmployeebyID(id) {
 export function getOrder(page, query) {
   let url = `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`;
   if (query) {
-    if (query.startAddress) url = url + `&startAddress=${query.startAddress}`;
-    if (query.endAddress) url = url + `&endAddress=${query.endAddress}`;
+    if (query.startAddress)
+      url = url + `&startAddress[provinceID]=${query.startAddress}`;
+    if (query.endAddress)
+      url = url + `&endAddress[provinceID]=${query.endAddress}`;
     if (query.orderID) url = url + `&orderID=${query.orderID}`;
     if (query.status) url = url + `&goodsStatus=${query.status}`;
-    if (query.timeCreate) url = url + `&createdAt=${query.timeCreate}`;
+    if (query.timeCreate) url = url + `&minCreatedAt=${query.timeCreate}`;
   }
   try {
     const { data: data } = useSWR(url, {

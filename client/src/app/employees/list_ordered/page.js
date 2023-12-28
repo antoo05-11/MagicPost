@@ -10,21 +10,14 @@ import "@/css/employee/customTable.css";
 import { useSession } from "next-auth/react";
 
 export default async function page({
-  searchParams: {
-    page,
-    orderID,
-    startAddress,
-    endAddress,
-    goodStatus,
-    createdAt,
-  },
+  searchParams: { page, orderID, startAddress, endAddress, status, timeCreate },
 }) {
   const query = {
     orderID: orderID,
     startAddress: startAddress,
     endAddress: endAddress,
-    status: goodStatus,
-    timeCreate: createdAt,
+    status: status,
+    timeCreate: timeCreate,
   };
   const currentPage = Number(page) || 1;
   const userRole = useSession()?.data?.user?.role;
@@ -34,12 +27,12 @@ export default async function page({
         <div className="col">
           <h3>Danh sách đơn hàng</h3>
         </div>
-        {userRole === "TRANSACTION_POINT_EMPLOYEE" &&
-          userRole === "GOODS_POINT_EMPLOYEE" && (
-            <div className="col btnContainer">
-              <CreateOrder />
-            </div>
-          )}
+        {(userRole === "TRANSACTION_POINT_EMPLOYEE" ||
+          userRole === "GOODS_POINT_EMPLOYEE") && (
+          <div className="col btnContainer">
+            <CreateOrder />
+          </div>
+        )}
       </div>
 
       <div className="row">

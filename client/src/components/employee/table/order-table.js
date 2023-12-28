@@ -18,7 +18,6 @@ export default function OrderTable({ page, query }) {
     totalPages: totalPage,
     itemPerPage: itemPerPage,
   } = getOrder(page, query);
-
   const handleID = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -107,8 +106,11 @@ export default function OrderTable({ page, query }) {
                   />
                 </th>
                 <th scope="col">
-                  <select onChange={(e) => handleStartAd(e.target.value)}>
-                    <option>Chọn tỉnh/ thành phố</option>
+                  <select
+                    defaultValue={query?.startAddress}
+                    onChange={(e) => handleStartAd(e.target.value)}
+                  >
+                    <option value={""}>Chọn tỉnh/ thành phố</option>
                     {provinceData.map((province) => (
                       <option
                         key={province.provinceIDnceID}
@@ -120,8 +122,11 @@ export default function OrderTable({ page, query }) {
                   </select>
                 </th>
                 <th scope="col">
-                  <select onChange={(e) => handleEndAd(e.target.value)}>
-                    <option>Chọn tỉnh/ thành phố</option>
+                  <select
+                    defaultValue={query?.endAddress}
+                    onChange={(e) => handleEndAd(e.target.value)}
+                  >
+                    <option value={""}>Chọn tỉnh/ thành phố</option>
                     {provinceData.map((province) => (
                       <option
                         key={province.provinceIDnceID}
@@ -135,15 +140,19 @@ export default function OrderTable({ page, query }) {
                 <th scope="col">
                   <input
                     type="date"
-                    onChange={(e) => handleTimeCreate(e.target.value)}
+                    onChange={(e) => {
+                      const date = String(e.target.value).replaceAll("-", "");
+                      handleTimeCreate(date);
+                    }}
                   />
                 </th>
                 <th scope="col">
                   <select
                     placeholder="Chọn"
+                    defaultValue={query?.status}
                     onChange={(e) => handleStatus(e.target.value)}
                   >
-                    <option>Trạng thái</option>
+                    <option value={""}>Trạng thái</option>
                     {Object.keys(orderStatus).map((statusKey) => (
                       <option key={statusKey} value={statusKey}>
                         {orderStatus[statusKey].now}
@@ -162,8 +171,8 @@ export default function OrderTable({ page, query }) {
                   <tr key={data?.orderID}>
                     <td>{index + 1}</td>
                     <td>{data?.orderID}</td>
-                    <td>{data?.endTransactionProvince}</td>
                     <td>{data?.startTransactionProvince}</td>
+                    <td>{data?.endTransactionProvince}</td>
                     <td>{formatDateTime(data?.createdAt)}</td>
                     <td>
                       <span

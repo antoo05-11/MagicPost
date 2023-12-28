@@ -1,7 +1,7 @@
 import { Container, Row, Col, Table, Image } from "react-bootstrap";
 import { useRef } from "react";
 import ReactToPrint from "react-to-print";
-
+import "@/css/employee/invoice.css";
 function OrderID() {
   return (
     <>
@@ -130,11 +130,7 @@ function Signature() {
 export default function Invoice() {
   const componentRef = useRef();
   return (
-    <>
-      <ReactToPrint
-        trigger={() => <button>Print</button>}
-        content={() => componentRef.current}
-      />
+    <div id="invoice">
       <Container className="bg-white rounded shadow">
         <div ref={componentRef} className="p-5">
           <Row className="text-center">
@@ -173,6 +169,14 @@ export default function Invoice() {
           </Row>
         </div>
       </Container>
-    </>
+      <ReactToPrint
+        trigger={() => <button>Print</button>}
+        content={() => componentRef.current}
+      />
+      <ReactToPrint
+        trigger={() => <button>Tro lai</button>}
+        content={() => componentRef.current}
+      />
+    </div>
   );
 }

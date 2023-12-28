@@ -110,7 +110,7 @@ export default function OrderDetail({ id }) {
                   mutate(
                     `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
                   );
-                  router.push("/employees/list_ordered");
+                  router.push(`/employees/list_ordered/?page=${page}`);
                 }}
               >
                 {orderStatus[order?.order?.goodsStatus]?.next}
