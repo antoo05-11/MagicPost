@@ -1,6 +1,12 @@
 import Joi from "joi";
 
-export const profit_statistic_schema = Joi.object({
+export const statistic_schema = Joi.object({
     minDate: Joi.string().optional(),
     maxDate: Joi.string().optional()
-});
+}).when(
+    Joi.object({ minDate: Joi.exist(), maxDate: Joi.not().exist() }),
+    { then: Joi.object({ maxDate: Joi.required() }) }
+).when(
+    Joi.object({ maxDate: Joi.exist(), minDate: Joi.not().exist() }),
+    { then: Joi.object({ minDate: Joi.required() }) }
+);

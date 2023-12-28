@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export function generateRandomPassword() {
     const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let password = "";
@@ -28,9 +30,9 @@ export function checkDateFormat(date) {
     let year = date[0] + date[1] + date[2] + date[3];
     let month = date[4] + date[5];
     let day = date[6] + date[7];
-    if (isNaN(year) || isNaN(parseFloat(year))) return false;
-    if (isNaN(month) || isNaN(parseFloat(month))) return false;
-    if (isNaN(day) || isNaN(parseFloat(day))) return false;
+    if (isNaN(year) || isNaN(parseInt(year))) return false;
+    if (isNaN(month) || isNaN(parseInt(month))) return false;
+    if (isNaN(day) || isNaN(parseInt(day))) return false;
 
     if (parseInt(year) < 1970) return false;
     if (parseInt(month) > 12 || parseInt(month) < 0) return false;
@@ -39,6 +41,7 @@ export function checkDateFormat(date) {
 }
 
 export function calculateDaysDifference(dateString1, dateString2) {
+    if(!dateString1 || !dateString2) return null;
     const date1 = new Date(dateString1.substring(0, 4), dateString1.substring(4, 6) - 1, dateString1.substring(6, 8));
     const date2 = new Date(dateString2.substring(0, 4), dateString2.substring(4, 6) - 1, dateString2.substring(6, 8));
 
@@ -46,5 +49,9 @@ export function calculateDaysDifference(dateString1, dateString2) {
 
     const daysDifference = Math.round(timeDifference / (24 * 60 * 60 * 1000));
 
-    return daysDifference;
+    return Math.abs(daysDifference);
+}
+
+export function formatDate(dateTime) {
+    return moment(dateTime).format('YYYY-MM-DD').replace(/-/g, '');
 }
