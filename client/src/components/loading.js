@@ -2,6 +2,7 @@
 import { motion, useAnimate } from "framer-motion";
 import { useEffect } from "react";
 import "@/css/loading.css";
+import { FaShippingFast } from "react-icons/fa";
 export default function LoadLoad() {
   const [scope, animate] = useAnimate();
 
@@ -26,10 +27,14 @@ export default function LoadLoad() {
   return (
     <div id="loading">
       <div className="containerer">
-        <motion.div ref={scope} className="loader" />
+
         <h1 className="text">
-          <i>Magic Post</i>
+          <i>MAGIC POST</i>
         </h1>
+        <motion.div animate={{ x: 300 }} transition={{ ease: "easeOut", duration: 2 }} className="icon">
+          <FaShippingFast size={'4em'} />
+        </motion.div>
+        <motion.div ref={scope} className="loader" />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export default function Pagination({ totalPage }) {
   const nextPage = () => {};
   const prevPage = () => {};
   return (
-    <ul className="pagination d-flex justify-content-center">
+    <ul className="pagination d-flex justify-content-center mt-4">
       <li className="page-item">
         <Link
           className="page-link"

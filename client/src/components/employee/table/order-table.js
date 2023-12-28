@@ -8,7 +8,7 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { orderStatus } from "@/api/utils";
 import { useDebouncedCallback } from "use-debounce";
 
-export default function OrderTable({ page, query }) {
+export default function OrderTable({ page, query, showFilter}) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -17,7 +17,7 @@ export default function OrderTable({ page, query }) {
     dataRes: inforOrders,
     totalPages: totalPage,
     itemPerPage: itemPerPage,
-  } = getOrder(page, query);
+  } = getOrder(page || 1, query);
   const handleID = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
@@ -83,9 +83,9 @@ export default function OrderTable({ page, query }) {
 
   return (
     <div className="mt-2 flow-root table">
-      <div className="inline-block min-w-full align-middle d-flex justify-content-center">
-        <div className="rounded-lg bg-gray-50 md:pt-0 table-responsive">
-          <table className="orderTable">
+      <div className="inline-block min-w-full ">
+        <div className="rounded-lg bg-gray-50 md:pt-0 table-responsive ">
+          <table className="orderTable w-100">
             <thead>
               <tr>
                 <th scope="col">STT</th>
@@ -96,8 +96,7 @@ export default function OrderTable({ page, query }) {
                 <th scope="col">Trạng thái</th>
                 <th scope="col"></th>
               </tr>
-
-              <tr className="filter">
+              {showFilter && <tr className="filter">
                 <th scope="col"></th>
                 <th scope="col">
                   <input
@@ -162,6 +161,7 @@ export default function OrderTable({ page, query }) {
                 </th>
                 <th scope="col"></th>
               </tr>
+              }
             </thead>
             <tbody className="table-group-divider">
               {inforOrders?.map((data, index) => {

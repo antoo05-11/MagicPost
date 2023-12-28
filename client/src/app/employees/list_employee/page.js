@@ -29,7 +29,7 @@ export default function page({
       </div>
 
       <div className="row">
-        <EmployyeeTable page={currentPage} query={query}></EmployyeeTable>
+        <EmployyeeTable page={currentPage} query={query} showFilter={true}></EmployyeeTable>
       </div>
     </div>
   );

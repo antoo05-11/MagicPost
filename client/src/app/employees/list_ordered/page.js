@@ -36,7 +36,7 @@ export default async function page({
       </div>
 
       <div className="row">
-        <OrderTable page={currentPage} query={query}></OrderTable>
+        <OrderTable page={currentPage} query={query} showFilter={true}></OrderTable>
       </div>
     </div>
   );

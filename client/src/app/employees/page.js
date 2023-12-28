@@ -16,29 +16,29 @@ const roleComponents = {
     <Col xs={12} md={4}><Overview /></Col>,
     <Col xs={12} md={4}><StatisticGoodsPoint /></Col>,
     <Col xs={12} md={4}><StatisticTransPoint /></Col>,
-    <Col xs={12}><EmployyeeTable /></Col>,
+    <Col xs={12}><EmployyeeTable showFilter={false} /></Col>,
   ],
   TRANSACTION_POINT_HEAD: [
     <Col xs={12} md={4}><Overview /></Col>,
     <Col xs={12} md={4}><TotalGood /></Col>,
     <Col xs={12} md={4}><StatisticTransPoint /></Col>,
-    <Col xs={12}><EmployyeeTable /></Col>,
+    <Col xs={12}><EmployyeeTable showFilter={false} /></Col>,
   ],
   GOODS_POINT_HEAD: [
     <Col xs={12} md={4}><Overview /></Col>,
     <Col xs={12} md={4}><TotalGood /></Col>,
     <Col xs={12} md={4}><StatisticGoodsPoint /></Col>,
-    <Col xs={12}><EmployyeeTable /></Col>,
+    <Col xs={12}><EmployyeeTable showFilter={false} /></Col>,
   ],
   GOODS_POINT_EMPLOYEE: [
     <Col xs={12} md={6}><TotalGood /></Col>,
     <Col xs={12} md={6}><StatisticGoodsPoint /></Col>,
-    <Col xs={12}><OrderTable /></Col>,
+    <Col xs={12}><OrderTable showFilter={false} /></Col>,
   ],
   TRANSACTION_POINT_EMPLOYEE: [
     <Col xs={12} md={6}><TotalGood /></Col>,
     <Col xs={12} md={6}><StatisticGoodsPoint /></Col>,
-    <Col xs={12}><OrderTable /></Col>,
+    <Col xs={12}><OrderTable showFilter={false} /></Col>,
   ],
 };
 

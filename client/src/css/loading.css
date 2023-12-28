@@ -15,7 +15,7 @@
 
 .loader {
   position: absolute;
-  height: 100%;
+  height: 2%;
   background-color: var(--highlight-color);
 }
 
@@ -24,4 +24,8 @@
   color: white;
   white-space: nowrap;
   mix-blend-mode: difference;
+}
+
+.icon svg{
+  color: var(--highlight-color);
 }

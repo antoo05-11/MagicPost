@@ -8,7 +8,7 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getAllProvince } from "@/api/data";
 import "@/css/employee/customTable.css";
 
-export default function EmployyeeTable({ page, query }) {
+export default function EmployyeeTable({ page, query, showFilter }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
@@ -82,7 +82,7 @@ export default function EmployyeeTable({ page, query }) {
                   <th scope="col">Số điện thoại</th>
                   <th scope="col"></th>
                 </tr>
-                <tr className="filter">
+                {showFilter && <tr className="filter">
                   <th scope="col"></th>
                   <th scope="col">
                     <input
@@ -126,7 +126,7 @@ export default function EmployyeeTable({ page, query }) {
                     />
                   </th>
                   <th scope="col"></th>
-                </tr>
+                </tr>}
               </thead>
               <tbody className="table-group-divider">
                 {inforEmployees.map((employee, index) => {
