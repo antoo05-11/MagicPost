@@ -13,6 +13,6 @@ const addressRoute = Router();
 
 addressRoute.get("/:id/info", catchAsync(getAddress));
 
-addressRoute.get("/getCostEstimation", (req, res, next) => validate(req.body, res, next, cost_estimation_schema), catchAsync(getCostEstimation));
+addressRoute.post("/getCostEstimation", (req, res, next) => validate(req.body, res, next, cost_estimation_schema), catchAsync(getCostEstimation));
 
 export default addressRoute;
