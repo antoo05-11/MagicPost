@@ -6,8 +6,8 @@ import Error from '../../exceptions/error';
 import { Op } from 'sequelize';
 
 export const getAllTransactionPoints = async (req, res) => {
-    let page = req.query.page || 1;
-    let limit = req.query.limit || 8;
+    let page = parseInt(req.query.page || 1);
+    let limit = parseInt(req.query.limit || 8);
 
     let headName = req.query.headName || '';
     let address = req.query.address || '';
@@ -106,7 +106,7 @@ export const getAllTransactionPoints = async (req, res) => {
     const totalPages = Math.ceil(result.length / limit);
     const offset = limit * (page - 1);
     result = result.slice(offset, offset + limit);
-
+    
     return res.status(200).json({
         totalPages: totalPages,
         limit: limit,

@@ -1177,6 +1177,8 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
 | Token Required      | YES                                                            |
 | Roles Authorized    | MANAGER                                                        |
 
+`https://magicpost-uet.onrender.com/api/goodspoint/getall/?page=1&limit=100&address[provinceID]=1&headName=Nguyễn Thị Hồng`
+
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
 [
