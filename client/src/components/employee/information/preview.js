@@ -1,57 +1,23 @@
 import React from "react";
 import { Row, Col, Table } from "react-bootstrap";
+import { employeeRole } from "@/api/utils";
 
 export default function Preview(data) {
-  console.log(data);
+  console.log(data)
+  const roleInfo = employeeRole[data?.data?.role];
+  const locationDetails =
+    [data?.data?.workingPoint.address.commune.name, data?.data?.workingPoint.address.district.name, data?.data?.workingPoint.address.province.name].filter(Boolean).join(", ");
+  console.log(locationDetails)
   return (
     <div className="formContainer">
       <Row className="d-flex justify-content-center align-items-center">
         <img alt="avatar" src="/avatar.png" className="w-75 rounded-circle" />
       </Row>
       <Row className="d-flex justify-content-center align-items-center mt-3">
-        Chức vụ: {data?.data?.role}
+        Chức vụ: {roleInfo?.name || "Không xác định"}
       </Row>
-      <Row className="d-flex justify-content-center align-items-center">
-        Địa điểm công tác: ABC, ABC, ACB
-      </Row>
-
-      <Row className="d-flex justify-content-center align-items-center mt-3">
-        {/* <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Thao tác</th>
-                            <th>Thời gian</th>
-                            <th>Đối tượng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                    </tbody>
-                </Table> */}
+      <Row className="d-flex justify-content-center align-items-center text-center">
+        Địa điểm công tác: {locationDetails}
       </Row>
     </div>
   );
