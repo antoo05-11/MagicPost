@@ -1,9 +1,10 @@
 import Chart from "react-apexcharts";
 import { Container, Row, Col, Button } from "react-bootstrap";
-
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import Card from "@/components/employee/dashboard/card";
 
-const options = {
+const defaultOptions = {
     chart: {
         parentHeightOffset: 0,
         toolbar: { show: false }
@@ -65,15 +66,37 @@ const options = {
     }
 }
 
-export default function Overview() {
-    return (
+const extendOptions = {
+    ...defaultOptions,
+    chart: {
+        ...defaultOptions.chart,
+        toolbar: { show: true }
+    },
+    dataLabels: { enabled: true },
+    xaxis: {
+        ...defaultOptions.xaxis,
+        labels: { show: true },
+        axisTicks: { show: true },
+        axisBorder: { show: true }
+    },
 
-        <Card title={"Lợi nhuận tuần"}>
-            <Chart type='bar' height={205} options={options} series={[{ data: [37, 57, 45, 75, 57, 40, 65] }]} />
-            <p>
-                Your sales performance is 45% 😎 better compared to last month
-            </p>
-            <Button>Chi tiết</Button>
-        </Card>
+}
+
+export default function Overview() {
+    const [extend, isExtend] = useState(false);
+    const options = extend ? extendOptions : defaultOptions;
+    const chartHeight = extend ? 440 : 205;
+    return (
+        <motion.div>
+            <Card title={"Lợi nhuận tuần"} extend={extend}>
+                <Chart type='bar' height={chartHeight} options={options} series={[{ data: [37, 57, 45, 75, 57, 40, 65] }]} />
+                <p>
+                    Your sales performance is 45% 😎 better compared to last month
+                </p>
+                <Button onClick={() => { isExtend(!extend); console.log(extend) }} className='bg-warning'>
+                    {extend ? 'Đóng' : 'Chi tiết'}
+                </Button>
+            </Card>
+        </motion.div>
     );
 }

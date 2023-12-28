@@ -3,11 +3,11 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
-import Statistic from "@/components/employee/dashboard/Statistic";
-import Overview from "@/components/employee/dashboard/Overview";
-import StatisticGoodsPoint from "@/components/employee/dashboard/StatisticGoodsPoint";
-import StatisticTransPoint from "@/components/employee/dashboard/StatisticTransPoint";
-import TotalGood from "@/components/employee/dashboard/TotalGood";
+import Statistic from "@/components/employee/dashboard/statistic";
+import Overview from "@/components/employee/dashboard/overview";
+import StatisticGoodsPoint from "@/components/employee/dashboard/statisticGoodsPoint";
+import StatisticTransPoint from "@/components/employee/dashboard/statisticTransPoint";
+import TotalGood from "@/components/employee/dashboard/totalGood";
 import EmployyeeTable from "@/components/employee/table/employee-table";
 import OrderTable from "@/components/employee/table/order-table";
 

@@ -7,8 +7,6 @@
     position: fixed !important;
     justify-content: center;
     align-items: center;
-    box-shadow: rgba(58, 53, 65, 0.42) 0px 4px 8px -4px;
-    /* display: none; */
     padding-right: 10px;
 }
 

@@ -15,9 +15,10 @@ const data = {
 };
 
 
-const options = {
+const defaultOptions = {
     chart: {
         width: 380,
+        height: 205,
         type: 'area',
         parentHeightOffset: 0,
         toolbar: { show: false }
@@ -31,7 +32,7 @@ const options = {
             filter: { type: 'none' }
         }
     },
-    colors: ['#3DB2FF', '#FFB830'],
+    colors: ['#7B66FF', '#FFB830'],
     legend: { show: false },
     xaxis: {
         categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -51,19 +52,37 @@ const options = {
 
 };
 
-export default function StatisticGoodsPoint() {
-    const [extend, isExtend] = useState(true);
+const extendOptions = {
+    ...defaultOptions,
+    chart: {
+        ...defaultOptions.chart,
+        toolbar: { show: true }
+    },
+    dataLabels: { enabled: true },
+    legend: { show: true },
+    xaxis: {
+        ...defaultOptions.xaxis,
+        labels: { show: true },
+        axisTicks: { show: true },
+        axisBorder: { show: true }
+    }
+};
 
+export default function StatisticGoodsPoint() {
+    const [extend, isExtend] = useState(false);
+    const chartHeight = extend ? 440 : 205;
+    const options = extend ? extendOptions : defaultOptions;
     return (
         <motion.div>
             <Card title={"Điểm tập kết"} extend={extend}>
-            <Chart type='area' options={options} height={205} series={data.series} />
-            <p>
-                Your sales performance is 45% 😎 better compared to last month
-            </p>
-            <Button onClick={() => { isExtend(!extend);  console.log(extend)}}>Chi tiết</Button> 
-        </Card>
+                <Chart type='area' options={options} series={data.series} height={chartHeight} />
+                <p>
+                    Your sales performance is 45% 😎 better compared to last month
+                </p>
+                <Button onClick={() => { isExtend(!extend); console.log(extend) }} className='bg-warning'>
+                    {extend ? 'Đóng' : 'Chi tiết'}
+                </Button>
+            </Card>
         </motion.div>
-        
     );
 }

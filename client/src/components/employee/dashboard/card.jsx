@@ -2,9 +2,9 @@ import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "@/css/employee/dashboard/card.css";
 import { motion, spring } from "framer-motion";
-export default function Card({ title, children, extend}) {
+export default function Card({ title, children, extend }) {
     return (
-        <motion.div layout transition={spring} className="container cardContainer" data-isExtend={extend}>
+        <div layout transition={spring} className="container cardContainer" data-isExtend={extend}>
             <Row>
                 <Col xs={11}>
                     <h4>{title}</h4>
@@ -23,6 +23,6 @@ export default function Card({ title, children, extend}) {
                 </Col>
             </Row>
             <Row>{children}</Row>
-        </motion.div>
+        </div>
     );
 }

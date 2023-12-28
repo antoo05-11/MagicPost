@@ -5,6 +5,7 @@
   padding: 24px;
   border: 1px solid #dee2e6;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
 .btnStatistic {
@@ -15,14 +16,29 @@
   z-index: 1;
 }
 
-.cardContainer[data-isExtend="false"] {
-  background-color: red;
+.cardContainer[data-isExtend="true"] {
   border-radius: 20px;
   margin-bottom: 24px;
   padding: 24px;
   border: 1px solid #dee2e6;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  position: relative;
+  position: fixed;
+  top: 10%;
+  right: 0;
+  bottom: 0;
+  left: 15%;
   z-index: 1000;
-  /* top: 0; */
+  background-color: var(--background-color);
+  width: 85%;
+  height: auto;
+  transition: all 0.3s ease;
+}
+
+@media screen and (max-width: 769px) {
+  .cardContainer[data-isExtend="true"] {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 }
