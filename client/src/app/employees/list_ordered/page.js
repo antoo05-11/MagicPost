@@ -27,8 +27,7 @@ export default async function page({
         <div className="col">
           <h3>Danh sách đơn hàng</h3>
         </div>
-        {(userRole === "TRANSACTION_POINT_EMPLOYEE" ||
-          userRole === "GOODS_POINT_EMPLOYEE") && (
+        {(userRole === "TRANSACTION_POINT_EMPLOYEE") && (
           <div className="col btnContainer">
             <CreateOrder />
           </div>

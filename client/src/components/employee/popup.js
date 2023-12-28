@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { setTimeout } from "timers";
 import { usePathname, useRouter } from "next/navigation";
 import Invoice from "./order/invoice";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
 export default function PopUp({
   isOpen,
   setIsOpen,
@@ -30,14 +31,23 @@ export default function PopUp({
         {confirm || (
           <div>
             {pathname.includes("list_ordered") && (
-              <div className="popupContent">Chắc chắn tạo đơn hàng</div>
+              <div>
+                <div className="popupIcon confirm"><AiOutlineExclamationCircle size={'10em'} /></div>
+                <div className="popupContent"><h3>Xác nhận tạo đơn hàng</h3></div>
+                <div className="popupContent">
+                  <p>Bạn sẽ không sửa thông tin đơn hàng sau khi tạo</p>
+                </div>
+              </div>
             )}
             {pathname.includes("list_employee") && (
-              <div className="popupContent">Chắc chắn tạo nhân viên</div>
+              <div>
+                <div className="popupIcon confirm"><AiOutlineExclamationCircle size={'3em'} /></div>
+                <div className="popupContent">Xác nhận tạo nhân viên</div>
+              </div>
             )}
             <div className="popupContent">
               <button
-                className="btn btn-primary btn-popup"
+                className="btn btn-danger btn-popup"
                 onClick={async () => {
                   setLoading(true);
                   setData(await functionCreate(dataCreate));
@@ -50,7 +60,7 @@ export default function PopUp({
                 {loading && "Loading"}
               </button>
               <button
-                className="btn btn-primary btn-popup"
+                className="btn btn-outline-secondary btn-popup"
                 onClick={() => setIsOpen(!isOpen)}
                 disabled={loading ? true : false}
               >

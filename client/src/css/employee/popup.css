@@ -2,11 +2,11 @@
   position: fixed;
   margin-left: auto;
   margin-right: auto;
-  left: 0;
-  right: 0;
-  top: 5%;
-  height: 24vh;
-  width: 25vw;
+  left: 30%;
+  right: 30%;
+  top: 10%;
+  height: auto;
+  width: auto;
   border: none;
   border-radius: 10px;
   background-color: white;
@@ -15,7 +15,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
+
 .popup[data-isOpen="false"] {
   top: -100%;
 }
@@ -43,6 +45,16 @@
   /* align-items: center; */
   /* bottom: 0; */
 }
+
+.popupIcon {
+  display: flex;
+  justify-content: center;
+}
+
+.popupIcon.confirm svg {
+  color: var(--highlight-color);
+}
+
 
 .pupu {
   display: flex;

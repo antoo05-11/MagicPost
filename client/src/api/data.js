@@ -180,6 +180,7 @@ export function getAllGoodPoint() {
       revalidateOnReconnect: false,
     }
   );
+  console.log(dataRes);
   const data = [];
   for (var i in dataRes) {
     data.push(dataRes[i]);

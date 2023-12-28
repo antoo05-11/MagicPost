@@ -5,7 +5,7 @@ import { getAllGoodPoint, getAllProvince } from "@/api/data";
 export default function GoodPointTable() {
   const provinceData = getAllProvince();
   const goodsPointData = getAllGoodPoint();
-
+ 
   return (
     <div>
       <div className="mt-2 flow-root table">
@@ -63,7 +63,7 @@ export default function GoodPointTable() {
                 </tr>
               </thead>
               <tbody className="table-group-divider">
-                {goodsPointData.map((data, index) => (
+                {/* {goodsPointData.map((data, index) => (
                   <tr key={data.head?.employeeID}>
                     <td>{index + 1}</td>
                     <td>{data.head?.fullName}</td>
@@ -76,7 +76,7 @@ export default function GoodPointTable() {
                     <td>{data.forwardedOrders}</td>
                     <td>{data.onStockOrders}</td>
                   </tr>
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>
