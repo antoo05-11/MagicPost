@@ -1,14 +1,17 @@
+import { estimateFeeForCustomer } from '@/api/action';
 import { getAllProvince } from '@/api/data';
+import { useState } from 'react';
 import { Container, Form, Row, Col, Button, Table } from 'react-bootstrap';
 
-const estimateCost = {
+const estimateFetchBody = {
     startProvinceID: "",
     endProvinceID: "",
-    weight: ""
+    weight: 0
 };
 
 export default function EstimateCost() {
     const provinceData = getAllProvince();
+    const [estimateCost, setEstimateCost] = useState();
 
     return (
         <>
@@ -20,7 +23,7 @@ export default function EstimateCost() {
                                 <Form.Label>Gửi từ (*)</Form.Label>
                                 <Form.Select aria-label="Chọn Tỉnh/ TP" required
                                     onChange={(e) => {
-                                        estimateCost.startProvinceID = e.target.value;
+                                        estimateFetchBody.startProvinceID = e.target.value;
                                     }}>
                                     <option>Chọn Tỉnh/ TP</option>
                                     {provinceData.map((province) => (
@@ -36,7 +39,7 @@ export default function EstimateCost() {
                                 <Form.Label>Gửi đến (*)</Form.Label>
                                 <Form.Select aria-label="Chọn Tỉnh/ TP" required
                                     onChange={(e) => {
-                                        estimateCost.endProvinceID = e.target.value;
+                                        estimateFetchBody.endProvinceID = e.target.value;
                                     }}>
                                     <option>Chọn Tỉnh/ TP</option>
                                     {provinceData.map((province) => (
@@ -54,14 +57,22 @@ export default function EstimateCost() {
                                 <Form.Label>Khối lượng</Form.Label>
                                 <Form.Control type="number" required
                                     onChange={(e) => {
-                                        estimateCost.weight = e.target.value;
+                                        estimateFetchBody.weight = e.target.value;
                                     }} />
                             </Form.Group>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Button className='submitButton'>Tra cứu</Button>
+                            <Button className='submitButton'
+                                onClick={async () => {
+                                    if (parseInt(estimateFetchBody.startProvinceID) != NaN
+                                        && parseInt(estimateFetchBody.startProvinceID) != NaN
+                                        && parseFloat(estimateFetchBody.weight) != NaN) {
+                                        const res = await estimateFeeForCustomer(estimateFetchBody);
+                                        setEstimateCost(res);
+                                    }
+                                }}>Tra cứu</Button>
                         </Col>
                     </Row>
                 </Form>
@@ -80,7 +91,7 @@ export default function EstimateCost() {
                         <tr>
                             <td>1</td>
                             <td>Tiêu chuẩn</td>
-                            <td>23,000</td>
+                            {<td>{estimateCost?.cost}</td>}
                         </tr>
                     </tbody>
                 </Table>

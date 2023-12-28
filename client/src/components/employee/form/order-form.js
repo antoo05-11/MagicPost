@@ -513,7 +513,6 @@ export default function OrderForm() {
                         data-bs-target="#staticBackdrop"
                         onClick={async () => {
                           const res = await estimateFee(order);
-                          // estimateFee(order);
                           setEstimateCost(res);
                           console.log(estimateCost);
                         }}

@@ -10,6 +10,7 @@ import "@/css/employee/customForm.css";
 import "@/css/employee/customTable.css";
 // import { useRouter } from "next/router";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function OrderDetail({ id }) {
   const page = useSearchParams().get("page");
@@ -30,7 +31,9 @@ export default function OrderDetail({ id }) {
     );
     return formattedDateTime;
   };
-
+  const onEndTran =
+    order?.order?.endTransactionPoint?.endTransactionPointID ===
+    useSession()?.data?.user?.workingPointID;
   return (
     <Container>
       {/* === Thông tin đơn hàng === */}
@@ -96,28 +99,74 @@ export default function OrderDetail({ id }) {
           </Form.Group>
         </Row>
 
-        <Row>
-          <Col>
-            {orderStatus[order?.order?.goodsStatus]?.next && (
-              <Button
-                variant="warning"
-                className="w-100 mt-3"
-                onClick={() => {
-                  updateProcessesOrder(
-                    order?.order?.processes?.pop()?.processID,
-                    "forwarded"
-                  );
-                  mutate(
-                    `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
-                  );
-                  router.push(`/employees/list_ordered/?page=${page}`);
-                }}
-              >
-                {orderStatus[order?.order?.goodsStatus]?.next}
-              </Button>
-            )}
-          </Col>
-        </Row>
+        {onEndTran && order?.order?.goodsStatus === "forwarded" && (
+          <Row>
+            <Col>
+              {orderStatus[order?.order?.goodsStatus]?.next && (
+                <Button
+                  variant="warning"
+                  className="w-100 mt-3"
+                  onClick={() => {
+                    updateProcessesOrder(
+                      order?.order?.processes?.pop()?.processID,
+                      "customer_sent"
+                    );
+                    mutate(
+                      `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
+                    );
+                    router.push(`/employees/list_ordered/?page=${page}`);
+                  }}
+                >
+                  {orderStatus["customer_sent"]?.next}
+                </Button>
+              )}
+            </Col>
+            <Col>
+              {orderStatus[order?.order?.goodsStatus]?.next && (
+                <Button
+                  variant="warning"
+                  className="w-100 mt-3"
+                  onClick={() => {
+                    updateProcessesOrder(
+                      order?.order?.processes?.pop()?.processID,
+                      "customer_returned"
+                    );
+                    mutate(
+                      `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
+                    );
+                    router.push(`/employees/list_ordered/?page=${page}`);
+                  }}
+                >
+                  {orderStatus["customer_returned"]?.next}
+                </Button>
+              )}
+            </Col>
+          </Row>
+        )}
+        {(onEndTran && order?.order?.goodsStatus === "on_stock") || (
+          <Row>
+            <Col>
+              {orderStatus[order?.order?.goodsStatus]?.next && (
+                <Button
+                  variant="warning"
+                  className="w-100 mt-3"
+                  onClick={() => {
+                    updateProcessesOrder(
+                      order?.order?.processes?.pop()?.processID,
+                      orderStatus[order?.order?.goodsStatus].name
+                    );
+                    mutate(
+                      `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
+                    );
+                    router.push(`/employees/list_ordered/?page=${page}`);
+                  }}
+                >
+                  {orderStatus[order?.order?.goodsStatus]?.next}
+                </Button>
+              )}
+            </Col>
+          </Row>
+        )}
       </div>
 
       <div>
