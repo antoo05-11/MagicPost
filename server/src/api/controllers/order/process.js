@@ -22,18 +22,38 @@ export const updateProcess = async (req, res) => {
     const t = await sequelize.transaction();
 
     try {
+
         if (process.status == status) {
             return res.status(400).json(Error.getError(Error.code.repeated_data_update));
         }
 
         if ((process.status == 'forwarded' && status == 'on_stock') ||
-            (process.status == 'arriving' && status == 'forwarded')) {
+            (process.status == 'arriving' && status == 'forwarded') ||
+            (process.status == 'arriving' && status == 'customer_sent') ||
+            (process.status == 'on_stock' && status == 'customer_sent') ||
+            (process.status == 'arriving' && status == 'customer_returned') ||
+            (process.status == 'on_stock' && status == 'customer_returned') ||
+            (process.status == 'customer_sent' && status == 'customer_returned') ||
+            (process.status == 'customer_returned' && status == 'customer_sent')) {
             return res.status(400).json(Error.getError(Error.code.invalid_data_order));
+        }
+
+        if (process.status == 'customer_returned' || process.status == 'customer_sent') {
+            if(process.routingPointID != order.endTransactionPointID) {
+                return res.status(400).json(Error.getError(Error.code.invalid_data_order));
+            }
+            order.receivedTime = new Date();
         }
 
         process.status = status;
 
-        if (status == 'forwarded') {
+        if (status == 'customer_sent') {
+            order.status = 'delivered';
+        }
+        else if (status == 'customer_returned') {
+            order.status = 'returned';
+        }
+        else if (status == 'forwarded') {
             const nextRoutingPoint = findNextRoutingPoint(process.routingPointID, order.endTransactionPointID);
             if (nextRoutingPoint) {
                 await Process.create({
@@ -49,7 +69,8 @@ export const updateProcess = async (req, res) => {
         }
 
         await process.save({ transaction: t });
-        await t.commit();
+        await order.save({ transaction: t });
+        await t.commit({ transaction: t });
 
         const processes = await Process.findAll({
             where: { orderID: process.orderID },

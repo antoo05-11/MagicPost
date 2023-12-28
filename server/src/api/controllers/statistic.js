@@ -1,20 +1,65 @@
-const { Op } = require('sequelize')
-import { calculateDaysDifference, checkDateFormat, formatDate, normalizeDate } from "../../../utils";
-import Error from "../../exceptions/error";
-import { GoodsPoint, Order, Process, TransactionPoint } from "../../models/model-export"
+const { Op, or } = require('sequelize')
+import { calculateDaysDifference, checkDateFormat, formatDate, normalizeDate } from "../../utils";
+import Error from "../exceptions/error";
+import { Goods, GoodsPoint, Order, Process, TransactionPoint } from "../models/model-export"
 const moment = require('moment');
 
 const YEAR_DAYS = 365;
+const scale = 10;
+
+export const getGeneralStatistic = async (req, res) => {
+    let maxDate = new Date();
+    let minDate = new Date(maxDate);
+    minDate.setDate(maxDate.getDate() - YEAR_DAYS);
+
+    minDate = formatDate(minDate);
+    maxDate = formatDate(maxDate);
+
+    const whereClause = {
+        createdAt: {
+            [Op.between]: [minDate, maxDate]
+        }
+    };
+    const orders = await Order.findAll({ where: whereClause });
+
+    let totalProfit = 0;
+
+    for (let order of orders) {
+        order = { ...order.get() };
+
+        totalProfit += (order.mainPostage * 0.5 + order.addedPostage * 0.8 +
+            order.VATFee * 0.2 + order.otherFee * 0.9);
+    }
+
+    const transactionPointsQuantity = await TransactionPoint.count();
+    const goodsPointsQuantity = await GoodsPoint.count();
+    const goodsQuantity = await Goods.count({
+        include: {
+            model: Order,
+            required: true,
+            where: whereClause
+        }
+    });
+    return res.status(200).json({
+        minDate: minDate,
+        maxDate: maxDate,
+        totalProfit: totalProfit,
+        transactionPointsQuantity: transactionPointsQuantity * scale,
+        goodsPointsQuantity: goodsPointsQuantity * scale,
+        goodsQuantity: goodsQuantity
+    });
+};
 
 /**
- * Retrieves profit statistics based on the provided date range.
+ * Retrieves profit statistics within a specified date range and optional routing point ID.
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
- * @returns {Object} - JSON response containing profit statistics.
+ * @returns {Object} JSON response containing profit statistics for each day within the specified range.
  */
 export const getProfitStatistic = async (req, res) => {
     let minDate = req.query.minDate;
     let maxDate = req.query.maxDate;
+    let routingPointID = req.query.routingPointID;
 
     if (!checkDateFormat(maxDate) || !checkDateFormat(minDate))
         return res.status(400).json(Error.getError(Error.code.invalid_date_param_format));
@@ -33,13 +78,19 @@ export const getProfitStatistic = async (req, res) => {
         maxDate = formatDate(maxDate);
     }
 
-    const orders = await Order.findAll({
-        where: {
-            createdAt: {
-                [Op.between]: [minDate, maxDate]
+    const whereClause = {
+        createdAt: {
+            [Op.between]: [minDate, maxDate]
+        },
+        ...(routingPointID && {
+            [Op.or]: {
+                startTransactionPointID: routingPointID,
+                endTransactionPointID: routingPointID
             }
-        }
-    });
+        })
+    };
+
+    const orders = await Order.findAll({ where: whereClause });
 
     const profits = [];
 
@@ -76,6 +127,7 @@ export const getProfitStatistic = async (req, res) => {
 export const getGoodsPointsStatistic = async (req, res) => {
     let minDate = req.query.minDate;
     let maxDate = req.query.maxDate;
+    let routingPointID = req.query.routingPointID;
 
     let range = calculateDaysDifference(maxDate, minDate);
 
@@ -96,13 +148,16 @@ export const getGoodsPointsStatistic = async (req, res) => {
         maxDate = formatDate(maxDate);
     }
 
+    let whereClause = {
+        createdAt: {
+            [Op.between]: [minDate, maxDate]
+        }
+    };
+    if (routingPointID) whereClause.routingPointID = routingPointID;
+
     const processes = await Process.findAll({
         attributes: ['processID', 'status', 'createdAt'],
-        where: {
-            createdAt: {
-                [Op.between]: [minDate, maxDate]
-            }
-        },
+        where: whereClause,
         include: {
             model: GoodsPoint,
             attributes: [],
@@ -154,6 +209,7 @@ export const getGoodsPointsStatistic = async (req, res) => {
 export const getTransactionPointStatistic = async (req, res) => {
     let minDate = req.query.minDate;
     let maxDate = req.query.maxDate;
+    let routingPointID = req.query.routingPointID;
 
     let range = calculateDaysDifference(maxDate, minDate);
 
@@ -174,13 +230,16 @@ export const getTransactionPointStatistic = async (req, res) => {
         maxDate = formatDate(maxDate);
     }
 
+    let whereClause = {
+        createdAt: {
+            [Op.between]: [minDate, maxDate]
+        }
+    };
+    if (routingPointID) whereClause.routingPointID = routingPointID;
+
     const processes = await Process.findAll({
         attributes: ['processID', 'status', 'createdAt'],
-        where: {
-            createdAt: {
-                [Op.between]: [minDate, maxDate]
-            }
-        },
+        where: whereClause,
         include: {
             model: TransactionPoint,
             attributes: [],

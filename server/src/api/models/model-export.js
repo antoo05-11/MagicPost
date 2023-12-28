@@ -58,3 +58,5 @@ Process.belongsTo(Order, { foreignKey: 'orderID' });
 Process.belongsTo(RoutingPoint, { foreignKey: 'routingPointID' });
 
 Customer.belongsTo(Address, { foreignKey: 'addressID' });
+
+Goods.belongsTo(Order, { foreignKey: 'orderID' });

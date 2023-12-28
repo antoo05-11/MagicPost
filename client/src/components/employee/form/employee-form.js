@@ -37,19 +37,19 @@ export default function EmployeeForm() {
   const userRole = useSession()?.data?.user?.role;
   const provinceData = getAllProvince();
 
-  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedProvince, setSelectedProvince] = useState(0);
   const districtData = getDistrictByProvinceID(selectedProvince);
   districtData.unshift({
     name: "Chọn Quận/ Huyện",
     districtID: 0,
   });
-  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState(0);
   const communeData = getCommuneByDistrictID(selectedDistrict);
   communeData.unshift({
     name: "Chọn Xã / Phường",
     districtID: 0,
   });
-  const [selectedCommune, setSelectedCommune] = useState("");
+  const [selectedCommune, setSelectedCommune] = useState(0);
 
   const [error, setError] = useState(false);
 
@@ -80,9 +80,11 @@ export default function EmployeeForm() {
   const { data: allCommunePoint } = useSWR(
     `https://magicpost-uet.onrender.com/api/routingPoint/getallcommunes/${workingAddress.districtID}`
   );
-  const [urlWorkingPoint, setUrl] = useState();
+  const [urlWorkingPoint, setUrl] = useState(
+    "https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/"
+  );
   const { data: transactionPoint } = useSWR(urlWorkingPoint);
-  console.log(transactionPoint);
+  // console.log(transactionPoint);
 
   return (
     <div className="formContainer">
@@ -285,11 +287,13 @@ export default function EmployeeForm() {
                     districtID: 0,
                   });
                   setUrl(
-                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}`
+                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${e.target.value}`
                   );
                 }}
               >
-                <option selected>Chọn tỉnh/TP</option>
+                <option selected value={0}>
+                  Chọn tỉnh/TP
+                </option>
                 {Array.isArray(allProvincePoint) &&
                   allProvincePoint?.map((province) => (
                     <option
@@ -311,7 +315,7 @@ export default function EmployeeForm() {
                     districtID: e.target.value,
                   });
                   setUrl(
-                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${workingAddress.districtID}`
+                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${e.target.value}`
                   );
                 }}
               >
@@ -321,8 +325,8 @@ export default function EmployeeForm() {
                 {Array.isArray(allDistrictsPoint) &&
                   allDistrictsPoint?.map((province) => (
                     <option
-                      key={province.provinceID}
-                      value={province.provinceID}
+                      key={province.districtID}
+                      value={province.districtID}
                     >
                       {province.name}
                     </option>
@@ -339,7 +343,7 @@ export default function EmployeeForm() {
                     districtID: workingAddress.districtID,
                   });
                   setUrl(
-                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${workingAddress.districtID}&communeID=${workingAddress.communeID}`
+                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${workingAddress.districtID}&communeID=${e.target.value}`
                   );
                 }}
               >
@@ -348,21 +352,29 @@ export default function EmployeeForm() {
                 </option>
                 {Array.isArray(allCommunePoint) &&
                   allCommunePoint?.map((province) => (
-                    <option
-                      key={province.provinceID}
-                      value={province.provinceID}
-                    >
+                    <option key={province.communeID} value={province.communeID}>
                       {province.name}
                     </option>
                   ))}
               </select>
             </Col>
             <Col>
-              <select className="form-select">
+              <select
+                className="form-select"
+                onChange={(e) => {
+                  employee.workingPointID = e.target.value;
+                }}
+              >
                 <option selected>Địa điểm làm việc</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                {Array.isArray(transactionPoint) &&
+                  transactionPoint?.map((province) => (
+                    <option
+                      key={province.transactionPointID}
+                      value={province.transactionPointID}
+                    >
+                      {province.name}
+                    </option>
+                  ))}
               </select>
             </Col>
           </Row>

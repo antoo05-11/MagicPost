@@ -22,6 +22,7 @@
     - [<samp>Get order cost estimation</samp>](#get-order-cost-estimation)
     - [<samp>Create new order</samp>](#create-new-order)
   - [<samp>Statistic API</samp>](#statistic-api)
+    - [<samp>General statistic</samp>](#general-statistic)
     - [<samp>Get profit statistic</samp>](#get-profit-statistic)
     - [<samp>Get transaction points statistic</samp>](#get-transaction-points-statistic)
     - [<samp>Get goods points statistic</samp>](#get-goods-points-statistic)
@@ -49,7 +50,7 @@
 + <samp> This project is a part of Web Application Development course in UET, VNU. </samp>
 + <samp>This Node.js application is hosted on <a href="https://dashboard.render.com/"><samp>Render.com<samp></a> with URL <a href = "https://magicpost-uet.onrender.com/"><samp>magicpost-uet.onrender.com</samp></a>.</samp>
 + <samp>The database is hosted on <a href="https://console.clever-cloud.com" target="_blank"><samp>Clever Cloud Console</samp></a>.</samp>
-+ <samp>Last Updated: 2023/12/27</samp>
++ <samp>Last Updated: 2023/12/28</samp>
   
 ## <samp>Install and run</samp>
 
@@ -438,6 +439,8 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
     "orders": [
         {
             "orderID": "AEX451934145VN",
+            "startTransactionPointID": 46,
+            "endTransactionPointID": 45,
             "startTransactionProvince": "Thành phố Hà Nội",
             "endTransactionProvince": "Thành phố Hà Nội",
             "createdAt": "2023-11-30T13:00:31.000Z",
@@ -492,11 +495,13 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
         "sentTime": "2023-12-11T23:34:37.000Z",
         "receivedTime": null,
         "startTransactionPoint": {
+            "startTransactionPointID": 47,
             "name": "Thanh Xuân",
             "address": "Ngh. 282/35 Đ. Kim Giang, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
             "zipCode": "53453"
         },
         "endTransactionPoint": {
+            "endTransactionPointID": 46,
             "name": "Đống Đa",
             "address": "Số 2, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
             "zipCode": "13245"
@@ -764,9 +769,175 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
 }
 ```
 ### <samp>Statistic API<samp>
-#### <samp>Get profit statistic API</samp>
-    request body nếu không cho biến nào thì gửi hết lợi nhuận 365 ngày gần nhất, có thể cho 2 biến minDate, maxDate dạng YYYYMMDD.
-    Trả về mảng  có độ dài bằng khoảng thời gian minDate, maxDate, nếu không có thì mặc định 365. Lợi nhuận của mindate là giá trị tại 0 của mảng.
+
+#### <samp>General statistic</samp>
+
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                                                 |
+|---------------------|-------------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/statistic/general                 |
+| HTTP method         | GET                                                                     |
+| Token Required      | YES                                                                     |
+| Roles Authorized    | MANAGER                                                                 |
+
++ ##### <em><samp>Explanation</samp></em>
+    <samp>This API retrieves <b>general statistics</b> for the last <em>365</em> days</samp>
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+{
+    "minDate": "20221228",
+    "maxDate": "20231228",
+    "totalProfit": 14972320,
+    "transactionPointsQuantity": 90,
+    "goodsPointsQuantity": 90,
+    "goodsQuantity": 62
+}
+```
+
+#### <samp>Get profit statistic</samp>
+
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                                                 |
+|---------------------|-------------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/statistic/profit                 |
+| Query Params        | `routingPointID` (optional), `minDate` (optional), `maxDate` (optional) |
+| HTTP method         | GET                                                                     |
+| Token Required      | YES                                                                     |
+| Roles Authorized    | MANAGER                                                                 |
+
++ ##### <em><samp>Explanation</samp></em>
+    <samp>This API retrieves <b>profit statistics</b> within a specified date range and optional routing point ID.</samp>
+    
+    <samp>If `minDate` and `maxDate` is not provided as query params, it returns profit statistics for the last <em>365</em> days. The date range can be specified using the variables  `minDate` and `maxDate` in the format <em>YYYYMMDD</em>.</samp>
+    
+    <samp>The function returns an array with a length equal to the duration between `minDate` and `maxDate`. If no date range is provided, the default duration is 365 days. The profit for `minDate` is the value at index 0 of the array. If `routingPointID` is provided, it includes the profits related to that routing point.</samp>
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+{
+    "minDate": "20231201",
+    "maxDate": "20231210",
+    "profits": [
+        1007036,
+        1051682,
+        1014652,
+        1073761,
+        1097157,
+        1023785,
+        1048871,
+        1047245,
+        1063623,
+        1023259
+    ]
+}
+```
+
+#### <samp>Get transaction points statistic</samp>
+
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                                                 |
+|---------------------|-------------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/statistic/transactionpoints           |
+| Query Params        | `routingPointID` (optional), `minDate` (optional), `maxDate` (optional) |
+| HTTP method         | GET                                                                     |
+| Token Required      | YES                                                                     |
+| Roles Authorized    | MANAGER, TRANSACTION_POINT_HEAD, GOODS_POINT_HEAD                       |
+
++ ##### <em><samp>Explanation</samp></em>
+    <samp>This API retrieves <b>transaction statistics</b> within a specified date range and optional routing point ID.</samp>
+    
+    <samp>The conditions and options for query params is the same as [Get profit statistic API](#get-profit-statistic), and three arrays in response is configured similarly.</samp>
+
+    <samp>Note that, if request sender's role is MANAGER, you can choose routing point ID to see, or global data as default. If your role is one of {TRANSACTION_POINT_HEAD, GOODS_POINT_HEAD}, it is impossible to set routing point ID in param ID, in that case you can get `unauthorized` error code. Routing point for both of these roles is sender's routing point as default and constrained.</samp>
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+{
+    "minDate": "20231201",
+    "maxDate": "20231205",
+    "arrivingQuantity": [
+        7,
+        9,
+        11,
+        10,
+        13
+    ],
+    "onStockQuantity": [
+        5,
+        8,
+        5,
+        10,
+        10
+    ],
+    "forwardedQuantity": [
+        12,
+        14,
+        12,
+        12,
+        7
+    ]
+}
+```
+#### <samp>Get goods points statistic</samp>
+
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                                                 |
+|---------------------|-------------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/statistic/goodspoints            |
+| Query Params        | `routingPointID` (optional), `minDate` (optional), `maxDate` (optional) |
+| HTTP method         | GET                                                                     |
+| Token Required      | YES                                                                     |
+| Roles Authorized    | MANAGER, TRANSACTION_POINT_HEAD, GOODS_POINT_HEAD                       |
+
++ ##### <em><samp>Explanation</samp></em>
+    <samp>This API retrieves <b>good statistics</b> within a specified date range and optional routing point ID.</samp>
+    
+    <samp>The conditions and options for query params is the same as [Get profit statistic API](#get-profit-statistic), and three arrays in response is configured similarly.</samp>
+
+    <samp>The authorization for statistic view and option is similar to [Get transaction points statistic API](#get-transaction-points-statistic).</samp>
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+{
+    "minDate": "20231201",
+    "maxDate": "20231208",
+    "arrivingQuantity": [
+        10,
+        7,
+        6,
+        14,
+        12,
+        9,
+        5,
+        11
+    ],
+    "onStockQuantity": [
+        9,
+        14,
+        12,
+        10,
+        6,
+        12,
+        14,
+        10
+    ],
+    "forwardedQuantity": [
+        11,
+        13,
+        9,
+        12,
+        13,
+        14,
+        6,
+        14
+    ]
+}
+```
 
 ### <samp>Order Process API<samp>
 #### <samp>Update process status with process ID</samp>
@@ -776,7 +947,7 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
 | Request Requirement | Content                                                                           |
 | ------------------- | --------------------------------------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/process/:id/update                         |
-| Query params        | `status` (<i>required</i>, must be one of [<i>on_stock</i>, <i>forwarded</i>])    |
+| Query params        | `status` (<i>required</i>, must be one of [<i>on_stock</i>, <i>forwarded</i>, <i>customer_sent</i>, <i>customer_returned</i>])    |
 | HTTP method         | PUT                                                                               |
 | Token Required      | YES                                                                               |
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, GOODS_POINT_EMPLOYEE                                  |
