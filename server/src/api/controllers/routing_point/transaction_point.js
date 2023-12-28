@@ -3,8 +3,20 @@ import { sequelize } from '../../models';
 import { role } from '../../models/human/role';
 import { Address, Commune, District, Employee, Order, Process, Province, RoutingPoint, TransactionPoint } from '../../models/model-export';
 import Error from '../../exceptions/error';
+import { Op } from 'sequelize';
 
 export const getAllTransactionPoints = async (req, res) => {
+    let page = parseInt(req.query.page || 1);
+    let limit = parseInt(req.query.limit || 8);
+
+    let headName = req.query.headName || '';
+    let address = req.query.address || '';
+
+    let sort = req.query.sort || {};
+    if (!sort.endOrders) sort.endOrders = 'ASC';
+
+    const addressWhereClause = buildAddressWhereClause(address);
+
     await TransactionPoint.hasMany(Order, { foreignKey: 'startTransactionPointID' });
     const startTransactionPoints = await TransactionPoint.findAll({
         attributes: ['transactionPointID', [sequelize.fn('COUNT', sequelize.col('orders.orderID')), 'orderCount']],
@@ -30,22 +42,26 @@ export const getAllTransactionPoints = async (req, res) => {
                 include: {
                     model: Address,
                     attributes: ['detail'],
+                    where: addressWhereClause,
+                    required: true,
                     include: [
                         { model: Commune, attributes: ['name'] },
                         { model: District, attributes: ['name'] },
                         { model: Province, attributes: ['name'] }
                     ]
                 },
+                required: true,
                 attributes: ['routingPointID']
             },
             {
                 model: Employee,
-                where: { role: role.TRANSACTION_POINT_HEAD },
+                where: { role: role.TRANSACTION_POINT_HEAD, fullName: { [Op.like]: `%${headName}%` } },
                 attributes: ['fullName', 'employeeID'],
-                required: false
+                required: true
             }
         ],
-        group: ['transaction_points.transactionPointID']
+        group: ['transaction_points.transactionPointID'],
+        order: [['orderCount', sort.endOrders]]
     });
 
     const map = new Map();
@@ -75,8 +91,27 @@ export const getAllTransactionPoints = async (req, res) => {
 
         result.push(transactionPoint)
     }
+    
+    if (sort.startOrders) {
+        result.sort(function (a, b) {
+            const sortOrder = sort.startOrders;
+            if (sortOrder === 'ASC') {
+                return a.startOrders - b.startOrders;
+            } else if (sortOrder === 'DESC') {
+                return b.startOrders - a.startOrders;
+            }
+        });
+    }
 
-    return res.status(200).json(result);
+    const totalPages = Math.ceil(result.length / limit);
+    const offset = limit * (page - 1);
+    result = result.slice(offset, offset + limit);
+    
+    return res.status(200).json({
+        totalPages: totalPages,
+        limit: limit,
+        transactionPoints: result
+    });
 };
 
 
