@@ -44,6 +44,7 @@ export default function PopUp({
                   setConfirm(true);
                   setLoading(false);
                 }}
+                disabled={loading ? true : false}
               >
                 {loading || "Xác nhận"}
                 {loading && "Loading"}
@@ -51,6 +52,7 @@ export default function PopUp({
               <button
                 className="btn btn-primary btn-popup"
                 onClick={() => setIsOpen(!isOpen)}
+                disabled={loading ? true : false}
               >
                 Hủy bỏ
               </button>
@@ -61,23 +63,25 @@ export default function PopUp({
           <div className="popupContent">
             {data?.success && (
               <div>
-                {/* <button
+                <button
                   className="btn btn-primary btn-popup"
                   onClick={() => {
                     route.push(pathname.replace("/create", ""));
                   }}
                 >
                   Trờ về trang trước
-                </button> */}
-                <button
-                  className="btn btn-primary btn-popup"
-                  onClick={() => {
-                    setPrint(true);
-                    setIsOpen(!isOpen);
-                  }}
-                >
-                  In hóa đơn
                 </button>
+                {pathname.includes("list_ordered") && (
+                  <button
+                    className="btn btn-primary btn-popup"
+                    onClick={() => {
+                      setPrint(true);
+                      setIsOpen(!isOpen);
+                    }}
+                  >
+                    In hóa đơn
+                  </button>
+                )}
               </div>
             )}
             {data?.success || (
@@ -90,14 +94,6 @@ export default function PopUp({
             )}
           </div>
         )}
-        {/* <button
-          onClick={() => {
-            console.log(dataCreate);
-          }}
-        >
-          Test
-        </button> */}
-
         {data?.success || <div>{createError[data?.data?.code]}</div>}
         {data?.success && <div>Tao thanh cong</div>}
       </motion.div>
