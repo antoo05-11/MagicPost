@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: true
         },
         status: {
-            type: DataTypes.ENUM('arriving', 'forwarded', 'on_stock'),
+            type: DataTypes.ENUM('arriving', 'forwarded', 'on_stock', 'customer_sent', 'customer_returned'),
             allowNull: false
         },
         routingPointID: {

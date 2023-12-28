@@ -9,7 +9,7 @@ import orderRoute from "./order/order";
 import Error from "../exceptions/error";
 import processRoute from "./order/process";
 import routingPointRoute from "./routing_point/routing_point";
-import statisticRoute from "./order/statistic";
+import statisticRoute from "./statistic";
 
 const router = Router();
 

@@ -7,7 +7,6 @@ import { findNearestTransactionPoint } from '../routing_point/transaction_point'
 
 const { Op } = require('sequelize')
 const crypto = require('crypto');
-const fs = require('fs');
 
 const limitRecordsNum = 8;
 
@@ -45,7 +44,8 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
     let processes = await Process.count({
         where: {
             routingPointID: currentRoutingPointID,
-            status: { [Op.like]: `%${goodsStatus}%` }
+            status: { [Op.like]: `%${goodsStatus}%` },
+            orderID: { [Op.like]: `%${orderID}%` }
         },
         include: {
             model: Order,
@@ -106,7 +106,7 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
         },
         include: {
             model: Order,
-            attributes: ['orderID', 'createdAt'],
+            attributes: ['orderID', 'createdAt', 'startTransactionPointID', 'endTransactionPointID'],
             where: {
                 createdAt: {
                     [Op.between]: [minCreatedAt, maxCreatedAt]
@@ -158,6 +158,8 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
         const order = process.order;
         orders.push({
             orderID: order.orderID,
+            startTransactionPointID: order.startTransactionPointID,
+            endTransactionPointID: order.endTransactionPointID,
             startTransactionProvince: order.startTransactionPoint.routing_point.address.province.name,
             endTransactionProvince: order.endTransactionPoint.routing_point.address.province.name,
             createdAt: order.createdAt,
@@ -325,11 +327,13 @@ export const getOrderByID = async (req, res) => {
             sentTime: order.sentTime,
             receivedTime: order.receivedTime,
             startTransactionPoint: {
+                startTransactionPointID: order.startTransactionPointID,
                 name: order.startTransactionPoint.name,
                 address: buildAddressString(order.startTransactionPoint.routing_point.address),
                 zipCode: order.startTransactionPoint.zipCode
             },
             endTransactionPoint: {
+                endTransactionPointID: order.endTransactionPointID,
                 name: order.endTransactionPoint.name,
                 address: buildAddressString(order.endTransactionPoint.routing_point.address),
                 zipCode: order.endTransactionPoint.zipCode

@@ -22,6 +22,7 @@
     - [<samp>Get order cost estimation</samp>](#get-order-cost-estimation)
     - [<samp>Create new order</samp>](#create-new-order)
   - [<samp>Statistic API</samp>](#statistic-api)
+    - [<samp>General statistic</samp>](#general-statistic)
     - [<samp>Get profit statistic</samp>](#get-profit-statistic)
     - [<samp>Get transaction points statistic</samp>](#get-transaction-points-statistic)
     - [<samp>Get goods points statistic</samp>](#get-goods-points-statistic)
@@ -438,6 +439,8 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
     "orders": [
         {
             "orderID": "AEX451934145VN",
+            "startTransactionPointID": 46,
+            "endTransactionPointID": 45,
             "startTransactionProvince": "Thành phố Hà Nội",
             "endTransactionProvince": "Thành phố Hà Nội",
             "createdAt": "2023-11-30T13:00:31.000Z",
@@ -492,11 +495,13 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
         "sentTime": "2023-12-11T23:34:37.000Z",
         "receivedTime": null,
         "startTransactionPoint": {
+            "startTransactionPointID": 47,
             "name": "Thanh Xuân",
             "address": "Ngh. 282/35 Đ. Kim Giang, Phường Kim Giang, Quận Thanh Xuân, Thành phố Hà Nội",
             "zipCode": "53453"
         },
         "endTransactionPoint": {
+            "endTransactionPointID": 46,
             "name": "Đống Đa",
             "address": "Số 2, đường Nguyễn Chí Thanh, Phường Láng Thượng, Quận Đống Đa, Thành phố Hà Nội",
             "zipCode": "13245"
@@ -764,6 +769,33 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
 }
 ```
 ### <samp>Statistic API<samp>
+
+#### <samp>General statistic</samp>
+
++ ##### <em><samp>API Information</samp></em>
+
+| Request Requirement | Content                                                                 |
+|---------------------|-------------------------------------------------------------------------|
+| API URL             | https://magicpost-uet.onrender.com/api/statistic/general                 |
+| HTTP method         | GET                                                                     |
+| Token Required      | YES                                                                     |
+| Roles Authorized    | MANAGER                                                                 |
+
++ ##### <em><samp>Explanation</samp></em>
+    <samp>This API retrieves <b>general statistics</b> for the last <em>365</em> days</samp>
+
++ ##### <em><samp>Response JSON Sample</samp></em>
+```json
+{
+    "minDate": "20221228",
+    "maxDate": "20231228",
+    "totalProfit": 14972320,
+    "transactionPointsQuantity": 90,
+    "goodsPointsQuantity": 90,
+    "goodsQuantity": 62
+}
+```
+
 #### <samp>Get profit statistic</samp>
 
 + ##### <em><samp>API Information</samp></em>
@@ -809,7 +841,7 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
 
 | Request Requirement | Content                                                                 |
 |---------------------|-------------------------------------------------------------------------|
-| API URL             | https://magicpost-uet.onrender.com/api/statistic/transactions           |
+| API URL             | https://magicpost-uet.onrender.com/api/statistic/transactionpoints           |
 | Query Params        | `routingPointID` (optional), `minDate` (optional), `maxDate` (optional) |
 | HTTP method         | GET                                                                     |
 | Token Required      | YES                                                                     |
@@ -856,7 +888,7 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
 
 | Request Requirement | Content                                                                 |
 |---------------------|-------------------------------------------------------------------------|
-| API URL             | https://magicpost-uet.onrender.com/api/statistic/transactions           |
+| API URL             | https://magicpost-uet.onrender.com/api/statistic/goodspoints            |
 | Query Params        | `routingPointID` (optional), `minDate` (optional), `maxDate` (optional) |
 | HTTP method         | GET                                                                     |
 | Token Required      | YES                                                                     |
@@ -915,7 +947,7 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
 | Request Requirement | Content                                                                           |
 | ------------------- | --------------------------------------------------------------------------------- |
 | API URL             | https://magicpost-uet.onrender.com/api/process/:id/update                         |
-| Query params        | `status` (<i>required</i>, must be one of [<i>on_stock</i>, <i>forwarded</i>])    |
+| Query params        | `status` (<i>required</i>, must be one of [<i>on_stock</i>, <i>forwarded</i>, <i>customer_sent</i>, <i>customer_returned</i>])    |
 | HTTP method         | PUT                                                                               |
 | Token Required      | YES                                                                               |
 | Roles Authorized    | TRANSACTION_POINT_EMPLOYEE, GOODS_POINT_EMPLOYEE                                  |

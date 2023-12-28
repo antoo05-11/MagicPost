@@ -1,10 +1,54 @@
 const { Op, or } = require('sequelize')
-import { calculateDaysDifference, checkDateFormat, formatDate, normalizeDate } from "../../../utils";
-import Error from "../../exceptions/error";
-import { GoodsPoint, Order, Process, TransactionPoint } from "../../models/model-export"
+import { calculateDaysDifference, checkDateFormat, formatDate, normalizeDate } from "../../utils";
+import Error from "../exceptions/error";
+import { Goods, GoodsPoint, Order, Process, TransactionPoint } from "../models/model-export"
 const moment = require('moment');
 
 const YEAR_DAYS = 365;
+const scale = 10;
+
+export const getGeneralStatistic = async (req, res) => {
+    let maxDate = new Date();
+    let minDate = new Date(maxDate);
+    minDate.setDate(maxDate.getDate() - YEAR_DAYS);
+
+    minDate = formatDate(minDate);
+    maxDate = formatDate(maxDate);
+
+    const whereClause = {
+        createdAt: {
+            [Op.between]: [minDate, maxDate]
+        }
+    };
+    const orders = await Order.findAll({ where: whereClause });
+
+    let totalProfit = 0;
+
+    for (let order of orders) {
+        order = { ...order.get() };
+
+        totalProfit += (order.mainPostage * 0.5 + order.addedPostage * 0.8 +
+            order.VATFee * 0.2 + order.otherFee * 0.9);
+    }
+
+    const transactionPointsQuantity = await TransactionPoint.count();
+    const goodsPointsQuantity = await GoodsPoint.count();
+    const goodsQuantity = await Goods.count({
+        include: {
+            model: Order,
+            required: true,
+            where: whereClause
+        }
+    });
+    return res.status(200).json({
+        minDate: minDate,
+        maxDate: maxDate,
+        totalProfit: totalProfit,
+        transactionPointsQuantity: transactionPointsQuantity * scale,
+        goodsPointsQuantity: goodsPointsQuantity * scale,
+        goodsQuantity: goodsQuantity
+    });
+};
 
 /**
  * Retrieves profit statistics within a specified date range and optional routing point ID.
@@ -45,9 +89,9 @@ export const getProfitStatistic = async (req, res) => {
             }
         })
     };
-    
+
     const orders = await Order.findAll({ where: whereClause });
-    
+
     const profits = [];
 
     for (let order of orders) {
