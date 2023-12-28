@@ -7,6 +7,8 @@ import { setTimeout } from "timers";
 import { usePathname, useRouter } from "next/navigation";
 import Invoice from "./order/invoice";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
+import { VscError } from "react-icons/vsc";
+import { GiConfirmed } from "react-icons/gi";
 export default function PopUp({
   isOpen,
   setIsOpen,
@@ -41,8 +43,11 @@ export default function PopUp({
             )}
             {pathname.includes("list_employee") && (
               <div>
-                <div className="popupIcon confirm"><AiOutlineExclamationCircle size={'3em'} /></div>
+                <div className="popupIcon confirm"><AiOutlineExclamationCircle size={'10em'} /></div>
                 <div className="popupContent">Xác nhận tạo nhân viên</div>
+                <div className="popupContent">
+                  <p>Một số thông tin sẽ không thể sửa sau khi tạo</p>
+                </div>
               </div>
             )}
             <div className="popupContent">
@@ -67,6 +72,20 @@ export default function PopUp({
                 Hủy bỏ
               </button>
             </div>
+          </div>
+        )}
+        {data?.data?.code ? (
+          <div>
+            <div>
+              <div className="popupIcon error"><VscError size={"10em"} /></div>
+              {createError[data?.data?.code]}
+            </div>
+          </div>
+        ) : null}
+        {data?.success && (
+          <div>
+            <div className="popupIcon success"> <GiConfirmed size={"10em"} /></div>
+            <div className="popupContent">Tạo thành công</div>
           </div>
         )}
         {confirm && (
@@ -104,8 +123,6 @@ export default function PopUp({
             )}
           </div>
         )}
-        {data?.success || <div>{createError[data?.data?.code]}</div>}
-        {data?.success && <div>Tao thanh cong</div>}
       </motion.div>
       {print && <Invoice />}
     </>

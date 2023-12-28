@@ -42,8 +42,6 @@
   justify-content: center;
   padding-top: 10px;
   padding-bottom: 10px;
-  /* align-items: center; */
-  /* bottom: 0; */
 }
 
 .popupIcon {
@@ -55,6 +53,13 @@
   color: var(--highlight-color);
 }
 
+.popupIcon.error svg{
+  color: red;
+}
+
+.popupIcon.success svg{
+  color: green;
+}
 
 .pupu {
   display: flex;
@@ -65,7 +70,6 @@
 }
 
 .btn-popup {
-  /* width: 50px; */
   margin-left: 10px;
   margin-right: 10px;
   top: 30%;
