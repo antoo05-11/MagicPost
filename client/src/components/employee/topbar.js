@@ -45,12 +45,8 @@ export default function TopBar() {
   // console.log(useSession()?.data?.user);
   useEffect(() => {
     const closeProfile = (e) => {
-      // if (e.path[0] !== profileRef.currents) {
+
       setProfile(false);
-      // }
-      // if (profileRef.current && !profileRef.current.contains(event.target)) {
-      //   alert("You clicked outside of me!");
-      // }
       console.log(1);
     };
     if (profile) {
@@ -123,14 +119,14 @@ export default function TopBar() {
                     route.push("/employees/information");
                   }}
                 >
-                  Information
+                  Thông tin cá nhân
                 </motion.li>
                 <motion.li
                   className="acc-list"
                   variants={itemVariants}
                   onClick={() => signOut()}
                 >
-                  Logout
+                  Đăng xuất
                 </motion.li>
               </motion.ul>
             </motion.nav>

@@ -26,9 +26,9 @@
   top: 10%;
   right: 0;
   bottom: 0;
-  left: 15%;
+  left: 14%;
   z-index: 1000;
-  background-color: var(--background-color);
+  background-color: #FFEDDA;
   width: 85%;
   height: auto;
   transition: all 0.3s ease;
