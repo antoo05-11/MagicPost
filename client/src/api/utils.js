@@ -127,7 +127,7 @@ export const orderStatus = {
   forwarded: {
     name: "forwarded",
     now: "Đã vận chuyển",
-    next: null,
+    next: "Xac nhan van chuyen",
     color: "success",
   },
   arriving: {
