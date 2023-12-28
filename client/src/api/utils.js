@@ -131,6 +131,11 @@ export const orderStatus = {
     color: "warning",
   },
   on_stock: { now: "Trong kho", next: "Xác nhận chuyển tiếp", color: "danger" },
+  customer_sent: {
+    now: "Người nhận đã nhận được hàng",
+    next: "Người nhận đã nhận được hàng",
+  },
+  customer_returned: { now: "Hàng bị hoàn trả", next: "Hàng bị hoàn trả" },
 };
 
 export const goodStatus = {

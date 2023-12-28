@@ -80,7 +80,7 @@ export default function OrderTable({ page, query, showFilter}) {
     );
     return formattedDateTime;
   };
-
+  console.log(inforOrders);
   return (
     <div className="mt-2 flow-root table">
       <div className="inline-block min-w-full ">
@@ -147,7 +147,6 @@ export default function OrderTable({ page, query, showFilter}) {
                 </th>
                 <th scope="col">
                   <select
-                    placeholder="Chọn"
                     defaultValue={query?.status}
                     onChange={(e) => handleStatus(e.target.value)}
                   >
