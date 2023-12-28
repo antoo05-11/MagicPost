@@ -36,7 +36,7 @@ const order = {
         provinceID: "",
       },
     },
-    failChoice: "",
+    failChoice: "return",
     receiverCOD: 0,
     receiverOtherFee: 0,
     specialService: "",

@@ -24,6 +24,44 @@ export async function createEmployee(infoEmployee) {
 }
 
 export async function createOrder(infoOrder) {
+  infoOrder = {
+    "order": {
+      "sender": {
+        "fullname": "Hoang Thuy Linh",
+        "phoneNumber": "0123456789",
+        "address": {
+          "detail": "39S, Street A",
+          "communeID": "121",
+          "districtID": "9",
+          "provinceID": "1"
+        }
+      },
+      "receiver": {
+        "fullname": "Nguyen Huu Minh",
+        "phoneNumber": "0123456789",
+        "address": {
+          "detail": "144, duong Xuan Thuy",
+          "communeID": "121",
+          "districtID": "9",
+          "provinceID": "1"
+        }
+      },
+      "failChoice": "return",
+      "receiverCOD": 0,
+      "receiverOtherFee": 0,
+      "specialService": "Some special services"
+    },
+    "goodsList": [
+      {
+        "realWeight": "100",
+        "convertedWeight": "25",
+        "goodsType": "goods",
+        "quantity": "23",
+        "attached": "This is attached file"
+      }
+    ]
+  }
+  
   const session = await getServerSession(authOptions);
   const url = "https://magicpost-uet.onrender.com/api/order/create";
   try {
