@@ -21,7 +21,7 @@ export default function Page() {
   return (
     <Container>
       <Row>
-        <Col xs="4">
+        <Col xs="12" md="4">
           <Preview data={dataInfo} />
         </Col>
 

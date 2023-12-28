@@ -368,7 +368,7 @@ export default function OrderForm() {
           </div>
           <div>
             <Row className="mb-4">
-              <Col>
+              <Col xs={12} md={6} className="mt-2">
                 <div className="formContainer h-100 pb-0">
                   <Row>
                     <h3>Cước</h3>
@@ -447,7 +447,7 @@ export default function OrderForm() {
                   </Row>
                 </div>
               </Col>
-              <Col>
+              <Col xs={12} md={6} className="mt-2">
                 <div className="formContainer h-100">
                   <Row>
                     <h3>Thu của người nhận</h3>

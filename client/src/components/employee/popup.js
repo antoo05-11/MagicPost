@@ -124,7 +124,7 @@ export default function PopUp({
           </div>
         )}
       </motion.div>
-      {print && <Invoice />}
+      {print && <Invoice data={data} />}
     </>
   );
 }

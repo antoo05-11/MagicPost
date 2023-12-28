@@ -10,10 +10,10 @@ export default function Preview(data) {
   console.log(locationDetails)
   return (
     <div className="formContainer">
-      <Row className="d-flex justify-content-center align-items-center">
+      <Row className="d-flex justify-content-center align-items-center ">
         <img alt="avatar" src="/avatar.png" className="w-75 rounded-circle" />
       </Row>
-      <Row className="d-flex justify-content-center align-items-center mt-3">
+      <Row className="d-flex justify-content-center align-items-center mt-3 text-center">
         Chức vụ: {roleInfo?.name || "Không xác định"}
       </Row>
       <Row className="d-flex justify-content-center align-items-center text-center">

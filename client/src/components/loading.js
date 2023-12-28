@@ -23,15 +23,15 @@ export default function LoadLoad() {
     };
     animateLoader();
   }, []);
-
+  const isSmallScreen = window.innerWidth <= 768; // Set your breakpoint as needed
+  const endX = isSmallScreen ? 100 : 300;
   return (
     <div id="loading">
       <div className="containerer">
-
         <h1 className="text">
           <i>MAGIC POST</i>
         </h1>
-        <motion.div animate={{ x: 300 }} transition={{ ease: "easeOut", duration: 2 }} className="icon">
+        <motion.div animate={{ x: endX }} transition={{ ease: "easeOut", duration: 2 }} className="icon">
           <FaShippingFast size={'4em'} />
         </motion.div>
         <motion.div ref={scope} className="loader" />
