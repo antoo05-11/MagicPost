@@ -1132,26 +1132,38 @@ Query params: `orderID`,`startAddress`,`endAddress`,`goodsStatus`
 | Token Required      | YES                                                            |
 | Roles Authorized    | MANAGER                                                        |
 
+`http://magicpost-uet.onrender.com/api/transactionPoint/getall/?page=1&sort[startOrders]=ASC&headName=Thiên Quang Huy&limit=1`
+
 + ##### <em><samp>Response JSON Sample</samp></em>
 ```json
-[
-   {
-        "transactionPointID": 45,
-        "name": "Điểm giao dịch Trung Tâm Thủ Đô",
-        "address": {
-            "detail": "311 P. Tôn Đức Thắng",
-            "commune": { "name": "Phường Thổ Quan" },
-            "district": { "name": "Quận Đống Đa" },
-            "province": { "name": "Thành phố Hà Nội" }
-        },
-        "startOrders": 2,
-        "endOrders": 0,
-        "head": {
-            "fullName": "Ngũ Thành An",
-            "employeeID": 23000000
+{
+    "totalPages": 1,
+    "limit": 8,
+    "transactionPoints": [
+        {
+            "transactionPointID": 48,
+            "name": "Điểm giao dịch Sơn La",
+            "address": {
+                "detail": "Số 6XP2+359",
+                "commune": {
+                    "name": "Xã Chiềng Ban"
+                },
+                "district": {
+                    "name": "Huyện Mai Sơn"
+                },
+                "province": {
+                    "name": "Tỉnh Sơn La"
+                }
+            },
+            "startOrders": 0,
+            "endOrders": 0,
+            "head": {
+                "fullName": "Thiên Quang Huy",
+                "employeeID": 23000031
+            }
         }
-    }
-]
+    ]
+}
 ```
 
 ### <samp>Goods Point API<samp>
