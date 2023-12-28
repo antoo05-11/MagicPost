@@ -169,7 +169,6 @@ export const findNearestTransactionPoint = async (address) => {
         });
 
         customerAddress = {
-            detail: address.detail,
             commune: customerAddress.name,
             district: customerAddress.district.name,
             province: customerAddress.district.province.name,
@@ -181,7 +180,6 @@ export const findNearestTransactionPoint = async (address) => {
         for (const transactionPoint of transactionPoints) {
             const routingPointAddress = transactionPoint.routing_point.address;
             const transactionPointAddress = {
-                detail: routingPointAddress.detail,
                 commune: routingPointAddress.commune.name,
                 district: routingPointAddress.district.name,
                 province: routingPointAddress.province.name,

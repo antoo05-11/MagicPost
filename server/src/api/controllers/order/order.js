@@ -31,7 +31,7 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
     const endAddressWhereClause = buildAddressWhereClause(endAddress);
 
     const page = req.query.page || 1;
-    const limit = req.query.limit || limitRecordsNum;
+    const limit = parseInt(req.query.limit) || limitRecordsNum;
 
     let maxCreatedAt = req.query.maxCreatedAt;
     let minCreatedAt = req.query.minCreatedAt;
@@ -42,154 +42,133 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
     if (!minCreatedAt) minCreatedAt = normalizeDate('1/1/1970');
     if (!maxCreatedAt) maxCreatedAt = Date.now();
 
-    let orders = await Order.findAll({
-        subQuery: false,
+    let processes = await Process.count({
         where: {
-            orderID: {
-                [Op.and]: [
-                    {
-                        [Op.in]: sequelize.literal(`(SELECT DISTINCT orderID 
-                    FROM processes WHERE routingPointID = ${currentRoutingPointID})`)
-                    },
-                    { [Op.like]: `%${orderID}%` }
-                ]
-            },
-            createdAt: {
-                [Op.between]: [minCreatedAt, maxCreatedAt]
-            }
+            routingPointID: currentRoutingPointID,
+            status: { [Op.like]: `%${goodsStatus}%` }
         },
-        include: [
-            {
-                model: Process,
-                order: [['processID', 'ASC']],
-                limit: 1,
-                attributes: ['status']
+        include: {
+            model: Order,
+            attributes: ['orderID'],
+            where: {
+                createdAt: {
+                    [Op.between]: [minCreatedAt, maxCreatedAt]
+                }
             },
-            {
-                model: TransactionPoint,
-                as: 'startTransactionPoint',
-                include: {
-                    model: RoutingPoint,
+            include: [
+                {
+                    model: TransactionPoint,
+                    as: 'startTransactionPoint',
                     include: {
-                        model: Address,
-                        include: { model: Province, attributes: ['name'] },
-                        attributes: ['addressID'],
-                        where: startAddressWhereClause,
+                        model: RoutingPoint,
+                        include: {
+                            model: Address,
+                            include: { model: Province, attributes: ['name'] },
+                            attributes: ['addressID'],
+                            where: startAddressWhereClause,
+                            required: true,
+                        },
                         required: true,
+                        attributes: ['routingPointID']
                     },
                     required: true,
-                    attributes: ['routingPointID']
+                    attributes: ['transactionPointID']
                 },
-                required: true,
-                attributes: ['transactionPointID']
-            },
-            {
-                model: TransactionPoint,
-                as: 'endTransactionPoint',
-                include: {
-                    model: RoutingPoint,
+                {
+                    model: TransactionPoint,
+                    as: 'endTransactionPoint',
                     include: {
-                        model: Address,
-                        include: { model: Province, attributes: ['name'] },
-                        attributes: ['addressID'],
-                        where: endAddressWhereClause,
+                        model: RoutingPoint,
+                        include: {
+                            model: Address,
+                            include: { model: Province, attributes: ['name'] },
+                            attributes: ['addressID'],
+                            where: endAddressWhereClause,
+                            required: true,
+                        },
+                        attributes: ['routingPointID'],
                         required: true,
                     },
-                    attributes: ['routingPointID'],
-                    required: true,
-                },
-                attributes: ['transactionPointID'],
-                required: true
-            }
-        ],
-        attributes: ['orderID', 'createdAt']
+                    attributes: ['transactionPointID'],
+                    required: true
+                }
+            ]
+        }
     });
-    let totalPages = 0;
-    for (const order of orders) {
-        if (order.processes[0].status.toString().includes(goodsStatus)) totalPages++;
-    }
-    totalPages = Math.ceil(totalPages / limit);
-    if (totalPages == 0) return res.status(200).json([]);
+    const totalPages = Math.ceil(processes / limit);
 
-    orders = await Order.findAll({
-        offset: ((page - 1) * limit),
+    processes = await Process.findAll({
         limit: limit,
-        subQuery: false,
+        offset: limit * (page - 1),
         where: {
-            orderID: {
-                [Op.and]: [
-                    {
-                        [Op.in]: sequelize.literal(`(SELECT DISTINCT orderID 
-                    FROM processes WHERE routingPointID = ${currentRoutingPointID})`)
-                    },
-                    { [Op.like]: `%${orderID}%` }
-                ]
-            },
-            createdAt: {
-                [Op.between]: [minCreatedAt, maxCreatedAt]
-            }
+            routingPointID: currentRoutingPointID,
+            status: { [Op.like]: `%${goodsStatus}%` }
         },
-        include: [
-            {
-                model: Process,
-                order: [['processID', 'ASC']],
-                limit: 1,
-                attributes: ['status'],
+        include: {
+            model: Order,
+            attributes: ['orderID', 'createdAt'],
+            where: {
+                createdAt: {
+                    [Op.between]: [minCreatedAt, maxCreatedAt]
+                }
             },
-            {
-                model: TransactionPoint,
-                as: 'startTransactionPoint',
-                include: {
-                    model: RoutingPoint,
+            include: [
+                {
+                    model: TransactionPoint,
+                    as: 'startTransactionPoint',
                     include: {
-                        model: Address,
-                        include: { model: Province, attributes: ['name'] },
-                        attributes: ['addressID'],
-                        where: startAddressWhereClause,
+                        model: RoutingPoint,
+                        include: {
+                            model: Address,
+                            include: { model: Province, attributes: ['name'] },
+                            attributes: ['addressID'],
+                            where: startAddressWhereClause,
+                            required: true,
+                        },
                         required: true,
+                        attributes: ['routingPointID']
                     },
                     required: true,
-                    attributes: ['routingPointID']
+                    attributes: ['transactionPointID']
                 },
-                required: true,
-                attributes: ['transactionPointID']
-            },
-            {
-                model: TransactionPoint,
-                as: 'endTransactionPoint',
-                include: {
-                    model: RoutingPoint,
+                {
+                    model: TransactionPoint,
+                    as: 'endTransactionPoint',
                     include: {
-                        model: Address,
-                        include: { model: Province, attributes: ['name'] },
-                        attributes: ['addressID'],
-                        where: endAddressWhereClause,
+                        model: RoutingPoint,
+                        include: {
+                            model: Address,
+                            include: { model: Province, attributes: ['name'] },
+                            attributes: ['addressID'],
+                            where: endAddressWhereClause,
+                            required: true,
+                        },
+                        attributes: ['routingPointID'],
                         required: true,
                     },
-                    attributes: ['routingPointID'],
-                    required: true,
-                },
-                attributes: ['transactionPointID'],
-                required: true
-            }
-        ],
-        attributes: ['orderID', 'createdAt']
-    })
+                    attributes: ['transactionPointID'],
+                    required: true
+                }
+            ]
+        }
+    });
 
-    let resArray = [];
-    for (const order of orders) {
-        resArray.push({
+    const orders = []
+    for (const process of processes) {
+        const order = process.order;
+        orders.push({
             orderID: order.orderID,
             startTransactionProvince: order.startTransactionPoint.routing_point.address.province.name,
             endTransactionProvince: order.endTransactionPoint.routing_point.address.province.name,
             createdAt: order.createdAt,
-            goodsStatus: order.processes[0].status
+            goodsStatus: process.status
         })
     }
+
     return res.status(200).json({
         totalPages: totalPages,
         limit: limit,
-        orders: resArray
+        orders: orders
     });
 }
 
@@ -394,7 +373,7 @@ export const createOrder = async (req, res) => {
 
     order.endTransactionPointID = await findNearestTransactionPoint(req.body.order.receiver.address, res);
     if (!order.endTransactionPointID) return res.status(400).json(Error.getError(Error.code.unsupported_region));
-    
+
     const t = await sequelize.transaction();
     try {
         let senderAddress = await Address.create(req.body.order.sender.address, { transaction: t });
