@@ -150,7 +150,10 @@ export const getOrdersByWorkingRouteID = async (req, res) => {
                     required: true
                 }
             ]
-        }
+        },
+        order: [
+            [sequelize.literal("`processes`.status='arriving',`processes`.status='on_stock',`processes`.status='forwarded',`processes`.status='customer_sent',`processes`.status='customer_returned'")]
+        ]
     });
 
     const orders = []
