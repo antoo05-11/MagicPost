@@ -1,6 +1,6 @@
 import Error from '../../exceptions/error';
 import { sequelize } from '../../models';
-import { Address, Commune, District, Order, Process, Province, RoutingPoint } from '../../models/model-export';
+import { Address, Commune, District, GoodsPoint, Order, Process, Province, RoutingPoint, TransactionPoint } from '../../models/model-export';
 import { buildAddressString } from '../routing_point/address';
 import { findNextRoutingPoint } from '../routing_point/routing_point';
 
@@ -39,7 +39,7 @@ export const updateProcess = async (req, res) => {
         }
 
         if (process.status == 'customer_returned' || process.status == 'customer_sent') {
-            if(process.routingPointID != order.endTransactionPointID) {
+            if (process.routingPointID != order.endTransactionPointID) {
                 return res.status(400).json(Error.getError(Error.code.invalid_data_order));
             }
             order.receivedTime = new Date();
@@ -54,7 +54,22 @@ export const updateProcess = async (req, res) => {
             order.status = 'returned';
         }
         else if (status == 'forwarded') {
-            const nextRoutingPoint = findNextRoutingPoint(process.routingPointID, order.endTransactionPointID);
+            let nextRoutingPoint;
+            if (order.startTransactionPointID == process.routingPointID) {
+                const goodsPoint = await GoodsPoint.findOne({ include: [{ model: TransactionPoint, required: true, where: { transactionPointID: process.routingPointID } }] });
+                console.log(goodsPoint);
+                nextRoutingPoint = goodsPoint.goodsPointID;
+            }
+            else if (order.endTransactionPointID != process.routingPointID) {
+                const transactionPoint = await TransactionPoint.findOne({ include: [{ model: GoodsPoint, where: { goodsPointID: process.routingPointID }, required: true }] })
+                if (transactionPoint.transactionPointID == order.endTransactionPointID) {
+                    nextRoutingPoint = transactionPoint.transactionPointID;
+                } else {
+                    const endGoodsPoint =  await GoodsPoint.findOne({ include: [{ model: TransactionPoint, required: true, where: { transactionPointID: order.endTransactionPointID } }] })
+                    console.log(process.routingPointID + "  " + endGoodsPoint.goodsPointID);
+                    nextRoutingPoint = findNextRoutingPoint(process.routingPointID, endGoodsPoint.goodsPointID);
+                }
+            }
             if (nextRoutingPoint) {
                 await Process.create({
                     orderID: process.orderID,
