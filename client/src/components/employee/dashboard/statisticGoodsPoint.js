@@ -154,6 +154,19 @@ export default function StatisticGoodsPoint() {
                 { name: "Hang da chuyen", data: data.forwardedQuantity },
             ]
         }
+    } else {
+        data = {
+            series: [{
+                name: 'Hang dang den',
+                data: [31, 40, 28, 51, 42, 109, 100]
+            }, {
+                name: 'Hang trong kho',
+                data: [11, 32, 45, 32, 34, 52, 41]
+            }, {
+                name: 'Hang da chuyen',
+                data: [15, 33, 49, 35, 33, 49, 90]
+            }]
+        }
     }
 
     options.responsive = [

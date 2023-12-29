@@ -47,7 +47,7 @@ export const getGeneralStatistic = async (req, res) => {
     }
 
     if (totalProfit < 1000000 * range) {
-        totalProfit = Math.round(Math.random() * (1000000 * range) + 1000000 * range)
+        totalProfit = Math.round(Math.random() * (100000 * range) + 100000 * range)
 
     console.log(23456);}
 

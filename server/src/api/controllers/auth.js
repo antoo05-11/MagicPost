@@ -78,10 +78,11 @@ export const changePassword = async (req, res) => {
                 await employee.save({transaction: t});
                 await t.commit({transaction: t});
 
-                return res.status(200);
+                return res.status(200).json();
             } catch (error) {
                 console.log(error);
                 await t.rollback();
+                return res.status(500).json();
             }
         }
     }
@@ -96,7 +97,7 @@ export const changePassword = async (req, res) => {
     verifiedCodeMap[userID].password = newPassword;
     
     await sendMailVerifiedCode(req.user.email, verifiedCode);
-    return res.status(200);
+    return res.status(200).json();
 }
 
 export const requestRefreshToken = async (req, res) => {
