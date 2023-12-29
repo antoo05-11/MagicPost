@@ -87,7 +87,7 @@ export default function StatisticGoodsPoint() {
     maxDate = formatDate(maxDate);
 
     let data = fetchGoodsPointsStatistic({ minDate: minDate, maxDate: maxDate });
-    if (data) {
+    if (data && data.arrivingQuantity) {
         console.log(data);
         if (intervalType == 'month') {
             const arrivingQuantityWeeks = [];

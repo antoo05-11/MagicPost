@@ -94,13 +94,13 @@ export default function Statistic({ userRole }) {
                                 <StatisticItem
                                     icon={<TbTruckDelivery />}
                                     title="Đang vận chuyển"
-                                    value="500"
+                                    value="90"
                                     color="transPoint"
                                 />
                                 <StatisticItem
                                     icon={<LuPackageOpen />}
                                     title="Đã vận chuyển"
-                                    value="500"
+                                    value="42"
                                     color="goodPoint"
                                 />
                             </>
@@ -112,19 +112,19 @@ export default function Statistic({ userRole }) {
                                 <StatisticItem
                                     icon={<FiPackage />}
                                     title="Tổng hàng hóa"
-                                    value="70000"
+                                    value="140"
                                     color="totalPackage"
                                 />
                                 <StatisticItem
                                     icon={<TbTruckDelivery />}
                                     title="Đang vận chuyển"
-                                    value="500"
+                                    value="80"
                                     color="transPoint"
                                 />
                                 <StatisticItem
                                     icon={<LuPackageOpen />}
                                     title="Đã vận chuyển"
-                                    value="500"
+                                    value="43"
                                     color="goodPoint"
                                 />
                             </>

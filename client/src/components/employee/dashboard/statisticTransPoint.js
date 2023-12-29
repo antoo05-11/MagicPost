@@ -98,7 +98,7 @@ export default function StatisticTransPoint() {
     maxDate = formatDate(maxDate);
 
     let data = fetchTransactionPointsStatistic({ minDate: minDate, maxDate: maxDate });
-    if (data) {
+    if (data && data.arrivingQuantity) {
         if (intervalType == 'month') {
             const arrivingQuantityWeeks = [];
             for (let i = 0; i < 30; i++) {
