@@ -85,7 +85,7 @@ export default function Invoice({ data }) {
               <p className="mb-1">Phụ phí: {orderData?.data?.order?.addedPostage}</p>
               <p className="mb-1">Cước GTGT: {orderData?.data?.order?.VATFee}</p>
               <p className="mb-1">Tổng cước: {orderData?.data?.order?.mainPostage + orderData?.data?.order?.addedPostage + orderData?.data?.order?.VATFee}</p>
-              <p className="mb-1">Tổng cước: {orderData?.data?.order?.mainPostage + orderData?.data?.order?.addedPostage + orderData?.data?.order?.VATFee}</p>
+              <p className="mb-1">Tổng thu: {orderData?.data?.order?.mainPostage + orderData?.data?.order?.addedPostage + orderData?.data?.order?.VATFee}</p>
             </Col>
             <Col className="text-end">
               <h5 className="fw-bold">Khối lượng </h5>

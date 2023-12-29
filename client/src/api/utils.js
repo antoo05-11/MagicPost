@@ -161,11 +161,13 @@ export const orderStatus = {
     name: "customer_sent",
     now: "Người nhận đã nhận được hàng",
     next: null,
+    color: "primary",
   },
   customer_returned: {
     name: "customer_returned",
     now: "Hàng bị hoàn trả",
     next: null,
+    color: "dark",
   },
 };
 
