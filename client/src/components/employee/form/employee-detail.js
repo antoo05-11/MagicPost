@@ -11,6 +11,8 @@ import useSWR from "swr";
 
 import "@/css/employee/customForm.css";
 import { useSession } from "next-auth/react";
+import PopUp from "../popup";
+import { editEmployee } from "@/api/action";
 export default function EmployeeInformation({ id }) {
   const token = useSession().data?.accessToken;
   const employee = getEmployeebyID(id);
@@ -62,6 +64,7 @@ export default function EmployeeInformation({ id }) {
   const { data: transactionPoint } = useSWR([urlWorkingPoint, token]);
 
   const [change, setChange] = useState(false);
+  const [popup, setPopup] = useState(false);
   useEffect(() => {
     if (newInfor) {
       if (
@@ -390,7 +393,7 @@ export default function EmployeeInformation({ id }) {
       <div className="mt-3 btnContainer">
         <button
           onClick={() => {
-            console.log(newInfor);
+            setPopup(!popup);
           }}
           className="btn btnCreate"
           disabled={change ? false : true}
@@ -402,13 +405,34 @@ export default function EmployeeInformation({ id }) {
           type="button"
           className="btn btn-secondary"
           onClick={() => {
-            console.log(change);
+            console.log(newInfor);
           }}
         >
           Xóa
         </button>
         {/* <div>Error {error}</div> */}
       </div>
+      <PopUp
+        isOpen={popup}
+        setIsOpen={setPopup}
+        functionCreate={editEmployee}
+        dataCreate={{
+          identifier: employee?.identifier,
+          phoneNumber: employee?.phoneNumber,
+          fullName: employee?.fullName,
+          role: newInfor?.role,
+          email: employee?.email,
+          workingPointID: newInfor?.workingPointID,
+          status: newInfor?.status,
+          address: {
+            detail: employee?.address?.detail,
+            communeID: employee?.address?.commune?.communeID,
+            districtID: employee?.address?.district?.districtID,
+            provinceID: employee?.address?.province?.provinceID,
+          },
+        }}
+        idChange={employee?.employeeID}
+      />
     </div>
   );
 }
