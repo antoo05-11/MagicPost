@@ -126,9 +126,7 @@ const yearlyChartData = [30, 20, 190];
 const monthlyChartData = [30, 203, 30];
 
 export default function Overview() {
-    const [type, setType] = useState();
     const [intervalType, setIntervalType] = useState('year');
-
 
     let chartOptions = defaultOptions;
     switch (intervalType) {
@@ -178,7 +176,8 @@ export default function Overview() {
     maxDate = formatDate(maxDate);
 
     let data = fetchProfitStatistic({ minDate: minDate, maxDate: maxDate });
-    if (data) {
+    if (data && data.profits) {
+        console.log(data);
         if (intervalType == 'month') {
             const profitsWeeks = [];
             for (let i = 0; i < 30; i++) {
@@ -200,7 +199,6 @@ export default function Overview() {
             }
 
             data = profitsMonth;
-
         }
         else {
             data = data.profits;
@@ -227,7 +225,7 @@ export default function Overview() {
     ];
     return (
         <motion.div>
-            <Card title={"Lợi nhuận"} extend={extend} setType={setType} intervalType={intervalType} onChange={handleIntervalChange}>
+            <Card title={"Lợi nhuận"} extend={extend} intervalType={intervalType} onChange={handleIntervalChange}>
                 <Chart type='bar' height={chartHeight} options={options} series={[{ data: data }]} />
                 <Button onClick={() => { isExtend(!extend); console.log(extend) }} className='bg-warning'>
                     {extend ? 'Đóng' : 'Chi tiết'}
