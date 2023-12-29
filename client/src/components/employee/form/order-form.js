@@ -37,7 +37,7 @@ const order = {
     failChoice: "return",
     receiverCOD: 0,
     receiverOtherFee: 0,
-    specialService: "",
+    specialService: "Some special services",
   },
   goodsList: [],
 };
@@ -369,7 +369,10 @@ export default function OrderForm() {
               <Col xs={12} md={6} className="mt-2">
                 <div className="formContainer h-100 pb-0">
                   <Row>
-                    <Col> <h3>Cước</h3></Col>
+                    <Col>
+                      {" "}
+                      <h3>Cước</h3>
+                    </Col>
                     <Col>
                       <div className="col btnContainer">
                         <button
@@ -651,6 +654,7 @@ export default function OrderForm() {
                 order.goodsList.map((item) => {
                   delete item?.id;
                 });
+                console.log(order);
               }}
             >
               Tạo đơn hàng
