@@ -264,12 +264,25 @@ export function fetchGoodsPointsStatistic(query) {
 }
 
 export function fetchTransactionPointsStatistic(query) {
+    const token = useSession()?.data?.accessToken;
     let url = `https://magicpost-uet.onrender.com/api/statistic/transactionPoints/?`;
     if (query) {
         if (query.minDate) url += `&minDate=${query.minDate}`;
         if (query.maxDate) url += `&maxDate=${query.maxDate}`;
     }
-    const { data: data } = useSWR(url);
+    const { data: data } = useSWR([url, token]);
+    console.log(url);
+    return data;
+}
+
+export function fetchProfitStatistic(query) {
+    const token = useSession()?.data?.accessToken;
+    let url = `https://magicpost-uet.onrender.com/api/statistic/profit/?`;
+    if (query) {
+        if (query.minDate) url += `&minDate=${query.minDate}`;
+        if (query.maxDate) url += `&maxDate=${query.maxDate}`;
+    }
+    const { data: data } = useSWR([url, token]);
     console.log(url);
     return data;
 }
