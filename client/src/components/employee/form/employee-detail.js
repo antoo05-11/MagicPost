@@ -256,143 +256,136 @@ export default function EmployeeInformation({ id }) {
           </div>
         </div>
 
-          <Row>
-            <Form.Group
-              htmlFor="province"
-              className="col-sm-12 col-form-Form.Group"
+        <Row>
+          <Form.Group
+            htmlFor="province"
+            className="col-sm-12 col-form-Form.Group"
+          >
+            Địa điểm làm việc
+          </Form.Group>
+          <Col>
+            <select
+              className="form-select"
+              value={workingAddress.provinceID}
+              onChange={(e) => {
+                setWorkingAddress({
+                  provinceID: e.target.value,
+                  communeID: 0,
+                  districtID: 0,
+                  workingPointID: workingAddress?.workingPointID,
+                });
+                setUrl(
+                  `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${e.target.value}`
+                );
+                setNewInfor({
+                  status: newInfor.status,
+                  role: newInfor.role,
+                  workingPointID: 0,
+                });
+              }}
             >
-              Địa điểm làm việc
-            </Form.Group>
-            <Col>
-              <select
-                className="form-select"
-                value={workingAddress.provinceID}
-                onChange={(e) => {
-                  setWorkingAddress({
-                    provinceID: e.target.value,
-                    communeID: 0,
-                    districtID: 0,
-                    workingPointID: workingAddress?.workingPointID,
-                  });
-                  setUrl(
-                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${e.target.value}`
-                  );
-                  setNewInfor({
-                    status: newInfor.status,
-                    role: newInfor.role,
-                    workingPointID: 0,
-                  });
-                }}
-              >
-                <option value={0}>Chọn tỉnh/TP</option>
-                {Array.isArray(allProvincePoint) &&
-                  allProvincePoint?.map((province) => (
-                    <option
-                      key={province.provinceID}
-                      value={province.provinceID}
-                    >
-                      {province.name}
-                    </option>
-                  ))}
-              </select>
-            </Col>
-            <Col>
-              <select
-                className="form-select"
-                value={workingAddress.districtID}
-                onChange={(e) => {
-                  setWorkingAddress({
-                    provinceID: workingAddress.provinceID,
-                    communeID: 0,
-                    districtID: e.target.value,
-                    workingPointID: workingAddress?.workingPointID,
-                  });
-                  setUrl(
-                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${e.target.value}`
-                  );
-                  setNewInfor({
-                    status: newInfor.status,
-                    role: newInfor.role,
-                    workingPointID: 0,
-                  });
-                }}
-              >
-                <option value={0}>Chọn Quận/Huyện</option>
-                {Array.isArray(allDistrictsPoint) &&
-                  allDistrictsPoint?.map((province) => (
-                    <option
-                      key={province.districtID}
-                      value={province.districtID}
-                    >
-                      {province.name}
-                    </option>
-                  ))}
-              </select>
-            </Col>
-            <Col>
-              <select
-                className="form-select"
-                value={workingAddress.communeID}
-                onChange={(e) => {
-                  setWorkingAddress({
-                    provinceID: workingAddress.provinceID,
-                    communeID: e.target.value,
-                    districtID: workingAddress.districtID,
-                    workingPointID: workingAddress?.workingPointID,
-                  });
-                  setUrl(
-                    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${workingAddress.districtID}&communeID=${e.target.value}`
-                  );
-                  setNewInfor({
-                    status: newInfor.status,
-                    role: newInfor.role,
-                    workingPointID: 0,
-                  });
-                }}
-              >
-                <option selected value={0}>
-                  Chọn Xã/Phường
-                </option>
-                {Array.isArray(allCommunePoint) &&
-                  allCommunePoint?.map((province) => (
-                    <option key={province.communeID} value={province.communeID}>
-                      {province.name}
-                    </option>
-                  ))}
-              </select>
-            </Col>
-            <Col>
-              <select
-                className="form-select"
-                value={workingAddress.workingPointID}
-                onChange={(e) => {
-                  setWorkingAddress({
-                    provinceID: workingAddress.provinceID,
-                    communeID: workingAddress.communeID,
-                    districtID: workingAddress.districtID,
-                    workingPointID: e.target.value,
-                  });
-                  setNewInfor({
-                    status: newInfor.status,
-                    role: newInfor.role,
-                    workingPointID: e.target.value,
-                  });
-                }}
-              >
-                <option selected>Địa điểm làm việc</option>
-                {Array.isArray(transactionPoint) &&
-                  transactionPoint?.map((province) => (
-                    <option
-                      key={province.transactionPointID}
-                      value={province.transactionPointID}
-                    >
-                      {province.name}
-                    </option>
-                  ))}
-              </select>
-            </Col>
-          </Row>
-        </div>
+              <option value={0}>Chọn tỉnh/TP</option>
+              {Array.isArray(allProvincePoint) &&
+                allProvincePoint?.map((province) => (
+                  <option key={province.provinceID} value={province.provinceID}>
+                    {province.name}
+                  </option>
+                ))}
+            </select>
+          </Col>
+          <Col>
+            <select
+              className="form-select"
+              value={workingAddress.districtID}
+              onChange={(e) => {
+                setWorkingAddress({
+                  provinceID: workingAddress.provinceID,
+                  communeID: 0,
+                  districtID: e.target.value,
+                  workingPointID: workingAddress?.workingPointID,
+                });
+                setUrl(
+                  `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${e.target.value}`
+                );
+                setNewInfor({
+                  status: newInfor.status,
+                  role: newInfor.role,
+                  workingPointID: 0,
+                });
+              }}
+            >
+              <option value={0}>Chọn Quận/Huyện</option>
+              {Array.isArray(allDistrictsPoint) &&
+                allDistrictsPoint?.map((province) => (
+                  <option key={province.districtID} value={province.districtID}>
+                    {province.name}
+                  </option>
+                ))}
+            </select>
+          </Col>
+          <Col>
+            <select
+              className="form-select"
+              value={workingAddress.communeID}
+              onChange={(e) => {
+                setWorkingAddress({
+                  provinceID: workingAddress.provinceID,
+                  communeID: e.target.value,
+                  districtID: workingAddress.districtID,
+                  workingPointID: workingAddress?.workingPointID,
+                });
+                setUrl(
+                  `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${workingAddress.districtID}&communeID=${e.target.value}`
+                );
+                setNewInfor({
+                  status: newInfor.status,
+                  role: newInfor.role,
+                  workingPointID: 0,
+                });
+              }}
+            >
+              <option selected value={0}>
+                Chọn Xã/Phường
+              </option>
+              {Array.isArray(allCommunePoint) &&
+                allCommunePoint?.map((province) => (
+                  <option key={province.communeID} value={province.communeID}>
+                    {province.name}
+                  </option>
+                ))}
+            </select>
+          </Col>
+          <Col>
+            <select
+              className="form-select"
+              value={workingAddress.workingPointID}
+              onChange={(e) => {
+                setWorkingAddress({
+                  provinceID: workingAddress.provinceID,
+                  communeID: workingAddress.communeID,
+                  districtID: workingAddress.districtID,
+                  workingPointID: e.target.value,
+                });
+                setNewInfor({
+                  status: newInfor.status,
+                  role: newInfor.role,
+                  workingPointID: e.target.value,
+                });
+              }}
+            >
+              <option selected>Địa điểm làm việc</option>
+              {Array.isArray(transactionPoint) &&
+                transactionPoint?.map((province) => (
+                  <option
+                    key={province.transactionPointID}
+                    value={province.transactionPointID}
+                  >
+                    {province.name}
+                  </option>
+                ))}
+            </select>
+          </Col>
+        </Row>
       </form>
       <div className="mt-3 btnContainer">
         <button
