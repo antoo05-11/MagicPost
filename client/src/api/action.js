@@ -96,8 +96,6 @@ export async function estimateFee(infoOrder) {
       body: JSON.stringify(infoOrder),
     }).then((res) => res.json());
     // const data = await res.json();
-    console.log(123);
-    console.log(res);
     return res;
     return false;
   } catch (error) {
@@ -167,21 +165,23 @@ export async function estimateFeeForCustomer(infoOrder) {
     console.log(error);
   }
 }
-export async function editEmployee({ newInfor }) {
+export async function editEmployee(newInfor, id) {
+  //   console.log(id, newInfor);
   try {
     const session = await getServerSession(authOptions);
-    const url = verifiedCode
-      ? `https://magicpost-uet.onrender.com/api/auth/changePassword?verifiedCode=${verifiedCode}`
-      : `https://magicpost-uet.onrender.com/api/auth/changePassword`;
-
+    const url = `https://magicpost-uet.onrender.com/api/employee/${id}/edit`;
     const res = await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${session.accessToken}`,
       },
-      // body: JSON.stringify({ newPassword: newPass }),
-    }).then((res) => console.log(res.status));
+      body: JSON.stringify(newInfor),
+    });
+    const json = await res.json();
+    console.log(json);
+    const status = res.status;
+    return { data: json, success: status == 200 };
   } catch (error) {
     console.log(error);
   }

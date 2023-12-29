@@ -16,6 +16,7 @@ export default function PopUp({
   dataCreate,
   print,
   setPrint,
+  idChange,
 }) {
   const pathname = usePathname();
   const [data, setData] = useState();
@@ -50,7 +51,14 @@ export default function PopUp({
                 <div className="popupIcon confirm">
                   <AiOutlineExclamationCircle size={"10em"} />
                 </div>
-                <div className="popupContent">Xác nhận tạo nhân viên</div>
+                {pathname.includes("detail") && (
+                  <div className="popupContent">
+                    Xác nhận sửa đổi thông tin nhân viên
+                  </div>
+                )}
+                {pathname.includes("detail") || (
+                  <div className="popupContent">Xác nhận tạo nhân viên</div>
+                )}
                 <div className="popupContent">
                   <p>Một số thông tin sẽ không thể sửa sau khi tạo</p>
                 </div>
@@ -61,7 +69,7 @@ export default function PopUp({
                 className="btn btn-danger btn-popup"
                 onClick={async () => {
                   setLoading(true);
-                  setData(await functionCreate(dataCreate));
+                  setData(await functionCreate(dataCreate, idChange));
                   setConfirm(true);
                   setLoading(false);
                 }}
@@ -96,7 +104,7 @@ export default function PopUp({
               {" "}
               <GiConfirmed size={"10em"} />
             </div>
-            <div className="popupContent">Tạo thành công</div>
+            <div className="popupContent">Thành công</div>
           </div>
         )}
         {confirm && (
@@ -106,7 +114,9 @@ export default function PopUp({
                 <button
                   className="btn btn-primary btn-popup"
                   onClick={() => {
-                    route.push(pathname.replace("/create", ""));
+                    if (pathname.includes("detail"))
+                      route.push("/employees/list_employee");
+                    else route.push(pathname.replace("/create", ""));
                   }}
                 >
                   Trờ về trang trước
