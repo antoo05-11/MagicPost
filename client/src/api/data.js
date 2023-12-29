@@ -203,8 +203,12 @@ export function getAllGoodPoint(page, limit, query) {
     return dataRes;
 }
 
-export function fetchGeneralStatistic() {
+export function fetchGeneralStatistic(query) {
     let url = `https://magicpost-uet.onrender.com/api/statistic/general`;
+    if (query) {
+        if (query.minDate) url += `&${query.minDate}`;
+        if (query.maxDate) url += `&${query.maxDate}`;
+    }
     const { data: data } = useSWR(url);
     return data;
 }

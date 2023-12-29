@@ -2,9 +2,9 @@ import { Container, Row, Col, Dropdown } from "react-bootstrap";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import "@/css/employee/dashboard/card.css";
 import { motion, spring } from "framer-motion";
+
 export default function Card({ title, children, extend, setType }) {
     const handleIntervalClick = (intervalType) => {
-        // Pass the selected type to the parent component
         setType(intervalType);
     };
     return (
