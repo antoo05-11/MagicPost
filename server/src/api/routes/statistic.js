@@ -15,7 +15,7 @@ statisticRoute.get("/general", verifyToken,
     catchAsync(getGeneralStatistic));
 
 statisticRoute.get("/profit", verifyToken,
-    (req, res, next) => authorize(req, res, next, [role.MANAGER]),
+    (req, res, next) => authorize(req, res, next, [role.MANAGER, role.GOODS_POINT_HEAD, role.TRANSACTION_POINT_HEAD]),
     (req, res, next) => validate(req.query, res, next, statistic_schema),
     catchAsync(getProfitStatistic));
 
@@ -25,7 +25,7 @@ statisticRoute.get("/goodspoints", verifyToken,
     catchAsync(getGoodsPointsStatistic));
 
 statisticRoute.get("/transactionpoints", verifyToken,
-    (req, res, next) => authorize(req, res, next, [role.MANAGER, role.GOODS_POINT_HEAD, role.TRANSACTION_POINT_HEAD,role.GOODS_POINT_EMPLOYEE]),
+    (req, res, next) => authorize(req, res, next, [role.MANAGER, role.GOODS_POINT_HEAD, role.TRANSACTION_POINT_HEAD, role.GOODS_POINT_EMPLOYEE]),
     (req, res, next) => validate(req.query, res, next, statistic_schema),
     catchAsync(getTransactionPointStatistic));
 
