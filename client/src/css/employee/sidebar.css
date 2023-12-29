@@ -8,6 +8,9 @@
     justify-content: center;
     align-items: center;
     padding-right: 10px;
+    border: 2px solid #dee2e6;
+    border-bottom-right-radius: 30px 30px;
+    border-top-right-radius: 30px 30px;
 }
 
 .sidebar[data-isOpen="false"] {

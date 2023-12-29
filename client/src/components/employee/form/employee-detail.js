@@ -255,7 +255,7 @@ export default function EmployeeInformation({ id }) {
             </select>
           </div>
         </div>
-
+        <div>
           <Row>
             <Form.Group
               htmlFor="province"

@@ -43,6 +43,7 @@
   justify-content: center;
   padding-top: 10px;
   padding-bottom: 10px;
+  text-align: center;
 }
 
 .popupIcon {
@@ -74,4 +75,11 @@
   margin-left: 10px;
   margin-right: 10px;
   top: 30%;
+}
+
+@media screen and (max-width: 769px) {
+  .popup {
+    left: 0%;
+    right: 0%;
+  }
 }
