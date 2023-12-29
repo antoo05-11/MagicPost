@@ -28,39 +28,44 @@ export default function EmployeeInformation({ id }) {
       role: employee?.role,
       workingPointID: employee?.workingPointID,
     });
+    setWorkingAddress({
+      provinceID: employee?.workingPoint?.address?.province?.provinceID,
+      communeID: employee?.workingPoint?.address?.commune?.communeID,
+      districtID: employee?.workingPoint?.address?.district?.districtID,
+      workingPointID: employee?.workingPointID,
+    });
+    setProvinceID(employee?.workingPoint?.address?.province?.provinceID);
+    setDistrictID(employee?.workingPoint?.address?.district?.districtID);
+    setCommuneID(employee?.workingPoint?.address?.commune?.communeID);
   }, [employee]);
   const [newInfor, setNewInfor] = useState();
 
-  const [workingAddress, setWorkingAddress] = useState({
-    provinceID: employee?.workingPoint?.address?.province?.provinceID,
-    communeID: employee?.workingPoint?.address?.commune?.communeID,
-    districtID: employee?.workingPoint?.address?.district?.districtID,
-    workingPointID: employee?.workingPointID,
-  });
+  const [workingAddress, setWorkingAddress] = useState();
 
-  const workingAddressNow = {
-    provinceID: employee?.workingPoint?.address?.province?.provinceID,
-    communeID: employee?.workingPoint?.address?.commune?.communeID,
-    districtID: employee?.workingPoint?.address?.district?.districtID,
-    workingPointID: employee?.workingPointID,
-  };
+  const [provinceID, setProvinceID] = useState();
+  const [districtID, setDistrictID] = useState();
+  const [communeID, setCommuneID] = useState();
 
   const { data: allProvincePoint, isLoading: isLoading } = useSWR([
     "https://magicpost-uet.onrender.com/api/routingPoint/getallprovinces/",
     token,
   ]);
   const { data: allDistrictsPoint } = useSWR([
-    `https://magicpost-uet.onrender.com/api/routingPoint/getalldistricts/${workingAddress.provinceID}`,
+    `https://magicpost-uet.onrender.com/api/routingPoint/getalldistricts/${provinceID}`,
     token,
   ]);
   const { data: allCommunePoint } = useSWR([
-    `https://magicpost-uet.onrender.com/api/routingPoint/getallcommunes/${workingAddress.districtID}`,
+    `https://magicpost-uet.onrender.com/api/routingPoint/getallcommunes/${districtID}`,
     token,
   ]);
-  const [urlWorkingPoint, setUrl] = useState([
-    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${workingAddress.districtID}&communeID=${workingAddress.communeID}`,
-    token,
-  ]);
+  const [urlWorkingPoint, setUrl] = useState(
+    `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${provinceID}&districtID=${districtID}&communeID=${communeID}`
+  );
+  useEffect(() => {
+    setUrl(
+      `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${provinceID}&districtID=${districtID}&communeID=${communeID}`
+    );
+  }, [provinceID, districtID, communeID]);
   const { data: transactionPoint } = useSWR([urlWorkingPoint, token]);
 
   const [change, setChange] = useState(false);
@@ -221,7 +226,7 @@ export default function EmployeeInformation({ id }) {
             <label htmlFor="transactionPoint">Trạng thái</label>
             <select
               className="form-select"
-              defaultValue={newInfor?.status}
+              value={newInfor?.status}
               onChange={(e) => {
                 setNewInfor({
                   status: e.target.value,
@@ -230,6 +235,7 @@ export default function EmployeeInformation({ id }) {
                 });
               }}
             >
+              <option value={0}>Trạng thái</option>
               {Object.keys(employeeStatus).map((statusKey) => (
                 <option key={statusKey} value={statusKey}>
                   {employeeStatus[statusKey].name}
@@ -243,7 +249,7 @@ export default function EmployeeInformation({ id }) {
               className="form-select"
               aria-label="Default select example"
               id="role"
-              defaultValue={employee?.role}
+              value={newInfor?.role}
               onChange={(e) =>
                 setNewInfor({
                   status: newInfor.status,
@@ -269,10 +275,12 @@ export default function EmployeeInformation({ id }) {
           <Col>
             <select
               className="form-select"
-              value={workingAddress.provinceID}
+              defaultValue={Number(
+                employee?.workingPoint?.address?.province?.provinceID
+              )}
               onChange={(e) => {
                 setWorkingAddress({
-                  provinceID: e.target.value,
+                  provinceID: Number(e.target.value),
                   communeID: 0,
                   districtID: 0,
                   workingPointID: workingAddress?.workingPointID,
@@ -285,12 +293,15 @@ export default function EmployeeInformation({ id }) {
                   role: newInfor.role,
                   workingPointID: 0,
                 });
+                setProvinceID(Number(e.target.value));
+                setCommuneID(0);
+                setDistrictID(0);
               }}
             >
               <option value={0}>Chọn tỉnh/TP</option>
               {Array.isArray(allProvincePoint) &&
                 allProvincePoint?.map((province) => (
-                  <option key={province.provinceID} value={province.provinceID}>
+                  <option value={Number(province.provinceID)}>
                     {province.name}
                   </option>
                 ))}
@@ -299,14 +310,17 @@ export default function EmployeeInformation({ id }) {
           <Col>
             <select
               className="form-select"
-              value={workingAddress.districtID}
+              value={workingAddress?.districtID}
               onChange={(e) => {
                 setWorkingAddress({
-                  provinceID: workingAddress.provinceID,
+                  provinceID: workingAddress?.provinceID,
                   communeID: 0,
-                  districtID: e.target.value,
+                  districtID: Number(e.target.value),
                   workingPointID: workingAddress?.workingPointID,
                 });
+                setProvinceID(workingAddress?.provinceID);
+                setCommuneID(0);
+                setDistrictID(e.target.value);
                 setUrl(
                   `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${e.target.value}`
                 );
@@ -320,7 +334,7 @@ export default function EmployeeInformation({ id }) {
               <option value={0}>Chọn Quận/Huyện</option>
               {Array.isArray(allDistrictsPoint) &&
                 allDistrictsPoint?.map((province) => (
-                  <option key={province.districtID} value={province.districtID}>
+                  <option value={Number(province.districtID)}>
                     {province.name}
                   </option>
                 ))}
@@ -329,14 +343,17 @@ export default function EmployeeInformation({ id }) {
           <Col>
             <select
               className="form-select"
-              value={workingAddress.communeID}
+              value={workingAddress?.communeID}
               onChange={(e) => {
                 setWorkingAddress({
-                  provinceID: workingAddress.provinceID,
-                  communeID: e.target.value,
-                  districtID: workingAddress.districtID,
+                  provinceID: workingAddress?.provinceID,
+                  communeID: Number(e.target.value),
+                  districtID: workingAddress?.districtID,
                   workingPointID: workingAddress?.workingPointID,
                 });
+                setProvinceID(workingAddress?.provinceID);
+                setCommuneID(e.target.value);
+                setDistrictID(workingAddress?.districtID);
                 setUrl(
                   `https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/?provinceID=${workingAddress.provinceID}&districtID=${workingAddress.districtID}&communeID=${e.target.value}`
                 );
@@ -352,7 +369,7 @@ export default function EmployeeInformation({ id }) {
               </option>
               {Array.isArray(allCommunePoint) &&
                 allCommunePoint?.map((province) => (
-                  <option key={province.communeID} value={province.communeID}>
+                  <option value={Number(province.communeID)}>
                     {province.name}
                   </option>
                 ))}
@@ -361,13 +378,13 @@ export default function EmployeeInformation({ id }) {
           <Col>
             <select
               className="form-select"
-              value={workingAddress.workingPointID}
+              value={workingAddress?.workingPointID}
               onChange={(e) => {
                 setWorkingAddress({
-                  provinceID: workingAddress.provinceID,
-                  communeID: workingAddress.communeID,
-                  districtID: workingAddress.districtID,
-                  workingPointID: e.target.value,
+                  provinceID: workingAddress?.provinceID,
+                  communeID: workingAddress?.communeID,
+                  districtID: workingAddress?.districtID,
+                  workingPointID: Number(e.target.value),
                 });
                 setNewInfor({
                   status: newInfor.status,
@@ -379,10 +396,7 @@ export default function EmployeeInformation({ id }) {
               <option selected>Địa điểm làm việc</option>
               {Array.isArray(transactionPoint) &&
                 transactionPoint?.map((province) => (
-                  <option
-                    key={province.transactionPointID}
-                    value={province.transactionPointID}
-                  >
+                  <option value={Number(province.transactionPointID)}>
                     {province.name}
                   </option>
                 ))}
@@ -405,7 +419,7 @@ export default function EmployeeInformation({ id }) {
           type="button"
           className="btn btn-secondary"
           onClick={() => {
-            console.log(newInfor);
+            console.log(urlWorkingPoint);
           }}
         >
           Xóa
