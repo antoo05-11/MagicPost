@@ -19,32 +19,33 @@ import { useSession } from "next-auth/react";
 function useMenuAnimation(isOpen) {
   const [scope, animate] = useAnimate();
   const isSmallScreen = window.innerWidth <= 768;
-  const translationValue = isSmallScreen ? '-50vw' : '-15vw';
+  const translationValue = isSmallScreen ? "-50vw" : "-15vw";
   useEffect(() => {
     const menuAnimations = isOpen
       ? [
-        [
-          "#mySidebar",
-          { transform: "translateX(0%)", opacity: 1 },
-          { at: "<" },
-        ],
-        ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
-      ]
+          [
+            "#mySidebar",
+            { transform: "translateX(0%)", opacity: 1 },
+            { at: "<" },
+          ],
+          ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
+        ]
       : [
-        ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
-        ["#togle-zone", { transform: `translateX(${translationValue})` }, { at: "<" }],
-      ];
+          ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
+          [
+            "#togle-zone",
+            { transform: `translateX(${translationValue})` },
+            { at: "<" },
+          ],
+        ];
 
-    animate([
-      ...menuAnimations,
-    ]);
+    animate([...menuAnimations]);
   }, [isOpen]);
 
   return scope;
 }
 
 export default function EmployeesLayout({ children }) {
-  const token = useSession()?.data?.accessToken;
   const [isOpen, setIsOpen] = useState(true);
   const scope = useMenuAnimation(isOpen);
   return (
@@ -58,7 +59,7 @@ export default function EmployeesLayout({ children }) {
             <SWRConfig
               value={{
                 // refreshInterval: 3000,
-                fetcher: async (url) =>
+                fetcher: async ([url, token]) =>
                   fetch(url, {
                     headers: new Headers({
                       "Content-Type": "application/json",
