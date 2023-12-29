@@ -8,29 +8,42 @@ import {
 import { useEffect, useState } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import TransactionList from "./transactionList";
+import useSWR from "swr";
 
 export default function LookUpTransaction() {
-  const provinceData = getAllProvince();
+  const { data: provinceData } = useSWR(
+    "https://magicpost-uet.onrender.com/api/administrative/province/getall",
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   const [selectedProvince, setSelectedProvince] = useState();
 
-  const districtData = getDistrictByProvinceID(selectedProvince);
-  districtData.unshift({
-    name: "Chọn Quận/ Huyện",
-    districtID: 0,
-  });
-  const [selectedDistrict, setSelectedDistrict] = useState("");
-  const communeData = getCommuneByDistrictID(selectedDistrict);
-  communeData.unshift({
-    name: "Chọn Xã/ Phường",
-    communeID: 0,
-  });
+  const { data: districtData } = useSWR(
+    `https://magicpost-uet.onrender.com/api/administrative/district/getall/${selectedProvince}`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+
+  const [selectedDistrict, setSelectedDistrict] = useState();
+  const { data: communeData } = useSWR(
+    `https://magicpost-uet.onrender.com/api/administrative/commune/getall/${selectedDistrict}`,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   const [selectedCommune, setSelectedCommune] = useState("");
 
   const [showTransactionList, setShowTransactionList] = useState(false);
-
-  const data = getDistrictByProvinceID(0);
   return (
     <div>
       <Container className="lookUpContainer">
@@ -49,7 +62,7 @@ export default function LookUpTransaction() {
                   required
                 >
                   <option value={0}>Chọn Tỉnh/ TP</option>
-                  {provinceData.map((province) => (
+                  {provinceData?.map((province) => (
                     <option
                       key={province.provinceID}
                       value={province.provinceID}
@@ -67,6 +80,7 @@ export default function LookUpTransaction() {
                   required
                   className="selectContainer"
                 >
+                  <option value={0}>Chọn Quận/Huyện</option>
                   {districtData?.map((district) => (
                     <option
                       key={district.districtID}
@@ -85,11 +99,9 @@ export default function LookUpTransaction() {
                   }}
                   required
                 >
-                  {communeData.map((commune) => (
-                    <option
-                      key={commune.communeID}
-                      value={commune.communeID}
-                    >
+                  <option value={0}>Chọn Xã/Phường</option>
+                  {communeData?.map((commune) => (
+                    <option key={commune.communeID} value={commune.communeID}>
                       {commune.name}
                     </option>
                   ))}

@@ -70,20 +70,24 @@ export default function EmployeeForm() {
     communeID: 0,
     districtID: 0,
   });
-
-  const { data: allProvincePoint, isLoading: isLoading } = useSWR(
-    "https://magicpost-uet.onrender.com/api/routingPoint/getallprovinces/"
-  );
-  const { data: allDistrictsPoint } = useSWR(
-    `https://magicpost-uet.onrender.com/api/routingPoint/getalldistricts/${workingAddress.provinceID}`
-  );
-  const { data: allCommunePoint } = useSWR(
-    `https://magicpost-uet.onrender.com/api/routingPoint/getallcommunes/${workingAddress.districtID}`
-  );
-  const [urlWorkingPoint, setUrl] = useState(
-    "https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/"
-  );
-  const { data: transactionPoint } = useSWR(urlWorkingPoint);
+  const token = useSession()?.data?.accessToken;
+  const { data: allProvincePoint, isLoading: isLoading } = useSWR([
+    "https://magicpost-uet.onrender.com/api/routingPoint/getallprovinces/",
+    token,
+  ]);
+  const { data: allDistrictsPoint } = useSWR([
+    `https://magicpost-uet.onrender.com/api/routingPoint/getalldistricts/${workingAddress.provinceID}`,
+    token,
+  ]);
+  const { data: allCommunePoint } = useSWR([
+    `https://magicpost-uet.onrender.com/api/routingPoint/getallcommunes/${workingAddress.districtID}`,
+    token,
+  ]);
+  const [urlWorkingPoint, setUrl] = useState([
+    "https://magicpost-uet.onrender.com/api/transactionPoint/customerGet/",
+    token,
+  ]);
+  const { data: transactionPoint } = useSWR([urlWorkingPoint, token]);
   // console.log(transactionPoint);
 
   return (

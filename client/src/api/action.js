@@ -83,39 +83,6 @@ export async function createOrder(infoOrder) {
 }
 
 export async function estimateFee(infoOrder) {
-  infoOrder = {
-    order: {
-      sender: {
-        fullname: "Hoang Thuy Linh",
-        phoneNumber: "0123456789",
-        address: {
-          detail: "39S, Street A",
-          communeID: "121",
-          districtID: "9",
-          provinceID: "1",
-        },
-      },
-      receiver: {
-        fullname: "Nguyen Huu Minh",
-        phoneNumber: "0123456789",
-        address: {
-          detail: "43, Street A",
-          communeID: "121",
-          districtID: "9",
-          provinceID: "1",
-        },
-      },
-      failChoice: "return",
-      specialService: "Some special services",
-    },
-    goodsList: [
-      {
-        realWeight: "100",
-        convertedWeight: "25",
-        goodsType: "goods",
-      },
-    ],
-  };
   const session = await getServerSession(authOptions);
   const url = "https://magicpost-uet.onrender.com/api/order/getordercost";
   try {
@@ -196,6 +163,25 @@ export async function estimateFeeForCustomer(infoOrder) {
     }).then((res) => res.json());
 
     return res;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function editEmployee({ newInfor }) {
+  try {
+    const session = await getServerSession(authOptions);
+    const url = verifiedCode
+      ? `https://magicpost-uet.onrender.com/api/auth/changePassword?verifiedCode=${verifiedCode}`
+      : `https://magicpost-uet.onrender.com/api/auth/changePassword`;
+
+    const res = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.accessToken}`,
+      },
+      // body: JSON.stringify({ newPassword: newPass }),
+    }).then((res) => console.log(res.status));
   } catch (error) {
     console.log(error);
   }

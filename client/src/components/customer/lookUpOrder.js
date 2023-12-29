@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import OrderTracking from "./trackingOrder";
 import { getOrderTracking } from "@/api/data";
+import useSWR from "swr";
 let orID;
 export default function LookUpOrder() {
   // AEX451934145VN
@@ -13,7 +14,9 @@ export default function LookUpOrder() {
   const { replace } = useRouter();
 
   const [orderID, setOrderID] = useState(searchParams.get("query") || "");
-  const { data: data, error: error } = getOrderTracking(orderID);
+  const { data: data, error: error } = useSWR(
+    `https://magicpost-uet.onrender.com/api/order/customerget/${orderID}`
+  );
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {
