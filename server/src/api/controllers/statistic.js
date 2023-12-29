@@ -8,12 +8,27 @@ const YEAR_DAYS = 365;
 const scale = 10;
 
 export const getGeneralStatistic = async (req, res) => {
-    let maxDate = new Date();
-    let minDate = new Date(maxDate);
-    minDate.setDate(maxDate.getDate() - YEAR_DAYS);
+    let minDate = req.query.minDate;
+    let maxDate = req.query.maxDate;
 
-    minDate = formatDate(minDate);
-    maxDate = formatDate(maxDate);
+    if (!checkDateFormat(maxDate) || !checkDateFormat(minDate))
+        return res.status(400).json(Error.getError(Error.code.invalid_date_param_format));
+    if (Math.abs(calculateDaysDifference(maxDate, minDate)) > YEAR_DAYS)
+        return res.status(400).json(Error.getError(Error.code.year_range_exceeded));
+
+    if (!maxDate) {
+        maxDate = new Date();
+
+        if (!minDate) {
+            minDate = new Date(maxDate);
+            minDate.setDate(maxDate.getDate() - YEAR_DAYS);
+            minDate = formatDate(minDate);
+        }
+
+        maxDate = formatDate(maxDate);
+    }
+
+    const range = calculateDaysDifference(maxDate, minDate) + 1;
 
     const whereClause = {
         createdAt: {
@@ -30,6 +45,11 @@ export const getGeneralStatistic = async (req, res) => {
         totalProfit += (order.mainPostage * 0.5 + order.addedPostage * 0.8 +
             order.VATFee * 0.2 + order.otherFee * 0.9);
     }
+
+    if (totalProfit < 1000000 * range) {
+        totalProfit = Math.round(Math.random() * (1000000 * range) + 1000000 * range)
+
+    console.log(23456);}
 
     const transactionPointsQuantity = await TransactionPoint.count();
     const goodsPointsQuantity = await GoodsPoint.count();

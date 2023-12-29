@@ -19,7 +19,7 @@ export function getEmployee(page, query) {
         const itemPerPage = data?.limit;
         return { dataRes, totalPage, itemPerPage };
     } catch (error) {
-        console.error("Database Error:", error);
+        console.error(error);
         throw Error("Failed to fetch the latest invoices.");
     }
 }
@@ -201,4 +201,10 @@ export function getAllGoodPoint(page, limit, query) {
     );
 
     return dataRes;
+}
+
+export function fetchGeneralStatistic() {
+    let url = `https://magicpost-uet.onrender.com/api/statistic/general`;
+    const { data: data } = useSWR(url);
+    return data;
 }
