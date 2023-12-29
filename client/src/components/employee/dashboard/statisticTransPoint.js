@@ -125,9 +125,9 @@ export default function StatisticTransPoint() {
             }
 
             data = [
-                { name: "Hang dang den", data: arrivingQuantityWeeks },
-                { name: "Hang trong kho", data: onStockQuantityWeeks },
-                { name: "Hang da chuyen", data: forwardedQuantityWeeks },
+                { name: "Hàng đang đến", data: arrivingQuantityWeeks },
+                { name: "Hàng trong kho", data: onStockQuantityWeeks },
+                { name: "Hàng đã chuyển", data: forwardedQuantityWeeks },
             ]
         }
         else if (intervalType == 'year') {
@@ -156,27 +156,27 @@ export default function StatisticTransPoint() {
             }
 
             data = [
-                { name: "Hang dang den", data: arrivingQuantityMonths },
-                { name: "Hang trong kho", data: onStockQuantityMonths },
-                { name: "Hang da chuyen", data: forwardedQuantityMonths },
+                { name: "Hàng đang đến", data: arrivingQuantityMonths },
+                { name: "Hàng trong kho", data: onStockQuantityMonths },
+                { name: "Hàng đã chuyển", data: forwardedQuantityMonths },
             ]
         }
         else {
             data = [
-                { name: "Hang dang den", data: data.arrivingQuantity },
-                { name: "Hang trong kho", data: data.onStockQuantity },
-                { name: "Hang da chuyen", data: data.forwardedQuantity },
+                { name: "Hàng đang đến", data: data.arrivingQuantity },
+                { name: "Hàng trong kho", data: data.onStockQuantity },
+                { name: "Hàng đã chuyển", data: data.forwardedQuantity },
             ]
         }
     } else {
         data = [{
-            name: 'Hang dang den',
+            name: 'Hàng đang đến',
             data: [31, 40, 28, 51, 42, 109, 100]
         }, {
-            name: 'Hang trong kho',
+            name: 'Hàng trong kho',
             data: [11, 32, 45, 32, 34, 52, 41]
         }, {
-            name: 'Hang da chuyen',
+            name: 'Hàng đã chuyển',
             data: [15, 33, 49, 35, 33, 49, 90]
         }]
     }
