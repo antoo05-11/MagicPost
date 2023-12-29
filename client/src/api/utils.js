@@ -127,30 +127,45 @@ export const orderStatus = {
   forwarded: {
     name: "forwarded",
     now: "Đã vận chuyển",
-    next: "Xac nhan van chuyen",
+    next: [
+      {
+        code: "customer_sent",
+        name: "Xác nhận người nhận đã nhận được hàng",
+      },
+      {
+        code: "customer_returned",
+        name: "Xác nhận hàng bị hoàn trả",
+      },
+    ],
     color: "success",
   },
   arriving: {
     name: "arriving",
     now: "Đang vận chuyển đến",
-    next: "Xác nhận đã đến",
+    next: {
+      name: "Xác nhận đã đến",
+      code: "on_stock",
+    },
     color: "warning",
   },
   on_stock: {
     name: "on_stock",
     now: "Trong kho",
-    next: "Xác nhận chuyển tiếp",
+    next: {
+      name: "Xác nhận chuyển tiếp",
+      code: "forwarded",
+    },
     color: "danger",
   },
   customer_sent: {
     name: "customer_sent",
     now: "Người nhận đã nhận được hàng",
-    next: "Xác nhận người nhận đã nhận được hàng",
+    next: null,
   },
   customer_returned: {
     name: "customer_returned",
     now: "Hàng bị hoàn trả",
-    next: "Xác nhận hàng bị hoàn trả",
+    next: null,
   },
 };
 

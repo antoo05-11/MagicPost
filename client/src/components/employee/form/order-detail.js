@@ -64,7 +64,6 @@ export default function OrderDetail({ id }) {
             </Form.Group>
           </Col>
         </Row>
-
         <Row className="mt-2">
           <Col xs={12} md={6}>
             <Form.Group controlId="creator">
@@ -87,7 +86,6 @@ export default function OrderDetail({ id }) {
             </Form.Group>
           </Col>
         </Row>
-
         <Row className="mt-2">
           <Form.Group>
             <Form.Label>Trạng thái</Form.Label>
@@ -98,18 +96,17 @@ export default function OrderDetail({ id }) {
             />
           </Form.Group>
         </Row>
-
-        {onEndTran && order?.order?.goodsStatus === "forwarded" && (
-          <Row>
-            <Col>
-              {orderStatus[order?.order?.goodsStatus]?.next && (
+        {orderStatus[order?.order?.goodsStatus]?.next &&
+          order?.order?.goodsStatus !== "forwarded" && (
+            <Row>
+              <Col>
                 <Button
                   variant="warning"
                   className="w-100 mt-3"
                   onClick={() => {
                     updateProcessesOrder(
                       order?.order?.processes?.pop()?.processID,
-                      "customer_sent"
+                      orderStatus[order?.order?.goodsStatus].next.code
                     );
                     mutate(
                       `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
@@ -117,56 +114,39 @@ export default function OrderDetail({ id }) {
                     router.push(`/employees/list_ordered/?page=${page}`);
                   }}
                 >
-                  {orderStatus["customer_sent"]?.next}
+                  {orderStatus[order?.order?.goodsStatus]?.next.name}
                 </Button>
-              )}
-            </Col>
-            <Col>
-              {orderStatus[order?.order?.goodsStatus]?.next && (
-                <Button
-                  variant="warning"
-                  className="w-100 mt-3"
-                  onClick={() => {
-                    updateProcessesOrder(
-                      order?.order?.processes?.pop()?.processID,
-                      "customer_returned"
-                    );
-                    mutate(
-                      `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
-                    );
-                    router.push(`/employees/list_ordered/?page=${page}`);
-                  }}
-                >
-                  {orderStatus["customer_returned"]?.next}
-                </Button>
-              )}
-            </Col>
-          </Row>
-        )}
-        {(onEndTran && order?.order?.goodsStatus === "on_stock") || (
-          <Row>
-            <Col>
-              {orderStatus[order?.order?.goodsStatus]?.next && (
-                <Button
-                  variant="warning"
-                  className="w-100 mt-3"
-                  onClick={() => {
-                    updateProcessesOrder(
-                      order?.order?.processes?.pop()?.processID,
-                      orderStatus[order?.order?.goodsStatus].name
-                    );
-                    mutate(
-                      `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
-                    );
-                    router.push(`/employees/list_ordered/?page=${page}`);
-                  }}
-                >
-                  {orderStatus[order?.order?.goodsStatus]?.next}
-                </Button>
-              )}
-            </Col>
-          </Row>
-        )}
+              </Col>
+            </Row>
+          )}
+        {orderStatus[order?.order?.goodsStatus]?.next &&
+          order?.order?.goodsStatus === "forwarded" &&
+          onEndTran && (
+            <Row>
+              {orderStatus["forwarded"].next.map((e) => {
+                return (
+                  <Col>
+                    <Button
+                      variant="warning"
+                      className="w-100 mt-3"
+                      onClick={() => {
+                        updateProcessesOrder(
+                          order?.order?.processes?.pop()?.processID,
+                          e.code
+                        );
+                        mutate(
+                          `https://magicpost-uet.onrender.com/api/order/getall/?page=${page}`
+                        );
+                        router.push(`/employees/list_ordered/?page=${page}`);
+                      }}
+                    >
+                      {e.name}
+                    </Button>
+                  </Col>
+                );
+              })}
+            </Row>
+          )}
       </div>
 
       <div>
