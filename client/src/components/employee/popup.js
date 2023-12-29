@@ -34,8 +34,12 @@ export default function PopUp({
           <div>
             {pathname.includes("list_ordered") && (
               <div>
-                <div className="popupIcon confirm"><AiOutlineExclamationCircle size={'10em'} /></div>
-                <div className="popupContent"><h3>Xác nhận tạo đơn hàng</h3></div>
+                <div className="popupIcon confirm">
+                  <AiOutlineExclamationCircle size={"10em"} />
+                </div>
+                <div className="popupContent">
+                  <h3>Xác nhận tạo đơn hàng</h3>
+                </div>
                 <div className="popupContent">
                   <p>Bạn sẽ không sửa thông tin đơn hàng sau khi tạo</p>
                 </div>
@@ -43,7 +47,9 @@ export default function PopUp({
             )}
             {pathname.includes("list_employee") && (
               <div>
-                <div className="popupIcon confirm"><AiOutlineExclamationCircle size={'10em'} /></div>
+                <div className="popupIcon confirm">
+                  <AiOutlineExclamationCircle size={"10em"} />
+                </div>
                 <div className="popupContent">Xác nhận tạo nhân viên</div>
                 <div className="popupContent">
                   <p>Một số thông tin sẽ không thể sửa sau khi tạo</p>
@@ -77,14 +83,19 @@ export default function PopUp({
         {data?.data?.code ? (
           <div>
             <div>
-              <div className="popupIcon error"><VscError size={"10em"} /></div>
+              <div className="popupIcon error">
+                <VscError size={"10em"} />
+              </div>
               {createError[data?.data?.code]}
             </div>
           </div>
         ) : null}
         {data?.success && (
           <div>
-            <div className="popupIcon success"> <GiConfirmed size={"10em"} /></div>
+            <div className="popupIcon success">
+              {" "}
+              <GiConfirmed size={"10em"} />
+            </div>
             <div className="popupContent">Tạo thành công</div>
           </div>
         )}
@@ -106,6 +117,7 @@ export default function PopUp({
                     onClick={() => {
                       setPrint(true);
                       setIsOpen(!isOpen);
+                      // console.log(data);
                     }}
                   >
                     In hóa đơn

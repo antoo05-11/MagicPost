@@ -3,8 +3,11 @@ import { useRef } from "react";
 import ReactToPrint from "react-to-print";
 import "@/css/employee/invoice.css";
 
-export default function Invoice({data}) {
-  const orderData = data;
+let orderData;
+export default function Invoice({ data }) {
+  if (data) {
+    orderData = data;
+  }
   console.log(orderData);
   const componentRef = useRef();
   return (

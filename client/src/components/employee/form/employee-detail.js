@@ -339,7 +339,7 @@ export default function EmployeeInformation({ id }) {
           }}
           className="btn btnCreate"
         >
-          Tạo nhân viên
+          Sửa đổi
         </button>
 
         <button type="button" className="btn btn-secondary">
