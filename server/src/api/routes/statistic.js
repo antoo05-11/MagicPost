@@ -20,12 +20,12 @@ statisticRoute.get("/profit", verifyToken,
     catchAsync(getProfitStatistic));
 
 statisticRoute.get("/goodspoints", verifyToken,
-    (req, res, next) => authorize(req, res, next, [role.MANAGER, role.GOODS_POINT_HEAD, role.TRANSACTION_POINT_HEAD]),
+    (req, res, next) => authorize(req, res, next, [role.MANAGER, role.GOODS_POINT_HEAD, role.TRANSACTION_POINT_HEAD, role.TRANSACTION_POINT_EMPLOYEE]),
     (req, res, next) => validate(req.query, res, next, statistic_schema),
     catchAsync(getGoodsPointsStatistic));
 
 statisticRoute.get("/transactionpoints", verifyToken,
-    (req, res, next) => authorize(req, res, next, [role.MANAGER, role.GOODS_POINT_HEAD, role.TRANSACTION_POINT_HEAD]),
+    (req, res, next) => authorize(req, res, next, [role.MANAGER, role.GOODS_POINT_HEAD, role.TRANSACTION_POINT_HEAD,role.GOODS_POINT_EMPLOYEE]),
     (req, res, next) => validate(req.query, res, next, statistic_schema),
     catchAsync(getTransactionPointStatistic));
 
