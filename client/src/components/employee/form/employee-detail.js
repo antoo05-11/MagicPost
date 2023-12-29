@@ -271,9 +271,7 @@ export default function EmployeeInformation({ id }) {
           <Col>
             <select
               className="form-select"
-              defaultValue={Number(
-                employee?.workingPoint?.address?.province?.provinceID
-              )}
+              value={workingAddress?.provinceID}
               onChange={(e) => {
                 setWorkingAddress({
                   provinceID: Number(e.target.value),
