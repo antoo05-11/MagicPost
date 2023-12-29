@@ -259,3 +259,14 @@ export function fetchGoodsPointsStatistic(query) {
   console.log(data);
   return data;
 }
+
+export function fetchTransactionPointsStatistic(query) {
+    let url = `https://magicpost-uet.onrender.com/api/statistic/transactionPoints/?`;
+    if (query) {
+        if (query.minDate) url += `&minDate=${query.minDate}`;
+        if (query.maxDate) url += `&maxDate=${query.maxDate}`;
+    }
+    const { data: data } = useSWR(url);
+    console.log(url);
+    return data;
+}

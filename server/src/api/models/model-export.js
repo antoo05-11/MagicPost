@@ -38,11 +38,13 @@ Employee.belongsTo(TransactionPoint, { foreignKey: 'workingPointID' });
 Employee.belongsTo(GoodsPoint, { foreignKey: 'workingPointID' });
 
 TransactionPoint.belongsTo(RoutingPoint, { foreignKey: 'transactionPointID' });
+TransactionPoint.belongsTo(GoodsPoint, { foreignKey: 'goodsPointID' });
 TransactionPoint.hasMany(Employee, { foreignKey: 'workingPointID' });
 TransactionPoint.hasMany(Process, { foreignKey: 'routingPointID' });
 
 GoodsPoint.hasMany(Process, { foreignKey: 'routingPointID' });
 GoodsPoint.hasMany(Employee, { foreignKey: 'workingPointID' });
+GoodsPoint.hasMany(TransactionPoint, { foreignKey: 'goodsPointID' });
 GoodsPoint.belongsTo(RoutingPoint, { foreignKey: 'goodsPointID' });
 
 Order.hasMany(Process, { foreignKey: 'orderID' });
