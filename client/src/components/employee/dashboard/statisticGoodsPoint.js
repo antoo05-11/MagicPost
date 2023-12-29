@@ -25,7 +25,7 @@ const defaultOptions = {
             filter: { type: 'none' }
         }
     },
-    colors: ['#7B66FF', '#FFB830'],
+    colors: ['#F6D6D6', '#E26EE5', '#FFB830'],
     legend: { show: false },
     xaxis: {
         categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],

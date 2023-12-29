@@ -93,7 +93,7 @@ export default function EmployeeForm() {
           <h3>Thông tin nhân viên</h3>
         </Row>
         <Row>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group>
               <Form.Label>Họ và tên</Form.Label>
               <Form.Control
@@ -107,7 +107,7 @@ export default function EmployeeForm() {
             </Form.Group>
           </Col>
 
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group htmlFor="dob">Ngày sinh</Form.Group>
             <Form.Control
               type="date"
@@ -120,7 +120,7 @@ export default function EmployeeForm() {
         </Row>
 
         <Row>
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group>Địa chỉ Email</Form.Group>
             <Form.Control
               type="email"
@@ -133,7 +133,7 @@ export default function EmployeeForm() {
             />
           </Col>
 
-          <Col>
+          <Col xs={12} md={6}>
             <Form.Group>Số điện thoại</Form.Group>
             <Form.Control
               type="tel"
@@ -184,7 +184,7 @@ export default function EmployeeForm() {
           >
             Địa chỉ
           </Form.Group>
-          <Col>
+          <Col xs={12} md={4}>
             <select
               className="form-select"
               id="province"
@@ -204,7 +204,7 @@ export default function EmployeeForm() {
             </select>
           </Col>
 
-          <Col>
+          <Col xs={12} md={4}>
             <select
               className="form-select"
               onChange={(e) => {
@@ -221,7 +221,7 @@ export default function EmployeeForm() {
             </select>
           </Col>
 
-          <Col>
+          <Col xs={12} md={4}>
             <select
               className="form-select"
               onChange={(e) => {
@@ -239,7 +239,7 @@ export default function EmployeeForm() {
         </Row>
 
         <Row>
-          <div className="col">
+          <Col xs={12} >
             <Form.Control
               id="addressDetail"
               placeholder="Chi tiết"
@@ -247,7 +247,7 @@ export default function EmployeeForm() {
                 employee.address.detail = e.target.value;
               }}
             />
-          </div>
+          </Col>
         </Row>
 
         <Row>
@@ -277,7 +277,7 @@ export default function EmployeeForm() {
             >
               Địa điểm làm việc
             </Form.Group>
-            <Col>
+            <Col xs={12} md={4}>
               <select
                 className="form-select"
                 onChange={(e) => {
@@ -305,7 +305,7 @@ export default function EmployeeForm() {
                   ))}
               </select>
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <select
                 className="form-select"
                 onChange={(e) => {
@@ -333,7 +333,7 @@ export default function EmployeeForm() {
                   ))}
               </select>
             </Col>
-            <Col>
+            <Col xs={12} md={4}>
               <select
                 className="form-select"
                 onChange={(e) => {
@@ -393,7 +393,6 @@ export default function EmployeeForm() {
           Tạo nhân viên
         </button>
 
-        <button className="btn btn-secondary">Xóa</button>
       </div>
       <PopUp
         isOpen={popup}

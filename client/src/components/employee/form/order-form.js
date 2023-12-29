@@ -371,7 +371,24 @@ export default function OrderForm() {
               <Col xs={12} md={6} className="mt-2">
                 <div className="formContainer h-100 pb-0">
                   <Row>
-                    <h3>Cước</h3>
+                    <Col> <h3>Cước</h3></Col>
+                    <Col>
+                      <div className="col btnContainer">
+                        <button
+                          type="button"
+                          className="btn btn-primary btnCreate"
+                          data-bs-toggle="modal"
+                          data-bs-target="#staticBackdrop"
+                          onClick={async () => {
+                            const res = await estimateFee(order);
+                            setEstimateCost(res);
+                            console.log(estimateCost);
+                          }}
+                        >
+                          Ước tính chi phí
+                        </button>
+                      </div>
+                    </Col>
                   </Row>
                   <Row>
                     <Col xs={12} md={6}>
@@ -504,23 +521,6 @@ export default function OrderForm() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Col>
-                    <div className="col btnContainer">
-                      <button
-                        type="button"
-                        className="btn btn-primary btnCreate"
-                        data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop"
-                        onClick={async () => {
-                          const res = await estimateFee(order);
-                          setEstimateCost(res);
-                          console.log(estimateCost);
-                        }}
-                      >
-                        Ước tính chi phí
-                      </button>
-                    </div>
-                  </Col>
                 </div>
               </Col>
             </Row>
@@ -648,7 +648,6 @@ export default function OrderForm() {
               data-bs-toggle="modal"
               data-bs-target="#staticBackdrop"
               onClick={() => {
-                // console.log(popup);
                 setPopup(!popup);
                 order.goodsList = goodsList;
                 order.goodsList.map((item) => {
@@ -657,9 +656,6 @@ export default function OrderForm() {
               }}
             >
               Tạo đơn hàng
-            </button>
-            <button type="button" className="btn btn-secondary">
-              Xóa
             </button>
           </div>
         </div>

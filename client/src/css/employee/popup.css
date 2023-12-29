@@ -16,10 +16,11 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .popup[data-isOpen="false"] {
-  top: -100%;
+  top: -500%;
 }
 
 .disClick {
@@ -53,11 +54,11 @@
   color: var(--highlight-color);
 }
 
-.popupIcon.error svg{
+.popupIcon.error svg {
   color: red;
 }
 
-.popupIcon.success svg{
+.popupIcon.success svg {
   color: green;
 }
 
