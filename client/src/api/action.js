@@ -36,7 +36,6 @@ export async function createEmployee(infoEmployee) {
  * @returns {Promise<Object>} - A promise that resolves to an object with data and success status.
  */
 export async function createOrder(infoOrder) {
-  console.log(infoOrder);
 
   const session = await getServerSession(authOptions);
   const url = "https://magicpost-uet.onrender.com/api/order/create";
