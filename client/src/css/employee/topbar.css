@@ -1,5 +1,5 @@
 .topbar {
-  background-color: #fff !important;
+  background-color: #f5faff;
   z-index: 20000 !important;
   padding: 5px;
 }
@@ -46,6 +46,7 @@
   border-radius: 30px;
   position: relative;
   cursor: pointer;
+  background-color: #fff;
 }
 
 .list-infor {

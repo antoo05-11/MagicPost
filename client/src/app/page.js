@@ -103,7 +103,7 @@ export default function HomePage() {
               <h4>MAGICPOST DOC</h4>
               <FaRegFile size={"5em"} />
               <p>
-                Magic Post Tài Liệu là dịch vụ nhận gửi, vận chuyển và phát các loại thư, tài liệu trong nước theo
+                MagicPost Tài Liệu là dịch vụ nhận gửi, vận chuyển và phát các loại thư, tài liệu trong nước theo
                 chỉ tiêu thời gian tiêu chuẩn được công bố bởi Magic Post.
               </p>
             </div>
@@ -113,7 +113,7 @@ export default function HomePage() {
               <h4>MAGICPOST FAST</h4>
               <GoRocket size={"5em"} />
               <p>
-                Magic Post Hỏa Tốc là dịch vụ chất lượng cao với chỉ tiêu thời gian toàn trình rút ngắn
+                MagicPost Hỏa Tốc là dịch vụ chất lượng cao với chỉ tiêu thời gian toàn trình rút ngắn
                 so với dịch vụ Magic Post Chuyển Phát Nhanh, trong đó bưu gửi được ưu tiên chuyển phát
                 đến người nhận trong khung thời gian cam kết theo tuyến hành trình cụ thể.
               </p>

@@ -1,7 +1,10 @@
 /* main css */
+body {
+  background-color: #f5faff;
+}
 
 #main {
-  background-color: #fff;
+  background-color: #f5faff;
   position: absolute;
   top: 0;
   right: 0;

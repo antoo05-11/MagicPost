@@ -37,7 +37,7 @@ table {
 th {
   padding: 10px 5px;
   text-align: center;
-  background-color: var(--background-color);
+  background-color: var(--highlight-color);
   color: #fafafa;
   font-weight: bold;
   text-transform: uppercase;

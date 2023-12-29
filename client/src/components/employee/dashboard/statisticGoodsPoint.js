@@ -24,7 +24,7 @@ const defaultOptions = {
             filter: { type: 'none' }
         }
     },
-    colors: ['#F6D6D6', '#E26EE5', '#FFB830'],
+    colors: ['#3DB2FF', '#E26EE5', '#FFB830'],
     legend: { show: false },
     xaxis: {
         categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -46,18 +46,6 @@ const defaultOptions = {
 
 const extendOptions = {
     ...defaultOptions,
-    chart: {
-        ...defaultOptions.chart,
-        toolbar: { show: true }
-    },
-    dataLabels: { enabled: true },
-    legend: { show: true },
-    xaxis: {
-        ...defaultOptions.xaxis,
-        labels: { show: true },
-        axisTicks: { show: true },
-        axisBorder: { show: true }
-    }
 };
 
 export default function StatisticGoodsPoint() {

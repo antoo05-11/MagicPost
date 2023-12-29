@@ -38,28 +38,29 @@ export function EmployeeDetail({ id }) {
   const route = useRouter();
 
   return (
-    <Button
-      className=".bg-transparent"
+    <button
       onClick={() => {
         route.push(`/employees/list_employee/${id}/detail`);
         // console.log(id);
       }}
+      className="btn btn-outline-warning"
     >
       <FaRegEye />
-    </Button>
+    </button>
   );
 }
 export function OrderDetail({ id, page }) {
   const route = useRouter();
 
   return (
-    <Button
+    <button
       onClick={() => {
         route.push(`/employees/list_ordered/${id}/detail?page=${page}`);
-        // console.log(id);
+
       }}
+      className="btn btn-outline-warning"
     >
       <FaRegEye />
-    </Button>
+    </button>
   );
 }

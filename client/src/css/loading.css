@@ -5,7 +5,7 @@
   margin: 0;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: transparent;
   bottom: 0;
 }
 
@@ -26,6 +26,6 @@
   mix-blend-mode: difference;
 }
 
-.icon svg{
+.icon svg {
   color: var(--highlight-color);
 }

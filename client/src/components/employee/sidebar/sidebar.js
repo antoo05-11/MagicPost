@@ -10,6 +10,8 @@ import { listUrl, employeeRole } from "@/api/utils";
 import { useSession } from "next-auth/react";
 import "@/css/employee/sidebar.css";
 import { Row, Image, Col } from "react-bootstrap";
+import { FaTruckFast } from "react-icons/fa6";
+
 let pagenow = 1;
 let pagepre = 1;
 export default function SideBar() {
@@ -37,16 +39,17 @@ export default function SideBar() {
 
   return (
     <motion.div
-      // initial={false}
       animate={isOpen ? show : hide}
-      // transition={{ duration: 1 }}
       className="sidebar"
       data-isOpen={isOpen}
       id="mySidebar"
       exit={{ opacity: 0 }}
     >
       <Link href="/employees" className="appName">
-        MAGIC POST
+        <Col>
+          <FaTruckFast size={"2em"}/>
+          MAGIC POST
+        </Col>
       </Link>
 
       {rightURL?.map((roro) => {
