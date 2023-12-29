@@ -57,7 +57,7 @@ const roleComponents = {
   ],
   TRANSACTION_POINT_EMPLOYEE: [
     <Col xs={12}>
-      <StatisticGoodsPoint />
+      <StatisticTransPoint />
     </Col>,
     <Col xs={12}>
       <OrderTable showFilter={false} />
