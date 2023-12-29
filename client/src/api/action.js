@@ -141,8 +141,11 @@ export async function changePassword({ newPass, verifiedCode }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${session.accessToken}`,
       },
-      // body: JSON.stringify({ newPassword: newPass }),
-    }).then((res) => console.log(res.status));
+      body: JSON.stringify({ newPassword: newPass }),
+    }).then((res) => {
+      console.log(res.status);
+    });
+    return res.status == 200;
   } catch (error) {
     console.log(error);
   }

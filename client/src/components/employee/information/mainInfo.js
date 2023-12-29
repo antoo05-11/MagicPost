@@ -26,7 +26,6 @@ export default function MainInformation(data) {
     }
   };
 
-
   return (
     <div className="formContainer">
       <Row>
@@ -116,7 +115,11 @@ export default function MainInformation(data) {
               <InputGroup.Text className="bg-light">
                 <BsGenderAmbiguous />
               </InputGroup.Text>
-              <Form.Control type="text" value={convertGender(data?.data?.gender)} disabled />
+              <Form.Control
+                type="text"
+                value={convertGender(data?.data?.gender)}
+                disabled
+              />
             </InputGroup>
           </Form.Group>
         </Col>
@@ -130,7 +133,12 @@ export default function MainInformation(data) {
               <InputGroup.Text className="bg-light">
                 <TiLocationArrowOutline />
               </InputGroup.Text>
-              <Form.Control type="text" placeholder="Xã" disabled value={data?.data?.address.commune.name} />
+              <Form.Control
+                type="text"
+                placeholder="Xã"
+                disabled
+                value={data?.data?.address?.commune.name}
+              />
             </InputGroup>
           </Form.Group>
         </Col>
@@ -140,7 +148,12 @@ export default function MainInformation(data) {
             <InputGroup.Text className="bg-light">
               <GrMapLocation />
             </InputGroup.Text>
-            <Form.Control type="text" placeholder="Quận" disabled value={data?.data?.address.district.name} />
+            <Form.Control
+              type="text"
+              placeholder="Quận"
+              disabled
+              value={data?.data?.address?.district.name}
+            />
           </InputGroup>
         </Col>
 
@@ -149,7 +162,12 @@ export default function MainInformation(data) {
             <InputGroup.Text className="bg-light">
               <IoLocationOutline />
             </InputGroup.Text>
-            <Form.Control type="text" placeholder="Tỉnh" disabled value={data?.data?.address.province.name} />
+            <Form.Control
+              type="text"
+              placeholder="Tỉnh"
+              disabled
+              value={data?.data?.address?.province.name}
+            />
           </InputGroup>
         </Col>
       </Row>
@@ -160,7 +178,12 @@ export default function MainInformation(data) {
             <InputGroup.Text className="bg-light">
               <TbCurrentLocation />
             </InputGroup.Text>
-            <Form.Control type="text" placeholder="Chi tiết" disabled value={data?.data?.address.detail} />
+            <Form.Control
+              type="text"
+              placeholder="Chi tiết"
+              disabled
+              value={data?.data?.address?.detail}
+            />
           </InputGroup>
         </Col>
       </Row>

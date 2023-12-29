@@ -21,9 +21,10 @@ export default function LoginForm() {
   const [pass, setpass] = useState();
 
   const onSubMit = async () => {
+    console.log(username, pass);
     const result = await signIn("credentials", {
-      username: "23000015",
-      password: "password",
+      username: username,
+      password: pass,
       redirect: true,
       callbackUrl: "/employees",
     });
@@ -75,7 +76,9 @@ export default function LoginForm() {
                   <Form.Control
                     placeholder="Mật khẩu"
                     aria-label="Password"
+                    type="password"
                     aria-describedby="basic-addon1"
+                    required
                     onChange={(e) => setpass(e.target.value)}
                   />
                 </InputGroup>

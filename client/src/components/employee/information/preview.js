@@ -3,11 +3,16 @@ import { Row, Col, Table } from "react-bootstrap";
 import { employeeRole } from "@/api/utils";
 
 export default function Preview(data) {
-  console.log(data)
+  console.log(data);
   const roleInfo = employeeRole[data?.data?.role];
-  const locationDetails =
-    [data?.data?.workingPoint.address.commune.name, data?.data?.workingPoint.address.district.name, data?.data?.workingPoint.address.province.name].filter(Boolean).join(", ");
-  console.log(locationDetails)
+  const locationDetails = [
+    data?.data?.workingPoint?.address?.commune?.name,
+    data?.data?.workingPoint?.address?.district?.name,
+    data?.data?.workingPoint?.address?.province?.name,
+  ]
+    .filter(Boolean)
+    .join(", ");
+  console.log(locationDetails);
   return (
     <div className="formContainer">
       <Row className="d-flex justify-content-center align-items-center ">

@@ -12,6 +12,7 @@ export const authOptions = {
       async authorize(credentials, req) {
         // console.log(req);
         const { username, password } = credentials;
+        console.log(credentials);
         const data = {
           employeeID: username,
           password: password,
