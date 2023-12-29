@@ -4,15 +4,8 @@ import Chart from 'react-apexcharts';
 import { Button } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-const data = {
-    series: [{
-        name: 'Hàng gửi',
-        data: [55, 75, 22, 35, 50, 65, 90]
-    }, {
-        name: 'Hàng nhận',
-        data: [30, 60, 45, 20, 70, 55, 40]
-    }],
-};
+import { fetchGoodsPointsStatistic } from '@/api/data';
+import moment from 'moment';
 
 
 const defaultOptions = {
@@ -73,6 +66,21 @@ export default function StatisticGoodsPoint() {
     const chartHeight = extend ? 440 : 205;
     const options = extend ? extendOptions : defaultOptions;
 
+    let maxDate = new Date();
+    let minDate = new Date(maxDate);
+    minDate.setDate(maxDate.getDate() - 7 + 1);
+    minDate = formatDate(minDate);
+    maxDate = formatDate(maxDate);
+
+    let data = fetchGoodsPointsStatistic({ minDate: minDate, maxDate: maxDate });
+    if (data) {
+        data = [
+            { name: "Hang dang den", data: data.arrivingQuantity },
+            { name: "Hang trong kho", data: data.onStockQuantity },
+            { name: "Hang da chuyen", data: data.forwardedQuantity },
+        ]
+    }
+
     options.responsive = [
         {
             breakpoint: 768,
@@ -91,7 +99,7 @@ export default function StatisticGoodsPoint() {
     return (
         <motion.div>
             <Card title={"Điểm tập kết"} extend={extend}>
-                <Chart type='area' options={options} series={data.series} height={chartHeight} />
+                <Chart type='area' options={options} series={data} height={chartHeight} />
                 <p>
                     Your sales performance is 45% 😎 better compared to last month
                 </p>
@@ -101,4 +109,8 @@ export default function StatisticGoodsPoint() {
             </Card>
         </motion.div>
     );
+}
+
+export function formatDate(dateTime) {
+    return moment(dateTime).format('YYYY-MM-DD').replace(/-/g, '');
 }

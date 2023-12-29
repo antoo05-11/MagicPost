@@ -204,11 +204,22 @@ export function getAllGoodPoint(page, limit, query) {
 }
 
 export function fetchGeneralStatistic(query) {
-    let url = `https://magicpost-uet.onrender.com/api/statistic/general`;
+    let url = `https://magicpost-uet.onrender.com/api/statistic/general/?`;
     if (query) {
         if (query.minDate) url += `&${query.minDate}`;
         if (query.maxDate) url += `&${query.maxDate}`;
     }
     const { data: data } = useSWR(url);
+    return data;
+}
+
+export function fetchGoodsPointsStatistic(query) {
+    let url = `https://magicpost-uet.onrender.com/api/statistic/goodspoints/?`;
+    if (query) {
+        if (query.minDate) url += `&minDate=${query.minDate}`;
+        if (query.maxDate) url += `&maxDate=${query.maxDate}`;
+    }
+    const { data: data } = useSWR(url);
+    console.log(url);
     return data;
 }
