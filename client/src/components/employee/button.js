@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { Button } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import { FaRegEye } from "react-icons/fa";
@@ -41,7 +40,6 @@ export function EmployeeDetail({ id }) {
     <button
       onClick={() => {
         route.push(`/employees/list_employee/${id}/detail`);
-        // console.log(id);
       }}
       className="btn btn-outline-warning"
     >

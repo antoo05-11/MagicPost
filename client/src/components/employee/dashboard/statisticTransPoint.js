@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from "@/components/employee/dashboard/card";
+import Card from './card';
 import Chart from 'react-apexcharts';
 import { Button } from 'react-bootstrap';
 import { motion } from 'framer-motion';

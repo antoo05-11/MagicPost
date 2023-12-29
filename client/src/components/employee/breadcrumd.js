@@ -1,12 +1,10 @@
 "use client";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { listUrl } from "@/api/utils";
-import { useEffect } from "react";
 import { BreadcrumbItem } from "react-bootstrap";
 
-// const listItem = ["hihi"];
 export default function BreadCrumb() {
   const pathname = usePathname();
   const listItem = ["homepage"];

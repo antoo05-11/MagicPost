@@ -15,8 +15,8 @@ export default function Pagination({ totalPage }) {
   };
   const currentPage = Number(searchParams.get("page")) || 1;
   const allPages = generatePagination(currentPage, totalPage);
-  const nextPage = () => {};
-  const prevPage = () => {};
+  const nextPage = () => { };
+  const prevPage = () => { };
   return (
     <ul className="pagination d-flex justify-content-center mt-4">
       <li className="page-item">

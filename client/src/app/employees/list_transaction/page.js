@@ -1,7 +1,6 @@
 import TransactionPointTable from "@/components/employee/table/transactionPoint-table";
-import "@/css/employee/customTable.css";
 
-export default async function page({ searchParams: { headName, provinceID,name, page, limit, startOrdersSort, endOrdersSort } }) {
+export default async function page({ searchParams: { headName, provinceID, name, page, limit, startOrdersSort, endOrdersSort } }) {
     const query = {
         headName: headName,
         provinceID: provinceID,

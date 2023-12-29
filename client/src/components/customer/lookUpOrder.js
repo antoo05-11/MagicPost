@@ -4,11 +4,21 @@ import { HiOutlineDocumentSearch } from "react-icons/hi";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import OrderTracking from "./trackingOrder";
-import { getOrderTracking } from "@/api/data";
 import useSWR from "swr";
+
 let orID;
+
+/**
+ * React component for order lookup functionality.
+ *
+ * This component allows users to search for an order using its unique ID.
+ * It provides an input field for users to enter the order ID and triggers a search
+ * when the user clicks the "Tra cứu" (Search) button. The search results are displayed
+ * using the OrderTracking component.
+ *
+ * @returns {JSX.Element} - The rendered React element for the LookUpOrder component.
+ */
 export default function LookUpOrder() {
-  // AEX451934145VN
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { replace } = useRouter();
@@ -17,6 +27,7 @@ export default function LookUpOrder() {
   const { data: data, error: error } = useSWR(
     `https://magicpost-uet.onrender.com/api/order/customerget/${orderID}`
   );
+  // Debounced search callback to avoid rapid API calls while typing.
   const handleSearch = useDebouncedCallback((term) => {
     const params = new URLSearchParams(searchParams);
     if (term) {

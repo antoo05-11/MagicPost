@@ -3,8 +3,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Pagination from "../pagination";
 import { getAllGoodPoint, getAllProvince } from "@/api/data";
 import { useDebouncedCallback } from "use-debounce";
+import "@/css/employee/customTable.css";
 
-export default function GoodPointTable({ page, query, limit, showFilter }) {
+export default function GoodPointTable({ page, query, limit }) {
     const provinceData = getAllProvince();
 
     const searchParams = useSearchParams();

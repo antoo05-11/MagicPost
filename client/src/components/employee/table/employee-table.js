@@ -1,8 +1,7 @@
-import Image from "next/image";
 import { EmployeeDetail } from "../button";
 import { getEmployee } from "@/api/data";
 import Pagination from "../pagination";
-import { employeeRole, employeeStatus } from "@/api/utils";
+import { employeeStatus } from "@/api/utils";
 import { useDebouncedCallback } from "use-debounce";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { getAllProvince } from "@/api/data";

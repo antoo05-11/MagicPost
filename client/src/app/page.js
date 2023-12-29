@@ -1,9 +1,7 @@
 "use client";
 import Image from "react-bootstrap/Image";
 import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
 import Link from "next/link";
-import { useSWR } from "swr";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Container, Button, Form, Row, Col, InputGroup } from "react-bootstrap";
@@ -32,9 +30,9 @@ export default function HomePage() {
 
   return (
     <div className={style.homePageContainer}>
+      {/* === Section 1: Banner === */}
       <div className={style.banner}>
         <Header />
-
         <Container>
           <Row className={style.bannerItemContainer}>
             <Col md={5} xl={6} xxl={5} className="text-md-start text-center py-8">
@@ -196,7 +194,6 @@ export default function HomePage() {
           </Col>
         </Row>
       </Container>
-
       <Footer />
     </div>
   );

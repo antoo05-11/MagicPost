@@ -1,16 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Row, Col, Form, Button, Table } from "react-bootstrap";
 import { getOrderById } from "@/api/data";
 import { orderStatus } from "@/api/utils";
 import { updateProcessesOrder } from "@/api/action";
 import { mutate } from "swr";
-
-import "@/css/employee/customForm.css";
-import "@/css/employee/customTable.css";
-// import { useRouter } from "next/router";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+import "@/css/employee/customTable.css";
+import "@/css/employee/customForm.css";
 
 export default function OrderDetail({ id }) {
   const page = useSearchParams().get("page");

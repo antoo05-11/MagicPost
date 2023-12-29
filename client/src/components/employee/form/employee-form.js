@@ -1,13 +1,8 @@
 "use client";
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createEmployee } from "@/api/action";
-import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
-import { useRouter } from "next/navigation";
-import { employeeRole, createError } from "@/api/utils";
+import { employeeRole } from "@/api/utils";
 import {
-  getEmployee,
   getDistrictByProvinceID,
   getCommuneByDistrictID,
   getAllProvince,
@@ -17,6 +12,7 @@ import { useSession } from "next-auth/react";
 import PopUp from "../popup";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import useSWR from "swr";
+
 const employee = {
   identifier: "",
   phoneNumber: "",
@@ -33,6 +29,7 @@ const employee = {
   email: "",
   role: null,
 };
+
 export default function EmployeeForm() {
   const userRole = useSession()?.data?.user?.role;
   const provinceData = getAllProvince();

@@ -1,15 +1,18 @@
-import {
-  getDistrictByProvinceID,
-  getProvinceInfo,
-  getCommuneByDistrictID,
-  getTransactionPoint,
-  getAllProvince,
-} from "@/api/data";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Container, Row, Col, Form } from "react-bootstrap";
 import TransactionList from "./transactionList";
 import useSWR from "swr";
 
+/**
+ * React component for looking up transactions based on location.
+ *
+ * This component allows users to select a province, district, and commune to
+ * filter and display relevant transactions. It provides a map showing the selected
+ * area and triggers the display of a TransactionList component when the user clicks
+ * the "TRA CỨU" (Search) button.
+ *
+ * @returns {JSX.Element} - The rendered React element for the LookUpTransaction component.
+ */
 export default function LookUpTransaction() {
   const { data: provinceData } = useSWR(
     "https://magicpost-uet.onrender.com/api/administrative/province/getall",

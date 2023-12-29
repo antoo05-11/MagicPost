@@ -3,6 +3,7 @@ import { LuLock } from "react-icons/lu";
 import { FaRegUser } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import style from "@/css/login.module.css";
 import Link from "next/link";
 import {
   Container,
@@ -12,9 +13,7 @@ import {
   Form,
   Button,
   InputGroup,
-  FormControl,
 } from "react-bootstrap";
-import style from "@/css/login.module.css";
 
 export default function LoginForm() {
   const [username, setusername] = useState();

@@ -1,18 +1,14 @@
 "use client";
-
 import { useState, useEffect } from "react";
-import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
-import { useRouter } from "next/navigation";
 import { employeeRole, employeeStatus } from "@/api/utils";
 import { getEmployeebyID } from "@/api/data";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Row, Col, Form } from "react-bootstrap";
 import useSWR from "swr";
-
-import "@/css/employee/customForm.css";
 import { useSession } from "next-auth/react";
 import PopUp from "../popup";
 import { editEmployee } from "@/api/action";
+import "@/css/employee/customForm.css";
+
 export default function EmployeeInformation({ id }) {
   const token = useSession().data?.accessToken;
   const employee = getEmployeebyID(id);

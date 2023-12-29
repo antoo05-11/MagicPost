@@ -1,14 +1,10 @@
 "use client";
-
-import { Inter } from "next/font/google";
-import { Container, Navbar } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import "@/css/customer/lookUp.css";
 import { SWRConfig } from "swr";
-
-const inter = Inter({ subsets: ["latin"] });
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function Layout({ children }) {
   const swrOption = [];

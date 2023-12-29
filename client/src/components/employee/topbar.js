@@ -1,12 +1,10 @@
 "use client";
-
 import "bootstrap/js/src/dropdown.js";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import BreadCrumb from "./breadcrumd";
 import { signOut, useSession } from "next-auth/react";
 import { FaUserCircle } from "react-icons/fa";
-
 import { Container, Row, Col, Button, Image } from "react-bootstrap";
 import { useRouter } from "next/navigation";
 import "@/css/employee/topbar.css";
@@ -42,7 +40,6 @@ export default function TopBar() {
   const [profile, setProfile] = useState();
   const profileRef = useRef();
   const userName = useSession()?.data?.user?.fullName;
-  // console.log(useSession()?.data?.user);
   useEffect(() => {
     const closeProfile = (e) => {
 
@@ -134,27 +131,5 @@ export default function TopBar() {
         </Row>
       </Container>
     </motion.nav>
-    // <motion.nav layout class="navbar navbar-light topbar">
-    //   <BreadCrumb />
-    //   <motion.div layout className="avatarContainer">
-    //     <motion.button layout type="button" class="btn btn-primary icon">
-    //       <FaRegBell />
-    //     </motion.button>
-    //     <motion.nav
-    //       layout
-    //       initial={false}
-    //       animate={profile ? "open" : "closed"}
-    //       className="menu">
-    //       <div className="avatar container" onClick={() => setProfile(!profile)}>
-    //         <div id="user-name">
-    //           <p>Do Minh Duy</p>
-    //           <FaRegUserCircle />
-    //         </div>
-
-    //       </div>
-
-    //     </motion.nav>
-    //   </motion.div>
-    // </motion.nav>
   );
 }

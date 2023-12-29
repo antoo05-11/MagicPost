@@ -1,20 +1,14 @@
 "use client";
-
-import { Inter } from "next/font/google";
-import "bootstrap/dist/css/bootstrap.min.css";
-const inter = Inter({ subsets: ["latin"] });
-import { Breadcrumb, Container } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SideBar from "@/components/employee/sidebar/sidebar";
-import "@/css/employee/employee-page.css";
-import { useParams, usePathname } from "next/navigation";
 import TopBar from "@/components/employee/topbar";
+import { Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { useAnimate, stagger } from "framer-motion";
+import { useAnimate } from "framer-motion";
 import { MenuToggle } from "@/components/employee/sidebar/menutoggle";
 import { motion } from "framer-motion";
 import { SWRConfig } from "swr";
-import { useSession } from "next-auth/react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "@/css/employee/employee-page.css";
 
 function useMenuAnimation(isOpen) {
   const [scope, animate] = useAnimate();
@@ -23,21 +17,21 @@ function useMenuAnimation(isOpen) {
   useEffect(() => {
     const menuAnimations = isOpen
       ? [
-          [
-            "#mySidebar",
-            { transform: "translateX(0%)", opacity: 1 },
-            { at: "<" },
-          ],
-          ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
-        ]
+        [
+          "#mySidebar",
+          { transform: "translateX(0%)", opacity: 1 },
+          { at: "<" },
+        ],
+        ["#togle-zone", { transform: "translateX(0%)" }, { at: "<" }],
+      ]
       : [
-          ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
-          [
-            "#togle-zone",
-            { transform: `translateX(${translationValue})` },
-            { at: "<" },
-          ],
-        ];
+        ["#mySidebar", { transform: "translateX(-100%)", opacity: 0 }],
+        [
+          "#togle-zone",
+          { transform: `translateX(${translationValue})` },
+          { at: "<" },
+        ],
+      ];
 
     animate([...menuAnimations]);
   }, [isOpen]);
@@ -58,7 +52,6 @@ export default function EmployeesLayout({ children }) {
           <Container>
             <SWRConfig
               value={{
-                // refreshInterval: 3000,
                 fetcher: async ([url, token]) =>
                   fetch(url, {
                     headers: new Headers({

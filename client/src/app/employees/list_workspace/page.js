@@ -1,5 +1,4 @@
 import GoodPointTable from "@/components/employee/table/goodPoint-table";
-import "@/css/employee/customTable.css";
 
 export default async function page({ searchParams: { headName, provinceID, page, limit, arrivingQuantitySort, onStockQuantitySort, forwardedQuantitySort } }) {
     const query = {

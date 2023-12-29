@@ -1,8 +1,8 @@
 import Chart from "react-apexcharts";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import Card from "@/components/employee/dashboard/card";
+import Card from "./card";
 import { fetchProfitStatistic, formatDate } from "@/api/data";
 
 const defaultOptions = {
@@ -121,10 +121,6 @@ export const yearlyOptions = {
     }
 };
 
-const defaultChartData = [37, 57, 45, 75, 57, 40, 65];
-const yearlyChartData = [30, 20, 190];
-const monthlyChartData = [30, 203, 30];
-
 export default function Overview() {
     const [intervalType, setIntervalType] = useState('year');
 
@@ -206,7 +202,6 @@ export default function Overview() {
     } else {
         data = [20, 43, 53, 54, 35, 54, 54, 20, 43, 53, 54, 35]
     }
-
 
     options.responsive = [
         {

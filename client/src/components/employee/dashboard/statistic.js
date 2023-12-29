@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import Card from "@/components/employee/dashboard/card";
-import "@/css/employee/dashboard/statistic.css";
-
+import { Row, Col } from "react-bootstrap";
+import Card from "./card";
 import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { FiPackage } from "react-icons/fi";
 import { TbTruckDelivery } from "react-icons/tb";
 import { LuPackageOpen } from "react-icons/lu";
 import { motion } from "framer-motion";
 import { fetchGeneralStatistic, formatDate } from "@/api/data";
+import "@/css/employee/dashboard/statistic.css";
+
 const StatisticItem = ({ icon, title, value, color }) => (
     <Col xs={12} md={6} lg={3} className="mt-2">
         <Row>
@@ -28,7 +28,6 @@ const StatisticItem = ({ icon, title, value, color }) => (
 );
 
 export default function Statistic({ userRole }) {
-
     const [intervalType, setIntervalType] = useState('year');
 
     const handleIntervalChange = (newIntervalType) => {

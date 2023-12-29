@@ -4,28 +4,26 @@ import { LuPackage2 } from "react-icons/lu";
 import { RiRoadMapLine } from "react-icons/ri";
 import { HiOutlineBuildingOffice } from "react-icons/hi2";
 
+/**
+ * Generates a pagination array based on the current page and total number of pages.
+ *
+ * @param {number} currentPage - The current active page.
+ * @param {number} totalPages - The total number of pages.
+ * @returns {Array<number|string>} - An array representing the pagination items.
+ */
 export const generatePagination = (currentPage, totalPages) => {
-  // If the total number of pages is 7 or less,
-  // display all pages without any ellipsis.
   if (totalPages <= 7) {
     return Array.from({ length: totalPages }, (_, i) => i + 1);
   }
 
-  // If the current page is among the first 3 pages,
-  // show the first 3, an ellipsis, and the last 2 pages.
   if (currentPage <= 3) {
     return [1, 2, 3, "...", totalPages - 1, totalPages];
   }
 
-  // If the current page is among the last 3 pages,
-  // show the first 2, an ellipsis, and the last 3 pages.
   if (currentPage >= totalPages - 2) {
     return [1, 2, "...", totalPages - 2, totalPages - 1, totalPages];
   }
 
-  // If the current page is somewhere in the middle,
-  // show the first page, an ellipsis, the current page and its neighbors,
-  // another ellipsis, and the last page.
   return [
     1,
     "...",
@@ -37,6 +35,11 @@ export const generatePagination = (currentPage, totalPages) => {
   ];
 };
 
+/**
+ * Defines roles for employees along with associated permissions.
+ *
+ * @type {Object}
+ */
 export const employeeRole = {
   GOODS_POINT_EMPLOYEE: {
     name: "Nhân viên điểm tập kết",
@@ -75,6 +78,11 @@ export const employeeRole = {
   },
 };
 
+/**
+ * Defines URLs and associated information for various pages in the application.
+ *
+ * @type {Object}
+ */
 export const listUrl = {
   homepage: {
     url: "/employees",
@@ -123,6 +131,11 @@ export const listUrl = {
   },
 };
 
+/**
+ * Defines order status information.
+ *
+ * @type {Object}
+ */
 export const orderStatus = {
   forwarded: {
     name: "forwarded",
@@ -170,16 +183,31 @@ export const orderStatus = {
   },
 };
 
+/**
+ * Defines good status information.
+ *
+ * @type {Object}
+ */
 export const goodStatus = {
   delivered: { now: "Đã giao", color: "success" },
   delivering: { now: "Đang vận chuyển", color: "warning" },
 };
 
+/**
+ * Defines employee status information.
+ *
+ * @type {Object}
+ */
 export const employeeStatus = {
   ACTIVE: { name: "Hoạt động", color: "success" },
   INACTIVE: { name: "Đã nghỉ", color: "secondary" },
 };
 
+/**
+ * Defines error messages based on error codes.
+ *
+ * @type {Object}
+ */
 export const createError = {
   10003: "Nội dung không hợp lệ",
   10004: "Địa chỉ không hợp lệ",

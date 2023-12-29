@@ -2,6 +2,19 @@
 import moment from "moment";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
+
+/**
+ * Retrieves a paginated list of employees based on the provided page and query parameters.
+ *
+ * @param {number} page - The page number to retrieve.
+ * @param {Object} query - The query parameters for filtering employee data.
+ * @param {string} query.name - The name of the employee for filtering.
+ * @param {string} query.address - The province ID of the employee's address for filtering.
+ * @param {string} query.emID - The employee ID for filtering.
+ * @param {string} query.status - The status of the employee for filtering.
+ * @param {string} query.phone - The phone number of the employee for filtering.
+ * @returns {Object} - An object containing paginated employee data, total pages, and items per page.
+ */
 export function getEmployee(page, query) {
   const token = useSession()?.data?.accessToken;
 
@@ -28,6 +41,12 @@ export function getEmployee(page, query) {
   }
 }
 
+/**
+ * Retrieves detailed information about an employee based on the provided ID.
+ *
+ * @param {string} id - The ID of the employee to retrieve.
+ * @returns {Object} - An object containing detailed information about the employee.
+ */
 export function getEmployeebyID(id) {
   const token = useSession()?.data?.accessToken;
 
@@ -43,6 +62,18 @@ export function getEmployeebyID(id) {
   }
 }
 
+/**
+ * Retrieves a paginated list of orders based on the provided page and query parameters.
+ *
+ * @param {number} page - The page number to retrieve.
+ * @param {Object} query - The query parameters for filtering order data.
+ * @param {string} query.startAddress - The province ID of the start address for filtering.
+ * @param {string} query.endAddress - The province ID of the end address for filtering.
+ * @param {string} query.orderID - The order ID for filtering.
+ * @param {string} query.status - The goods status for filtering.
+ * @param {string} query.timeCreate - The minimum creation date for filtering.
+ * @returns {Object} - An object containing paginated order data, total pages, and items per page.
+ */
 export function getOrder(page, query) {
   const token = useSession()?.data?.accessToken;
 
@@ -73,6 +104,11 @@ export function getOrder(page, query) {
   }
 }
 
+/**
+ * Retrieves a list of all provinces.
+ *
+ * @returns {Array} - An array containing information about all provinces.
+ */
 export function getAllProvince() {
   const token = useSession()?.data?.accessToken;
 
@@ -94,6 +130,12 @@ export function getAllProvince() {
   return data;
 }
 
+/**
+ * Retrieves a list of districts based on the provided province ID.
+ *
+ * @param {string} id - The ID of the province.
+ * @returns {Array} - An array containing information about districts in the specified province.
+ */
 export function getDistrictByProvinceID(id) {
   const token = useSession()?.data?.accessToken;
 
@@ -115,6 +157,12 @@ export function getDistrictByProvinceID(id) {
   return data;
 }
 
+/**
+ * Retrieves a list of communes based on the provided district ID.
+ *
+ * @param {string} id - The ID of the district.
+ * @returns {Array} - An array containing information about communes in the specified district.
+ */
 export function getCommuneByDistrictID(id) {
   const token = useSession()?.data?.accessToken;
 
@@ -136,6 +184,14 @@ export function getCommuneByDistrictID(id) {
   return data;
 }
 
+/**
+ * Retrieves a list of transaction points based on the provided location parameters.
+ *
+ * @param {string} provinceID - The province ID for filtering.
+ * @param {string} districtID - The district ID for filtering.
+ * @param {string} communeID - The commune ID for filtering.
+ * @returns {Array} - An array containing information about transaction points.
+ */
 export function getTransactionPoint(provinceID, districtID, communeID) {
   const token = useSession()?.data?.accessToken;
 
@@ -156,6 +212,12 @@ export function getTransactionPoint(provinceID, districtID, communeID) {
   return data;
 }
 
+/**
+ * Retrieves tracking information for a specific order based on the provided order ID.
+ *
+ * @param {string} orderID - The ID of the order to retrieve tracking information.
+ * @returns {Object} - An object containing tracking information for the specified order.
+ */
 export function getOrderTracking(orderID) {
   const token = useSession()?.data?.accessToken;
 
@@ -172,6 +234,12 @@ export function getOrderTracking(orderID) {
   );
 }
 
+/**
+ * Retrieves detailed information about an order based on the provided ID.
+ *
+ * @param {string} id - The ID of the order to retrieve.
+ * @returns {Object} - An object containing detailed information about the order.
+ */
 export function getOrderById(id) {
   const token = useSession()?.data?.accessToken;
 
@@ -187,6 +255,14 @@ export function getOrderById(id) {
   }
 }
 
+/**
+ * Retrieves a paginated list of all transaction points based on the provided page, limit, and query parameters.
+ *
+ * @param {number} page - The page number to retrieve.
+ * @param {number} limit - The number of items per page.
+ * @param {Object} query - The query parameters for filtering transaction point data.
+ * @returns {Object} - An object containing paginated transaction point data.
+ */
 export function getAllTransactionPoint(page, limit, query) {
   const token = useSession()?.data?.accessToken;
 
@@ -211,6 +287,14 @@ export function getAllTransactionPoint(page, limit, query) {
   return dataRes;
 }
 
+/**
+ * Retrieves a paginated list of all goods points based on the provided page, limit, and query parameters.
+ *
+ * @param {number} page - The page number to retrieve.
+ * @param {number} limit - The number of items per page.
+ * @param {Object} query - The query parameters for filtering goods point data.
+ * @returns {Object} - An object containing paginated goods point data.
+ */
 export function getAllGoodPoint(page, limit, query) {
   const token = useSession()?.data?.accessToken;
 
@@ -237,6 +321,12 @@ export function getAllGoodPoint(page, limit, query) {
   return dataRes;
 }
 
+/**
+ * Fetches general statistics based on the provided query parameters.
+ *
+ * @param {Object} query - The query parameters for filtering general statistics.
+ * @returns {Object} - An object containing general statistics.
+ */
 export function fetchGeneralStatistic(query) {
   const token = useSession()?.data?.accessToken;
 
@@ -251,6 +341,12 @@ export function fetchGeneralStatistic(query) {
   return data;
 }
 
+/**
+ * Fetches statistics for goods points based on the provided query parameters.
+ *
+ * @param {Object} query - The query parameters for filtering goods points statistics.
+ * @returns {Object} - An object containing statistics for goods points.
+ */
 export function fetchGoodsPointsStatistic(query) {
   const token = useSession()?.data?.accessToken;
   let url = `https://magicpost-uet.onrender.com/api/statistic/goodspoints/?`;
@@ -263,30 +359,48 @@ export function fetchGoodsPointsStatistic(query) {
   return data;
 }
 
+/**
+ * Fetches statistics for transaction points based on the provided query parameters.
+ *
+ * @param {Object} query - The query parameters for filtering transaction points statistics.
+ * @returns {Object} - An object containing statistics for transaction points.
+ */
 export function fetchTransactionPointsStatistic(query) {
-    const token = useSession()?.data?.accessToken;
-    let url = `https://magicpost-uet.onrender.com/api/statistic/transactionPoints/?`;
-    if (query) {
-        if (query.minDate) url += `&minDate=${query.minDate}`;
-        if (query.maxDate) url += `&maxDate=${query.maxDate}`;
-    }
-    const { data: data } = useSWR([url, token]);
-    console.log(url);
-    return data;
+  const token = useSession()?.data?.accessToken;
+  let url = `https://magicpost-uet.onrender.com/api/statistic/transactionPoints/?`;
+  if (query) {
+    if (query.minDate) url += `&minDate=${query.minDate}`;
+    if (query.maxDate) url += `&maxDate=${query.maxDate}`;
+  }
+  const { data: data } = useSWR([url, token]);
+  console.log(url);
+  return data;
 }
 
+/**
+ * Fetches profit statistics based on the provided query parameters.
+ *
+ * @param {Object} query - The query parameters for filtering profit statistics.
+ * @returns {Object} - An object containing profit statistics.
+ */
 export function fetchProfitStatistic(query) {
-    const token = useSession()?.data?.accessToken;
-    let url = `https://magicpost-uet.onrender.com/api/statistic/profit/?`;
-    if (query) {
-        if (query.minDate) url += `&minDate=${query.minDate}`;
-        if (query.maxDate) url += `&maxDate=${query.maxDate}`;
-    }
-    const { data: data } = useSWR([url, token]);
-    console.log(url);
-    return data;
+  const token = useSession()?.data?.accessToken;
+  let url = `https://magicpost-uet.onrender.com/api/statistic/profit/?`;
+  if (query) {
+    if (query.minDate) url += `&minDate=${query.minDate}`;
+    if (query.maxDate) url += `&maxDate=${query.maxDate}`;
+  }
+  const { data: data } = useSWR([url, token]);
+  console.log(url);
+  return data;
 }
 
+/**
+ * Formats a date in the specified format.
+ *
+ * @param {string} dateTime - The date and time to format.
+ * @returns {string} - The formatted date.
+ */
 export function formatDate(dateTime) {
-    return moment(dateTime).format('YYYY-MM-DD').replace(/-/g, '');
+  return moment(dateTime).format('YYYY-MM-DD').replace(/-/g, '');
 }

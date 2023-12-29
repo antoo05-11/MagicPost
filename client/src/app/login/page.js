@@ -1,9 +1,7 @@
 "use client";
-
 import LoginForm from "@/components/employee/form/login-form";
 
-function Login() {
+export default function Login() {
   return <LoginForm />;
 }
 
-export default Login;

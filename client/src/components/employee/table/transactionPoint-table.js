@@ -3,8 +3,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Pagination from "../pagination";
 import { getAllProvince, getAllTransactionPoint } from "@/api/data";
 import { useDebouncedCallback } from "use-debounce";
+import "@/css/employee/customTable.css";
 
-export default function TransactionPointTable({ page, query, limit, showFilter }) {
+export default function TransactionPointTable({ page, query, limit }) {
     const provinceData = getAllProvince();
 
     const searchParams = useSearchParams();

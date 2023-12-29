@@ -1,11 +1,10 @@
 import React from 'react';
-import Card from "@/components/employee/dashboard/card";
+import Card from './card';
 import Chart from 'react-apexcharts';
 import { Button } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { fetchGoodsPointsStatistic, formatDate } from '@/api/data';
-import moment from 'moment';
 import { yearlyOptions, monthlyOptions } from './overview';
 
 const defaultOptions = {

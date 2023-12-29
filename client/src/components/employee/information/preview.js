@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Table } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { employeeRole } from "@/api/utils";
 
 export default function Preview(data) {

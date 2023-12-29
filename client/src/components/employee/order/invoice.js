@@ -4,6 +4,7 @@ import ReactToPrint from "react-to-print";
 import "@/css/employee/invoice.css";
 
 let orderData;
+
 export default function Invoice({ data }) {
   if (data) {
     orderData = data;
