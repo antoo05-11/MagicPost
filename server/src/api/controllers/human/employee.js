@@ -122,6 +122,9 @@ export const getAllEmployees = async (req, res) => {
                     ]
                 }
             }
+        ],
+        order: [
+            [sequelize.literal("`employees`.status='active',`employees`.status='inactive'")]
         ]
     });
 
