@@ -25,13 +25,26 @@
   position: fixed;
   top: 10%;
   right: 0;
-  bottom: 0;
   left: 14%;
   z-index: 1000;
-  background-color: #FFEDDA;
+  background-color: #ffedda;
   width: 85%;
   height: auto;
-  transition: all 0.3s ease;
+}
+
+.disClick {
+  display: none;
+}
+
+.disClick[data-isOpen="true"] {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10000;
+  background-color: black;
+  opacity: 0.5;
 }
 
 @media screen and (max-width: 769px) {

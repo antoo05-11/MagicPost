@@ -8,7 +8,10 @@ export default function Card({ title, children, extend, setType }) {
         setType(intervalType);
     };
     return (
-        <div layout transition={spring} className="container cardContainer" data-isExtend={extend}>
+        <>
+      <div className="disClick" data-isOpen={!extend}></div>
+            
+        <motion.div layout transition={spring} className="container cardContainer" data-isExtend={extend}>
             <Row>
                 <Col xs={11}>
                     <h4>{title}</h4>
@@ -33,6 +36,7 @@ export default function Card({ title, children, extend, setType }) {
                 </Col>
             </Row>
             <Row>{children}</Row>
-        </div>
+        </motion.div>
+        </>
     );
 }
