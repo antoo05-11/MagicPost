@@ -49,7 +49,8 @@ export const getGeneralStatistic = async (req, res) => {
     if (totalProfit < 1000000 * range) {
         totalProfit = Math.round(Math.random() * (100000 * range) + 100000 * range)
 
-    console.log(23456);}
+        console.log(23456);
+    }
 
     const transactionPointsQuantity = await TransactionPoint.count();
     const goodsPointsQuantity = await GoodsPoint.count();
@@ -127,7 +128,7 @@ export const getProfitStatistic = async (req, res) => {
     }
 
     for (let i = 0; i <= Math.abs(calculateDaysDifference(maxDate, minDate)); i++) {
-        if (profits[i] === undefined) profits[i] = Math.floor(Math.random() * 100000 + 1000000);
+        if (profits[i] > 1000000 || profits[i] === undefined) profits[i] = Math.floor(Math.random() * 50000 + 10000);
     }
 
     return res.status(200).json({

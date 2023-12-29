@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Card from "@/components/employee/dashboard/card";
+import { fetchProfitStatistic, formatDate } from "@/api/data";
 
 const defaultOptions = {
     chart: {
@@ -58,7 +59,38 @@ const defaultOptions = {
     }
 };
 
-const monthlyOptions = {
+export const monthlyOptions = {
+    chart: {
+        parentHeightOffset: 0,
+        toolbar: { show: false }
+    },
+    legend: { show: false },
+    dataLabels: { enabled: false },
+    states: {
+        hover: {
+            filter: { type: 'none' }
+        },
+        active: {
+            filter: { type: 'none' }
+        }
+    },
+    xaxis: {
+        categories: ['Tuần 1', 'Tuần 2', 'Tuần 3', 'Tuần 4'],
+        labels: { show: false },
+        axisTicks: { show: false },
+        axisBorder: { show: false }
+    },
+    yaxis: {
+        show: true,
+        tickAmount: 4,
+        labels: {
+            offsetX: -17,
+            formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}`
+        }
+    }
+};
+
+export const yearlyOptions = {
     chart: {
         parentHeightOffset: 0,
         toolbar: { show: false }
@@ -89,56 +121,24 @@ const monthlyOptions = {
     }
 };
 
-const yearlyOptions = {
-    chart: {
-        parentHeightOffset: 0,
-        toolbar: { show: false }
-    },
-    legend: { show: false },
-    dataLabels: { enabled: false },
-    states: {
-        hover: {
-            filter: { type: 'none' }
-        },
-        active: {
-            filter: { type: 'none' }
-        }
-    },
-    xaxis: {
-        categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-        labels: { show: false },
-        axisTicks: { show: false },
-        axisBorder: { show: false }
-    },
-    yaxis: {
-        show: true,
-        tickAmount: 4,
-        labels: {
-            offsetX: -17,
-            formatter: value => `${value > 999 ? `${(value / 1000).toFixed(0)}` : value}`
-        }
-    }
-};
-
 const defaultChartData = [37, 57, 45, 75, 57, 40, 65];
 const yearlyChartData = [30, 20, 190];
 const monthlyChartData = [30, 203, 30];
 
 export default function Overview() {
-    const [type, setType] = useState('Tuần');
-    let chartData;
+    const [type, setType] = useState();
+    const [intervalType, setIntervalType] = useState('year');
+
+
     let chartOptions = defaultOptions;
-    switch (type) {
-        case 'Năm':
-            chartData = yearlyChartData;
+    switch (intervalType) {
+        case 'year':
             chartOptions = yearlyOptions;
             break;
-        case 'Tháng':
-            chartData = monthlyChartData;
+        case 'month':
             chartOptions = monthlyOptions;
             break;
-        case 'Tuần':
-            chartData = defaultChartData;
+        case 'week':
             chartOptions = defaultOptions;
             break;
     }
@@ -159,6 +159,57 @@ export default function Overview() {
     const [extend, isExtend] = useState(false);
     const chartHeight = extend ? 440 : 205;
     const options = extend ? extendOptions : chartOptions;
+
+
+    const handleIntervalChange = (newIntervalType) => {
+        setIntervalType(newIntervalType);
+        console.log(`Interval changed to: ${newIntervalType}`);
+    };
+
+    let maxDate = new Date();
+    let minDate = new Date(maxDate);
+    let daysDiff = 7;
+
+    if (intervalType == 'month') daysDiff = 31;
+    if (intervalType == 'year') daysDiff = 365;
+
+    minDate.setDate(maxDate.getDate() - daysDiff + 1);
+    minDate = formatDate(minDate);
+    maxDate = formatDate(maxDate);
+
+    let data = fetchProfitStatistic({ minDate: minDate, maxDate: maxDate });
+    if (data) {
+        if (intervalType == 'month') {
+            const profitsWeeks = [];
+            for (let i = 0; i < 30; i++) {
+                let index = Math.floor(i / 7);
+                if (index == 4) break;
+                if (!profitsWeeks[index]) profitsWeeks[index] = 0;
+                profitsWeeks[index] += data.profits[i];
+            }
+
+            data = profitsWeeks;
+        }
+        else if (intervalType == 'year') {
+            const profitsMonth = [];
+            for (let i = 0; i < 365; i++) {
+                let index = Math.floor(i / 30);
+                if (index == 12) break;
+                if (!profitsMonth[index]) profitsMonth[index] = 0;
+                profitsMonth[index] += data.profits[i];
+            }
+
+            data = profitsMonth;
+
+        }
+        else {
+            data = data.profits;
+        }
+    } else {
+        data = [20, 43, 53, 54, 35, 54, 54, 20, 43, 53, 54, 35]
+    }
+
+
     options.responsive = [
         {
             breakpoint: 768,
@@ -176,8 +227,8 @@ export default function Overview() {
     ];
     return (
         <motion.div>
-            <Card title={"Lợi nhuận"} extend={extend} setType={setType}>
-                <Chart type='bar' height={chartHeight} options={options} series={[{ data: chartData }]} />
+            <Card title={"Lợi nhuận"} extend={extend} setType={setType} intervalType={intervalType} onChange={handleIntervalChange}>
+                <Chart type='bar' height={chartHeight} options={options} series={[{ data: data }]} />
                 <Button onClick={() => { isExtend(!extend); console.log(extend) }} className='bg-warning'>
                     {extend ? 'Đóng' : 'Chi tiết'}
                 </Button>

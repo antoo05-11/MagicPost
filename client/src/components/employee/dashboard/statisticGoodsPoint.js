@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { fetchGoodsPointsStatistic, formatDate } from '@/api/data';
 import moment from 'moment';
+import { yearlyOptions, monthlyOptions } from './overview';
 
 const defaultOptions = {
     chart: {
@@ -51,9 +52,23 @@ const extendOptions = {
 export default function StatisticGoodsPoint() {
     const [extend, isExtend] = useState(false);
     const chartHeight = extend ? 440 : 205;
-    const options = extend ? extendOptions : defaultOptions;
 
     const [intervalType, setIntervalType] = useState('year');
+
+    let chartOptions = defaultOptions;
+    switch (intervalType) {
+        case 'year':
+            chartOptions = yearlyOptions;
+            break;
+        case 'month':
+            chartOptions = monthlyOptions;
+            break;
+        case 'week':
+            chartOptions = defaultOptions;
+            break;
+    }
+
+    const options = extend ? extendOptions : chartOptions;
 
     const handleIntervalChange = (newIntervalType) => {
         setIntervalType(newIntervalType);
@@ -73,6 +88,7 @@ export default function StatisticGoodsPoint() {
 
     let data = fetchGoodsPointsStatistic({ minDate: minDate, maxDate: maxDate });
     if (data) {
+        console.log(data);
         if (intervalType == 'month') {
             const arrivingQuantityWeeks = [];
             for (let i = 0; i < 30; i++) {
@@ -183,3 +199,4 @@ export default function StatisticGoodsPoint() {
         </motion.div>
     );
 }
+
