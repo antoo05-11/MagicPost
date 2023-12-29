@@ -3,9 +3,11 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import "@/css/employee/dashboard/card.css";
 import { motion, spring } from "framer-motion";
 
-export default function Card({ title, children, extend, setType }) {
+export default function Card({ title, children, extend, onChange }) {
     const handleIntervalClick = (intervalType) => {
-        setType(intervalType);
+        if (onChange) {
+            onChange(intervalType);
+        }
     };
     return (
         <>
@@ -22,13 +24,13 @@ export default function Card({ title, children, extend, setType }) {
                             <BsThreeDotsVertical />
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <button className="dropdown-item" onClick={() => handleIntervalClick('Tuần')}>
+                            <button className="dropdown-item" onClick={() => handleIntervalClick('week')}>
                                 Tuần
                             </button>
-                            <button className="dropdown-item" onClick={() => handleIntervalClick('Tháng')}>
+                            <button className="dropdown-item" onClick={() => handleIntervalClick('month')}>
                                 Tháng
                             </button>
-                            <button className="dropdown-item" onClick={() => handleIntervalClick('Năm')}>
+                            <button className="dropdown-item" onClick={() => handleIntervalClick('year')}>
                                 Năm
                             </button>
                         </div>

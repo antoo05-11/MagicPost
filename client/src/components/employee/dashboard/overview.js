@@ -178,9 +178,6 @@ export default function Overview() {
         <motion.div>
             <Card title={"Lợi nhuận"} extend={extend} setType={setType}>
                 <Chart type='bar' height={chartHeight} options={options} series={[{ data: chartData }]} />
-                <p>
-                    Your sales performance is 45% 😎 better compared to last month
-                </p>
                 <Button onClick={() => { isExtend(!extend); console.log(extend) }} className='bg-warning'>
                     {extend ? 'Đóng' : 'Chi tiết'}
                 </Button>

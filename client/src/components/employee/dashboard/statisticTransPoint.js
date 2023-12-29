@@ -91,9 +91,6 @@ export default function StatisticTransPoint() {
         <motion.div>
             <Card title={"Điểm giao dịch"} extend={extend}>
                 <Chart type='area' options={options} series={data.series} height={chartHeight} />
-                <p>
-                    Your sales performance is 45% 😎 better compared to last month
-                </p>
                 <Button onClick={() => { isExtend(!extend); console.log(extend) }} className='bg-warning'>
                     {extend ? 'Đóng' : 'Chi tiết'}
                 </Button>

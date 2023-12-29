@@ -1,4 +1,5 @@
 "use client";
+import moment from "moment";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 export function getEmployee(page, query) {
@@ -241,9 +242,11 @@ export function fetchGeneralStatistic(query) {
 
   let url = `https://magicpost-uet.onrender.com/api/statistic/general/?`;
   if (query) {
-    if (query.minDate) url += `&${query.minDate}`;
-    if (query.maxDate) url += `&${query.maxDate}`;
+    if (query.minDate) url += `&minDate=${query.minDate}`;
+    if (query.maxDate) url += `&maxDate=${query.maxDate}`;
   }
+
+  console.log(url);
   const { data: data } = useSWR([url, token]);
   return data;
 }
@@ -269,4 +272,8 @@ export function fetchTransactionPointsStatistic(query) {
     const { data: data } = useSWR(url);
     console.log(url);
     return data;
+}
+
+export function formatDate(dateTime) {
+    return moment(dateTime).format('YYYY-MM-DD').replace(/-/g, '');
 }

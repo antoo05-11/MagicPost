@@ -97,10 +97,6 @@ export default function TotalGood() {
           height={chartHeight}
           series={data.series}
         />
-        <p>Your sales performance is 45% 😎 better compared to last month</p>
-        <Button onClick={() => { isExtend(!extend); console.log(extend) }} className='bg-warning'>
-          {extend ? 'Đóng' : 'Chi tiết'}
-        </Button>
       </Card>
     </motion.div>
   );

@@ -8,7 +8,7 @@ import { FiPackage } from "react-icons/fi";
 import { TbTruckDelivery } from "react-icons/tb";
 import { LuPackageOpen } from "react-icons/lu";
 import { motion } from "framer-motion";
-import { fetchGeneralStatistic } from "@/api/data";
+import { fetchGeneralStatistic, formatDate } from "@/api/data";
 const StatisticItem = ({ icon, title, value, color }) => (
     <Col xs={12} md={6} lg={3} className="mt-2">
         <Row>
@@ -28,8 +28,27 @@ const StatisticItem = ({ icon, title, value, color }) => (
 );
 
 export default function Statistic({ userRole }) {
-    const data = fetchGeneralStatistic();
 
+    const [intervalType, setIntervalType] = useState('year');
+
+    const handleIntervalChange = (newIntervalType) => {
+        setIntervalType(newIntervalType);
+        console.log(`Interval changed to: ${newIntervalType}`);
+    };
+
+    let maxDate = new Date();
+    let minDate = new Date(maxDate);
+    let daysDiff = 7;
+
+    if (intervalType == 'month') daysDiff = 31;
+    if (intervalType == 'year') daysDiff = 365;
+
+    minDate.setDate(maxDate.getDate() - daysDiff + 1);
+    minDate = formatDate(minDate);
+    maxDate = formatDate(maxDate);
+
+    const data = fetchGeneralStatistic({ minDate: minDate, maxDate: maxDate });
+    if (data) console.log(data);
     const commonStats = [
         <StatisticItem
             icon={<FaRegMoneyBillAlt />}
@@ -48,7 +67,7 @@ export default function Statistic({ userRole }) {
 
     return (
         <motion.div>
-            <Card title="Tổng quan">
+            <Card title="Tổng quan" intervalType={intervalType} onChange={handleIntervalChange}>
                 <div className="d-flex justify-content-between flex-wrap">
                     {userRole === "MANAGER" && (
                         <>

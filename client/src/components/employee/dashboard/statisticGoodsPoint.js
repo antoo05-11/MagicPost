@@ -4,9 +4,8 @@ import Chart from 'react-apexcharts';
 import { Button } from 'react-bootstrap';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { fetchGoodsPointsStatistic } from '@/api/data';
+import { fetchGoodsPointsStatistic, formatDate } from '@/api/data';
 import moment from 'moment';
-
 
 const defaultOptions = {
     chart: {
@@ -66,19 +65,95 @@ export default function StatisticGoodsPoint() {
     const chartHeight = extend ? 440 : 205;
     const options = extend ? extendOptions : defaultOptions;
 
+    const [intervalType, setIntervalType] = useState('year');
+
+    const handleIntervalChange = (newIntervalType) => {
+        setIntervalType(newIntervalType);
+        console.log(`Interval changed to: ${newIntervalType}`);
+    };
+
     let maxDate = new Date();
     let minDate = new Date(maxDate);
-    minDate.setDate(maxDate.getDate() - 7 + 1);
+    let daysDiff = 7;
+
+    if (intervalType == 'month') daysDiff = 31;
+    if (intervalType == 'year') daysDiff = 365;
+
+    minDate.setDate(maxDate.getDate() - daysDiff + 1);
     minDate = formatDate(minDate);
     maxDate = formatDate(maxDate);
 
     let data = fetchGoodsPointsStatistic({ minDate: minDate, maxDate: maxDate });
     if (data) {
-        data = [
-            { name: "Hang dang den", data: data.arrivingQuantity },
-            { name: "Hang trong kho", data: data.onStockQuantity },
-            { name: "Hang da chuyen", data: data.forwardedQuantity },
-        ]
+        if (intervalType == 'month') {
+            const arrivingQuantityWeeks = [];
+            for (let i = 0; i < 30; i++) {
+                let index = Math.floor(i / 7);
+                if (index == 4) break;
+                if (!arrivingQuantityWeeks[index]) arrivingQuantityWeeks[index] = 0;
+                arrivingQuantityWeeks[index] += data.arrivingQuantity[i];
+            }
+
+            const onStockQuantityWeeks = [];
+            for (let i = 0; i < 30; i++) {
+                let index = Math.floor(i / 7);
+                if (index == 4) break;
+                if (!onStockQuantityWeeks[index]) onStockQuantityWeeks[index] = 0;
+                onStockQuantityWeeks[index] += data.onStockQuantity[i];
+            }
+
+            const forwardedQuantityWeeks = [];
+            for (let i = 0; i < 30; i++) {
+                let index = Math.floor(i / 7);
+                if (index == 4) break;
+                if (!forwardedQuantityWeeks[index]) forwardedQuantityWeeks[index] = 0;
+                forwardedQuantityWeeks[index] += data.forwardedQuantity[i];
+            }
+
+            data = [
+                { name: "Hang dang den", data: arrivingQuantityWeeks },
+                { name: "Hang trong kho", data: onStockQuantityWeeks },
+                { name: "Hang da chuyen", data: forwardedQuantityWeeks },
+            ]
+        }
+        else if (intervalType == 'year') {
+            const arrivingQuantityMonths = [];
+            for (let i = 0; i < 365; i++) {
+                let index = Math.floor(i / 30);
+                if (index == 12) break;
+                if (!arrivingQuantityMonths[index]) arrivingQuantityMonths[index] = 0;
+                arrivingQuantityMonths[index] += data.arrivingQuantity[i];
+            }
+
+            const onStockQuantityMonths = [];
+            for (let i = 0; i < 365; i++) {
+                let index = Math.floor(i / 30);
+                if (index == 12) break;
+                if (!onStockQuantityMonths[index]) onStockQuantityMonths[index] = 0;
+                onStockQuantityMonths[index] += data.onStockQuantity[i];
+            }
+
+            const forwardedQuantityMonths = [];
+            for (let i = 0; i < 365; i++) {
+                let index = Math.floor(i / 30);
+                if (index == 12) break;
+                if (!forwardedQuantityMonths[index]) forwardedQuantityMonths[index] = 0;
+                forwardedQuantityMonths[index] += data.forwardedQuantity[i];
+            }
+
+            data = [
+                { name: "Hang dang den", data: arrivingQuantityMonths },
+                { name: "Hang trong kho", data: onStockQuantityMonths },
+                { name: "Hang da chuyen", data: forwardedQuantityMonths },
+            ]
+        }
+        else {
+            data = [
+                { name: "Hang dang den", data: data.arrivingQuantity },
+                { name: "Hang trong kho", data: data.onStockQuantity },
+                { name: "Hang da chuyen", data: data.forwardedQuantity },
+            ]
+        }
     }
 
     options.responsive = [
@@ -98,19 +173,12 @@ export default function StatisticGoodsPoint() {
     ];
     return (
         <motion.div>
-            <Card title={"Điểm tập kết"} extend={extend}>
+            <Card title={"Điểm tập kết"} extend={extend} intervalType={intervalType} onChange={handleIntervalChange}>
                 <Chart type='area' options={options} series={data} height={chartHeight} />
-                <p>
-                    Your sales performance is 45% 😎 better compared to last month
-                </p>
                 <Button onClick={() => { isExtend(!extend); console.log(extend) }} className='bg-warning'>
                     {extend ? 'Đóng' : 'Chi tiết'}
                 </Button>
             </Card>
         </motion.div>
     );
-}
-
-export function formatDate(dateTime) {
-    return moment(dateTime).format('YYYY-MM-DD').replace(/-/g, '');
 }
